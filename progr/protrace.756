@@ -1,0 +1,23 @@
+
+
+PROGRESS stack trace as of Wed May 11 09:15:19 2011
+Command line arguments are
+/usr/oe10/bin/_mprshut /dados/bases/adm.db -C disconnect 669 
+
+Startup parameters:
+-pf /usr/oe10/startup.pf,-cpinternal ISO8859-1,-cpstream ISO8859-1,-cpcoll Basic,-cpcase Basic,-d dmy,(end .pf),-db /dados/bases/adm.db,-C
+
+#1   [0x57db03] uttraceback+0x144  from /usr/oe10/bin/_mprshut
+#2   [0x57f933] uttrace+0x13c  from /usr/oe10/bin/_mprshut
+#3   [0x57f7d7] utcore+0x103  from /usr/oe10/bin/_mprshut
+#4   [0x42d2eb] drexit+0x40f  from /usr/oe10/bin/_mprshut
+#5   [0x463c29] drSigFatal+0x85  from /usr/oe10/bin/_mprshut
+#6   [0x1820e4c0] tfind@@GLIBC_2.2.5+0x1820e4c0  from /lib64/libpthread.so.0
+#7   [0x1767aa5b] _dl_tls_get_addr_soft@@GLIBC_PRIVATE+0x1767aa5b  from /lib64/libc.so.6
+#8   [0x4badff] dbGetUsrctl+0x4ff  from /usr/oe10/bin/_mprshut
+#9   [0x4b2c55] dbenv2+0x420  from /usr/oe10/bin/_mprshut
+#10  [0x4b14f3] dbenv+0x53  from /usr/oe10/bin/_mprshut
+#11  [0x4db26c] dsmUserConnect+0xfc  from /usr/oe10/bin/_mprshut
+#12  [0x460761] drmain_doit+0x7f4  from /usr/oe10/bin/_mprshut
+#13  [0x45fedf] main+0x24  from /usr/oe10/bin/_mprshut
+#14  [0x1761d974] _dl_tls_get_addr_soft@@GLIBC_PRIVATE+0x1761d974  from /lib64/libc.so.6

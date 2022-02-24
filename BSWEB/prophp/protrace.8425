@@ -1,0 +1,22 @@
+
+
+PROGRESS stack trace as of Wed Jul 14 17:41:51 2021
+Command line arguments are
+/usr/dlc/bin/_progres -h 50 -T /admcom/work -pf /admcom/bases/webagil.pf -b -p /var/www/html/prophp/agilwebprevenda.p 
+
+Startup parameters:
+-pf /usr/dlc/startup.pf,-cpinternal ISO8859-1,-cpstream ISO8859-1,-cpcoll Basic,-cpcase Basic,-d dmy,(end .pf),-h 50,-T /admcom/work,-pf /admcom/bases/webagil.pf,-T /tmp,-d dmy,-h 50,-inp 32000,-s 300,-TB 31,-TM 32,-mmax 16384,-db /u01/bancos/ger,-db /u01/bancos/com,-db /u01/bancos/fin,-db /u01/bancos/suporte,-db /u01/bancos/adm,-db /u01/bancos/nfe,-db /u01/bancos/crm,(end .pf),-b,-p /var/www/html/prophp/agilwebprevenda.p
+
+#1   [0x9e7d7d] uttraceback+0x144  from /usr/dlc/bin/_progres
+#2   [0x9ea5a3] uttrace+0x13c  from /usr/dlc/bin/_progres
+#3   [0x9ea447] utcore+0x103  from /usr/dlc/bin/_progres
+#4   [0x458c26] drexit+0x39a  from /usr/dlc/bin/_progres
+#5   [0x4be8c9] drSigFatal+0x85  from /usr/dlc/bin/_progres
+#6   [0x9960f7e0] _fini+0xffffe5f0  from /lib64/libpthread.so.0
+
+** ABL Stack Trace **
+
+--> /var/www/html/prophp/agilwebprevenda.p (/var/www/html/prophp/agilwebprevenda.p) at line 82
+
+** Persistent procedures/Classes **
+
