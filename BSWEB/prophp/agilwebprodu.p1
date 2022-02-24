@@ -1,0 +1,76 @@
+def var vprocod as int.
+def var vi as int.
+
+vprocod = int(os-getenv("produ")).
+
+find produ where produ.procod = vprocod no-lock no-error.
+if not avail produ
+then do:
+        put unformatted "NAOEXISTE".
+        quit.
+end.
+put unformatted skip "#produ,1" skip.
+export produ.
+
+find first precohrg    where                                                                 precohrg.procod = vprocod and                                                  precohrg.dativig <= today no-lock.                                  
+if avail precohrg
+then do:
+    put unformatted skip "#precohrg,1" skip. 
+    export precohrg.procod 
+            precohrg.rgcod 
+            precohrg.dativig 
+            precohrg.prvenda 
+            precohrg.funcod 
+            precohrg.data 
+            precohrg.hora.
+end.
+vi = 0.
+for each promoc where promoc.procod = vprocod and
+                        promoc.dtivig <= today and
+                    (promoc.dtfvig >= today or
+                     promoc.dtfvig = ?)
+     no-lock.
+    vi = vi + 1.
+end.
+if vi > 0
+then do:
+    put unformatted skip "#promoc," + string(vi) skip.
+    for each promoc  where  
+            promoc.procod = vprocod and                                
+            promoc.dtivig <= today and
+           (promoc.dtfvig >= today or
+            promoc.dtfvig = ?) no-lock.                            
+        export promoc.procod
+               promoc.etbcod
+               promoc.dtivig
+               promoc.dtfvig
+               promoc.letra
+               promoc.perc
+               promoc.prpromocao
+               promoc.protdc
+               promoc.funcod.
+    end.           
+end.           
+
+
+
+vi = 0.
+for each estoq where estoq.procod = vprocod no-lock.
+    /*if estoq.estatual = 0
+    then next.
+*/
+    vi = vi + 1.
+end.
+
+put unformatted skip "#estoq," + string(vi)  skip.
+
+for each estoq where estoq.procod = vprocod no-lock.
+	/*
+    if estoq.estatual = 0
+    then next.
+*/
+        export estoq.procod
+               estoq.etbcod
+               estoq.estatual.
+end.
+

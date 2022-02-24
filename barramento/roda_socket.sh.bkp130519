@@ -1,0 +1,35 @@
+# NOVO IMPORTA P2K
+
+SERVIDOR=`uname -n`
+
+#if [ "$SERVIDOR" = "sv-ca-ac" ]; then
+#        echo "Nao pode ser executado no servidor AC"
+#        exit 0
+#fi
+
+if [ "$1" = "" ]; then
+        echo "Informe a PORTA"
+        exit 0
+fi
+
+if [ "$1" = "0" ]; then
+        echo "Nao usar mais ZERO"
+        exit 0
+fi
+
+HOJE=`date +"%y%m%d"`
+
+TMP="/integracao/log/$HOJE"
+mkdir -p $TMP
+LOG="$TMP/$SERVIDOR_SOCKETSERVER_$1_$HOJE.log"
+
+echo "PORTA " $1 $HOJE $LOG
+
+DLC=/usr/dlc export DLC
+PROPATH=/admcom/barramento/,/admcom/bs/,/admcom/progr/ export PROPATH
+cd /admcom/barramento/works/
+/usr/dlc/bin/mbpro -pf /admcom/bases/barramento.pf  -p /admcom/barramento/socketservice.p -param "$1" >>$LOG
+# /admcom/bases/bases-testeP2K.pf
+# /admcom/bases/baseslin.pf
+
+

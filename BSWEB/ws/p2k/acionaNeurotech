@@ -1,0 +1,1 @@
+{"dadosSaida":{"dados":[{"IdOperacao":"348535120544872026","CdOperacao":"0100","DsMensagem":"OK ","Resultado":"REPROVADO"}],"parametros":[{"NmParametro":"RET_DTLIMITEVAL","VlParametro":""},{"NmParametro":"RET_LIMITECOMPL","VlParametro":""},{"NmParametro":"RET_MOTIVOS","VlParametro":"REPROVADO: NOTA DO CLIENTE IGUAL ZERO"},{"NmParametro":"RET_NOVOLIMITE","VlParametro":""}]}}

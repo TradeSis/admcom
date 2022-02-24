@@ -1,0 +1,724 @@
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 1 COMPILE /admcom/progr/calccredsc.p
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 1 CPINTERNAL ISO8859-1
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 1 CPSTREAM ISO8859-1
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 5 STRING "par-tipo" 8 NONE UNTRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 6 STRING "rec-clien" 9 NONE UNTRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 7 STRING "vcalclimite" 11 NONE UNTRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 8 STRING "par-dias" 8 NONE UNTRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 9 STRING "limite-disponivel" 17 NONE UNTRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 11 STRING "dtemres" 7 NONE UNTRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 12 STRING "dtemtra" 7 NONE UNTRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 13 STRING "vano" 4 NONE UNTRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 14 STRING "vaux" 4 NONE UNTRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 15 STRING "vidade" 6 NONE UNTRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 16 STRING "vtipoc" 6 NONE UNTRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 18 STRING "jacli" 5 NONE UNTRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 20 STRING "par-oque" 8 NONE UNTRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 20 STRING "par-onde" 8 NONE UNTRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 24 STRING "vx" 2 NONE UNTRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 25 STRING "vret" 4 NONE UNTRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 29 STRING "|" 1 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 29 STRING "|" 1 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 30 STRING "|" 1 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 30 STRING "=" 1 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 32 STRING "|" 1 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 32 STRING "=" 1 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 37 FUNCTION acha,character,INPUT par-oque CHARACTER,INPUT par-onde CHARACTER
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 37 STRING "ACHA" 4 NONE UNTRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 47 STRING "vtempocarro" 11 NONE UNTRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 51 STRING "vsomapar" 8 NONE UNTRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 52 STRING "vtotalpar" 9 NONE UNTRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 54 STRING "vcontapar" 9 NONE UNTRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 55 STRING "vnumparcpg" 10 NONE UNTRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 56 STRING "vvalparcpg" 10 NONE UNTRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 57 STRING "vpercrenda" 10 NONE UNTRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 58 STRING "vperc" 5 NONE UNTRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 60 STRING "vguardaval" 10 NONE UNTRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 61 STRING "vguardacampo" 12 NONE UNTRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 63 STRING "v-rcomtotpg" 11 NONE UNTRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 64 STRING "v-rcomdeved" 11 NONE UNTRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 66 STRING "qtdpos" 6 NONE UNTRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 68 STRING "vlimmatraso" 11 NONE UNTRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 69 STRING "vlimmaximo" 10 NONE UNTRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 70 STRING "vlimmaximoc" 11 NONE UNTRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 72 STRING "tt-dados" 8 NONE UNTRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 72 STRING "parametro" 9 NONE UNTRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 72 STRING "valor" 5 NONE UNTRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 72 STRING "valoralt" 8 NONE UNTRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 72 STRING "percent" 7 NONE UNTRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 72 STRING "vcalclim" 8 NONE UNTRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 72 STRING "operacao" 8 NONE UNTRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 72 STRING "numseq" 6 NONE UNTRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 72 SHR-TEMPTABLE tt-dados
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 82 STRING "btt-dados" 9 NONE UNTRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 84 SEARCH tt-dados dado1 TEMPTABLE WHOLE-INDEX
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 85 DELETE tt-dados TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 88 STRING "vrendacalclim" 13 NONE UNTRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 91 STRING "CredScore" 9 NONE UNTRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 91 ACCESS fin.CredScore campo 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 91 STRING "LIMMAXIMO" 9 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 91 SEARCH fin.CredScore credcampo
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 93 REFERENCE fin.CredScore 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 93 ACCESS fin.CredScore vl-ini 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 98 ACCESS fin.CredScore campo 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 98 STRING "LIMMAXIMOC" 10 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 98 SEARCH fin.CredScore credcampo
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 100 REFERENCE fin.CredScore 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 100 ACCESS fin.CredScore vl-ini 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 105 ACCESS fin.CredScore campo 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 105 STRING "LIMMATRASO" 10 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 105 SEARCH fin.CredScore credcampo
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 107 REFERENCE fin.CredScore 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 107 ACCESS fin.CredScore vl-ini 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 111 STRING "clien" 5 NONE UNTRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 111 REFERENCE ger.clien 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 111 SEARCH ger.clien RECID
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 112 STRING "cpclien" 7 NONE UNTRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 112 ACCESS ger.cpclien clicod 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 112 ACCESS ger.clien clicod 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 112 SEARCH ger.cpclien indx1
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 115 ACCESS ger.clien prorenda 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 118 ACCESS ger.clien prorenda 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 118 ACCESS ger.clien prorenda 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 118 ACCESS ger.clien prorenda 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 121 ACCESS tt-dados parametro TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 121 STRING "Renda Para Calculo de Limite" 28 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 121 SEARCH tt-dados dado1 TEMPTABLE WHOLE-INDEX
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 123 REFERENCE tt-dados TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 125 CREATE tt-dados TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 126 ACCESS tt-dados parametro TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 126 STRING "Renda para Calculo de Limite" 28 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 126 UPDATE tt-dados parametro TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 128 ACCESS tt-dados vcalclim TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 128 UPDATE tt-dados vcalclim TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 130 STRING "vdescalug" 9 NONE UNTRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 131 STRING "vrensalmin" 10 NONE UNTRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 132 STRING "vsalariominimo" 14 NONE UNTRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 134 STRING "vcontarefer" 11 NONE UNTRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 135 STRING "vcampopess" 10 NONE UNTRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 136 STRING "vcampocomer" 11 NONE UNTRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 137 STRING "ref" 3 NONE UNTRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 138 STRING "vrefcampos" 10 NONE UNTRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 142 ACCESS fin.CredScore campo 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 142 STRING "PERCRENDA" 9 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 142 SEARCH fin.CredScore credcampo
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 144 REFERENCE fin.CredScore 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 144 ACCESS fin.CredScore vl-ini 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 185 ACCESS fin.CredScore campo 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 185 ACCESS fin.CredScore valor 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 185 STRING "descalug" 8 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 185 SEARCH fin.CredScore credcampo
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 188 ACCESS ger.clien tipres 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 188 REFERENCE fin.CredScore 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 195 STRING "vestab" 6 NONE UNTRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 196 STRING "vtamanho" 8 NONE UNTRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 198 ACCESS fin.CredScore desc-campo 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 198 ACCESS fin.CredScore valor 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 198 STRING "ESTABCLI" 8 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 198 ACCESS fin.CredScore vl-ini 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 198 SEARCH fin.CredScore credcampo WHOLE-INDEX
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 198 SORT-ACCESS fin.CredScore vl-ini
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 204 ACCESS ger.clien clicod 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 204 STRING ">>>>>>>>>9" 10 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 208 ACCESS ger.clien clicod 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 210 ACCESS ger.clien clicod 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 212 ACCESS fin.CredScore campo 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 232 ACCESS fin.CredScore campo 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 232 STRING "NUMPARCPG" 9 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 232 SEARCH fin.CredScore credcampo
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 232 REFERENCE fin.CredScore 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 232 ACCESS fin.CredScore vl-ini 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 232 ACCESS fin.CredScore campo 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 239 ACCESS tt-dados parametro TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 239 SEARCH tt-dados dado1 TEMPTABLE WHOLE-INDEX
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 240 REFERENCE tt-dados TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 242 CREATE tt-dados TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 243 ACCESS tt-dados parametro TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 243 ACCESS fin.CredScore desc-campo 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 243 UPDATE tt-dados parametro TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 245 ACCESS tt-dados valoralt TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 245 UPDATE tt-dados valoralt TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 246 ACCESS tt-dados valor TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 246 UPDATE tt-dados valor TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 248 ACCESS tt-dados numseq TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 248 UPDATE tt-dados numseq TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 250 ACCESS tt-dados numseq TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 250 UPDATE tt-dados numseq TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 253 ACCESS fin.CredScore campo 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 253 STRING "VALPARCPG" 9 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 253 SEARCH fin.CredScore credcampo
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 253 REFERENCE fin.CredScore 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 253 ACCESS fin.CredScore vl-ini 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 253 ACCESS fin.CredScore campo 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 260 ACCESS tt-dados parametro TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 260 SEARCH tt-dados dado1 TEMPTABLE WHOLE-INDEX
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 261 REFERENCE tt-dados TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 263 CREATE tt-dados TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 264 ACCESS tt-dados parametro TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 264 ACCESS fin.CredScore desc-campo 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 264 STRING " parcelas pagas" 15 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 264 UPDATE tt-dados parametro TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 266 ACCESS tt-dados valoralt TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 266 UPDATE tt-dados valoralt TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 268 ACCESS tt-dados numseq TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 268 UPDATE tt-dados numseq TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 270 ACCESS tt-dados numseq TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 270 UPDATE tt-dados numseq TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 278 STRING "titulo" 6 NONE UNTRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 278 ACCESS fin.titulo titnat 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 278 ACCESS fin.titulo CliFor 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 278 ACCESS ger.clien clicod 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 278 ACCESS fin.titulo titdtpag 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 278 ACCESS fin.titulo titsit 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 278 STRING "PAG" 3 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 278 SEARCH fin.titulo iclicod
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 285 ACCESS fin.titulo modcod 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 285 ACCESS fin.titulo modcod 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 285 ACCESS fin.titulo modcod 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 285 STRING "DEV" 3 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 285 STRING "BON" 3 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 285 STRING "CHP" 3 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 292 ACCESS fin.titulo titvlpag 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 308 ACCESS fin.titulo titnat 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 308 ACCESS fin.titulo CliFor 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 308 ACCESS ger.clien clicod 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 308 ACCESS fin.titulo titdtpag 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 308 ACCESS fin.titulo titsit 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 308 STRING "PAG" 3 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 308 SEARCH fin.titulo iclicod
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 315 ACCESS fin.titulo modcod 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 315 ACCESS fin.titulo modcod 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 315 ACCESS fin.titulo modcod 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 315 STRING "DEV" 3 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 315 STRING "BON" 3 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 315 STRING "CHP" 3 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 324 ACCESS fin.CredScore campo 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 324 ACCESS fin.CredScore valor 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 324 STRING "depen" 5 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 324 ACCESS fin.CredScore vl-ini 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 324 SEARCH fin.CredScore credcampo
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 324 SORT-ACCESS fin.CredScore vl-ini
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 327 ACCESS fin.CredScore vl-ini 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 327 ACCESS ger.clien numdep 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 335 ACCESS fin.CredScore campo 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 335 ACCESS fin.CredScore valor 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 335 STRING "foneconv" 8 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 335 SEARCH fin.CredScore credcampo
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 338 ACCESS ger.clien fone 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 338 ACCESS ger.clien fone 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 338 REFERENCE fin.CredScore 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 342 ACCESS fin.CredScore campo 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 342 ACCESS fin.CredScore valor 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 342 STRING "email" 5 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 342 SEARCH fin.CredScore credcampo
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 348 ACCESS ger.clien zona 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 348 ACCESS ger.clien zona 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 348 ACCESS ger.clien zona 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 348 REFERENCE fin.CredScore 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 348 STRING "*@*" 3 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 353 ACCESS fin.CredScore campo 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 353 ACCESS fin.CredScore valor 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 353 STRING "psaude" 6 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 353 SEARCH fin.CredScore credcampo
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 356 ACCESS ger.cpclien var-log7 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 356 REFERENCE fin.CredScore 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 356 REFERENCE ger.cpclien 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 360 STRING "carro" 5 NONE UNTRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 360 ACCESS ger.carro clicod 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 360 ACCESS ger.clien clicod 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 360 SEARCH ger.carro clicod
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 361 ACCESS fin.CredScore campo 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 361 ACCESS fin.CredScore valor 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 361 STRING "carro" 5 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 361 SEARCH fin.CredScore credcampo
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 364 ACCESS ger.carro carsit 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 364 REFERENCE fin.CredScore 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 364 REFERENCE ger.carro 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 368 ACCESS ger.carro ano 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 370 ACCESS ger.carro ano 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 371 ACCESS fin.CredScore campo 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 371 ACCESS fin.CredScore valor 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 371 STRING "anocarro" 8 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 371 SEARCH fin.CredScore credcampo
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 374 ACCESS fin.CredScore vl-ini 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 374 ACCESS fin.CredScore vl-fin 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 385 REFERENCE ger.cpclien 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 387 ACCESS fin.CredScore campo 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 387 ACCESS fin.CredScore valor 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 387 STRING "grinstru" 8 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 387 SEARCH fin.CredScore credcampo
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 390 ACCESS fin.CredScore vl-char 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 390 ACCESS ger.cpclien var-char8 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 390 STRING "INSTRUCAO" 9 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 399 ACCESS ger.clien dtnasc 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 400 ACCESS fin.CredScore campo 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 400 ACCESS fin.CredScore valor 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 400 STRING "idade" 5 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 400 SEARCH fin.CredScore credcampo
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 403 ACCESS fin.CredScore vl-ini 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 403 ACCESS fin.CredScore vl-fin 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 412 ACCESS ger.cpclien var-log6 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 412 REFERENCE ger.cpclien 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 414 ACCESS fin.CredScore campo 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 414 ACCESS fin.CredScore valor 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 414 STRING "seguros" 7 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 414 SEARCH fin.CredScore credcampo
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 418 ACCESS fin.CredScore vl-char 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 418 ACCESS ger.cpclien var-char6 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 418 STRING "Nao Possui" 10 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 418 STRING "Nao Possui" 10 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 423 ACCESS fin.CredScore vl-char 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 423 ACCESS ger.cpclien var-char6 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 423 STRING "De Saude" 8 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 423 STRING "De Saude" 8 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 428 ACCESS fin.CredScore vl-char 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 428 ACCESS ger.cpclien var-char6 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 428 STRING "De Vida" 7 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 428 STRING "De Vida" 7 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 433 ACCESS fin.CredScore vl-char 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 433 ACCESS ger.cpclien var-char6 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 433 STRING "Residencial" 11 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 433 STRING "Residencial" 11 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 438 ACCESS fin.CredScore vl-char 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 438 ACCESS ger.cpclien var-char6 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 438 STRING "Automovel" 9 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 438 STRING "Automovel" 9 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 448 ACCESS ger.clien temres 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 448 ACCESS ger.clien temres 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 448 STRING "999999" 6 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 448 STRING "999999" 6 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 451 ACCESS ger.clien temres 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 451 ACCESS ger.clien temres 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 451 STRING "999999" 6 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 451 STRING "999999" 6 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 454 ACCESS fin.CredScore campo 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 454 ACCESS fin.CredScore valor 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 454 STRING "tempores" 8 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 454 SEARCH fin.CredScore credcampo
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 458 ACCESS fin.CredScore vl-ini 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 458 ACCESS fin.CredScore vl-fin 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 468 ACCESS ger.clien prodta 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 469 ACCESS fin.CredScore campo 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 469 ACCESS fin.CredScore valor 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 469 STRING "tempotrab" 9 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 469 SEARCH fin.CredScore credcampo
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 472 ACCESS fin.CredScore vl-ini 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 472 ACCESS fin.CredScore vl-fin 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 481 REFERENCE ger.cpclien 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 485 ACCESS ger.cpclien var-ext4 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 485 ACCESS ger.cpclien var-ext4 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 485 ACCESS ger.cpclien var-ext4 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 485 ACCESS ger.cpclien var-ext3 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 493 ACCESS fin.CredScore campo 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 493 ACCESS fin.CredScore valor 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 493 STRING "refban" 6 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 493 SEARCH fin.CredScore credcampo
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 496 ACCESS fin.CredScore vl-ini 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 496 ACCESS fin.CredScore vl-fin 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 507 ACCESS fin.CredScore campo 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 507 ACCESS fin.CredScore valor 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 507 STRING "tipconta" 8 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 507 SEARCH fin.CredScore credcampo
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 510 ACCESS fin.CredScore vl-char 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 510 STRING "Tipo 2" 6 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 514 ACCESS fin.CredScore vl-char 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 514 STRING "Tipo 1" 6 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 520 REFERENCE ger.cpclien 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 522 ACCESS fin.CredScore campo 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 522 ACCESS fin.CredScore valor 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 522 STRING "cartoes" 7 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 522 SEARCH fin.CredScore credcampo
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 526 ACCESS ger.cpclien var-int 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 526 ACCESS ger.cpclien var-int 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 526 ACCESS fin.CredScore vl-char 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 526 ACCESS fin.CredScore vl-char 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 526 ACCESS ger.cpclien var-int 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 526 ACCESS ger.cpclien var-int 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 526 ACCESS fin.CredScore vl-char 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 526 ACCESS fin.CredScore vl-char 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 526 ACCESS ger.cpclien var-int 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 526 ACCESS fin.CredScore vl-char 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 526 ACCESS ger.cpclien var-int 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 526 ACCESS ger.cpclien var-int 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 526 ACCESS fin.CredScore vl-char 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 526 ACCESS fin.CredScore vl-char 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 526 STRING "*Visa*" 6 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 526 STRING "*Master*" 8 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 526 STRING "*Banri*" 7 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 526 STRING "*Hiper*" 7 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 526 STRING "*Loja*" 6 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 526 STRING "*Amex*" 6 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 526 STRING "*Dinners*" 9 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 549 ACCESS fin.CredScore campo 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 549 ACCESS fin.CredScore valor 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 549 STRING "sexo" 4 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 549 SEARCH fin.CredScore credcampo
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 552 ACCESS ger.clien sexo 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 552 ACCESS fin.CredScore vl-char 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 552 ACCESS ger.clien sexo 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 552 ACCESS fin.CredScore vl-char 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 552 STRING "Masculino" 9 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 552 STRING "Feminino" 8 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 561 STRING "vestcivil" 9 NONE UNTRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 563 ACCESS ger.clien estciv 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 563 STRING "Solteiro" 8 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 565 ACCESS ger.clien estciv 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 565 STRING "Casado" 6 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 567 ACCESS ger.clien estciv 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 567 STRING "Viuvo" 5 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 569 ACCESS ger.clien estciv 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 569 STRING "Desquitado" 10 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 571 ACCESS ger.clien estciv 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 571 STRING "Divorciado" 10 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 573 ACCESS ger.clien estciv 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 573 STRING "Falecido" 8 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 575 ACCESS fin.CredScore campo 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 575 ACCESS fin.CredScore valor 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 575 STRING "estcivil" 8 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 575 SEARCH fin.CredScore credcampo
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 578 ACCESS fin.CredScore vl-char 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 586 ACCESS fin.CredScore campo 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 586 ACCESS fin.CredScore vl-ini 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 586 STRING "salariominimo" 13 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 586 SEARCH fin.CredScore credcampo
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 589 REFERENCE fin.CredScore 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 589 ACCESS fin.CredScore vl-ini 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 596 ACCESS fin.CredScore campo 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 596 ACCESS fin.CredScore valor 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 596 STRING "rensalmin" 9 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 596 SEARCH fin.CredScore credcampo
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 599 REFERENCE fin.CredScore 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 602 ACCESS fin.CredScore vl-ini 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 602 REFERENCE fin.CredScore 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 611 ACCESS ger.clien entbairro 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 611 ACCESS ger.clien entbairro 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 613 ACCESS ger.clien entbairro 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 613 ACCESS ger.clien entbairro 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 613 ACCESS ger.clien entcep 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 613 ACCESS ger.clien entcep 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 613 ACCESS ger.clien entcidade 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 613 ACCESS ger.clien entcidade 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 613 ACCESS ger.clien entcompl 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 613 ACCESS ger.clien entcompl 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 620 ACCESS ger.clien entbairro 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 623 ACCESS fin.CredScore campo 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 623 STRING "qtdrefer" 8 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 623 SEARCH fin.CredScore credcampo
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 625 REFERENCE fin.CredScore 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 627 ACCESS fin.CredScore valor 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 627 ACCESS fin.CredScore vl-ini 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 635 ACCESS fin.CredScore campo 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 635 ACCESS fin.CredScore valor 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 635 STRING "refernaopreench" 15 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 635 SEARCH fin.CredScore credcampo
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 637 REFERENCE fin.CredScore 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 640 ACCESS fin.CredScore vl-log 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 640 ACCESS fin.CredScore vl-log 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 649 REFERENCE ger.cpclien 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 651 ACCESS ger.clien refcom 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 651 ACCESS ger.clien refcom 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 653 ACCESS ger.clien refcom 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 653 ACCESS ger.clien refcom 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 653 ACCESS ger.cpclien var-ext1 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 653 ACCESS ger.cpclien var-ext1 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 658 ACCESS ger.clien refcom 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 661 ACCESS fin.CredScore campo 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 661 STRING "qtdreferc" 9 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 661 SEARCH fin.CredScore credcampo
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 663 REFERENCE fin.CredScore 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 665 ACCESS fin.CredScore valor 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 665 ACCESS fin.CredScore vl-ini 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 673 ACCESS fin.CredScore campo 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 673 ACCESS fin.CredScore valor 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 673 STRING "refernaopreenchc" 16 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 673 SEARCH fin.CredScore credcampo
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 675 REFERENCE fin.CredScore 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 678 ACCESS fin.CredScore vl-log 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 678 ACCESS fin.CredScore vl-log 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 725 STRING "btitulo" 7 NONE UNTRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 725 STRING "titulo" 6 NONE UNTRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 725 REFERENCE dragao.titulo 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 726 STRING "ctitulo" 7 NONE UNTRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 726 STRING "titulo" 6 NONE UNTRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 726 REFERENCE fin.titulo 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 727 STRING "vparcel" 7 NONE UNTRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 728 STRING "vvaltot" 7 NONE UNTRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 729 STRING "vnovatras" 9 NONE UNTRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 732 STRING "titulo" 6 NONE UNTRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 732 ACCESS dragao.titulo titnat 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 732 ACCESS dragao.titulo CliFor 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 732 ACCESS ger.clien clicod 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 732 ACCESS dragao.titulo titdtpag 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 732 ACCESS dragao.titulo titsit 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 732 ACCESS dragao.titulo titpar 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 732 STRING "LIB" 3 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 732 SEARCH dragao.titulo iclicod
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 738 ACCESS dragao.titulo titdtven 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 746 ACCESS fin.titulo titnat 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 746 ACCESS fin.titulo CliFor 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 746 ACCESS ger.clien clicod 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 746 ACCESS fin.titulo titdtpag 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 746 ACCESS fin.titulo titsit 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 746 ACCESS fin.titulo titpar 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 746 STRING "LIB" 3 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 746 SEARCH fin.titulo Por-Dtpag-Estab-Modal
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 752 ACCESS fin.titulo titdtven 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 760 REFERENCE dragao.titulo 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 761 REFERENCE fin.titulo 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 763 ACCESS dragao.titulo titnat 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 763 ACCESS dragao.titulo CliFor 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 763 ACCESS ger.clien clicod 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 763 ACCESS dragao.titulo titdtpag 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 763 ACCESS dragao.titulo titsit 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 763 ACCESS dragao.titulo titpar 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 763 STRING "LIB" 3 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 763 SEARCH dragao.titulo iclicod
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 769 REFERENCE dragao.titulo 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 788 ACCESS fin.titulo titnat 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 788 ACCESS fin.titulo CliFor 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 788 ACCESS ger.clien clicod 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 788 ACCESS fin.titulo titdtpag 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 788 ACCESS fin.titulo titsit 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 788 ACCESS fin.titulo titpar 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 788 STRING "LIB" 3 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 788 SEARCH fin.titulo Por-Dtpag-Estab-Modal
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 794 REFERENCE fin.titulo 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 820 ACCESS tt-dados parametro TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 820 STRING "POSSUI NOVACAO" 14 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 820 SEARCH tt-dados dado1 TEMPTABLE WHOLE-INDEX
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 822 REFERENCE tt-dados TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 824 CREATE tt-dados TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 825 ACCESS tt-dados parametro TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 825 STRING "POSSUI NOVACAO" 14 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 825 UPDATE tt-dados parametro TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 827 ACCESS tt-dados valoralt TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 827 UPDATE tt-dados valoralt TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 828 ACCESS tt-dados vcalclim TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 828 UPDATE tt-dados vcalclim TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 829 ACCESS tt-dados valor TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 829 UPDATE tt-dados valor TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 830 ACCESS tt-dados operacao TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 830 STRING "-" 1 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 830 UPDATE tt-dados operacao TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 832 ACCESS tt-dados numseq TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 832 UPDATE tt-dados numseq TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 834 ACCESS tt-dados numseq TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 834 UPDATE tt-dados numseq TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 840 ACCESS fin.CredScore desc-campo 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 840 ACCESS fin.CredScore valor 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 840 STRING "NOTACLI" 7 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 840 ACCESS fin.CredScore vl-ini 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 840 SEARCH fin.CredScore credcampo WHOLE-INDEX
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 840 SORT-ACCESS fin.CredScore vl-ini
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 843 ACCESS ger.cpclien var-int3 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 843 ACCESS fin.CredScore campo 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 843 REFERENCE ger.cpclien 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 869 ACCESS tt-dados parametro TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 869 STRING "NOVACAO COM ATRASO" 18 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 869 SEARCH tt-dados dado1 TEMPTABLE WHOLE-INDEX
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 871 REFERENCE tt-dados TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 873 CREATE tt-dados TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 874 ACCESS tt-dados parametro TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 874 STRING "NOVACAO COM ATRASO" 18 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 874 UPDATE tt-dados parametro TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 876 ACCESS tt-dados valoralt TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 876 UPDATE tt-dados valoralt TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 877 ACCESS tt-dados vcalclim TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 877 UPDATE tt-dados vcalclim TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 878 ACCESS tt-dados valor TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 878 UPDATE tt-dados valor TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 879 ACCESS tt-dados operacao TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 879 STRING "-" 1 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 879 UPDATE tt-dados operacao TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 881 ACCESS tt-dados numseq TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 881 UPDATE tt-dados numseq TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 883 ACCESS tt-dados numseq TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 883 UPDATE tt-dados numseq TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 887 STRING "saldo-aberto" 12 NONE UNTRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 888 STRING "vmaioratraso" 12 NONE UNTRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 890 ACCESS fin.titulo titnat 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 890 ACCESS fin.titulo CliFor 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 890 ACCESS ger.clien clicod 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 890 ACCESS fin.titulo titdtpag 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 890 ACCESS fin.titulo titsit 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 890 STRING "LIB" 3 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 890 SEARCH fin.titulo Por-Dtpag-Estab-Modal
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 894 ACCESS fin.titulo titvlcob 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 895 ACCESS fin.titulo titdtven 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 895 ACCESS fin.titulo titdtven 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 900 ACCESS dragao.titulo titnat 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 900 ACCESS dragao.titulo CliFor 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 900 ACCESS ger.clien clicod 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 900 ACCESS dragao.titulo titdtpag 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 900 ACCESS dragao.titulo titsit 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 900 STRING "LIB" 3 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 900 SEARCH dragao.titulo iclicod
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 904 ACCESS dragao.titulo titvlcob 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 905 ACCESS dragao.titulo titdtven 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 905 ACCESS dragao.titulo titdtven 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 917 ACCESS tt-dados parametro TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 917 STRING "MEDIA ATRASO > LIMITE" 21 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 917 SEARCH tt-dados dado1 TEMPTABLE WHOLE-INDEX
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 919 REFERENCE tt-dados TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 921 CREATE tt-dados TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 922 ACCESS tt-dados parametro TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 922 STRING "MEDIA ATRASO > LIMITE" 21 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 922 UPDATE tt-dados parametro TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 924 ACCESS tt-dados valoralt TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 924 UPDATE tt-dados valoralt TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 925 ACCESS tt-dados vcalclim TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 925 UPDATE tt-dados vcalclim TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 926 ACCESS tt-dados valor TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 926 UPDATE tt-dados valor TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 927 ACCESS tt-dados operacao TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 927 STRING "-" 1 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 927 UPDATE tt-dados operacao TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 929 ACCESS tt-dados numseq TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 929 UPDATE tt-dados numseq TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 931 ACCESS tt-dados numseq TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 931 UPDATE tt-dados numseq TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 947 STRING "vcalclimite" 11 NONE UNTRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 948 STRING "vcontrpar" 9 NONE UNTRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 949 STRING "vmaioratraso" 12 NONE UNTRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 950 STRING "vmediaatraso" 12 NONE UNTRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 952 STRING "vatraso" 7 NONE UNTRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 954 ACCESS fin.titulo titnat 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 954 ACCESS fin.titulo titdtpag 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 954 ACCESS fin.titulo CliFor 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 954 ACCESS ger.clien clicod 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 954 ACCESS fin.titulo titsit 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 954 STRING "PAG" 3 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 954 ACCESS fin.titulo titdtpag 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 954 SEARCH fin.titulo iclicod
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 954 SORT-ACCESS fin.titulo titdtpag
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 962 ACCESS fin.titulo modcod 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 962 ACCESS fin.titulo modcod 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 962 ACCESS fin.titulo modcod 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 962 STRING "DEV" 3 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 962 STRING "BON" 3 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 962 STRING "CHP" 3 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 967 ACCESS fin.titulo titdtven 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 967 ACCESS fin.titulo titdtven 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 967 ACCESS fin.titulo titdtven 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 972 ACCESS fin.titulo titdtpag 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 972 ACCESS fin.titulo titdtven 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 979 ACCESS fin.CredScore desc-campo 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 979 ACCESS fin.CredScore int2 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 979 STRING "PC PAGAS" 8 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 979 SEARCH fin.CredScore credint2
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 982 REFERENCE fin.CredScore 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 982 ACCESS fin.CredScore desc-campo 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 982 ACCESS fin.CredScore int2 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 982 STRING "PC PAGAS" 8 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 982 SEARCH fin.CredScore credint2
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 986 REFERENCE fin.CredScore 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 990 ACCESS fin.CredScore int1 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 992 ACCESS fin.CredScore valor 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 992 ACCESS fin.CredScore vl-ini 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 992 ACCESS fin.CredScore vl-ini 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 995 ACCESS fin.CredScore valor 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 995 ACCESS fin.CredScore vl-fin 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 995 ACCESS fin.CredScore vl-fin 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 1006 ACCESS tt-dados parametro TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 1006 ACCESS fin.CredScore campo 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 1006 SEARCH tt-dados dado1 TEMPTABLE WHOLE-INDEX
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 1008 REFERENCE tt-dados TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 1010 CREATE tt-dados TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 1011 ACCESS tt-dados parametro TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 1011 STRING " pcs pagas" 10 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 1011 UPDATE tt-dados parametro TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 1013 ACCESS tt-dados valoralt TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 1013 UPDATE tt-dados valoralt TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 1014 ACCESS tt-dados percent TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 1014 UPDATE tt-dados percent TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 1018 ACCESS tt-dados vcalclim TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 1018 UPDATE tt-dados vcalclim TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 1019 ACCESS tt-dados operacao TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 1019 ACCESS tt-dados vcalclim TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 1019 ACCESS tt-dados valoralt TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 1019 STRING "+" 1 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 1019 STRING "-" 1 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 1019 UPDATE tt-dados operacao TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 1020 SEARCH tt-dados dado1 TEMPTABLE WHOLE-INDEX
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 1021 REFERENCE tt-dados TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 1021 ACCESS tt-dados numseq TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 1021 UPDATE tt-dados numseq TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 1023 ACCESS tt-dados numseq TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 1023 ACCESS tt-dados numseq TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 1023 UPDATE tt-dados numseq TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 1070 SEARCH tt-dados dado1 TEMPTABLE WHOLE-INDEX
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 1071 DELETE tt-dados TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 1074 ACCESS tt-dados parametro TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 1074 ACCESS fin.CredScore campo 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 1074 SEARCH tt-dados dado1 TEMPTABLE WHOLE-INDEX
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 1076 REFERENCE tt-dados TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 1078 CREATE tt-dados TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 1079 ACCESS tt-dados parametro TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 1079 STRING "Cliente com " 12 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 1079 STRING " parcelas pagas         (<30 parcelas pagas zera limite)" 56 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 1079 UPDATE tt-dados parametro TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 1083 ACCESS tt-dados vcalclim TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 1083 UPDATE tt-dados vcalclim TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 1084 SEARCH tt-dados dado1 TEMPTABLE WHOLE-INDEX
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 1085 REFERENCE tt-dados TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 1085 ACCESS tt-dados numseq TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 1085 UPDATE tt-dados numseq TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 1087 ACCESS tt-dados numseq TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 1087 ACCESS tt-dados numseq TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 1087 UPDATE tt-dados numseq TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 1092 PROCEDURE p-cliente,,INPUT-OUTPUT vcalclimite DECIMAL
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 1092 STRING "P-CLIENTE" 9 NONE UNTRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 1141 ACCESS fin.CredScore tipo-vl 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 1141 ACCESS fin.CredScore Operacao 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 1141 ACCESS fin.CredScore consnumparc 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 1143 ACCESS fin.CredScore valor 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 1143 ACCESS fin.CredScore valor 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 1157 ACCESS fin.CredScore consnumparc 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 1159 ACCESS fin.CredScore valor 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 1159 ACCESS fin.CredScore valor 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 1169 ACCESS fin.CredScore Operacao 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 1169 ACCESS fin.CredScore consnumparc 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 1169 ACCESS fin.CredScore valor 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 1173 ACCESS fin.CredScore consnumparc 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 1173 ACCESS fin.CredScore valor 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 1180 ACCESS tt-dados parametro TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 1180 ACCESS fin.CredScore campo 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 1180 SEARCH tt-dados dado1 TEMPTABLE WHOLE-INDEX
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 1181 REFERENCE tt-dados TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 1183 CREATE tt-dados TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 1184 ACCESS fin.CredScore campo 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 1184 ACCESS fin.CredScore campo 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 1184 STRING "cartoes" 7 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 1184 STRING "seguros" 7 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 1184 ACCESS tt-dados parametro TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 1184 ACCESS fin.CredScore vl-char 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 1184 UPDATE tt-dados parametro TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 1187 ACCESS tt-dados parametro TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 1187 ACCESS fin.CredScore desc-campo 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 1187 UPDATE tt-dados parametro TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 1190 ACCESS tt-dados valoralt TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 1190 UPDATE tt-dados valoralt TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 1191 ACCESS tt-dados percent TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 1191 UPDATE tt-dados percent TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 1192 ACCESS tt-dados valor TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 1192 ACCESS fin.CredScore tipo-vl 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 1192 ACCESS fin.CredScore valor 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 1192 ACCESS fin.CredScore valor 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 1192 UPDATE tt-dados valor TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 1193 ACCESS tt-dados vcalclim TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 1193 UPDATE tt-dados vcalclim TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 1194 ACCESS tt-dados operacao TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 1194 ACCESS fin.CredScore Operacao 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 1194 STRING "-" 1 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 1194 STRING "+" 1 NONE TRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 1194 UPDATE tt-dados operacao TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 1195 SEARCH tt-dados dado1 TEMPTABLE WHOLE-INDEX
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 1196 REFERENCE tt-dados TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 1196 ACCESS tt-dados numseq TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 1196 UPDATE tt-dados numseq TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 1198 ACCESS tt-dados numseq TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 1198 ACCESS tt-dados numseq TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 1198 UPDATE tt-dados numseq TEMPTABLE
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 1200 PROCEDURE le-credscore,,
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 1200 STRING "LE-CREDSCORE" 12 NONE UNTRANSLATABLE 
+/admcom/progr/calccredsc.p /admcom/progr/calccredsc.p 1200 STRING "dado1" 5 NONE UNTRANSLATABLE 

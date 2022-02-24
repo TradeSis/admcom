@@ -1,0 +1,116 @@
+
+FUNCTION acha returns character
+    (input par-oque as char,
+     input par-onde as char).
+         
+    def var vx as int.
+    def var vret as char.  
+    
+    vret = ?.  
+    
+    do vx = 1 to num-entries(par-onde,"|"). 
+        if entry(1,entry(vx,par-onde,"|"),"=") = par-oque 
+        then do: 
+            vret = entry(2,entry(vx,par-onde,"|"),"="). 
+            leave. 
+        end. 
+    end.
+    return vret. 
+END FUNCTION.
+
+
+def var varquivo as char.
+def var v-clicod like clien.clicod.
+def var v-param as char.
+def var vetbcod like estab.etbcod.
+def var vnumero like plani.numero.
+def var vserie as char.
+def var vpladat like plani.pladat.
+def var vdif as char format "xx".
+def var vdesti like plani.desti.
+def var vdti as date.
+def var vdtf as date.
+def var vq as int. 
+vdesti = 0.
+
+v-param = os-getenv("planimovpd").
+vdif = substr(string(v-param),1,2).
+vetbcod = int(substr(string(v-param),3,3)).
+
+if vdif = "PD"
+then assign
+         vdti = date(int(substr(string(v-param),8,2)),
+               int(substr(string(v-param),6,2)),
+               int(substr(string(v-param),10,4)))
+         vdtf = date(int(substr(string(v-param),16,2)),
+               int(substr(string(v-param),14,2)),
+               int(substr(string(v-param),18,4)))
+               .
+
+def temp-table tt-movim like movim.
+def temp-table tt-contnf like fin.contnf.
+
+def temp-table tt-vndseguro like vndseguro.
+def var vobs as char.
+def var q as int.                
+    
+def var vdata as date.
+def var vokd as log.
+def var vokc as log.
+def var vltotven as dec.
+def var vltotdes as dec.
+if vdti <> ? and vdtf <> ? and vdtf > vdti
+then 
+do vdata = vdti to vdtf:
+    for each plani where   plani.movtdc = 5 and
+                       plani.etbcod = vetbcod and
+                       plani.pladat = vdata
+                       no-lock:
+        vokd = yes.
+        vokc = yes.
+        for each movim where movim.etbcod = plani.etbcod
+                         and movim.placod = plani.placod
+                         and movim.movtdc = plani.movtdc
+                         and movim.movdat = plani.pladat no-lock:
+            find produ where produ.procod = movim.procod no-lock no-error.
+            if not avail produ then next.
+            if produ.clacod = 101 or
+               produ.clacod = 102 or
+               produ.clacod = 107 or
+               produ.clacod = 109 or
+               produ.clacod = 201 or
+               produ.clacod = 191 or
+               produ.clacod = 181
+            then do:
+                vokd = no.
+                leave.
+            end.
+            if produ.catcod <> 31
+            then do:
+                vokc = no.
+                leave.
+            end.
+        end.   
+        if vokc = no then next.
+        vltotven = vltotven + (if plani.biss > 0
+                               then plani.biss
+                               else plani.platot - plani.vlserv).
+        if vokd = no then next.
+        if plani.notobs[2] <> ""
+        then do:
+            if acha("DESCONTO",plani.notobs[2]) <> ?
+            then do:
+                vltotdes = vltotdes + dec(acha("DESCONTO",plani.notobs[2])).
+            end.
+            else do:
+                if substr(plani.notobs[2],1,1) <> "J" and
+                      dec(plani.notobs[2]) > 0
+                then vltotdes = vltotdes + dec(plani.notobs[2]).
+            end.
+        end.
+    end.
+end.
+put unformatted "@INICIO" skip.
+put unformatted "#LINHA" "|VENDA=" vltotven "|DESCONTO=" vltotdes skip.
+put unformatted "@FIMFIM" skip.
+

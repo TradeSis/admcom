@@ -1,0 +1,155 @@
+/* Calcular ICMS de uma NFE/CTE */
+
+{cabec.i}
+
+def shared temp-table tt-plani like plani.
+def shared temp-table tt-movim like movim.
+
+def var vmovsubst   like movim.movsubst.
+def var vmovalicms  like movim.movalicms.
+def var vmovicms    like movim.movicms.
+def var vbaseicms   like movim.movbicms.
+def var vbsubst     as dec.
+def var vopfcod     as int.
+def var vtbtptrib-cod as char.
+
+find first tt-plani.
+
+find opcom where opcom.opccod = string(tt-plani.opccod) no-lock no-error.
+if not avail opcom or opcom.opcgia = no
+then return.
+
+if tt-plani.plaufemi = ""
+then return.
+
+assign
+    tt-plani.bicms = 0
+    tt-plani.icms  = 0.
+
+for each tt-movim.
+    run icms.p (input  tt-movim.procod,
+              input  tt-plani.plaufemi,
+              input  tt-plani.plaufdes,
+              input  today,
+              input  (tt-movim.movpc * tt-movim.movqtm) +
+                      tt-movim.movacf - tt-movim.movdes,
+              input  no,
+              input  tt-plani.opccod,
+              output vtbtptrib-cod,
+              output vopfcod,
+              output vbaseicms,
+              output vmovalicms,
+              output vmovicms,
+              output vbsubst,
+              output vmovsubst).
+
+    if vtbtptrib-cod = ""
+    then vtbtptrib-cod = "51".
+
+    assign
+        tt-movim.movbicms  = vbaseicms
+        tt-movim.movalicms = vmovalicms
+        tt-movim.movicms   = vmovicms
+        tt-movim.opfcod    = if tt-plani.plaufemi = tt-plani.plaufdes
+                             then vopfcod else vopfcod + 1000
+        tt-movim.movcsticms = vtbtptrib-cod.
+    assign
+        tt-plani.bicms = tt-plani.bicms + tt-movim.movbicms
+        tt-plani.icms  = tt-plani.icms  + tt-movim.movicms.
+
+    if tt-plani.opccod = 5152 and
+       tt-plani.plaufemi <> tt-plani.plaufdes
+    then run icms-st.
+end.
+
+if tt-plani.plaufemi <> tt-plani.plaufdes
+then tt-plani.opccod = tt-plani.opccod + 1000.
+
+
+procedure icms-st.
+
+def var vpasso1        as dec.
+def var vpasso2        as dec.
+def var valicms-ie     like movim.movalicms.
+def var vmvaajust      as dec decimals 4.
+
+    def var vbicms    as dec decimals 2.
+    def var valicms-int as dec.
+    def var valicms-des as dec.
+    def var valicms-ext as dec.
+    def var vicms     as dec decimals 2.
+    def var vbicms-st as dec decimals 2.
+    def var vicms-st  as dec decimals 2.
+    def var valmva    as dec.
+
+    /* Passo 1 - Verificar se o produto e´ ST na UF DESTINO */
+    
+    /* Buscar Aliquota INTERNA e MVA */
+    find produ where produ.procod = tt-movim.procod no-lock.
+
+    {valtribu.i
+        &pais-ori    = ""BRA""
+        &unfed-ori   = tt-plani.plaufdes
+        &pais-dest   = ""BRA""
+        &unfed-dest  = tt-plani.plaufdes
+        &procod      = tt-movim.procod
+        &opfcod      = 0
+        &ncm         = produ.codfis /* NCM */
+        &agfis-dest  = 0 
+        &dativig     = today
+        &nextlabel   = "next." }
+
+    tt-movim.movcsticms = "00".
+    
+    if tt-plani.plaufdes  = "RS"
+    then do:
+        if proipiper <> 99 then return.
+    end.
+    else if tribicms.pcticmspdv <> 99 then return.
+                                        
+    valmva = tribicms.PctMgSubst.
+
+    run aliquotaicms.p (0, 0, tt-plani.plaufemi, tt-plani.plaufdes,
+                        output valicms-ie).
+
+    /* aliquota interna no destino */
+    run aliquotaicms.p (0, 0, tt-plani.plaufdes, tt-plani.plaufdes,
+                        output valicms-int).
+
+    run aliquotaicms.p (0, tt-plani.opccod,tt-plani.plaufdes,tt-plani.plaufdes,
+                        output valicms-ext).
+
+    /* MVA ajustado */
+    vpasso1 = (1 + valmva / 100).
+/***
+    vpasso2 = (1 - (valicms-ie / 100) ) / (1 - (valicms-int / 100)).
+
+    if tt-plani.plaufemi = tt-plani.plaufdes
+    then vmvaajust = valmva / 100.
+    else vmvaajust = (vpasso1 * vpasso2) - 1.
+
+    vbicms = (tt-movim.movpc * tt-movim.movqtm) - tt-movim.movdes.
+    vicms  = vbicms * valicms-ext / 100.
+
+    vbicms-st = vbicms * (1 + vmvaajust).
+    vicms-st  = (vbicms-st * valicms-int / 100) - vicms.
+***/
+    vmvaajust = valmva / 100.
+
+    vbicms = (tt-movim.movpc * tt-movim.movqtm) - tt-movim.movdes.
+    vicms  = vbicms * valicms-ie  / 100.
+
+    vbicms-st = vbicms * (1 + vmvaajust).
+    vicms-st  = (vbicms-st * valicms-int / 100) - vicms.
+
+    assign
+        tt-movim.movcsticms = "10"
+        tt-movim.movbsubst = vbicms-st
+        tt-movim.movsubst  = vicms-st
+        tt-movim.ocnum[1]  = valicms-int
+        tt-plani.bsubst    = tt-plani.bsubst + vbicms-st
+        tt-plani.icmssubst = tt-plani.icmssubst + vicms-st
+        tt-plani.platot    = tt-plani.platot + vicms-st.
+
+end procedure.
+

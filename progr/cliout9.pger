@@ -1,0 +1,441 @@
+def input  parameter vrecid as recid.
+def var    vcarro    like   carro.carsit.
+def var    vclicod   like   clien.clicod.
+def buffer bclien    for    clien.
+
+def var i as int.
+def var ventrefcom as date format "99/99/9999".
+
+def temp-table tclien like clien.
+
+def var cText0    as char form "x(60)"     init "".
+def var cLabel    as char form "x(15)"     init "".  
+
+
+find clien where recid(clien) = vrecid no-lock.
+
+create tclien.
+buffer-copy clien to tclien.
+
+if tclien.tippes
+then do:
+
+    assign
+        tclien.nacion = "BRASILEIRA"
+        tclien.natur  = "RS".
+    
+    update tclien.sexo.
+    
+    if input tclien.sexo <> "M" or
+       input tclien.sexo <> "F"
+    then do:
+            message "Sexo deve ser M ou F!"
+                    view-as alert-box.
+            undo, retry.
+    end.   
+    
+    do on error undo:
+    
+        update tclien.estciv
+help "1.Solteiro 2.Casado 3.Viuvo 4.Desquitado 5.Divorciado 6.Falecido"
+               with no-validate.
+               
+        if tclien.estciv < 1
+        then do:
+            message "numero informado invalido".
+            undo.
+        end.
+        if tclien.estciv > 6
+        then do:
+            message "Numero informado invalido".
+            undo.
+        end.
+        
+    end.
+               
+    update tclien.nacion
+           tclien.natur
+           with 2 column frame f2 width 80 row 9.
+    
+    assign cText0 = input tclien.nacion
+           cLabel = tClien.nacion:label.
+           
+    run p-carac.       
+    
+    do on error undo:
+    
+        update tclien.dtnasc format "99/99/9999"
+               with 2 column frame f2 width 80 row 9.
+
+        if ( year(today) - year(tclien.dtnasc)) < 13 or
+           ( year(today) - year(tclien.dtnasc)) > 100
+        then do:   
+            if ( year(today) - year(clien.dtnasc)) < 13 
+            then 
+                message "Cliente deve ter no minimo 13 anos de idade.".
+
+            if ( year(today) - year(clien.dtnasc)) > 100 
+            then 
+                message "Cliente deve ter no maximo 100 anos.".
+
+            undo.
+        end.
+        
+    end.
+
+    update tclien.ciins label "Identidade"
+           tclien.ciccgc
+           tclien.pai
+           tclien.mae
+           tclien.numdep
+           tclien.zona label "E-mail" format "x(40)" 
+           with 2 column frame f2 width 80 row 9.
+end.
+else
+    update tclien.nacion
+           tclien.ciins label "Insc.Estadual" format "x(11)"
+           tclien.ciccgc
+           with 1 column frame f3 width 80 .
+
+    update tclien.endereco[1] label "Rua" 
+           tclien.numero[1] label "Numero" 
+           tclien.compl[1] label "Complemento" 
+           tclien.bairro[1] label "Bairro" 
+           tclien.cidade[1] label "Cidade" 
+           tclien.ufecod[1] label "Estado" 
+           tclien.cep[1] label "CEP" 
+           tclien.fone              format "(xx) xxxxxxxxxxxxxxx"
+           tclien.fax label "Celular"             format "(xx) xxxxxxxx"
+           tclien.tipres  
+           tclien.temres format "999999"
+           with 1 column width 80 frame fres 
+                         title " Informacoes Residenciais ".
+
+if tclien.tippes
+then
+    update tclien.proemp[1]   label "Empresa"
+           tclien.protel[1]   label "Telefone"       
+                        format "(xx) xxxxxxxxxxxxxxx"
+           tclien.prodta[1]   label "Data Admissao"
+           tclien.proprof[1]  label "Profissao"
+           tclien.prorenda[1] label "Renda mensal"
+           tclien.endereco[2] label "Rua"
+           tclien.numero[2]   label "Numero"
+           tclien.compl[2]    label "Complemento"
+           tclien.bairro[2]   label "Bairro"
+           tclien.cidade[2]   label "Cidade"
+           tclien.ufecod[2]   label "Estado"
+           tclien.cep[2]      label "CEP"
+           with 1 column width 80 frame finfpro
+                title " Informacoes Profissionais ".
+
+if tclien.estciv = 2 and tclien.tippes
+then
+    update tclien.conjuge
+           tclien.nascon
+           tclien.conjpai
+           tclien.conjmae
+           tclien.proemp[2] label "Empresa"
+           tclien.protel[2] label "Telefone"     
+                        format "(xx) xxxxxxxxxxxxxxx"
+           tclien.prodta[2] label "Data Admissao"
+           tclien.proprof[2] label "Profissao"
+           tclien.prorenda[2] label "Renda mensal"
+           tclien.endereco[3] label "Rua"
+           tclien.numero[3] label "Numero"
+           tclien.compl[3] label "Complemento"
+           tclien.bairro[3] label "Bairro"
+           tclien.cidade[3] label "Cidade"
+           tclien.ufecod[3] label "Estado"
+           tclien.cep[3] label "CEP"
+           with 2 column width 80 frame fconj
+                title " Informacoes do Conjuge ".
+
+update tclien.refcom[1] label "Ref.Comercial" colon 16
+       tclien.refcom[2] no-label  colon 18
+       tclien.refcom[3] no-label  colon 18
+       tclien.refcom[4] no-label  colon 18
+       tclien.refcom[5] no-label  colon 18
+       with width 80 side-label
+            frame f4 title " Referencias Comerciais ".
+            
+find carro where carro.clicod = tclien.clicod no-lock no-error.            
+if avail carro and carro.carsit = yes
+then vcarro = yes.
+else vcarro = no.
+
+update vcarro label "Possui Carro" 
+       with frame fcarro side-label title "C A R R O" 1 column centered.
+        
+if vcarro = yes
+then do:
+    find carro where carro.clicod = tclien.clicod no-error.
+    if not avail carro
+    then do:
+        create carro.
+        assign carro.clicod = tclien.clicod
+               carro.carsit = yes
+               carro.datexp = today.
+    end.
+
+    update carro.marca  label "Marca"
+           carro.modelo label "Modelo"
+           carro.ano    label "Ano" 
+                with frame fcarro.
+end.
+else do:
+    find carro where carro.clicod = tclien.clicod no-error.
+    if avail carro
+    then assign carro.carsit = yes
+                carro.datexp = today
+                carro.modelo = ""
+                carro.marca  = ""
+                carro.ano    = 0.
+end.                
+        
+update tclien.autoriza[1]   colon 5 no-label format "x(70)"
+       tclien.autoriza[2]   colon 5 no-label format "x(70)"
+       tclien.autoriza[3]   colon 5 no-label format "x(70)"
+       tclien.autoriza[4]   colon 5 no-label format "x(70)"
+       tclien.autoriza[5]   colon 5 no-label format "x(70)"
+       with width 80 side-label frame f5 title " Observacoes ".
+
+/***
+update tclien.refnome
+       tclien.endereco[4] label "Rua"
+       tclien.numero[4] label "Numero"
+       tclien.compl[4] label "Complemento"
+       tclien.bairro[4] label "Bairro"
+       tclien.cidade[4] label "Cidade"
+       tclien.ufecod[4] label "Estado"
+       tclien.cep[4] label "CEP"
+       tclien.reftel
+       with 1 column width 80 frame fpess title " Referencia Pessoal " .
+***/
+
+/********/
+
+    i = 0.
+    do i = 1 to 3.
+        if tclien.entbairro[i] = ? then tclien.entbairro[i] = "".
+        if tclien.entcep[i]    = ? then tclien.entcep[i]    = "".
+        if tclien.entcidade[i] = ? then tclien.entcidade[i] = "".
+        if tclien.entcompl[i]  = ? then tclien.entcompl[i]  = "".
+    end.
+        
+    update skip(1)
+           tclien.entbairro[1] label "1) Nome..........." format "x(50)" skip
+           tclien.entcep[1]    label "1) Fone Comercial." format "x(50)" skip
+           tclien.entcidade[1] label "1) Celular........" /*format "x(50)" */
+           format "(xx) xxxxxxxx"
+           skip
+           tclien.entcompl[1]  label "1) Parentesco....." format "x(50)" skip(1)
+           tclien.entbairro[2] label "2) Nome..........." format "x(50)" skip
+           tclien.entcep[2]    label "2) Fone Comercial." format "x(50)" skip
+           tclien.entcidade[2] label "2) Celular........" /*format "x(50)"*/
+           format "(xx) xxxxxxxx"
+           skip
+           tclien.entcompl[2]  label "2) Parentesco....." format "x(50)" skip(1)
+           tclien.entbairro[3] label "3) Nome..........." format "x(50)" skip
+           tclien.entcep[3]    label "3) Fone Comercial." format "x(50)" skip
+           tclien.entcidade[3] label "3) Celular........" /*format "x(50)"*/
+           format "(xx) xxxxxxxx"
+           skip
+           tclien.entcompl[3]  label "3) Parentesco....." format "x(50)" skip(1)
+           with width 80 frame fpess2 side-labels
+            title " Referencias Pessoais "  color white/cyan.
+
+    i = 0.
+    do i = 1 to 4.
+        if tclien.entendereco[i] = ?
+        then tclien.entendereco[i] = "".
+    end.
+
+    update tclien.entendereco[1] format "x(78)" skip
+           tclien.entendereco[2] format "x(78)" skip
+           tclien.entendereco[3] format "x(78)" skip
+           tclien.entendereco[4] format "x(78)" skip
+           with frame fpess3 no-labels width 80
+                color white/cyan title " Documentos Apresentados ".
+
+    i = 0.
+    do i = 1 to 5.
+        if tclien.entrefcom[i] = ?
+        then tclien.entrefcom[i] = "".
+    end.
+
+    ventrefcom = date(tclien.entrefcom[1]).
+    
+    update ventrefcom label "Data" format "99/99/9999" skip
+           tclien.entrefcom[2] label " OBS" format "x(72)" skip space(6)
+           tclien.entrefcom[3] no-label format "x(72)" skip space(6)
+           tclien.entrefcom[4] no-label format "x(72)" skip space(6)
+           tclien.entrefcom[5] no-label format "x(72)"
+           with frame fpess4 side-labels width 80
+                       color white/cyan title "  S P C  ".
+    tclien.entrefcom[1] = string(ventrefcom,"99/99/9999").
+
+/********/
+
+run atu1. /*atualiza a tabela clien*/
+
+procedure atu1:
+
+    find clien where recid(clien) = vrecid no-error.
+    
+    assign clien.nacion = tclien.nacion 
+           clien.natur  = tclien.natur.
+    
+    assign clien.sexo   = tclien.sexo.
+    
+    assign clien.estciv = tclien.estciv.
+    
+    assign clien.nacion = tclien.nacion
+           clien.natur  = tclien.natur
+           clien.dtnasc = tclien.dtnasc
+           clien.ciins  = tclien.ciins
+           clien.ciccgc = tclien.ciccgc
+           clien.pai    = tclien.pai
+           clien.mae    = tclien.mae
+           clien.numdep = tclien.numdep
+           clien.zona   = tclien.zona.
+
+    assign clien.endereco[1] = tclien.endereco[1]
+           clien.numero[1]   = tclien.numero[1]
+           clien.compl[1]    = tclien.compl[1]
+           clien.bairro[1]   = tclien.bairro[1]
+           clien.cidade[1]   = tclien.cidade[1]
+           clien.ufecod[1]   = tclien.ufecod[1]
+           clien.cep[1]      = tclien.cep[1]
+           clien.fone        = tclien.fone
+           clien.fax         = tclien.fax
+           clien.tipres      = tclien.tipres
+           clien.temres      = tclien.temres.
+
+    assign clien.proemp[1]   = tclien.proemp[1]
+           clien.protel[1]   = tclien.protel[1]
+           clien.prodta[1]   = tclien.prodta[1]
+           clien.proprof[1]  = tclien.proprof[1]
+           clien.prorenda[1] = tclien.prorenda[1]
+           clien.endereco[2] = tclien.endereco[2]
+           clien.numero[2]   = tclien.numero[2]
+           clien.compl[2]    = tclien.compl[2]
+           clien.bairro[2]   = tclien.bairro[2]
+           clien.cidade[2]   = tclien.cidade[2]
+           clien.ufecod[2]   = tclien.ufecod[2]
+           clien.cep[2]      = tclien.cep[2].
+
+    assign clien.conjuge     = tclien.conjuge
+           clien.nascon      = tclien.nascon
+           clien.conjpai     = tclien.conjpai
+           clien.conjmae     = tclien.conjmae
+           clien.proemp[2]   = tclien.proemp[2]
+           clien.protel[2]   = tclien.protel[2]
+           clien.prodta[2]   = tclien.prodta[2]
+           clien.proprof[2]  = tclien.proprof[2]
+           clien.prorenda[2] = tclien.prorenda[2]
+           clien.endereco[3] = tclien.endereco[3]
+           clien.numero[3]   = tclien.numero[3]
+           clien.compl[3]    = tclien.compl[3]
+           clien.bairro[3]   = tclien.bairro[3]
+           clien.cidade[3]   = tclien.cidade[3]
+           clien.ufecod[3]   = tclien.ufecod[3]
+           clien.cep[3]      = tclien.cep[3].
+                             
+    assign clien.refcom[1] = tclien.refcom[1] 
+           clien.refcom[2] = tclien.refcom[2] 
+           clien.refcom[3] = tclien.refcom[3] 
+           clien.refcom[4] = tclien.refcom[4] 
+           clien.refcom[5] = tclien.refcom[5].
+
+    assign clien.autoriza[1] = tclien.autoriza[1] 
+           clien.autoriza[2] = tclien.autoriza[2] 
+           clien.autoriza[3] = tclien.autoriza[3]
+           clien.autoriza[4] = tclien.autoriza[4] 
+           clien.autoriza[5] = tclien.autoriza[5].
+
+    assign clien.refnome     = tclien.refnome 
+           clien.endereco[4] = tclien.endereco[4] 
+           clien.numero[4]   = tclien.numero[4] 
+           clien.compl[4]    = tclien.compl[4]
+           clien.bairro[4]   = tclien.bairro[4]
+           clien.cidade[4]   = tclien.cidade[4]
+           clien.ufecod[4]   = tclien.ufecod[4]
+           clien.cep[4]      = tclien.cep[4]
+           clien.reftel      = tclien.reftel.
+
+    /*******/
+    
+    assign clien.entbairro[1]   = tclien.entbairro[1]
+           clien.entbairro[2]   = tclien.entbairro[2]
+           clien.entbairro[3]   = tclien.entbairro[3]
+           clien.entbairro[4]   = tclien.entbairro[4]
+                               
+           clien.entcep[1]      = tclien.entcep[1]
+           clien.entcep[2]      = tclien.entcep[2]
+           clien.entcep[3]      = tclien.entcep[3]
+           clien.entcep[4]      = tclien.entcep[4]
+           
+           clien.entcidade[1]   = tclien.entcidade[1]
+           clien.entcidade[2]   = tclien.entcidade[2]
+           clien.entcidade[3]   = tclien.entcidade[3]
+           clien.entcidade[4]   = tclien.entcidade[4]
+           
+           clien.entcompl[1]    = tclien.entcompl[1]
+           clien.entcompl[2]    = tclien.entcompl[2]
+           clien.entcompl[3]    = tclien.entcompl[3]
+           clien.entcompl[4]    = tclien.entcompl[4]
+           
+           clien.entendereco[1] = tclien.entendereco[1]
+           clien.entendereco[2] = tclien.entendereco[2]
+           clien.entendereco[3] = tclien.entendereco[3]
+           clien.entendereco[4] = tclien.entendereco[4]
+        
+           clien.entrefcom[1]   = tclien.entrefcom[1]
+           clien.entrefcom[2]   = tclien.entrefcom[2]
+           clien.entrefcom[3]   = tclien.entrefcom[3]
+           clien.entrefcom[4]   = tclien.entrefcom[4]
+           clien.entrefcom[5]   = tclien.entrefcom[5].
+        
+    assign clien.datexp      = today.
+
+    find clien where recid(clien) = vrecid no-lock no-error.
+    
+end procedure.
+
+procedure p-carac:
+
+def var cText1     as char form "x(70)"  init "".
+def var cCara1     as char form "x(01)"  init "".
+def var iCont1     as inte               init 0.
+def var lErro1     as logi               init no.
+
+assign cText1 = cText0.
+
+  do iCont1 = 1 to length(cText1):
+   
+     if substring(cText1,iCont1,1) >= chr(001) and
+        substring(cText1,iCont1,1) <= chr(031) or
+        substring(cText1,iCont1,1) >= chr(033) and
+        substring(cText1,iCont1,1) <= chr(064) or
+        substring(cText1,iCont1,1) >= chr(091) and
+        substring(cText1,iCont1,1) <= chr(096) or
+        substring(cText1,iCont1,1) >= chr(123) 
+     then do:
+   
+             assign lErro1 = yes
+                    cCara1 = substring(cText1,iCont1,1).
+             leave.       
+
+     end.        
+                  
+  end.
+
+  if lErro1 = yes 
+  then do:
+          message "CARACTER INVALIDO NO CAMPO " trim(cLabel) skip
+                  "( " + cCara1 + " ) " view-as alert-box.
+          undo, retry.
+  end.
+
+end procedure.

@@ -1,0 +1,36 @@
+
+
+PROGRESS stack trace as of Mon Oct 28 01:06:03 2013
+Command line arguments are
+/usr/dlc/bin/_progres -b -pf /admcom/bases/bases-pgdesfil.pf -p /admcom/progr/pgdesfil.p -Wa -wpp 
+
+Startup parameters:
+-pf /usr/dlc/startup.pf,-cpinternal ISO8859-1,-cpstream ISO8859-1,-cpcoll Basic,-cpcase Basic,-d dmy,-numsep 44,-numdec 46,(end .pf),-b,-pf /admcom/bases/bases-pgdesfil.pf,-T /tmp,-d dmy,-h 50,-inp 32000,-s 200,-TB 31,-TM 32,-db /dados/bases/ger,-db /dados/bases/com,-db /dados/bases/fin,-db /dados/bases/suporte,(end .pf),-p /admcom/progr/pgdesfil.p
+
+#1   [0x9e0d7d] uttraceback+0x144  from /usr/dlc/bin/_progres
+#2   [0x9e3493] uttrace+0x13c  from /usr/dlc/bin/_progres
+#3   [0x9e3337] utcore+0x103  from /usr/dlc/bin/_progres
+#4   [0x457b16] drexit+0x39a  from /usr/dlc/bin/_progres
+#5   [0x4bc919] drSigFatal+0x85  from /usr/dlc/bin/_progres
+#6   [0x6220f490] tfind@@GLIBC_2.2.5+0x6220f490  from /lib64/libpthread.so.0
+#7   [0x4bacb4] dbqry+0x109  from /usr/dlc/bin/_progres
+#8   [0x6ea20d] proqry+0xd1  from /usr/dlc/bin/_progres
+#9   [0x6e9b93] profnd+0x143  from /usr/dlc/bin/_progres
+#10  [0x45affa] fdfnd+0x129  from /usr/dlc/bin/_progres
+#11  [0x73d084] bfFindRow+0x379  from /usr/dlc/bin/_progres
+#12  [0x790826] rnbfnxtDoit+0x41c  from /usr/dlc/bin/_progres
+#13  [0x7902a0] rnbfnxtBody+0x3ef  from /usr/dlc/bin/_progres
+#14  [0x78fe4d] rnbfnxt+0x253  from /usr/dlc/bin/_progres
+#15  [0x795fcb] rnexec_entry+0x33b  from /usr/dlc/bin/_progres
+#16  [0x79725a] rninterpret+0x3b  from /usr/dlc/bin/_progres
+#17  [0x49fb21] rnrq+0x101  from /usr/dlc/bin/_progres
+#18  [0x45080f] main+0x428  from /usr/dlc/bin/_progres
+#19  [0x61a1ecdd] __tls_get_addr@@GLIBC_2.3+0x61a1ecdd  from /lib64/libc.so.6
+
+** ABL Stack Trace **
+
+--> confdes2.p (confdes2.p) at line 360
+    /admcom/progr/pgdesfil.p (/admcom/progr/pgdesfil.p) at line 299
+
+** Persistent procedures/Classes **
+

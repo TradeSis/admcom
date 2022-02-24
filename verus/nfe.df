@@ -1,0 +1,7196 @@
+ADD TABLE "A01_InfNFe"
+  AREA "A01_InfNFe"
+  LABEL "infNFe"
+  DESCRIPTION "Grupo de Informações de NFe"
+  DUMP-NAME "infne"
+
+ADD FIELD "Id" OF "A01_InfNFe" AS character 
+  DESCRIPTION "Identificador do TAG a ser assinado"
+  FORMAT "x(50)"
+  INITIAL ""
+  LABEL "Identificação"
+  MAX-WIDTH 100
+  COLUMN-LABEL "Identificação"
+  ORDER 20
+
+ADD FIELD "pk_nitem" OF "A01_InfNFe" AS character 
+  DESCRIPTION "Regra de Numeracao do Item a NFE"
+  FORMAT "x(20)"
+  INITIAL ""
+  LABEL "Regra Numeracao"
+  MAX-WIDTH 40
+  COLUMN-LABEL "pk_nitem"
+  ORDER 30
+
+ADD FIELD "etbcod" OF "A01_InfNFe" AS integer 
+  DESCRIPTION "Codigo do Establecimento"
+  FORMAT ">>>>9"
+  INITIAL "0"
+  LABEL "Estebelecimento"
+  MAX-WIDTH 4
+  COLUMN-LABEL "Estab."
+  ORDER 40
+
+ADD FIELD "emite" OF "A01_InfNFe" AS integer 
+  DESCRIPTION "Emitente"
+  FORMAT ">>>>>>>9"
+  INITIAL "0"
+  LABEL "Emitente"
+  MAX-WIDTH 4
+  COLUMN-LABEL "Emitente"
+  ORDER 60
+
+ADD FIELD "serie" OF "A01_InfNFe" AS character 
+  DESCRIPTION "Serie"
+  FORMAT "x(3)"
+  INITIAL ""
+  LABEL "Serie"
+  MAX-WIDTH 8
+  COLUMN-LABEL "Serie"
+  ORDER 70
+
+ADD FIELD "numero" OF "A01_InfNFe" AS integer 
+  DESCRIPTION "Numero"
+  FORMAT ">>>>>>>>9"
+  INITIAL "0"
+  LABEL "Numero"
+  MAX-WIDTH 4
+  COLUMN-LABEL "Numero"
+  ORDER 80
+
+ADD FIELD "chave" OF "A01_InfNFe" AS character 
+  DESCRIPTION "chave"
+  FORMAT "x(40)"
+  INITIAL ""
+  LABEL "chave"
+  MAX-WIDTH 80
+  COLUMN-LABEL "chave"
+  ORDER 90
+
+ADD FIELD "versao" OF "A01_InfNFe" AS decimal 
+  DESCRIPTION "Numero da versao"
+  FORMAT ">9.99"
+  INITIAL "0"
+  LABEL "versao"
+  MAX-WIDTH 17
+  COLUMN-LABEL "versao"
+  DECIMALS 2
+  ORDER 10
+
+ADD FIELD "sitnfe" OF "A01_InfNFe" AS integer 
+  FORMAT ">>9"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 100
+
+ADD FIELD "situacao" OF "A01_InfNFe" AS character 
+  FORMAT "x(15)"
+  INITIAL ""
+  MAX-WIDTH 30
+  ORDER 110
+
+ADD FIELD "solicitacao" OF "A01_InfNFe" AS character 
+  FORMAT "x(20)"
+  INITIAL ""
+  MAX-WIDTH 40
+  ORDER 120
+
+ADD FIELD "Aguardando" OF "A01_InfNFe" AS character 
+  FORMAT "x(30)"
+  INITIAL ""
+  MAX-WIDTH 60
+  ORDER 130
+
+ADD FIELD "placod" OF "A01_InfNFe" AS integer 
+  FORMAT ">>>>>>>>>9"
+  INITIAL ?
+  MAX-WIDTH 4
+  ORDER 55
+
+ADD FIELD "TDesti" OF "A01_InfNFe" AS character 
+  FORMAT "x(8)"
+  INITIAL ""
+  MAX-WIDTH 16
+  ORDER 150
+
+ADD FIELD "TEmite" OF "A01_InfNFe" AS character 
+  FORMAT "x(8)"
+  INITIAL ""
+  MAX-WIDTH 16
+  ORDER 140
+
+ADD FIELD "mod" OF "A01_InfNFe" AS character 
+  DESCRIPTION "Modelo da NFE"
+  FORMAT "x(2)"
+  INITIAL "55"
+  LABEL "Modelo"
+  MAX-WIDTH 4
+  ORDER 160
+
+ADD INDEX "chave" ON "A01_InfNFe" 
+  AREA "A01_InfNFe-idx"
+  UNIQUE
+  PRIMARY
+  INDEX-FIELD "chave" ASCENDING 
+
+ADD INDEX "estatus" ON "A01_InfNFe" 
+  AREA "A01_InfNFe-idx"
+  INDEX-FIELD "Aguardando" ASCENDING 
+
+ADD INDEX "Ind_Emite" ON "A01_InfNFe" 
+  AREA "A01_InfNFe-idx"
+  UNIQUE
+  INDEX-FIELD "emite" ASCENDING 
+  INDEX-FIELD "serie" ASCENDING 
+  INDEX-FIELD "numero" ASCENDING 
+
+ADD INDEX "numero" ON "A01_InfNFe" 
+  AREA "A01_InfNFe-idx"
+  INDEX-FIELD "serie" ASCENDING 
+  INDEX-FIELD "numero" DESCENDING 
+
+ADD INDEX "placod" ON "A01_InfNFe" 
+  AREA "A01_InfNFe-idx"
+  UNIQUE
+  INDEX-FIELD "etbcod" ASCENDING 
+  INDEX-FIELD "placod" ASCENDING 
+
+ADD INDEX "sitnfe" ON "A01_InfNFe" 
+  AREA "A01_InfNFe-idx"
+  INDEX-FIELD "sitnfe" ASCENDING 
+  INDEX-FIELD "emite" ASCENDING 
+  INDEX-FIELD "serie" ASCENDING 
+  INDEX-FIELD "numero" DESCENDING 
+
+ADD INDEX "situacao" ON "A01_InfNFe" 
+  AREA "A01_InfNFe-idx"
+  INDEX-FIELD "situacao" ASCENDING 
+
+ADD INDEX "solicitacao" ON "A01_InfNFe" 
+  AREA "A01_InfNFe-idx"
+  INDEX-FIELD "solicitacao" ASCENDING 
+
+ADD TABLE "B01_IdeNFe"
+  AREA "dados"
+  LABEL "idenfe"
+  DESCRIPTION "identificÇõ da Nota eletronica"
+  DUMP-NAME "ideNfe"
+
+ADD FIELD "cuf" OF "B01_IdeNFe" AS integer 
+  DESCRIPTION "uf"
+  FORMAT "99"
+  INITIAL "0"
+  LABEL "uf"
+  MAX-WIDTH 4
+  COLUMN-LABEL "uf"
+  ORDER 10
+
+ADD FIELD "cnf" OF "B01_IdeNFe" AS decimal 
+  DESCRIPTION "Codigo numerico de acesso a NFe"
+  FORMAT ">>>>>>>9"
+  INITIAL "0"
+  LABEL "cnf"
+  MAX-WIDTH 17
+  COLUMN-LABEL "cnf"
+  DECIMALS 2
+  ORDER 20
+
+ADD FIELD "natop" OF "B01_IdeNFe" AS character 
+  DESCRIPTION "Natureza Operacao"
+  FORMAT "x(60)"
+  INITIAL ""
+  LABEL "Natureza Operacao"
+  MAX-WIDTH 120
+  COLUMN-LABEL "Natureza Operacao"
+  ORDER 30
+
+ADD FIELD "indpag" OF "B01_IdeNFe" AS integer 
+  DESCRIPTION "0-Pag.Vista                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
+1-Pag.Prazo                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+2-Outros"
+  FORMAT "9"
+  INITIAL "0"
+  LABEL "IndPag"
+  MAX-WIDTH 4
+  COLUMN-LABEL "IndPag"
+  ORDER 40
+
+ADD FIELD "mod" OF "B01_IdeNFe" AS character 
+  DESCRIPTION "Modelo da Nota ( 55 subst, 1 ou 1A)"
+  FORMAT "x(2)"
+  INITIAL ""
+  LABEL "Modelo"
+  MAX-WIDTH 4
+  COLUMN-LABEL "modelo"
+  ORDER 50
+
+ADD FIELD "demi" OF "B01_IdeNFe" AS date 
+  DESCRIPTION "Data de Emissao"
+  FORMAT "99/99/9999"
+  INITIAL ?
+  LABEL "Data de Emissao"
+  MAX-WIDTH 4
+  COLUMN-LABEL "Data de Emissao"
+  ORDER 80
+
+ADD FIELD "dsaiEnt" OF "B01_IdeNFe" AS date 
+  DESCRIPTION "DT.Ent/Saida"
+  FORMAT "99/99/9999"
+  INITIAL ?
+  LABEL "DT.Ent/Saida"
+  MAX-WIDTH 4
+  COLUMN-LABEL "DT.Ent/Saida"
+  ORDER 90
+
+ADD FIELD "hsaient" OF "B01_IdeNFe" AS character 
+  DESCRIPTION "Hora Ent/Sai"
+  FORMAT "x(8)"
+  INITIAL ""
+  LABEL "Hora Ent/Sai"
+  MAX-WIDTH 16
+  COLUMN-LABEL "Hora Ent/Sai"
+  ORDER 100
+
+ADD FIELD "tpnf" OF "B01_IdeNFe" AS integer 
+  DESCRIPTION "TipoNFe 0 - entrada 1 - saida"
+  FORMAT ">"
+  INITIAL "0"
+  LABEL "TipoNFe"
+  MAX-WIDTH 4
+  COLUMN-LABEL "TipoNFe"
+  ORDER 110
+
+ADD FIELD "cmunfg" OF "B01_IdeNFe" AS integer 
+  DESCRIPTION "Cod.Munic"
+  FORMAT ">>>>>>9"
+  INITIAL "0"
+  LABEL "Cod.Munic"
+  MAX-WIDTH 4
+  COLUMN-LABEL "Cod.Munic"
+  ORDER 120
+
+ADD FIELD "tpImp" OF "B01_IdeNFe" AS character 
+  DESCRIPTION "Tipo de impressao 1- Retrato 2-Paisagem"
+  FORMAT "9"
+  INITIAL ""
+  LABEL "TpImpr"
+  MAX-WIDTH 2
+  COLUMN-LABEL "TpImpr"
+  ORDER 160
+
+ADD FIELD "TpEmis" OF "B01_IdeNFe" AS integer 
+  DESCRIPTION "1-Normal 2-Contingencia 3-Contingencia Scan 4-Contingencia DPEC 5-Contingencia FS-DA"
+  FORMAT "9"
+  INITIAL "0"
+  LABEL "TpEmis"
+  MAX-WIDTH 4
+  COLUMN-LABEL "TpEmis"
+  ORDER 170
+
+ADD FIELD "Cdv" OF "B01_IdeNFe" AS integer 
+  DESCRIPTION "DVnf"
+  FORMAT "9"
+  INITIAL "0"
+  LABEL "DVnf"
+  MAX-WIDTH 4
+  COLUMN-LABEL "DVnf"
+  ORDER 180
+
+ADD FIELD "IdAmb" OF "B01_IdeNFe" AS integer 
+  DESCRIPTION "IdentAmb  1-Producao 2-Homologação"
+  FORMAT "9"
+  INITIAL "0"
+  LABEL "IdentAmb"
+  MAX-WIDTH 4
+  COLUMN-LABEL "IdentAmb"
+  ORDER 190
+
+ADD FIELD "FinNFe" OF "B01_IdeNFe" AS integer 
+  DESCRIPTION "Finalidade 1-Normal 2-Complementar 3-Ajuste"
+  FORMAT "9"
+  INITIAL "0"
+  LABEL "Finalidade"
+  MAX-WIDTH 4
+  COLUMN-LABEL "Finalidade"
+  ORDER 200
+
+ADD FIELD "VerProc" OF "B01_IdeNFe" AS character 
+  DESCRIPTION "Ident.Versao"
+  FORMAT "x(20)"
+  INITIAL ""
+  LABEL "IdentVersao"
+  MAX-WIDTH 40
+  COLUMN-LABEL "IdentVersao"
+  ORDER 210
+
+ADD FIELD "DtHoraCont" OF "B01_IdeNFe" AS character 
+  DESCRIPTION "Data Hora Contigencia AAAAMMDDHHMMSS  "
+  FORMAT "x(16)"
+  INITIAL ""
+  LABEL "DtHoraCont"
+  MAX-WIDTH 32
+  COLUMN-LABEL "DtHoraCont"
+  ORDER 220
+
+ADD FIELD "xJust" OF "B01_IdeNFe" AS character 
+  DESCRIPTION "Justificativa"
+  FORMAT "x(256)"
+  INITIAL ""
+  LABEL "Justificativa"
+  MAX-WIDTH 512
+  COLUMN-LABEL "Justificativa"
+  ORDER 230
+
+ADD FIELD "chave" OF "B01_IdeNFe" AS character 
+  DESCRIPTION "chave"
+  FORMAT "x(40)"
+  INITIAL ""
+  LABEL "chave"
+  MAX-WIDTH 80
+  COLUMN-LABEL "chave"
+  ORDER 240
+
+ADD FIELD "nNF" OF "B01_IdeNFe" AS integer 
+  DESCRIPTION "numero do documento fiscal"
+  FORMAT "999999999"
+  INITIAL "0"
+  LABEL "nNF"
+  MAX-WIDTH 4
+  COLUMN-LABEL "nNF"
+  ORDER 250
+
+ADD FIELD "serie" OF "B01_IdeNFe" AS integer 
+  FORMAT ">>9"
+  INITIAL "0"
+  LABEL "Serie"
+  MAX-WIDTH 4
+  COLUMN-LABEL "Serie"
+  ORDER 55
+
+ADD FIELD "procemi" OF "B01_IdeNFe" AS integer 
+  FORMAT "9"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 260
+
+ADD FIELD "TEmite" OF "B01_IdeNFe" AS character 
+  FORMAT "x(8)"
+  INITIAL ""
+  MAX-WIDTH 16
+  ORDER 270
+
+ADD FIELD "TDesti" OF "B01_IdeNFe" AS character 
+  FORMAT "x(8)"
+  INITIAL ""
+  MAX-WIDTH 16
+  ORDER 280
+
+ADD FIELD "hemi" OF "B01_IdeNFe" AS integer 
+  FORMAT ">>>>>9"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 290
+
+ADD FIELD "indPres" OF "B01_IdeNFe" AS integer 
+  FORMAT "9"
+  INITIAL "9"
+  MAX-WIDTH 4
+  ORDER 300
+
+ADD FIELD "idDest" OF "B01_IdeNFe" AS integer 
+  FORMAT "9"
+  INITIAL "1"
+  MAX-WIDTH 4
+  ORDER 310
+
+ADD FIELD "indFinal" OF "B01_IdeNFe" AS integer 
+  FORMAT "9"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 320
+
+ADD INDEX "chave" ON "B01_IdeNFe" 
+  AREA "indices"
+  UNIQUE
+  PRIMARY
+  INDEX-FIELD "chave" ASCENDING 
+
+ADD TABLE "B12_NFref"
+  AREA "dados"
+  LABEL "nfref"
+  DESCRIPTION "Nota Fiscal Referenciada"
+  DUMP-NAME "nfref"
+
+ADD FIELD "cuf" OF "B12_NFref" AS integer 
+  DESCRIPTION "uf"
+  FORMAT "99"
+  INITIAL "0"
+  LABEL "uf"
+  MAX-WIDTH 4
+  COLUMN-LABEL "uf"
+  ORDER 15
+
+ADD FIELD "aamm" OF "B12_NFref" AS integer 
+  DESCRIPTION "Ani e Mes da emissao  da Nota"
+  FORMAT "9999"
+  INITIAL "0"
+  LABEL "AAMM DtEmis"
+  MAX-WIDTH 4
+  COLUMN-LABEL "AAMM DtEmis"
+  ORDER 20
+
+ADD FIELD "cnpj" OF "B12_NFref" AS character 
+  DESCRIPTION "Cnpj Emitente"
+  FORMAT "x(14)"
+  INITIAL ""
+  LABEL "Cnpj Emitente"
+  MAX-WIDTH 28
+  COLUMN-LABEL "Cnpj Emitente"
+  ORDER 30
+
+ADD FIELD "mod" OF "B12_NFref" AS character 
+  DESCRIPTION "Modelo da Nota ( 55 subst, 1 ou 1A)"
+  FORMAT "x(2)"
+  INITIAL ""
+  LABEL "Modelo"
+  MAX-WIDTH 4
+  COLUMN-LABEL "modelo"
+  ORDER 40
+
+ADD FIELD "serie" OF "B12_NFref" AS integer 
+  DESCRIPTION "Serie"
+  FORMAT ">>9"
+  INITIAL "0"
+  LABEL "Serie"
+  MAX-WIDTH 4
+  COLUMN-LABEL "Serie"
+  ORDER 110
+
+ADD FIELD "nNF" OF "B12_NFref" AS integer 
+  DESCRIPTION "numero do documento fiscal"
+  FORMAT "999999999"
+  INITIAL "0"
+  LABEL "nNF"
+  MAX-WIDTH 4
+  COLUMN-LABEL "nNF"
+  ORDER 120
+
+ADD FIELD "refNFe" OF "B12_NFref" AS character 
+  FORMAT "x(50)"
+  INITIAL ""
+  LABEL "codNFe Anteriror"
+  MAX-WIDTH 100
+  ORDER 10
+
+ADD FIELD "chave" OF "B12_NFref" AS character 
+  DESCRIPTION "chave"
+  FORMAT "x(40)"
+  INITIAL ""
+  LABEL "chave"
+  MAX-WIDTH 80
+  COLUMN-LABEL "chave"
+  ORDER 100
+
+ADD INDEX "chave" ON "B12_NFref" 
+  AREA "indices"
+  UNIQUE
+  PRIMARY
+  INDEX-FIELD "chave" ASCENDING 
+  INDEX-FIELD "cnpj" ASCENDING 
+  INDEX-FIELD "serie" ASCENDING 
+  INDEX-FIELD "nNF" ASCENDING 
+
+ADD TABLE "C01_Emit"
+  AREA "dados"
+  DUMP-NAME "c01_emit"
+
+ADD FIELD "cnpj" OF "C01_Emit" AS character 
+  DESCRIPTION "Cnpj Emitente"
+  FORMAT "x(14)"
+  INITIAL ""
+  LABEL "Cnpj Emitente"
+  MAX-WIDTH 28
+  COLUMN-LABEL "Cnpj Emitente"
+  ORDER 30
+
+ADD FIELD "cpf" OF "C01_Emit" AS character 
+  DESCRIPTION "Cpf do Emitente"
+  FORMAT "x(14)"
+  INITIAL ""
+  LABEL "Cpf do Emitente"
+  MAX-WIDTH 28
+  COLUMN-LABEL "Cpf do Emitente"
+  ORDER 40
+
+ADD FIELD "xnome" OF "C01_Emit" AS character 
+  DESCRIPTION "NomeEmitente"
+  FORMAT "x(40)"
+  INITIAL ""
+  LABEL "NomeEmitente"
+  MAX-WIDTH 80
+  COLUMN-LABEL "NomeEmitente"
+  ORDER 50
+
+ADD FIELD "xFant" OF "C01_Emit" AS character 
+  DESCRIPTION "FantasiaEmitente"
+  FORMAT "x(40)"
+  INITIAL ""
+  LABEL "FantasiaEmitente"
+  MAX-WIDTH 80
+  COLUMN-LABEL "FantasiaEmitente"
+  ORDER 60
+
+ADD FIELD "xLgr" OF "C01_Emit" AS character 
+  DESCRIPTION "Logradouro Emitente"
+  FORMAT "x(60)"
+  INITIAL ""
+  LABEL "Logradouro"
+  MAX-WIDTH 120
+  COLUMN-LABEL "Logradouro"
+  ORDER 140
+
+ADD FIELD "Nro" OF "C01_Emit" AS character 
+  DESCRIPTION "Numero"
+  FORMAT "x(10)"
+  INITIAL ""
+  LABEL "Numero"
+  MAX-WIDTH 20
+  COLUMN-LABEL "Numero"
+  ORDER 150
+
+ADD FIELD "xCpl" OF "C01_Emit" AS character 
+  DESCRIPTION "Complemento"
+  FORMAT "x(25)"
+  INITIAL ""
+  LABEL "Complemento"
+  MAX-WIDTH 50
+  COLUMN-LABEL "Complemento"
+  ORDER 160
+
+ADD FIELD "xBairro" OF "C01_Emit" AS character 
+  DESCRIPTION "Bairro"
+  FORMAT "x(40)"
+  INITIAL ""
+  LABEL "Bairro"
+  MAX-WIDTH 80
+  COLUMN-LABEL "Bairro"
+  ORDER 170
+
+ADD FIELD "chave" OF "C01_Emit" AS character 
+  DESCRIPTION "chave"
+  FORMAT "x(40)"
+  INITIAL ""
+  LABEL "chave"
+  MAX-WIDTH 80
+  COLUMN-LABEL "chave"
+  ORDER 130
+
+ADD FIELD "xMun" OF "C01_Emit" AS character 
+  DESCRIPTION "NomeMunic"
+  FORMAT "x(40)"
+  INITIAL ""
+  LABEL "NomeMunic"
+  MAX-WIDTH 80
+  COLUMN-LABEL "NomeMunic"
+  ORDER 190
+
+ADD FIELD "uf" OF "C01_Emit" AS character 
+  DESCRIPTION "Sigla UF"
+  FORMAT "x(2)"
+  INITIAL ""
+  LABEL "SiglaUF"
+  MAX-WIDTH 4
+  COLUMN-LABEL "SiglaUF"
+  ORDER 200
+
+ADD FIELD "cep" OF "C01_Emit" AS integer 
+  DESCRIPTION "CEP"
+  FORMAT ">>>>>>>9"
+  INITIAL "0"
+  LABEL "CEP"
+  MAX-WIDTH 4
+  COLUMN-LABEL "CEP"
+  ORDER 210
+
+ADD FIELD "cpais" OF "C01_Emit" AS integer 
+  DESCRIPTION "Cod.Pais"
+  FORMAT ">>>9"
+  INITIAL "1058"
+  LABEL "Cod.Pais"
+  MAX-WIDTH 4
+  COLUMN-LABEL "Cod.Pais"
+  ORDER 220
+
+ADD FIELD "xPais" OF "C01_Emit" AS character 
+  DESCRIPTION "DescPais"
+  FORMAT "x(50)"
+  INITIAL "BRASIL"
+  LABEL "DescPais"
+  MAX-WIDTH 100
+  COLUMN-LABEL "DescPais"
+  ORDER 230
+
+ADD FIELD "fone" OF "C01_Emit" AS decimal 
+  DESCRIPTION "Fone"
+  FORMAT ">>>>>>>>>>>>>>>9"
+  INITIAL "0"
+  LABEL "Fone"
+  MAX-WIDTH 17
+  COLUMN-LABEL "Fone"
+  DECIMALS 2
+  ORDER 240
+
+ADD FIELD "IE" OF "C01_Emit" AS character 
+  DESCRIPTION "IE Produtor"
+  FORMAT "x(14)"
+  INITIAL ""
+  LABEL "IE Produtor"
+  MAX-WIDTH 28
+  COLUMN-LABEL "IE Produtor"
+  ORDER 250
+
+ADD FIELD "iest" OF "C01_Emit" AS character 
+  FORMAT "x(20)"
+  INITIAL ""
+  MAX-WIDTH 40
+  ORDER 260
+
+ADD FIELD "im" OF "C01_Emit" AS character 
+  FORMAT "x(20)"
+  INITIAL ""
+  MAX-WIDTH 40
+  ORDER 270
+
+ADD FIELD "cnae" OF "C01_Emit" AS character 
+  FORMAT "x(8)"
+  INITIAL ""
+  MAX-WIDTH 16
+  ORDER 280
+
+ADD FIELD "crt" OF "C01_Emit" AS integer 
+  FORMAT "9"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 290
+
+ADD FIELD "cMun" OF "C01_Emit" AS integer 
+  DESCRIPTION "CodMunicipio"
+  FORMAT ">>>>>>9"
+  INITIAL "0"
+  LABEL "CodMunicipio"
+  MAX-WIDTH 4
+  COLUMN-LABEL "CodMunicipio"
+  ORDER 180
+
+ADD INDEX "chave" ON "C01_Emit" 
+  AREA "indices"
+  UNIQUE
+  PRIMARY
+  INDEX-FIELD "chave" ASCENDING 
+
+ADD TABLE "clafis"
+  AREA "dados"
+  DESCRIPTION "Classificacao Fiscal"
+  DUMP-NAME "clafis"
+  TABLE-TRIGGER "Replication-Write" NO-OVERRIDE PROCEDURE "/admcom/progr/trw-clafis.p" CRC "?" 
+
+ADD FIELD "codfis" OF "clafis" AS integer 
+  FORMAT ">>>>>>>>>9"
+  INITIAL "0"
+  LABEL "Codigo"
+  MAX-WIDTH 4
+  ORDER 10
+
+ADD FIELD "desfis" OF "clafis" AS character 
+  FORMAT "x(50)"
+  INITIAL ""
+  LABEL "Descricao"
+  MAX-WIDTH 100
+  ORDER 20
+
+ADD FIELD "Tipo" OF "clafis" AS character 
+  FORMAT "x(8)"
+  INITIAL ""
+  LABEL "Tipo"
+  MAX-WIDTH 16
+  ORDER 30
+
+ADD FIELD "pericm" OF "clafis" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  LABEL "Per.Icms"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 40
+
+ADD FIELD "peripi" OF "clafis" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  LABEL "Per.Ipi"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 50
+
+ADD FIELD "perred" OF "clafis" AS decimal 
+  FORMAT "->>,>>9.9999"
+  INITIAL "0"
+  MAX-WIDTH 19
+  DECIMALS 4
+  ORDER 60
+
+ADD FIELD "persub" OF "clafis" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 70
+
+ADD FIELD "sittri" OF "clafis" AS integer 
+  FORMAT ">>9"
+  INITIAL "0"
+  LABEL "Sit.Trib."
+  MAX-WIDTH 4
+  ORDER 80
+
+ADD FIELD "pisent" OF "clafis" AS decimal 
+  FORMAT "->>9.99"
+  INITIAL "0"
+  LABEL "%PIS Entrada"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 90
+
+ADD FIELD "pissai" OF "clafis" AS decimal 
+  FORMAT "->>9.99"
+  INITIAL "0"
+  LABEL "%PIS Saida"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 100
+
+ADD FIELD "cofinsent" OF "clafis" AS decimal 
+  FORMAT "->>9.99"
+  INITIAL "0"
+  LABEL "%Confins Entrada"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 110
+
+ADD FIELD "cofinssai" OF "clafis" AS decimal 
+  FORMAT "->>9.99"
+  INITIAL "0"
+  LABEL "%Confins Saida"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 120
+
+ADD FIELD "mva_estado1" OF "clafis" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 130
+
+ADD FIELD "mva_estado2" OF "clafis" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 140
+
+ADD FIELD "mva_estado3" OF "clafis" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 150
+
+ADD FIELD "mva_oestado1" OF "clafis" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 160
+
+ADD FIELD "mva_oestado2" OF "clafis" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 170
+
+ADD FIELD "mva_oesatdo3" OF "clafis" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 180
+
+ADD FIELD "char1" OF "clafis" AS character 
+  FORMAT "x(60)"
+  INITIAL ""
+  MAX-WIDTH 120
+  ORDER 190
+
+ADD FIELD "char2" OF "clafis" AS character 
+  FORMAT "x(60)"
+  INITIAL ""
+  MAX-WIDTH 120
+  ORDER 200
+
+ADD FIELD "char3" OF "clafis" AS character 
+  FORMAT "x(8)"
+  INITIAL ""
+  MAX-WIDTH 16
+  ORDER 210
+
+ADD FIELD "dec1" OF "clafis" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 220
+
+ADD FIELD "dec2" OF "clafis" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 230
+
+ADD FIELD "dec3" OF "clafis" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 240
+
+ADD FIELD "int1" OF "clafis" AS integer 
+  FORMAT "->,>>>,>>9"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 250
+
+ADD FIELD "int2" OF "clafis" AS integer 
+  FORMAT "->,>>>,>>9"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 260
+
+ADD FIELD "int3" OF "clafis" AS integer 
+  FORMAT "->,>>>,>>9"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 270
+
+ADD FIELD "log1" OF "clafis" AS logical 
+  FORMAT "Sim/Nao"
+  INITIAL "no"
+  MAX-WIDTH 1
+  ORDER 280
+
+ADD FIELD "log2" OF "clafis" AS logical 
+  FORMAT "Sim/Nao"
+  INITIAL "no"
+  MAX-WIDTH 1
+  ORDER 290
+
+ADD FIELD "log3" OF "clafis" AS logical 
+  FORMAT "Sim/Nao"
+  INITIAL "no"
+  MAX-WIDTH 1
+  ORDER 300
+
+ADD FIELD "datexp" OF "clafis" AS date 
+  FORMAT "99/99/99"
+  INITIAL "today"
+  MAX-WIDTH 4
+  ORDER 310
+
+ADD INDEX "ind-1" ON "clafis" 
+  AREA "indices"
+  UNIQUE
+  PRIMARY
+  INDEX-FIELD "codfis" ASCENDING 
+
+ADD INDEX "ind-2" ON "clafis" 
+  AREA "indices"
+  INDEX-FIELD "desfis" ASCENDING 
+
+ADD TABLE "contingencia"
+  AREA "dados"
+  DUMP-NAME "contingencia"
+
+ADD FIELD "etbcod" OF "contingencia" AS integer 
+  DESCRIPTION "Codigo do Establecimento"
+  FORMAT ">>9"
+  INITIAL "0"
+  LABEL "Estebelecimento"
+  MAX-WIDTH 4
+  COLUMN-LABEL "Estab."
+  ORDER 10
+
+ADD FIELD "DtInicio" OF "contingencia" AS date 
+  FORMAT "99/99/9999"
+  INITIAL ?
+  MAX-WIDTH 4
+  ORDER 20
+
+ADD FIELD "HrInicio" OF "contingencia" AS integer 
+  FORMAT ">>>>>>>>9"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 30
+
+ADD FIELD "DtFim" OF "contingencia" AS date 
+  FORMAT "99/99/9999"
+  INITIAL ?
+  MAX-WIDTH 4
+  ORDER 40
+
+ADD FIELD "HrFim" OF "contingencia" AS integer 
+  FORMAT ">>>>>>>>9"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 50
+
+ADD FIELD "motivo" OF "contingencia" AS character 
+  FORMAT "x(60)"
+  INITIAL ""
+  MAX-WIDTH 1220
+  EXTENT 10
+  ORDER 60
+
+ADD INDEX "indx-1" ON "contingencia" 
+  AREA "indices"
+  UNIQUE
+  PRIMARY
+  INDEX-FIELD "etbcod" ASCENDING 
+  INDEX-FIELD "DtInicio" ASCENDING 
+  INDEX-FIELD "HrInicio" ASCENDING 
+
+ADD INDEX "indx-2" ON "contingencia" 
+  AREA "indices"
+  INDEX-FIELD "DtInicio" ASCENDING 
+
+ADD INDEX "indx-3" ON "contingencia" 
+  AREA "indices"
+  INDEX-FIELD "DtFim" DESCENDING 
+  INDEX-FIELD "etbcod" ASCENDING 
+
+ADD TABLE "D01_Avulsa"
+  AREA "dados"
+  DUMP-NAME "d01_avul"
+
+ADD FIELD "cnpj_emi" OF "D01_Avulsa" AS character 
+  DESCRIPTION "Cnpj Emitente"
+  FORMAT "x(14)"
+  INITIAL ""
+  LABEL "Cnpj Emitente"
+  MAX-WIDTH 28
+  COLUMN-LABEL "Cnpj Emitente"
+  ORDER 30
+
+ADD FIELD "xOrgao" OF "D01_Avulsa" AS character 
+  DESCRIPTION "OrgaoEmissor"
+  FORMAT "x(30)"
+  INITIAL ""
+  LABEL "OrgaoEmissor"
+  MAX-WIDTH 60
+  COLUMN-LABEL "OrgaoEmissor"
+  ORDER 40
+
+ADD FIELD "matr" OF "D01_Avulsa" AS character 
+  DESCRIPTION "Matricula do Agente"
+  FORMAT "x(60)"
+  INITIAL ""
+  LABEL "Matricula"
+  MAX-WIDTH 120
+  COLUMN-LABEL "Matricula"
+  ORDER 50
+
+ADD FIELD "xagente" OF "D01_Avulsa" AS character 
+  DESCRIPTION "Nome do Agente"
+  FORMAT "x(60)"
+  INITIAL ""
+  LABEL "Nome do Agente"
+  MAX-WIDTH 120
+  COLUMN-LABEL "Nome do Agente"
+  ORDER 60
+
+ADD FIELD "telefone" OF "D01_Avulsa" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  LABEL "Telefone"
+  MAX-WIDTH 17
+  COLUMN-LABEL "Telefone"
+  DECIMALS 2
+  ORDER 70
+
+ADD FIELD "uf" OF "D01_Avulsa" AS character 
+  DESCRIPTION "UF"
+  FORMAT "x(2)"
+  INITIAL ""
+  LABEL "UF"
+  MAX-WIDTH 4
+  COLUMN-LABEL "UF"
+  ORDER 80
+
+ADD FIELD "ndar" OF "D01_Avulsa" AS character 
+  DESCRIPTION "N.Doc.Arrecadacao"
+  FORMAT "x(60)"
+  INITIAL ""
+  LABEL "N.DocArrec"
+  MAX-WIDTH 120
+  COLUMN-LABEL "N.DocArrec"
+  ORDER 90
+
+ADD FIELD "dEmi" OF "D01_Avulsa" AS decimal 
+  DESCRIPTION "Data de Emissao"
+  FORMAT "99999999"
+  INITIAL "0"
+  LABEL "Dat.Emissao"
+  MAX-WIDTH 17
+  COLUMN-LABEL "Dat.Emissao"
+  DECIMALS 2
+  ORDER 100
+
+ADD FIELD "vdar" OF "D01_Avulsa" AS decimal 
+  DESCRIPTION "Valor  Doc.Arrecadado"
+  FORMAT "->,>>>,>>9.99"
+  INITIAL "0"
+  LABEL "Val.Doc.Arrec."
+  MAX-WIDTH 17
+  COLUMN-LABEL "Val.Doc.Arrec."
+  DECIMALS 2
+  ORDER 110
+
+ADD FIELD "repemi" OF "D01_Avulsa" AS character 
+  DESCRIPTION "Reparticao Fiscal"
+  FORMAT "x(60)"
+  INITIAL ""
+  LABEL "Reparticao Fiscal"
+  MAX-WIDTH 120
+  COLUMN-LABEL "Reparticao Fiscal"
+  ORDER 120
+
+ADD FIELD "dPag" OF "D01_Avulsa" AS decimal 
+  DESCRIPTION "Data de Pagamento Documento"
+  FORMAT "99999999"
+  INITIAL "0"
+  LABEL "Dat.Pag.Doc"
+  MAX-WIDTH 17
+  COLUMN-LABEL "Dat.Pag.Doc."
+  DECIMALS 2
+  ORDER 130
+
+ADD FIELD "versao" OF "D01_Avulsa" AS integer 
+  DESCRIPTION "Numero da versao"
+  FORMAT ">>>>>>>>>9"
+  INITIAL "0"
+  LABEL "versao"
+  MAX-WIDTH 4
+  COLUMN-LABEL "versao"
+  ORDER 160
+
+ADD FIELD "chave" OF "D01_Avulsa" AS character 
+  DESCRIPTION "chave"
+  FORMAT "x(40)"
+  INITIAL ""
+  LABEL "chave"
+  MAX-WIDTH 80
+  COLUMN-LABEL "chave"
+  ORDER 200
+
+ADD INDEX "chave" ON "D01_Avulsa" 
+  AREA "indices"
+  UNIQUE
+  PRIMARY
+  INDEX-FIELD "chave" ASCENDING 
+
+ADD TABLE "docrefer"
+  AREA "dados"
+  DESCRIPTION "Documento referenciado"
+  DUMP-NAME "docrefer"
+
+ADD FIELD "etbcod" OF "docrefer" AS integer 
+  FORMAT ">>9"
+  INITIAL "0"
+  LABEL "Estabelecimento"
+  MAX-WIDTH 4
+  COLUMN-LABEL "Est."
+  VALMSG "Estabelecimento nao cadastrado."
+  HELP "Informe o Codigo do Estabelecimento do Titulo."
+  ORDER 10
+
+ADD FIELD "tiporefer" OF "docrefer" AS integer 
+  FORMAT ">>9"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 20
+
+ADD FIELD "tipmov" OF "docrefer" AS character 
+  FORMAT "x(8)"
+  INITIAL ""
+  MAX-WIDTH 16
+  ORDER 30
+
+ADD FIELD "numori" OF "docrefer" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 40
+
+ADD FIELD "serieori" OF "docrefer" AS character 
+  FORMAT "x(8)"
+  INITIAL ""
+  MAX-WIDTH 16
+  ORDER 50
+
+ADD FIELD "codedori" OF "docrefer" AS integer 
+  FORMAT "->,>>>,>>9"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 60
+
+ADD FIELD "dtemiori" OF "docrefer" AS date 
+  FORMAT "99/99/99"
+  INITIAL ?
+  MAX-WIDTH 4
+  ORDER 70
+
+ADD FIELD "modeloori" OF "docrefer" AS character 
+  FORMAT "x(8)"
+  INITIAL ""
+  MAX-WIDTH 16
+  ORDER 80
+
+ADD FIELD "serecf" OF "docrefer" AS character 
+  FORMAT "x(20)"
+  INITIAL ""
+  MAX-WIDTH 40
+  ORDER 90
+
+ADD FIELD "numecf" OF "docrefer" AS integer 
+  FORMAT "->,>>>,>>9"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 100
+
+ADD FIELD "coo" OF "docrefer" AS integer 
+  FORMAT "->,>>>,>>9"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 110
+
+ADD FIELD "dtemicupom" OF "docrefer" AS date 
+  FORMAT "99/99/99"
+  INITIAL ?
+  MAX-WIDTH 4
+  ORDER 120
+
+ADD FIELD "modeloda" OF "docrefer" AS character 
+  FORMAT "x(8)"
+  INITIAL ""
+  MAX-WIDTH 16
+  ORDER 130
+
+ADD FIELD "ufbenef" OF "docrefer" AS character 
+  FORMAT "x(8)"
+  INITIAL ""
+  MAX-WIDTH 16
+  ORDER 140
+
+ADD FIELD "numeroda" OF "docrefer" AS character 
+  FORMAT "x(20)"
+  INITIAL ""
+  MAX-WIDTH 40
+  ORDER 150
+
+ADD FIELD "autenticacao" OF "docrefer" AS character 
+  FORMAT "x(30)"
+  INITIAL ""
+  MAX-WIDTH 60
+  ORDER 160
+
+ADD FIELD "valorda" OF "docrefer" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 170
+
+ADD FIELD "dtvencimento" OF "docrefer" AS date 
+  FORMAT "99/99/99"
+  INITIAL ?
+  MAX-WIDTH 4
+  ORDER 180
+
+ADD FIELD "dtpagamento" OF "docrefer" AS date 
+  FORMAT "99/99/99"
+  INITIAL ?
+  MAX-WIDTH 4
+  ORDER 190
+
+ADD FIELD "tipmovref" OF "docrefer" AS character 
+  FORMAT "x(8)"
+  INITIAL ""
+  MAX-WIDTH 16
+  ORDER 200
+
+ADD FIELD "tipoemi" OF "docrefer" AS character 
+  FORMAT "x(8)"
+  INITIAL ""
+  MAX-WIDTH 16
+  ORDER 210
+
+ADD FIELD "codrefer" OF "docrefer" AS character 
+  FORMAT "x(18)"
+  INITIAL ""
+  MAX-WIDTH 36
+  ORDER 220
+
+ADD FIELD "modelorefer" OF "docrefer" AS character 
+  FORMAT "x(8)"
+  INITIAL ""
+  MAX-WIDTH 16
+  ORDER 230
+
+ADD FIELD "serierefer" OF "docrefer" AS character 
+  FORMAT "x(8)"
+  INITIAL ""
+  MAX-WIDTH 16
+  ORDER 240
+
+ADD FIELD "numerodr" OF "docrefer" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 250
+
+ADD FIELD "datadr" OF "docrefer" AS date 
+  FORMAT "99/99/99"
+  INITIAL ?
+  MAX-WIDTH 4
+  ORDER 260
+
+ADD FIELD "origem" OF "docrefer" AS character 
+  FORMAT "x(8)"
+  INITIAL ""
+  MAX-WIDTH 16
+  ORDER 270
+
+ADD FIELD "idproc" OF "docrefer" AS character 
+  FORMAT "x(254)"
+  INITIAL ""
+  MAX-WIDTH 508
+  ORDER 280
+
+ADD FIELD "transporte" OF "docrefer" AS character 
+  FORMAT "x(8)"
+  INITIAL ""
+  MAX-WIDTH 16
+  ORDER 290
+
+ADD FIELD "cnpj" OF "docrefer" AS character 
+  FORMAT "x(18)"
+  INITIAL ""
+  MAX-WIDTH 36
+  ORDER 300
+
+ADD FIELD "IECOLETA" OF "docrefer" AS character 
+  FORMAT "x(20)"
+  INITIAL ""
+  MAX-WIDTH 40
+  ORDER 310
+
+ADD FIELD "codmun" OF "docrefer" AS character 
+  FORMAT "x(8)"
+  INITIAL ""
+  MAX-WIDTH 16
+  ORDER 320
+
+ADD FIELD "cnpjent" OF "docrefer" AS character 
+  FORMAT "x(18)"
+  INITIAL ""
+  MAX-WIDTH 36
+  ORDER 330
+
+ADD FIELD "ieentrega" OF "docrefer" AS character 
+  FORMAT "x(20)"
+  INITIAL ""
+  MAX-WIDTH 40
+  ORDER 340
+
+ADD FIELD "codmunent" OF "docrefer" AS character 
+  FORMAT "x(8)"
+  INITIAL ""
+  MAX-WIDTH 16
+  ORDER 350
+
+ADD FIELD "codobs" OF "docrefer" AS character 
+  FORMAT "x(8)"
+  INITIAL ""
+  MAX-WIDTH 16
+  ORDER 360
+
+ADD FIELD "situacao" OF "docrefer" AS character 
+  FORMAT "x(8)"
+  INITIAL ""
+  MAX-WIDTH 16
+  ORDER 370
+
+ADD FIELD "datexp" OF "docrefer" AS date 
+  FORMAT "99/99/9999"
+  INITIAL ?
+  LABEL "DatExp"
+  MAX-WIDTH 4
+  COLUMN-LABEL "DatExp"
+  ORDER 380
+
+ADD FIELD "exportado" OF "docrefer" AS logical 
+  FORMAT "Sim/Nao"
+  INITIAL "no"
+  MAX-WIDTH 1
+  ORDER 390
+
+ADD INDEX "indx1" ON "docrefer" 
+  AREA "indices"
+  PRIMARY
+  INDEX-FIELD "etbcod" ASCENDING 
+  INDEX-FIELD "codedori" ASCENDING 
+  INDEX-FIELD "serieori" ASCENDING 
+  INDEX-FIELD "numori" ASCENDING 
+
+ADD INDEX "indx2" ON "docrefer" 
+  AREA "indices"
+  INDEX-FIELD "etbcod" ASCENDING 
+  INDEX-FIELD "codrefer" ASCENDING 
+  INDEX-FIELD "serierefer" ASCENDING 
+  INDEX-FIELD "numerodr" ASCENDING 
+
+ADD INDEX "indx3" ON "docrefer" 
+  AREA "indices"
+  INDEX-FIELD "dtemiori" ASCENDING 
+
+ADD INDEX "indx4" ON "docrefer" 
+  AREA "indices"
+  INDEX-FIELD "etbcod" ASCENDING 
+  INDEX-FIELD "numecf" ASCENDING 
+  INDEX-FIELD "coo" ASCENDING 
+
+ADD INDEX "indx5" ON "docrefer" 
+  AREA "indices"
+  INDEX-FIELD "serecf" ASCENDING 
+
+ADD INDEX "indx6" ON "docrefer" 
+  AREA "indices"
+  INDEX-FIELD "etbcod" ASCENDING 
+  INDEX-FIELD "datadr" ASCENDING 
+
+ADD TABLE "E01_Dest"
+  AREA "dados"
+  DUMP-NAME "dest"
+
+ADD FIELD "cnpj" OF "E01_Dest" AS character 
+  DESCRIPTION "Cnpj Destinatario"
+  FORMAT "x(14)"
+  INITIAL ""
+  LABEL "Cnpj Destinatario"
+  MAX-WIDTH 28
+  COLUMN-LABEL "Cnpj Destinatario"
+  ORDER 30
+
+ADD FIELD "cpf" OF "E01_Dest" AS character 
+  DESCRIPTION "Cpf do Destinatario"
+  FORMAT "x(14)"
+  INITIAL ""
+  LABEL "Cpf do Destinatario"
+  MAX-WIDTH 28
+  COLUMN-LABEL "Cpf do Destinatario"
+  ORDER 40
+
+ADD FIELD "xnome" OF "E01_Dest" AS character 
+  DESCRIPTION "Nome Destinatario"
+  FORMAT "x(60)"
+  INITIAL ""
+  LABEL "NomeDesti"
+  MAX-WIDTH 120
+  COLUMN-LABEL "NomeDesti"
+  ORDER 50
+
+ADD FIELD "xLgr" OF "E01_Dest" AS character 
+  DESCRIPTION "Logradouro Emitente"
+  FORMAT "x(60)"
+  INITIAL ""
+  LABEL "Logradouro"
+  MAX-WIDTH 120
+  COLUMN-LABEL "Logradouro"
+  ORDER 120
+
+ADD FIELD "Nro" OF "E01_Dest" AS character 
+  DESCRIPTION "Numero"
+  FORMAT "x(10)"
+  INITIAL ""
+  LABEL "Numero"
+  MAX-WIDTH 20
+  COLUMN-LABEL "Numero"
+  ORDER 130
+
+ADD FIELD "xCpl" OF "E01_Dest" AS character 
+  DESCRIPTION "Complemento"
+  FORMAT "x(25)"
+  INITIAL ""
+  LABEL "Complemento"
+  MAX-WIDTH 50
+  COLUMN-LABEL "Complemento"
+  ORDER 140
+
+ADD FIELD "xBairro" OF "E01_Dest" AS character 
+  DESCRIPTION "Bairro"
+  FORMAT "x(40)"
+  INITIAL ""
+  LABEL "Bairro"
+  MAX-WIDTH 80
+  COLUMN-LABEL "Bairro"
+  ORDER 150
+
+ADD FIELD "chave" OF "E01_Dest" AS character 
+  DESCRIPTION "chave"
+  FORMAT "x(40)"
+  INITIAL ""
+  LABEL "chave"
+  MAX-WIDTH 80
+  COLUMN-LABEL "chave"
+  ORDER 110
+
+ADD FIELD "xMun" OF "E01_Dest" AS character 
+  DESCRIPTION "NomeMunic"
+  FORMAT "x(40)"
+  INITIAL ""
+  LABEL "NomeMunic"
+  MAX-WIDTH 80
+  COLUMN-LABEL "NomeMunic"
+  ORDER 170
+
+ADD FIELD "uf" OF "E01_Dest" AS character 
+  DESCRIPTION "Sigla UF"
+  FORMAT "x(2)"
+  INITIAL ""
+  LABEL "SiglaUF"
+  MAX-WIDTH 4
+  COLUMN-LABEL "SiglaUF"
+  ORDER 180
+
+ADD FIELD "cep" OF "E01_Dest" AS integer 
+  DESCRIPTION "CEP"
+  FORMAT ">>>>>>>9"
+  INITIAL "0"
+  LABEL "CEP"
+  MAX-WIDTH 4
+  COLUMN-LABEL "CEP"
+  ORDER 190
+
+ADD FIELD "cpais" OF "E01_Dest" AS integer 
+  DESCRIPTION "Cod.Pais"
+  FORMAT ">>>9"
+  INITIAL "1058"
+  LABEL "Cod.Pais"
+  MAX-WIDTH 4
+  COLUMN-LABEL "Cod.Pais"
+  ORDER 200
+
+ADD FIELD "xPais" OF "E01_Dest" AS character 
+  DESCRIPTION "DescPais"
+  FORMAT "x(50)"
+  INITIAL "BRASIL"
+  LABEL "DescPais"
+  MAX-WIDTH 100
+  COLUMN-LABEL "DescPais"
+  ORDER 210
+
+ADD FIELD "fone" OF "E01_Dest" AS decimal 
+  DESCRIPTION "Fone"
+  FORMAT ">>>>>>>>>>>>>>>9"
+  INITIAL "0"
+  LABEL "Fone"
+  MAX-WIDTH 17
+  COLUMN-LABEL "Fone"
+  DECIMALS 2
+  ORDER 220
+
+ADD FIELD "IE" OF "E01_Dest" AS character 
+  DESCRIPTION "IE Produtor"
+  FORMAT "x(14)"
+  INITIAL ""
+  LABEL "IE Produtor"
+  MAX-WIDTH 28
+  COLUMN-LABEL "IE Produtor"
+  ORDER 230
+
+ADD FIELD "isuf" OF "E01_Dest" AS character 
+  FORMAT "x(10)"
+  INITIAL ""
+  MAX-WIDTH 20
+  ORDER 240
+
+ADD FIELD "email" OF "E01_Dest" AS character 
+  FORMAT "x(60)"
+  INITIAL ""
+  MAX-WIDTH 120
+  ORDER 250
+
+ADD FIELD "cMun" OF "E01_Dest" AS integer 
+  DESCRIPTION "CodMunicipio"
+  FORMAT ">>>>>>9"
+  INITIAL "0"
+  LABEL "CodMunicipio"
+  MAX-WIDTH 4
+  COLUMN-LABEL "CodMunicipio"
+  ORDER 160
+
+ADD FIELD "indIEDest" OF "E01_Dest" AS integer 
+  FORMAT "9"
+  INITIAL "1"
+  MAX-WIDTH 4
+  ORDER 260
+
+ADD FIELD "idEstrangeiro" OF "E01_Dest" AS character 
+  FORMAT "x(20)"
+  INITIAL ""
+  MAX-WIDTH 40
+  ORDER 270
+
+ADD INDEX "chave" ON "E01_Dest" 
+  AREA "indices"
+  UNIQUE
+  PRIMARY
+  INDEX-FIELD "chave" ASCENDING 
+
+ADD TABLE "EBLJH"
+  AREA "dados"
+  DUMP-NAME "ebljh"
+
+ADD FIELD "Codigo_proprietario" OF "EBLJH" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 15
+  DECIMALS 0
+  ORDER 10
+
+ADD FIELD "Numero_carregamento" OF "EBLJH" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 15
+  DECIMALS 0
+  ORDER 20
+
+ADD FIELD "Numero_filial" OF "EBLJH" AS integer 
+  FORMAT "->,>>>,>>9"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 30
+
+ADD FIELD "data" OF "EBLJH" AS date 
+  FORMAT "99/99/99"
+  INITIAL ?
+  MAX-WIDTH 4
+  ORDER 40
+
+ADD FIELD "Codigo_transp" OF "EBLJH" AS character 
+  FORMAT "x(12)"
+  INITIAL ""
+  MAX-WIDTH 24
+  ORDER 60
+
+ADD FIELD "placa_veiculo" OF "EBLJH" AS character 
+  FORMAT "x(12)"
+  INITIAL ""
+  MAX-WIDTH 24
+  ORDER 70
+
+ADD FIELD "hora" OF "EBLJH" AS character 
+  FORMAT "x(8)"
+  INITIAL ""
+  MAX-WIDTH 16
+  ORDER 80
+
+ADD FIELD "situacao" OF "EBLJH" AS character 
+  FORMAT "x(8)"
+  INITIAL ""
+  MAX-WIDTH 16
+  ORDER 90
+
+ADD FIELD "plani-PlaCod" OF "EBLJH" AS integer 
+  FORMAT ">>>>>9"
+  INITIAL "0"
+  LABEL "Codigo"
+  MAX-WIDTH 4
+  COLUMN-LABEL "Cod"
+  VALMSG "Codigo da Nota Fiscal Inválido"
+  HELP "Codigo Interno da Movimentacao"
+  ORDER 100
+
+ADD FIELD "plani-EtbCod" OF "EBLJH" AS integer 
+  FORMAT ">>9"
+  INITIAL "0"
+  LABEL "Estabelecimento"
+  MAX-WIDTH 4
+  COLUMN-LABEL "Etb"
+  HELP "Estabelecimento"
+  ORDER 110
+
+ADD FIELD "plani-pladat" OF "EBLJH" AS date 
+  FORMAT "99/99/99"
+  INITIAL ?
+  MAX-WIDTH 4
+  ORDER 120
+
+ADD FIELD "nome_arquivo" OF "EBLJH" AS character 
+  FORMAT "x(15)"
+  INITIAL ""
+  MAX-WIDTH 30
+  ORDER 130
+
+ADD INDEX "indx1" ON "EBLJH" 
+  AREA "indices"
+  UNIQUE
+  PRIMARY
+  INDEX-FIELD "Codigo_proprietario" ASCENDING 
+  INDEX-FIELD "Numero_carregamento" ASCENDING 
+  INDEX-FIELD "Numero_filial" ASCENDING 
+
+ADD INDEX "indx2" ON "EBLJH" 
+  AREA "indices"
+  INDEX-FIELD "data" ASCENDING 
+
+ADD INDEX "indx3" ON "EBLJH" 
+  AREA "indices"
+  INDEX-FIELD "situacao" ASCENDING 
+  INDEX-FIELD "data" ASCENDING 
+  INDEX-FIELD "hora" ASCENDING 
+
+ADD INDEX "indx4" ON "EBLJH" 
+  AREA "indices"
+  INDEX-FIELD "plani-EtbCod" ASCENDING 
+  INDEX-FIELD "plani-PlaCod" ASCENDING 
+  INDEX-FIELD "plani-pladat" ASCENDING 
+
+ADD TABLE "EBLJI"
+  AREA "dados"
+  DUMP-NAME "eblji"
+
+ADD FIELD "Codigo_proprietario" OF "EBLJI" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 15
+  DECIMALS 0
+  ORDER 10
+
+ADD FIELD "Numero_carregamento" OF "EBLJI" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 15
+  DECIMALS 0
+  ORDER 20
+
+ADD FIELD "Numero_pedido" OF "EBLJI" AS integer 
+  FORMAT "->,>>>,>>9"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 30
+
+ADD FIELD "Numero_filial" OF "EBLJI" AS integer 
+  FORMAT "->,>>>,>>9"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 40
+
+ADD FIELD "procod" OF "EBLJI" AS integer 
+  FORMAT "->,>>>,>>9"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 50
+
+ADD FIELD "Quantidade" OF "EBLJI" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 60
+
+ADD FIELD "unidade" OF "EBLJI" AS character 
+  FORMAT "x(8)"
+  INITIAL ""
+  MAX-WIDTH 16
+  ORDER 70
+
+ADD FIELD "situacao" OF "EBLJI" AS character 
+  FORMAT "x(8)"
+  INITIAL ""
+  MAX-WIDTH 16
+  ORDER 80
+
+ADD INDEX "indx1" ON "EBLJI" 
+  AREA "indices"
+  UNIQUE
+  PRIMARY
+  INDEX-FIELD "Codigo_proprietario" ASCENDING 
+  INDEX-FIELD "Numero_carregamento" ASCENDING 
+  INDEX-FIELD "Numero_filial" ASCENDING 
+  INDEX-FIELD "Numero_pedido" ASCENDING 
+  INDEX-FIELD "procod" ASCENDING 
+
+ADD INDEX "indx2" ON "EBLJI" 
+  AREA "indices"
+  INDEX-FIELD "procod" ASCENDING 
+
+ADD TABLE "F01_Retirada"
+  AREA "dados"
+  DUMP-NAME "f01_reti"
+
+ADD FIELD "cnpj" OF "F01_Retirada" AS character 
+  DESCRIPTION "Cnpj "
+  FORMAT "x(14)"
+  INITIAL ""
+  LABEL "Cnpj"
+  MAX-WIDTH 28
+  COLUMN-LABEL "Cnpj"
+  ORDER 30
+
+ADD FIELD "cpf" OF "F01_Retirada" AS character 
+  DESCRIPTION "Cpf "
+  FORMAT "x(14)"
+  INITIAL ""
+  LABEL "Cpf"
+  MAX-WIDTH 28
+  COLUMN-LABEL "Cpf"
+  ORDER 40
+
+ADD FIELD "xLgr" OF "F01_Retirada" AS character 
+  DESCRIPTION "Logradouro Emitente"
+  FORMAT "x(50)"
+  INITIAL ""
+  LABEL "Logradouro"
+  MAX-WIDTH 100
+  COLUMN-LABEL "Logradouro"
+  ORDER 50
+
+ADD FIELD "Nro" OF "F01_Retirada" AS character 
+  DESCRIPTION "Numero"
+  FORMAT "x(8)"
+  INITIAL ""
+  LABEL "Numero"
+  MAX-WIDTH 16
+  COLUMN-LABEL "Numero"
+  ORDER 60
+
+ADD FIELD "xCpl" OF "F01_Retirada" AS character 
+  DESCRIPTION "Complemento"
+  FORMAT "x(25)"
+  INITIAL ""
+  LABEL "Complemento"
+  MAX-WIDTH 50
+  COLUMN-LABEL "Complemento"
+  ORDER 70
+
+ADD FIELD "xBairro" OF "F01_Retirada" AS character 
+  DESCRIPTION "Bairro"
+  FORMAT "x(30)"
+  INITIAL ""
+  LABEL "Bairro"
+  MAX-WIDTH 60
+  COLUMN-LABEL "Bairro"
+  ORDER 80
+
+ADD FIELD "cMun" OF "F01_Retirada" AS character 
+  DESCRIPTION "CodMunicipio"
+  FORMAT "x(16)"
+  INITIAL ""
+  LABEL "CodMunicipio"
+  MAX-WIDTH 32
+  COLUMN-LABEL "CodMunicipio"
+  ORDER 90
+
+ADD FIELD "xMun" OF "F01_Retirada" AS character 
+  DESCRIPTION "NomeMunic"
+  FORMAT "x(40)"
+  INITIAL ""
+  LABEL "NomeMunic"
+  MAX-WIDTH 80
+  COLUMN-LABEL "NomeMunic"
+  ORDER 100
+
+ADD FIELD "uf" OF "F01_Retirada" AS character 
+  DESCRIPTION "Sigla UF"
+  FORMAT "x(2)"
+  INITIAL ""
+  LABEL "SiglaUF"
+  MAX-WIDTH 4
+  COLUMN-LABEL "SiglaUF"
+  ORDER 110
+
+ADD FIELD "chave" OF "F01_Retirada" AS character 
+  DESCRIPTION "chave"
+  FORMAT "x(40)"
+  INITIAL ""
+  LABEL "chave"
+  MAX-WIDTH 80
+  COLUMN-LABEL "chave"
+  ORDER 170
+
+ADD INDEX "chave" ON "F01_Retirada" 
+  AREA "indices"
+  UNIQUE
+  PRIMARY
+  INDEX-FIELD "chave" ASCENDING 
+
+ADD TABLE "G01_Entrega"
+  AREA "dados"
+  DUMP-NAME "g01_entr"
+
+ADD FIELD "cnpj" OF "G01_Entrega" AS character 
+  DESCRIPTION "Cnpj "
+  FORMAT "x(14)"
+  INITIAL ""
+  LABEL "Cnpj"
+  MAX-WIDTH 28
+  COLUMN-LABEL "Cnpj"
+  ORDER 30
+
+ADD FIELD "cpf" OF "G01_Entrega" AS character 
+  DESCRIPTION "Cpf "
+  FORMAT "x(14)"
+  INITIAL ""
+  LABEL "Cpf"
+  MAX-WIDTH 28
+  COLUMN-LABEL "Cpf"
+  ORDER 40
+
+ADD FIELD "xLgr" OF "G01_Entrega" AS character 
+  DESCRIPTION "Logradouro Emitente"
+  FORMAT "x(50)"
+  INITIAL ""
+  LABEL "Logradouro"
+  MAX-WIDTH 100
+  COLUMN-LABEL "Logradouro"
+  ORDER 50
+
+ADD FIELD "Nro" OF "G01_Entrega" AS character 
+  DESCRIPTION "Numero"
+  FORMAT "x(8)"
+  INITIAL ""
+  LABEL "Numero"
+  MAX-WIDTH 16
+  COLUMN-LABEL "Numero"
+  ORDER 60
+
+ADD FIELD "xCpl" OF "G01_Entrega" AS character 
+  DESCRIPTION "Complemento"
+  FORMAT "x(25)"
+  INITIAL ""
+  LABEL "Complemento"
+  MAX-WIDTH 50
+  COLUMN-LABEL "Complemento"
+  ORDER 70
+
+ADD FIELD "xBairro" OF "G01_Entrega" AS character 
+  DESCRIPTION "Bairro"
+  FORMAT "x(30)"
+  INITIAL ""
+  LABEL "Bairro"
+  MAX-WIDTH 60
+  COLUMN-LABEL "Bairro"
+  ORDER 80
+
+ADD FIELD "cMun" OF "G01_Entrega" AS character 
+  DESCRIPTION "CodMunicipio"
+  FORMAT "x(16)"
+  INITIAL ""
+  LABEL "CodMunicipio"
+  MAX-WIDTH 32
+  COLUMN-LABEL "CodMunicipio"
+  ORDER 90
+
+ADD FIELD "xMun" OF "G01_Entrega" AS character 
+  DESCRIPTION "NomeMunic"
+  FORMAT "x(40)"
+  INITIAL ""
+  LABEL "NomeMunic"
+  MAX-WIDTH 80
+  COLUMN-LABEL "NomeMunic"
+  ORDER 100
+
+ADD FIELD "uf" OF "G01_Entrega" AS character 
+  DESCRIPTION "Sigla UF"
+  FORMAT "x(2)"
+  INITIAL ""
+  LABEL "SiglaUF"
+  MAX-WIDTH 4
+  COLUMN-LABEL "SiglaUF"
+  ORDER 110
+
+ADD FIELD "chave" OF "G01_Entrega" AS character 
+  DESCRIPTION "chave"
+  FORMAT "x(40)"
+  INITIAL ""
+  LABEL "chave"
+  MAX-WIDTH 80
+  COLUMN-LABEL "chave"
+  ORDER 170
+
+ADD INDEX "chave" ON "G01_Entrega" 
+  AREA "indices"
+  UNIQUE
+  PRIMARY
+  INDEX-FIELD "chave" ASCENDING 
+
+ADD TABLE "I01_Prod"
+  AREA "I01_Prod"
+  LABEL "H02_Prod"
+  DUMP-NAME "H02_pro"
+
+ADD FIELD "cProd" OF "I01_Prod" AS character 
+  FORMAT "x(12)"
+  INITIAL ""
+  LABEL "Cod.Produto"
+  MAX-WIDTH 24
+  COLUMN-LABEL "Cod.Produto"
+  ORDER 10
+
+ADD FIELD "cEAN" OF "I01_Prod" AS character 
+  FORMAT "x(12)"
+  INITIAL "GTIN-8"
+  LABEL "cEAN"
+  MAX-WIDTH 24
+  COLUMN-LABEL "cEAN"
+  ORDER 20
+
+ADD FIELD "xProd" OF "I01_Prod" AS character 
+  DESCRIPTION "Descricao Produto"
+  FORMAT "x(60)"
+  INITIAL ""
+  LABEL "Descricao Produto"
+  MAX-WIDTH 122
+  COLUMN-LABEL "Descricao Produto"
+  EXTENT 1
+  ORDER 30
+
+ADD FIELD "NCM" OF "I01_Prod" AS character 
+  DESCRIPTION "codigo NCM"
+  FORMAT "x(8)"
+  INITIAL ""
+  LABEL "NCM"
+  MAX-WIDTH 16
+  COLUMN-LABEL "NCM"
+  ORDER 40
+
+ADD FIELD "EXTIPI" OF "I01_Prod" AS character 
+  DESCRIPTION "EXTIPI"
+  FORMAT "x(3)"
+  INITIAL ""
+  LABEL "EXTIPI"
+  MAX-WIDTH 6
+  COLUMN-LABEL "EXTIPI"
+  ORDER 50
+
+ADD FIELD "cfop" OF "I01_Prod" AS integer 
+  DESCRIPTION "Cfop"
+  FORMAT ">>>9"
+  INITIAL "0"
+  LABEL "Cfop"
+  MAX-WIDTH 4
+  COLUMN-LABEL "Cfop"
+  ORDER 60
+
+ADD FIELD "Ucom" OF "I01_Prod" AS character 
+  DESCRIPTION "Unidade Comercial"
+  FORMAT "x(6)"
+  INITIAL ""
+  LABEL "Unidade Comercial"
+  MAX-WIDTH 12
+  COLUMN-LABEL "Unidade Comercial"
+  ORDER 70
+
+ADD FIELD "qCom" OF "I01_Prod" AS decimal 
+  DESCRIPTION "Qtde.Comercial"
+  FORMAT "->,>>>>,>>9.9999"
+  INITIAL "0"
+  LABEL "Qtde.Comercial"
+  MAX-WIDTH 17
+  COLUMN-LABEL "Qtde.Comercial"
+  DECIMALS 4
+  ORDER 80
+
+ADD FIELD "VUnCom" OF "I01_Prod" AS decimal 
+  DESCRIPTION "Vl.Unid.Comercial"
+  FORMAT "->>,>>>,>>9.9999"
+  INITIAL "0"
+  LABEL "Vl.Unid.Comercial"
+  MAX-WIDTH 17
+  COLUMN-LABEL "Vl.Unid.Comercial"
+  DECIMALS 4
+  ORDER 90
+
+ADD FIELD "Vprod" OF "I01_Prod" AS decimal 
+  DESCRIPTION "VlTotBrutoProdutos"
+  FORMAT "->,>>>,>>9.99"
+  INITIAL "0"
+  LABEL "VlTotBrutoProdutos"
+  MAX-WIDTH 17
+  COLUMN-LABEL "VlTotBrutoProdutos"
+  DECIMALS 2
+  ORDER 100
+
+ADD FIELD "cEANtrib" OF "I01_Prod" AS character 
+  DESCRIPTION "GTIN-8"
+  FORMAT "x(10)"
+  INITIAL ""
+  LABEL "cEANtrib"
+  MAX-WIDTH 20
+  COLUMN-LABEL "cEANtrib"
+  ORDER 110
+
+ADD FIELD "uTrib" OF "I01_Prod" AS character 
+  DESCRIPTION "Un.Tributavel"
+  FORMAT "x(6)"
+  INITIAL ""
+  LABEL "Un.Tributavel"
+  MAX-WIDTH 12
+  COLUMN-LABEL "Un.Tributavel"
+  ORDER 120
+
+ADD FIELD "qTrib" OF "I01_Prod" AS decimal 
+  DESCRIPTION "Qtde.Tributavel"
+  FORMAT "->,>>>>,>>9.9999"
+  INITIAL "0"
+  LABEL "Qtde.Tributavel"
+  MAX-WIDTH 17
+  COLUMN-LABEL "Qtde.Tributavel"
+  DECIMALS 4
+  ORDER 130
+
+ADD FIELD "VUnTrib" OF "I01_Prod" AS decimal 
+  DESCRIPTION "Vl.Unid.Comercial"
+  FORMAT ">>,>>>,>>9.9999"
+  INITIAL "0"
+  LABEL "Vl.Unid.Comercial"
+  MAX-WIDTH 17
+  COLUMN-LABEL "Vl.Unid.Comercial"
+  DECIMALS 4
+  ORDER 140
+
+ADD FIELD "Vfrete" OF "I01_Prod" AS decimal 
+  DESCRIPTION "Vl.Frete"
+  FORMAT "->>>,>>9.99"
+  INITIAL "0"
+  LABEL "Vl.Frete"
+  MAX-WIDTH 17
+  COLUMN-LABEL "Vl.Frete"
+  DECIMALS 2
+  ORDER 150
+
+ADD FIELD "VSeg" OF "I01_Prod" AS decimal 
+  DESCRIPTION "Vl.Seguro"
+  FORMAT "->>>,>>9.99"
+  INITIAL "0"
+  LABEL "Vl.Seguro"
+  MAX-WIDTH 17
+  COLUMN-LABEL "Vl.Seguro"
+  DECIMALS 2
+  ORDER 160
+
+ADD FIELD "VDesc" OF "I01_Prod" AS decimal 
+  DESCRIPTION "Vl.Desconto"
+  FORMAT "->>>,>>9.99"
+  INITIAL "0"
+  LABEL "Vl.Desconto"
+  MAX-WIDTH 17
+  COLUMN-LABEL "Vl.Desconto"
+  DECIMALS 2
+  ORDER 170
+
+ADD FIELD "VOutro" OF "I01_Prod" AS decimal 
+  DESCRIPTION "Vl.Outro"
+  FORMAT "->>>,>>9.99"
+  INITIAL "0"
+  LABEL "Vl.Outro"
+  MAX-WIDTH 17
+  COLUMN-LABEL "Vl.Outro"
+  DECIMALS 2
+  ORDER 180
+
+ADD FIELD "IndProd" OF "I01_Prod" AS character 
+  DESCRIPTION "Indica Vprod entra Total NFE      0- Nao entra                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+                                                    1-Entra"
+  FORMAT "9"
+  INITIAL "1"
+  LABEL "Indica Vprod entra Total NFE"
+  MAX-WIDTH 2
+  COLUMN-LABEL "Indica Vprod entra Total NFE"
+  ORDER 190
+
+ADD FIELD "nItem" OF "I01_Prod" AS integer 
+  FORMAT ">>9"
+  INITIAL "0"
+  LABEL "N.Item"
+  MAX-WIDTH 4
+  COLUMN-LABEL "N.Item"
+  ORDER 260
+
+ADD FIELD "infAdProd" OF "I01_Prod" AS character 
+  DESCRIPTION "Norma referenciada,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+informações complementares,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+etc."
+  FORMAT "x(100)"
+  INITIAL ""
+  LABEL "infAdProd"
+  MAX-WIDTH 200
+  COLUMN-LABEL "infAdProd"
+  ORDER 270
+
+ADD FIELD "genero" OF "I01_Prod" AS character 
+  FORMAT "x(8)"
+  INITIAL ""
+  MAX-WIDTH 16
+  ORDER 280
+
+ADD FIELD "chave" OF "I01_Prod" AS character 
+  DESCRIPTION "chave"
+  FORMAT "x(40)"
+  INITIAL ""
+  LABEL "chave"
+  MAX-WIDTH 80
+  COLUMN-LABEL "chave"
+  ORDER 250
+
+ADD FIELD "CEST" OF "I01_Prod" AS character 
+  DESCRIPTION "Codigo CEST"
+  FORMAT "x(7)"
+  INITIAL ""
+  MAX-WIDTH 80
+  ORDER 290
+
+ADD FIELD "movpc" OF "I01_Prod" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 25
+  DECIMALS 10
+  ORDER 300
+
+ADD FIELD "procod" OF "I01_Prod" AS integer 
+  FORMAT "->,>>>,>>9"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 310
+
+ADD FIELD "nFCI" OF "I01_Prod" AS character 
+  FORMAT "x(50)"
+  INITIAL ""
+  MAX-WIDTH 100
+  ORDER 320
+
+ADD INDEX "nitem" ON "I01_Prod" 
+  AREA "indices"
+  UNIQUE
+  PRIMARY
+  INDEX-FIELD "chave" ASCENDING 
+  INDEX-FIELD "nItem" ASCENDING 
+
+ADD INDEX "cean" ON "I01_Prod" 
+  AREA "indices"
+  INDEX-FIELD "chave" ASCENDING 
+  INDEX-FIELD "cEAN" ASCENDING 
+
+ADD INDEX "cprod" ON "I01_Prod" 
+  AREA "indices"
+  INDEX-FIELD "chave" ASCENDING 
+  INDEX-FIELD "cProd" ASCENDING 
+
+ADD TABLE "I18_DI"
+  AREA "dados"
+  LABEL "I18_DI"
+  DUMP-NAME "I18_DI"
+
+ADD FIELD "nDI" OF "I18_DI" AS character 
+  DESCRIPTION "N.Doc.Importacao DI/DSI/DA"
+  FORMAT "x(10)"
+  INITIAL ""
+  LABEL "N.Doc.Importacao"
+  MAX-WIDTH 20
+  COLUMN-LABEL "N.Doc.Importacao"
+  ORDER 10
+
+ADD FIELD "xLocDesemb" OF "I18_DI" AS character 
+  DESCRIPTION "Local de Desembaraço"
+  FORMAT "x(60)"
+  INITIAL ""
+  LABEL "Local de Desembaraço"
+  MAX-WIDTH 120
+  COLUMN-LABEL "Local de Desembaraço"
+  ORDER 20
+
+ADD FIELD "UFDesemb" OF "I18_DI" AS character 
+  DESCRIPTION "UF desembaraço"
+  FORMAT "x(2)"
+  INITIAL ""
+  LABEL "UF"
+  MAX-WIDTH 4
+  COLUMN-LABEL "UF"
+  ORDER 30
+
+ADD FIELD "dDesemb" OF "I18_DI" AS date 
+  DESCRIPTION "Data Desembaraço"
+  FORMAT "99/99/9999"
+  INITIAL ?
+  LABEL "Data Desembaraço"
+  MAX-WIDTH 4
+  COLUMN-LABEL "Data Desembaraço"
+  ORDER 40
+
+ADD FIELD "cExportador" OF "I18_DI" AS character 
+  DESCRIPTION "Cod.Exportador"
+  FORMAT "x(60)"
+  INITIAL ""
+  LABEL "Cod.Exportador"
+  MAX-WIDTH 120
+  COLUMN-LABEL "Cod.Exportador"
+  ORDER 50
+
+ADD FIELD "ddi" OF "I18_DI" AS date 
+  FORMAT "99/99/9999"
+  INITIAL ?
+  MAX-WIDTH 4
+  ORDER 120
+
+ADD FIELD "nItem" OF "I18_DI" AS integer 
+  FORMAT ">>9"
+  INITIAL "0"
+  LABEL "N.Item"
+  MAX-WIDTH 4
+  COLUMN-LABEL "N.Item"
+  ORDER 130
+
+ADD FIELD "tpViaTransp" OF "I18_DI" AS character 
+  FORMAT "x(8)"
+  INITIAL ""
+  MAX-WIDTH 16
+  ORDER 140
+
+ADD FIELD "tpIntermedio" OF "I18_DI" AS character 
+  FORMAT "x(8)"
+  INITIAL ""
+  MAX-WIDTH 16
+  ORDER 150
+
+ADD FIELD "chave" OF "I18_DI" AS character 
+  DESCRIPTION "chave"
+  FORMAT "x(40)"
+  INITIAL ""
+  LABEL "chave"
+  MAX-WIDTH 80
+  COLUMN-LABEL "chave"
+  ORDER 110
+
+ADD INDEX "ndi" ON "I18_DI" 
+  AREA "indices"
+  PRIMARY
+  INDEX-FIELD "chave" ASCENDING 
+  INDEX-FIELD "nDI" ASCENDING 
+
+ADD INDEX "chave" ON "I18_DI" 
+  AREA "indices"
+  UNIQUE
+  INDEX-FIELD "chave" ASCENDING 
+  INDEX-FIELD "nItem" ASCENDING 
+  INDEX-FIELD "nDI" ASCENDING 
+
+ADD TABLE "I25_Adi"
+  AREA "dados"
+  LABEL "I25_Adi"
+  DUMP-NAME "I25_Adi"
+
+ADD FIELD "nAdicao" OF "I25_Adi" AS integer 
+  DESCRIPTION "N.Adicao"
+  FORMAT ">>9"
+  INITIAL "0"
+  LABEL "N.Adicao"
+  MAX-WIDTH 4
+  COLUMN-LABEL "N.Adicao"
+  ORDER 10
+
+ADD FIELD "nSeqAdic" OF "I25_Adi" AS integer 
+  DESCRIPTION "Sequencia Adicional"
+  FORMAT ">>9"
+  INITIAL "0"
+  LABEL "Sequencia Adicional"
+  MAX-WIDTH 4
+  COLUMN-LABEL "Sequencia Adicional"
+  ORDER 20
+
+ADD FIELD "cFabricante" OF "I25_Adi" AS character 
+  DESCRIPTION "Cod.Fabricante"
+  FORMAT "x(40)"
+  INITIAL ""
+  LABEL "Cod.Fabricante"
+  MAX-WIDTH 80
+  COLUMN-LABEL "Cod.Fabricante"
+  ORDER 30
+
+ADD FIELD "VldescDI" OF "I25_Adi" AS decimal 
+  DESCRIPTION "Valor Desc.Adicao"
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  LABEL "VlDesc.Adicao"
+  MAX-WIDTH 17
+  COLUMN-LABEL "VlDesc.Adicao"
+  DECIMALS 2
+  ORDER 40
+
+ADD FIELD "nDI" OF "I25_Adi" AS character 
+  DESCRIPTION "N.Doc.Importacao DI/DSI/DA"
+  FORMAT "x(10)"
+  INITIAL ""
+  LABEL "N.Doc.Importacao"
+  MAX-WIDTH 20
+  COLUMN-LABEL "N.Doc.Importacao"
+  ORDER 130
+
+ADD FIELD "nItem" OF "I25_Adi" AS integer 
+  FORMAT ">>9"
+  INITIAL "0"
+  LABEL "N.Item"
+  MAX-WIDTH 4
+  COLUMN-LABEL "N.Item"
+  ORDER 140
+
+ADD FIELD "chave" OF "I25_Adi" AS character 
+  DESCRIPTION "chave"
+  FORMAT "x(40)"
+  INITIAL ""
+  LABEL "chave"
+  MAX-WIDTH 80
+  COLUMN-LABEL "chave"
+  ORDER 120
+
+ADD INDEX "chave" ON "I25_Adi" 
+  AREA "indices"
+  UNIQUE
+  PRIMARY
+  INDEX-FIELD "chave" ASCENDING 
+  INDEX-FIELD "nItem" ASCENDING 
+  INDEX-FIELD "nDI" ASCENDING 
+  INDEX-FIELD "nAdicao" ASCENDING 
+
+ADD TABLE "impostoDevol"
+  AREA "dados"
+  DESCRIPTION "Tributos devolvidos para o item da NF-e"
+  DUMP-NAME "impostodevol"
+
+ADD FIELD "chave" OF "impostoDevol" AS character 
+  DESCRIPTION "chave"
+  FORMAT "x(40)"
+  INITIAL ""
+  LABEL "chave"
+  MAX-WIDTH 80
+  COLUMN-LABEL "chave"
+  ORDER 10
+
+ADD FIELD "nItem" OF "impostoDevol" AS integer 
+  FORMAT ">>9"
+  INITIAL "0"
+  LABEL "N.Item"
+  MAX-WIDTH 4
+  COLUMN-LABEL "N.Item"
+  ORDER 20
+
+ADD FIELD "tImposto" OF "impostoDevol" AS character 
+  FORMAT "x(8)"
+  INITIAL ""
+  MAX-WIDTH 16
+  ORDER 30
+
+ADD FIELD "pDevol" OF "impostoDevol" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  HELP "Percentual da mercadoria devolvida"
+  DECIMALS 2
+  ORDER 40
+
+ADD FIELD "vImposto" OF "impostoDevol" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  HELP "Valor do imposto devolvido"
+  DECIMALS 2
+  ORDER 50
+
+ADD FIELD "emite" OF "impostoDevol" AS integer 
+  DESCRIPTION "Emitente"
+  FORMAT ">>>>>>>9"
+  INITIAL "0"
+  LABEL "Emitente"
+  MAX-WIDTH 4
+  COLUMN-LABEL "Emitente"
+  ORDER 60
+
+ADD FIELD "serie" OF "impostoDevol" AS character 
+  DESCRIPTION "Serie"
+  FORMAT "x(3)"
+  INITIAL ""
+  LABEL "Serie"
+  MAX-WIDTH 6
+  COLUMN-LABEL "Serie"
+  ORDER 70
+
+ADD FIELD "numero" OF "impostoDevol" AS integer 
+  DESCRIPTION "Numero"
+  FORMAT ">>>>>>>>9"
+  INITIAL "0"
+  LABEL "Numero"
+  MAX-WIDTH 4
+  COLUMN-LABEL "Numero"
+  ORDER 80
+
+ADD INDEX "indx1" ON "impostoDevol" 
+  AREA "indices"
+  UNIQUE
+  PRIMARY
+  INDEX-FIELD "chave" ASCENDING 
+  INDEX-FIELD "nItem" ASCENDING 
+  INDEX-FIELD "tImposto" ASCENDING 
+
+ADD INDEX "indx2" ON "impostoDevol" 
+  AREA "indices"
+  UNIQUE
+  INDEX-FIELD "emite" ASCENDING 
+  INDEX-FIELD "serie" ASCENDING 
+  INDEX-FIELD "numero" ASCENDING 
+  INDEX-FIELD "tImposto" ASCENDING 
+
+ADD TABLE "MapOper"
+  AREA "dados"
+  DESCRIPTION "Mapeamento de Tabelas por Operacao"
+  DUMP-NAME "MapOperm"
+
+ADD FIELD "NSistema" OF "MapOper" AS character 
+  DESCRIPTION "Nome do Sistema"
+  FORMAT "x(8)"
+  INITIAL ""
+  LABEL "NSistema"
+  MAX-WIDTH 16
+  COLUMN-LABEL "NSistema"
+  ORDER 10
+
+ADD FIELD "Oper" OF "MapOper" AS character 
+  DESCRIPTION "Operacao NO sISTEMA                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+Operacao no Sistema                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
+"
+  FORMAT "x(8)"
+  INITIAL ""
+  LABEL "Operacao"
+  MAX-WIDTH 16
+  COLUMN-LABEL "Operacao"
+  ORDER 20
+
+ADD FIELD "CFOP" OF "MapOper" AS integer 
+  DESCRIPTION "CODIGO FISCAL DA OPERACAO"
+  FORMAT "9999"
+  INITIAL "0"
+  LABEL "CFOP"
+  MAX-WIDTH 4
+  COLUMN-LABEL "CFOP"
+  ORDER 30
+
+ADD FIELD "NomTAB" OF "MapOper" AS character 
+  DESCRIPTION "Nome da Tabela no Banco bnfe"
+  FORMAT "x(8)"
+  INITIAL ""
+  LABEL "NomTAB"
+  MAX-WIDTH 16
+  COLUMN-LABEL "NomTAB"
+  ORDER 40
+
+ADD FIELD "chave" OF "MapOper" AS character 
+  DESCRIPTION "chave"
+  FORMAT "x(40)"
+  INITIAL ""
+  LABEL "chave"
+  MAX-WIDTH 80
+  COLUMN-LABEL "chave"
+  ORDER 50
+
+ADD INDEX "chave" ON "MapOper" 
+  AREA "indices"
+  UNIQUE
+  PRIMARY
+  INDEX-FIELD "chave" ASCENDING 
+
+ADD TABLE "movservi"
+  AREA "dados"
+  DESCRIPTION "Registros de Movimento de Servicos"
+  DUMP-NAME "movservi"
+
+ADD FIELD "procod" OF "movservi" AS integer 
+  FORMAT ">>>>99"
+  INITIAL "0"
+  LABEL "Produto"
+  MAX-WIDTH 4
+  COLUMN-LABEL "Produ."
+  VALEXP "can-find(produ of sa-movim)"
+  VALMSG "Produto nao cadastrado."
+  HELP "Codigo do Produto."
+  ORDER 80
+  MANDATORY
+
+ADD FIELD "etbcod" OF "movservi" AS integer 
+  FORMAT ">>9"
+  INITIAL "0"
+  LABEL "Estab"
+  MAX-WIDTH 4
+  COLUMN-LABEL "ESTAB"
+  VALEXP "can-find(ESTAB where ESTAB.EtbCod = EtbCod)"
+  VALMSG "Unidade Organizacional não Cadastrada"
+  HELP "Codigo da Unidade Organizacional"
+  ORDER 50
+
+ADD FIELD "movtdc" OF "movservi" AS integer 
+  FORMAT "9"
+  INITIAL "0"
+  LABEL "Tipo Documento"
+  MAX-WIDTH 4
+  COLUMN-LABEL "T.Doc."
+  ORDER 5
+  MANDATORY
+
+ADD FIELD "MovCtM" OF "movservi" AS decimal 
+  FORMAT "z,zzz,zz9.99"
+  INITIAL ?
+  LABEL "Custo Médio"
+  MAX-WIDTH 19
+  HELP "Custo Médio da Movimentação"
+  DECIMALS 4
+  ORDER 171
+
+ADD FIELD "movqtm" OF "movservi" AS decimal 
+  FORMAT "zzz,zz9"
+  INITIAL "0"
+  LABEL "Quantidade"
+  MAX-WIDTH 15
+  HELP "Quantidade Movimentada."
+  DECIMALS 3
+  ORDER 90
+  MANDATORY
+
+ADD FIELD "movpc" OF "movservi" AS decimal 
+  FORMAT "zzz,zzz,zz9.99"
+  INITIAL "0"
+  LABEL "V.Unitário"
+  MAX-WIDTH 19
+  HELP "Valor Unitário do Produto"
+  DECIMALS 4
+  ORDER 110
+  MANDATORY
+
+ADD FIELD "movdat" OF "movservi" AS date 
+  FORMAT "99/99/9999"
+  INITIAL "today"
+  LABEL "Data Movimentacao"
+  MAX-WIDTH 4
+  COLUMN-LABEL "Data"
+  VALEXP "movdat <= today"
+  VALMSG "Data de Movimentacao maior que Data Atual."
+  HELP "Data da Movimentacao de Estoque."
+  ORDER 201
+  MANDATORY
+
+ADD FIELD "movipi" OF "movservi" AS decimal 
+  FORMAT "zzz,zzz,zz9.99"
+  INITIAL "0"
+  LABEL "Valor IPI"
+  MAX-WIDTH 17
+  HELP "Valor do IPI."
+  DECIMALS 2
+  ORDER 150
+
+ADD FIELD "PlaCod" OF "movservi" AS integer 
+  FORMAT ">>>>>9"
+  INITIAL ?
+  LABEL "Código"
+  MAX-WIDTH 4
+  COLUMN-LABEL "Cod"
+  VALEXP "Placod > 0"
+  VALMSG "Código da Nota Fiscal Inválido"
+  HELP "Codigo Interno da Movimentacao"
+  ORDER 12
+
+ADD FIELD "MovAcFin" OF "movservi" AS decimal 
+  FORMAT "-zz,zzz,zz9.99"
+  INITIAL "0"
+  LABEL "Acr.Financeiro"
+  MAX-WIDTH 19
+  COLUMN-LABEL "Ac."
+  HELP "Valor do Acréscimo"
+  DECIMALS 4
+  ORDER 140
+
+ADD FIELD "MovICMS" OF "movservi" AS decimal 
+  FORMAT "zzz,zzz,zz9.99"
+  INITIAL "0"
+  LABEL "Valor ICMS"
+  MAX-WIDTH 19
+  HELP "Valor do ICMS"
+  DECIMALS 4
+  ORDER 161
+
+ADD FIELD "MovAlICMS" OF "movservi" AS decimal 
+  FORMAT ">>9.99%"
+  INITIAL "0"
+  LABEL "Al.ICMS"
+  MAX-WIDTH 17
+  COLUMN-LABEL "ICMS"
+  HELP "Alíquota do ICMS"
+  DECIMALS 2
+  ORDER 165
+
+ADD FIELD "MovHr" OF "movservi" AS integer 
+  FORMAT ">>>>9"
+  INITIAL ?
+  LABEL "Hora"
+  MAX-WIDTH 4
+  HELP "Hora de Inclusão"
+  ORDER 210
+
+ADD FIELD "MovDev" OF "movservi" AS decimal 
+  FORMAT "z,zzz,zz9.99"
+  INITIAL "0"
+  LABEL "Devolvida"
+  MAX-WIDTH 17
+  HELP "Quantidade Devolvida"
+  DECIMALS 2
+  ORDER 120
+
+ADD FIELD "movseq" OF "movservi" AS integer 
+  FORMAT "zzz9"
+  INITIAL "0"
+  LABEL "Sequencia"
+  MAX-WIDTH 4
+  COLUMN-LABEL "Seq"
+  VALEXP "MovSeq > 0"
+  VALMSG "SequênciaInválida"
+  HELP "Sequência do Produto no Boletim"
+  ORDER 70
+
+ADD FIELD "MovPro" OF "movservi" AS logical 
+  FORMAT "Sim/Não"
+  INITIAL "no"
+  LABEL "Preço Promocional"
+  MAX-WIDTH 1
+  HELP "Indica se o Preço de Venda foi Promocional"
+  ORDER 160
+
+ADD FIELD "MovDes" OF "movservi" AS decimal 
+  FORMAT "zz,zz9.99"
+  INITIAL "0"
+  LABEL "Desconto"
+  MAX-WIDTH 19
+  COLUMN-LABEL "Des."
+  HELP "Valor do Desconto"
+  DECIMALS 4
+  ORDER 220
+
+ADD FIELD "MovAlIPI" OF "movservi" AS decimal 
+  FORMAT ">>9.99%"
+  INITIAL "0"
+  LABEL "Al.IPI"
+  MAX-WIDTH 17
+  HELP "Valor da Aliquota do IPI"
+  DECIMALS 2
+  ORDER 200
+
+ADD FIELD "MovPDesc" OF "movservi" AS decimal 
+  FORMAT ">>9.99%"
+  INITIAL "0"
+  LABEL "Desconto"
+  MAX-WIDTH 17
+  HELP "Percentual de Desconto"
+  DECIMALS 2
+  ORDER 170
+
+ADD FIELD "MovSubst" OF "movservi" AS decimal 
+  FORMAT "z,zzz,zz9.99"
+  INITIAL "0"
+  LABEL "ICMS Subst"
+  MAX-WIDTH 19
+  HELP "Valor do ICMS Substituto Tributário"
+  DECIMALS 4
+  ORDER 230
+
+ADD FIELD "OCNum" OF "movservi" AS integer 
+  FORMAT "zzzzzz"
+  INITIAL "0"
+  LABEL "No.Ord.Compra"
+  MAX-WIDTH 126
+  COLUMN-LABEL "No.OC"
+  HELP "Número da Ordem de Compra"
+  EXTENT 9
+  ORDER 510
+
+ADD FIELD "datexp" OF "movservi" AS date 
+  FORMAT "99/99/99"
+  INITIAL "today"
+  MAX-WIDTH 4
+  ORDER 520
+
+ADD FIELD "Emite" OF "movservi" AS integer 
+  FORMAT ">>>>>9"
+  INITIAL "0"
+  LABEL "Emitente"
+  MAX-WIDTH 4
+  HELP "Código do Emitente"
+  ORDER 530
+  MANDATORY
+
+ADD FIELD "Desti" OF "movservi" AS integer 
+  FORMAT ">>>>>9"
+  INITIAL "0"
+  LABEL "Destinatário"
+  MAX-WIDTH 4
+  COLUMN-LABEL "Dest"
+  HELP "Código do Destinatário"
+  ORDER 540
+
+ADD FIELD "CFOP" OF "movservi" AS integer 
+  DESCRIPTION "Codigo Fiscal da Operacao"
+  FORMAT ">>>>9"
+  INITIAL "0"
+  LABEL "Cod.Operacao"
+  MAX-WIDTH 4
+  COLUMN-LABEL "CFOP"
+  HELP "Informe o Codigo Fiscal da Operacao"
+  ORDER 550
+
+ADD FIELD "base_irrf" OF "movservi" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 730
+
+ADD FIELD "aliquota_irrf" OF "movservi" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 740
+
+ADD FIELD "valor_irrf" OF "movservi" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 750
+
+ADD FIELD "base_total_irrf" OF "movservi" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 760
+
+ADD FIELD "valor_total_irrf" OF "movservi" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 770
+
+ADD FIELD "total_retencao_irrf" OF "movservi" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 780
+
+ADD FIELD "codigo_retencao_irrf" OF "movservi" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 790
+
+ADD FIELD "data_retencao_irrf" OF "movservi" AS date 
+  FORMAT "99/99/99"
+  INITIAL ?
+  MAX-WIDTH 4
+  ORDER 800
+
+ADD FIELD "base_iss" OF "movservi" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 810
+
+ADD FIELD "aliquota_iss" OF "movservi" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 820
+
+ADD FIELD "valor_iss" OF "movservi" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 830
+
+ADD FIELD "base_total_iss" OF "movservi" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 840
+
+ADD FIELD "valor_total_iss" OF "movservi" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 850
+
+ADD FIELD "total_retencao_iss" OF "movservi" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 860
+
+ADD FIELD "codigo_retencao_iss" OF "movservi" AS integer 
+  FORMAT "999"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 870
+
+ADD FIELD "data_retencao_iss" OF "movservi" AS date 
+  FORMAT "99/99/99"
+  INITIAL ?
+  MAX-WIDTH 4
+  ORDER 880
+
+ADD FIELD "base_pis" OF "movservi" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 890
+
+ADD FIELD "aliquota_pis" OF "movservi" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 900
+
+ADD FIELD "valor_pis" OF "movservi" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 910
+
+ADD FIELD "base_total_pis" OF "movservi" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 920
+
+ADD FIELD "valor_total_pis" OF "movservi" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 930
+
+ADD FIELD "total_retencao_pis" OF "movservi" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 940
+
+ADD FIELD "codigo_retencao_pis" OF "movservi" AS integer 
+  FORMAT "999"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 950
+
+ADD FIELD "data_retencao_pis" OF "movservi" AS date 
+  FORMAT "99/99/99"
+  INITIAL ?
+  MAX-WIDTH 4
+  ORDER 960
+
+ADD FIELD "base_cofins" OF "movservi" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 970
+
+ADD FIELD "aliquota_cofins" OF "movservi" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 980
+
+ADD FIELD "valor_cofins" OF "movservi" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 990
+
+ADD FIELD "base_total_cofins" OF "movservi" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 1000
+
+ADD FIELD "valor_total_cofins" OF "movservi" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 1010
+
+ADD FIELD "total_retencao_cofins" OF "movservi" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 1020
+
+ADD FIELD "codigo_retencao_cofins" OF "movservi" AS integer 
+  FORMAT "999"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 1030
+
+ADD FIELD "data_retencao_cofins" OF "movservi" AS date 
+  FORMAT "99/99/99"
+  INITIAL ?
+  MAX-WIDTH 4
+  ORDER 1040
+
+ADD FIELD "base_csll" OF "movservi" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 1050
+
+ADD FIELD "aliquota_csll" OF "movservi" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 1060
+
+ADD FIELD "valor_csll" OF "movservi" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 1070
+
+ADD FIELD "base_total_csll" OF "movservi" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 1080
+
+ADD FIELD "valor_total_csll" OF "movservi" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 1090
+
+ADD FIELD "total_retencao_csll" OF "movservi" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 1100
+
+ADD FIELD "codigo_retencao_csll" OF "movservi" AS integer 
+  FORMAT "999"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 1110
+
+ADD FIELD "data_retencao_csll" OF "movservi" AS date 
+  FORMAT "99/99/99"
+  INITIAL ?
+  MAX-WIDTH 4
+  ORDER 1120
+
+ADD FIELD "base_inss" OF "movservi" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 1130
+
+ADD FIELD "aliquota_inss" OF "movservi" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 1140
+
+ADD FIELD "valor_inss" OF "movservi" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 1150
+
+ADD FIELD "base_total_inss" OF "movservi" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 1160
+
+ADD FIELD "valot_total_inss" OF "movservi" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 1170
+
+ADD FIELD "total_retencao_inss" OF "movservi" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 1180
+
+ADD FIELD "codigo_retencao_inss" OF "movservi" AS integer 
+  FORMAT "999"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 1190
+
+ADD FIELD "data_retencao_inss" OF "movservi" AS date 
+  FORMAT "99/99/99"
+  INITIAL ?
+  MAX-WIDTH 4
+  ORDER 1200
+
+ADD FIELD "base_imp1" OF "movservi" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 1210
+
+ADD FIELD "aliquota_imp1" OF "movservi" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 1220
+
+ADD FIELD "valor_imp1" OF "movservi" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 1230
+
+ADD FIELD "base_total_imp1" OF "movservi" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 1240
+
+ADD FIELD "valor_total_imp1" OF "movservi" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 1250
+
+ADD FIELD "total_retencao_imp1" OF "movservi" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 1260
+
+ADD FIELD "codigo_retencao_imp1" OF "movservi" AS integer 
+  FORMAT "999"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 1270
+
+ADD FIELD "data_retencao_imp1" OF "movservi" AS date 
+  FORMAT "99/99/99"
+  INITIAL ?
+  MAX-WIDTH 4
+  ORDER 1280
+
+ADD FIELD "base_imp2" OF "movservi" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 1290
+
+ADD FIELD "aliquota_imp2" OF "movservi" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 1300
+
+ADD FIELD "valor_imp2" OF "movservi" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 1310
+
+ADD FIELD "base_total_imp2" OF "movservi" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 1320
+
+ADD FIELD "valor_total_imp2" OF "movservi" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 1330
+
+ADD FIELD "total_retencao_imp2" OF "movservi" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 1340
+
+ADD FIELD "codigo_retencao_imp2" OF "movservi" AS integer 
+  FORMAT "999"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 1350
+
+ADD FIELD "data_retencao_imp2" OF "movservi" AS date 
+  FORMAT "99/99/99"
+  INITIAL ?
+  MAX-WIDTH 4
+  ORDER 1360
+
+ADD INDEX "Movim" ON "movservi" 
+  AREA "indices"
+  UNIQUE
+  PRIMARY
+  INDEX-FIELD "etbcod" ASCENDING 
+  INDEX-FIELD "PlaCod" ASCENDING 
+  INDEX-FIELD "procod" ASCENDING 
+
+ADD INDEX "datexp" ON "movservi" 
+  AREA "indices"
+  INDEX-FIELD "datexp" ASCENDING 
+
+ADD INDEX "datsai" ON "movservi" 
+  AREA "indices"
+  INDEX-FIELD "procod" ASCENDING 
+  INDEX-FIELD "movtdc" ASCENDING 
+  INDEX-FIELD "movdat" ASCENDING 
+
+ADD INDEX "desti" ON "movservi" 
+  AREA "indices"
+  INDEX-FIELD "procod" ASCENDING 
+  INDEX-FIELD "Desti" ASCENDING 
+  INDEX-FIELD "datexp" ASCENDING 
+
+ADD INDEX "emite" ON "movservi" 
+  AREA "indices"
+  INDEX-FIELD "procod" ASCENDING 
+  INDEX-FIELD "Emite" ASCENDING 
+  INDEX-FIELD "datexp" ASCENDING 
+
+ADD INDEX "icurva" ON "movservi" 
+  AREA "indices"
+  INDEX-FIELD "etbcod" ASCENDING 
+  INDEX-FIELD "movtdc" ASCENDING 
+  INDEX-FIELD "procod" ASCENDING 
+  INDEX-FIELD "movdat" ASCENDING 
+
+ADD INDEX "movdat" ON "movservi" 
+  AREA "indices"
+  INDEX-FIELD "movdat" ASCENDING 
+
+ADD INDEX "movdat2" ON "movservi" 
+  AREA "indices"
+  INDEX-FIELD "procod" ASCENDING 
+  INDEX-FIELD "movdat" ASCENDING 
+
+ADD INDEX "movim3" ON "movservi" 
+  AREA "indices"
+  INDEX-FIELD "procod" ASCENDING 
+  INDEX-FIELD "etbcod" ASCENDING 
+  INDEX-FIELD "movdat" ASCENDING 
+
+ADD TABLE "mov_ecf"
+  AREA "dados"
+  DUMP-NAME "mov_ecf"
+
+ADD FIELD "etbcod" OF "mov_ecf" AS integer 
+  FORMAT ">>9"
+  INITIAL "0"
+  LABEL "Estabelecimento"
+  MAX-WIDTH 4
+  COLUMN-LABEL "Est."
+  VALMSG "Estabelecimento nao cadastrado."
+  HELP "Informe o Codigo do Estabelecimento do Titulo."
+  ORDER 10
+
+ADD FIELD "datmov" OF "mov_ecf" AS date 
+  FORMAT "99/99/9999"
+  INITIAL ?
+  MAX-WIDTH 4
+  ORDER 20
+
+ADD FIELD "numecf" OF "mov_ecf" AS integer 
+  FORMAT ">>9"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 30
+
+ADD FIELD "linha" OF "mov_ecf" AS integer 
+  FORMAT "->,>>>,>>9"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 40
+
+ADD FIELD "val_linha" OF "mov_ecf" AS character 
+  FORMAT "x(80)"
+  INITIAL ""
+  MAX-WIDTH 160
+  ORDER 50
+
+ADD FIELD "dia" OF "mov_ecf" AS integer 
+  FORMAT ">9"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 60
+
+ADD FIELD "mes" OF "mov_ecf" AS integer 
+  FORMAT ">9"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 70
+
+ADD FIELD "ano" OF "mov_ecf" AS integer 
+  FORMAT ">>>9"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 80
+
+ADD INDEX "indx1" ON "mov_ecf" 
+  AREA "indices"
+  UNIQUE
+  PRIMARY
+  INDEX-FIELD "etbcod" ASCENDING 
+  INDEX-FIELD "numecf" ASCENDING 
+  INDEX-FIELD "ano" ASCENDING 
+  INDEX-FIELD "mes" ASCENDING 
+  INDEX-FIELD "dia" ASCENDING 
+  INDEX-FIELD "linha" ASCENDING 
+
+ADD TABLE "N01_icms"
+  AREA "N01_icms"
+  LABEL "N01_ICMS"
+  DUMP-NAME "N01_ICMS"
+
+ADD FIELD "orig" OF "N01_icms" AS integer 
+  FORMAT "9"
+  INITIAL "0"
+  LABEL "OrigMercadoria"
+  MAX-WIDTH 4
+  COLUMN-LABEL "OrigMercadoria"
+  ORDER 10
+
+ADD FIELD "CST" OF "N01_icms" AS integer 
+  DESCRIPTION "Codigo Tributacao  ICMS"
+  FORMAT "99"
+  INITIAL "0"
+  LABEL "Codigo Tributacao  ICMS"
+  MAX-WIDTH 4
+  COLUMN-LABEL "CodiTribICMS"
+  ORDER 20
+
+ADD FIELD "modBC" OF "N01_icms" AS integer 
+  DESCRIPTION "Modalidade Determinacao BC do ICMS 0,1,2,3"
+  FORMAT "9"
+  INITIAL "0"
+  LABEL "Modalidade Determinacao BC do IICMS"
+  MAX-WIDTH 4
+  ORDER 30
+
+ADD FIELD "vBC" OF "N01_icms" AS decimal 
+  DESCRIPTION "ValBCIcms"
+  FORMAT "->,>>>,>>9.99"
+  INITIAL "0"
+  LABEL "ValBCIcms"
+  MAX-WIDTH 17
+  COLUMN-LABEL "ValBCIcms"
+  DECIMALS 2
+  ORDER 40
+
+ADD FIELD "pICMS" OF "N01_icms" AS decimal 
+  DESCRIPTION "Aliquota Imposto"
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  LABEL "Aliq.Imposto"
+  MAX-WIDTH 17
+  COLUMN-LABEL "Aliq.Imposto"
+  DECIMALS 2
+  ORDER 50
+
+ADD FIELD "vICMS" OF "N01_icms" AS decimal 
+  DESCRIPTION "Vl.ICMS"
+  FORMAT "->,>>>,>>9.99"
+  INITIAL "0"
+  LABEL "Vl.ICMS"
+  MAX-WIDTH 17
+  COLUMN-LABEL "Vl.ICMS"
+  DECIMALS 2
+  ORDER 60
+
+ADD FIELD "nItem" OF "N01_icms" AS integer 
+  FORMAT ">>9"
+  INITIAL "0"
+  LABEL "N.Item"
+  MAX-WIDTH 4
+  COLUMN-LABEL "N.Item"
+  ORDER 130
+
+ADD FIELD "modBCST" OF "N01_icms" AS integer 
+  DESCRIPTION "Modalidade Determinacao BC do ICMS 0,1,2,3"
+  FORMAT "9"
+  INITIAL "0"
+  LABEL "Modalidade Determinacao BC do"
+  MAX-WIDTH 4
+  ORDER 140
+
+ADD FIELD "pMVAST" OF "N01_icms" AS decimal 
+  DESCRIPTION "Percentual da margem de                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+valor Adicionado do ICMS ST                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+"
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  LABEL "pMVAST"
+  MAX-WIDTH 17
+  COLUMN-LABEL "pMVAST"
+  DECIMALS 2
+  ORDER 150
+
+ADD FIELD "pRedBCST" OF "N01_icms" AS decimal 
+  DESCRIPTION "Percentual Base ReduzIda ICMS"
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  LABEL "PercBasReduzICMS"
+  MAX-WIDTH 17
+  COLUMN-LABEL "PercBasReduzICMS"
+  DECIMALS 2
+  ORDER 160
+
+ADD FIELD "chave" OF "N01_icms" AS character 
+  DESCRIPTION "chave"
+  FORMAT "x(40)"
+  INITIAL ""
+  LABEL "chave"
+  MAX-WIDTH 80
+  COLUMN-LABEL "chave"
+  ORDER 120
+
+ADD FIELD "pICMSST" OF "N01_icms" AS decimal 
+  DESCRIPTION "Aliquota Imposto ST"
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  LABEL "Aliq.Imposto ST"
+  MAX-WIDTH 17
+  COLUMN-LABEL "Aliq.Imposto ST"
+  DECIMALS 2
+  ORDER 180
+
+ADD FIELD "vBCST" OF "N01_icms" AS decimal 
+  DESCRIPTION "Valor da BC ST do ICMS"
+  FORMAT "->,>>>,>>9.99"
+  INITIAL "0"
+  LABEL "vBCST"
+  MAX-WIDTH 17
+  COLUMN-LABEL "vBCST"
+  DECIMALS 2
+  ORDER 170
+
+ADD FIELD "vicmsst" OF "N01_icms" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 190
+
+ADD FIELD "vICMSOp" OF "N01_icms" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  HELP "Valor do ICMS da Operação"
+  DECIMALS 2
+  ORDER 210
+
+ADD FIELD "pDif" OF "N01_icms" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  HELP "Percentual do Diferimento"
+  DECIMALS 2
+  ORDER 220
+
+ADD FIELD "vICMSDif" OF "N01_icms" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  HELP "Valor do ICMS Diferido"
+  DECIMALS 2
+  ORDER 230
+
+ADD FIELD "pRedBC" OF "N01_icms" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  HELP "Percentual Redução de Base"
+  DECIMALS 2
+  ORDER 200
+
+ADD FIELD "pST" OF "N01_icms" AS decimal 
+  FORMAT ">>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  HELP "N26a Aliquota suportada pelo Consumidor Final"
+  DECIMALS 2
+  ORDER 250
+
+ADD FIELD "vICMSSubstituto" OF "N01_icms" AS decimal 
+  FORMAT ">>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  HELP "N26b Valor do ICMS proprio do Substituto"
+  DECIMALS 2
+  ORDER 260
+
+ADD FIELD "vICMSSTRet" OF "N01_icms" AS decimal 
+  FORMAT ">>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  HELP "N27 Valor do ICMS ST retido"
+  DECIMALS 2
+  ORDER 270
+
+ADD FIELD "vBCFCPSTRet" OF "N01_icms" AS decimal 
+  FORMAT ">>>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  HELP "N27a Valor da Base de Calculo do FCP retido anteriormente"
+  DECIMALS 2
+  ORDER 280
+
+ADD FIELD "pFCPSTRet" OF "N01_icms" AS decimal 
+  FORMAT ">>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  HELP "N27b Percentual do FCP retido anteriormente por ST"
+  DECIMALS 2
+  ORDER 290
+
+ADD FIELD "vFCPSTRet" OF "N01_icms" AS decimal 
+  FORMAT ">>>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  HELP "N27d Valor do FCP retido anteriormente por ST"
+  DECIMALS 2
+  ORDER 300
+
+ADD FIELD "vBCSTRet" OF "N01_icms" AS decimal 
+  FORMAT ">>>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  HELP "N26 Valor da BC do ICMS ST retido"
+  DECIMALS 2
+  ORDER 240
+
+ADD FIELD "pFCPST" OF "N01_icms" AS decimal 
+  FORMAT ">>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  HELP "N23b Percentual do FCP retido por ST"
+  DECIMALS 2
+  ORDER 320
+
+ADD FIELD "vFCPST" OF "N01_icms" AS decimal 
+  FORMAT ">>>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  HELP "N23d Valor do FCP retido por ST"
+  DECIMALS 2
+  ORDER 330
+
+ADD FIELD "vBCFCPST" OF "N01_icms" AS decimal 
+  FORMAT ">>>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  HELP "N23a Valor da Base de Calculo do FCP retido por ST"
+  DECIMALS 2
+  ORDER 310
+
+ADD FIELD "vBCEfet" OF "N01_icms" AS decimal 
+  FORMAT ">>>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  HELP "N35 Valor da base de calculo efetiva"
+  DECIMALS 2
+  ORDER 350
+
+ADD FIELD "pICMSEfet" OF "N01_icms" AS decimal 
+  FORMAT ">>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  HELP "N36 Aliquota do ICMS efetiva"
+  DECIMALS 2
+  ORDER 360
+
+ADD FIELD "vICMSEfet" OF "N01_icms" AS decimal 
+  FORMAT ">>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  HELP "N37 Valor do ICMS efetivo"
+  DECIMALS 2
+  ORDER 370
+
+ADD FIELD "pRedBCEfet" OF "N01_icms" AS decimal 
+  FORMAT ">>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  HELP "N34 Percentual de reducao da base de calculo efetiva"
+  DECIMALS 2
+  ORDER 340
+
+ADD FIELD "pFCP" OF "N01_icms" AS decimal 
+  FORMAT ">>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  HELP "N17b Percentual do FCP"
+  DECIMALS 2
+  ORDER 390
+
+ADD FIELD "vFCP" OF "N01_icms" AS decimal 
+  FORMAT ">>>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  HELP "N17c Valor do FCP"
+  DECIMALS 2
+  ORDER 400
+
+ADD FIELD "vBCFCP" OF "N01_icms" AS decimal 
+  FORMAT ">>>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  HELP "N17a Valor da Base de Calculo do FCP"
+  DECIMALS 2
+  ORDER 380
+
+ADD INDEX "nitem" ON "N01_icms" 
+  AREA "indices"
+  UNIQUE
+  PRIMARY
+  INDEX-FIELD "chave" ASCENDING 
+  INDEX-FIELD "nItem" ASCENDING 
+  INDEX-FIELD "CST" ASCENDING 
+
+ADD TABLE "nfeaux"
+  AREA "dados"
+  DUMP-NAME "nfeaux"
+
+ADD FIELD "chave" OF "nfeaux" AS character 
+  DESCRIPTION "chave"
+  FORMAT "x(40)"
+  INITIAL ""
+  LABEL "chave"
+  MAX-WIDTH 80
+  COLUMN-LABEL "chave"
+  ORDER 10
+
+ADD FIELD "tabela" OF "nfeaux" AS character 
+  FORMAT "x(10)"
+  INITIAL ""
+  MAX-WIDTH 20
+  ORDER 20
+
+ADD FIELD "nome_campo" OF "nfeaux" AS character 
+  FORMAT "x(10)"
+  INITIAL ""
+  MAX-WIDTH 20
+  ORDER 30
+
+ADD FIELD "valor_campo" OF "nfeaux" AS character 
+  FORMAT "x(20)"
+  INITIAL ""
+  MAX-WIDTH 40
+  ORDER 40
+
+ADD FIELD "tipo_campo" OF "nfeaux" AS character 
+  FORMAT "x(8)"
+  INITIAL ""
+  MAX-WIDTH 16
+  ORDER 50
+
+ADD FIELD "datexp" OF "nfeaux" AS date 
+  FORMAT "99/99/99"
+  INITIAL ?
+  MAX-WIDTH 4
+  ORDER 60
+
+ADD FIELD "dtinclu" OF "nfeaux" AS date 
+  FORMAT "99/99/99"
+  INITIAL "today"
+  MAX-WIDTH 4
+  ORDER 70
+
+ADD FIELD "exprota" OF "nfeaux" AS logical 
+  FORMAT "Sim/Nao"
+  INITIAL "no"
+  MAX-WIDTH 1
+  ORDER 80
+
+ADD INDEX "indx-1" ON "nfeaux" 
+  AREA "indices"
+  UNIQUE
+  PRIMARY
+  INDEX-FIELD "chave" ASCENDING 
+  INDEX-FIELD "tabela" ASCENDING 
+  INDEX-FIELD "nome_campo" ASCENDING 
+  INDEX-FIELD "valor_campo" ASCENDING 
+
+ADD TABLE "O01_IPI"
+  AREA "O01_IPI"
+  LABEL "O01_IPI"
+  DESCRIPTION "Grupo do IPI"
+  DUMP-NAME "o01_ipi"
+
+ADD FIELD "clEnq" OF "O01_IPI" AS character 
+  DESCRIPTION "Classe de enquadramento do                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+IPI para Cigarros e Bebidas)"
+  FORMAT "x(5)"
+  INITIAL ""
+  LABEL "clEnq"
+  MAX-WIDTH 10
+  COLUMN-LABEL "clEnq"
+  ORDER 10
+
+ADD FIELD "cnpjProd" OF "O01_IPI" AS character 
+  DESCRIPTION "CNPJ do produtor da                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+mercadoria, quando diferente                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+do emitente. Somente para os                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+casos de exportação direta ou indireta"
+  FORMAT "x(14)"
+  INITIAL ""
+  LABEL "cnpjProd"
+  MAX-WIDTH 28
+  COLUMN-LABEL "cnpjProd"
+  ORDER 20
+
+ADD FIELD "cSelo" OF "O01_IPI" AS character 
+  DESCRIPTION "Código do selo de controle IPI"
+  FORMAT "x(40)"
+  INITIAL ""
+  LABEL "cSelo"
+  MAX-WIDTH 80
+  COLUMN-LABEL "cSelo"
+  ORDER 30
+
+ADD FIELD "qSelo" OF "O01_IPI" AS decimal 
+  DESCRIPTION "Quantidade de selo de                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+controle"
+  FORMAT ">>>>>>>>>>99"
+  INITIAL "0"
+  LABEL "qSelo"
+  MAX-WIDTH 17
+  COLUMN-LABEL "qSelo"
+  DECIMALS 2
+  ORDER 40
+
+ADD FIELD "cEnq" OF "O01_IPI" AS character 
+  DESCRIPTION "Código de Enquadramento                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+Legal do IPI"
+  FORMAT "x(3)"
+  INITIAL ""
+  LABEL "cEnq"
+  MAX-WIDTH 6
+  COLUMN-LABEL "cEnq"
+  ORDER 50
+
+ADD FIELD "nItem" OF "O01_IPI" AS integer 
+  FORMAT ">>9"
+  INITIAL "0"
+  LABEL "N.Item"
+  MAX-WIDTH 4
+  COLUMN-LABEL "N.Item"
+  ORDER 120
+
+ADD FIELD "CST" OF "O01_IPI" AS integer 
+  DESCRIPTION "Codigo Tributacao  ICMS"
+  FORMAT "99"
+  INITIAL "0"
+  LABEL "Codigo Tributacao  ICMS"
+  MAX-WIDTH 4
+  COLUMN-LABEL "CodiTribICMS"
+  ORDER 130
+
+ADD FIELD "vIPI" OF "O01_IPI" AS decimal 
+  DESCRIPTION "Valor do IPI"
+  FORMAT "->>,>>>,>>>,>>9.9999"
+  INITIAL "0"
+  LABEL "vIPI"
+  MAX-WIDTH 17
+  COLUMN-LABEL "vIPI"
+  DECIMALS 2
+  ORDER 140
+
+ADD FIELD "vBC" OF "O01_IPI" AS decimal 
+  DESCRIPTION "Valor do BC do ICMS ST "
+  FORMAT "->,>>>,>>9.99"
+  INITIAL "0"
+  LABEL "vBCST"
+  MAX-WIDTH 17
+  COLUMN-LABEL "vBCST"
+  DECIMALS 2
+  ORDER 150
+
+ADD FIELD "chave" OF "O01_IPI" AS character 
+  DESCRIPTION "chave"
+  FORMAT "x(40)"
+  INITIAL ""
+  LABEL "chave"
+  MAX-WIDTH 80
+  COLUMN-LABEL "chave"
+  ORDER 110
+
+ADD FIELD "vunid" OF "O01_IPI" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 170
+
+ADD FIELD "qUnid" OF "O01_IPI" AS decimal 
+  DESCRIPTION "Quantidade total na unidade                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
+padrão para tributação(somente para os produtos                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
+tributados por unidade)"
+  FORMAT "->>,>>>,>>>,>>9.9999"
+  INITIAL "0"
+  LABEL "qUnid"
+  MAX-WIDTH 17
+  COLUMN-LABEL "qUnid"
+  DECIMALS 2
+  ORDER 180
+
+ADD FIELD "pIPI" OF "O01_IPI" AS decimal 
+  DESCRIPTION "Aliquota IPI"
+  FORMAT "->,>>9.99"
+  INITIAL "0"
+  LABEL "pIPI"
+  MAX-WIDTH 17
+  COLUMN-LABEL "pIPI"
+  DECIMALS 2
+  ORDER 160
+
+ADD INDEX "nitem" ON "O01_IPI" 
+  AREA "indices"
+  UNIQUE
+  PRIMARY
+  INDEX-FIELD "chave" ASCENDING 
+  INDEX-FIELD "nItem" ASCENDING 
+
+ADD TABLE "obsrefer"
+  AREA "dados"
+  DESCRIPTION "Observações referenciadas a Documento Fiscal"
+  DUMP-NAME "obsrefer"
+
+ADD FIELD "etbcod" OF "obsrefer" AS integer 
+  FORMAT ">>9"
+  INITIAL "0"
+  LABEL "Estabelecimento"
+  MAX-WIDTH 4
+  COLUMN-LABEL "Est."
+  VALMSG "Estabelecimento nao cadastrado."
+  HELP "Informe o Codigo do Estabelecimento do Titulo."
+  ORDER 10
+
+ADD FIELD "tipmov" OF "obsrefer" AS character 
+  FORMAT "x(8)"
+  INITIAL ""
+  MAX-WIDTH 16
+  ORDER 20
+
+ADD FIELD "numdoc" OF "obsrefer" AS character 
+  FORMAT "x(12)"
+  INITIAL ""
+  MAX-WIDTH 24
+  ORDER 30
+
+ADD FIELD "serie" OF "obsrefer" AS character 
+  FORMAT "x(8)"
+  INITIAL ""
+  MAX-WIDTH 16
+  ORDER 40
+
+ADD FIELD "forcod" OF "obsrefer" AS character 
+  FORMAT "x(18)"
+  INITIAL ""
+  MAX-WIDTH 36
+  ORDER 50
+
+ADD FIELD "datadoc" OF "obsrefer" AS date 
+  FORMAT "99/99/9999"
+  INITIAL ?
+  MAX-WIDTH 4
+  ORDER 60
+
+ADD FIELD "modelo" OF "obsrefer" AS character 
+  FORMAT "x(8)"
+  INITIAL ""
+  MAX-WIDTH 16
+  ORDER 70
+
+ADD FIELD "tipoobs" OF "obsrefer" AS character 
+  FORMAT "x(8)"
+  INITIAL ""
+  MAX-WIDTH 16
+  ORDER 80
+
+ADD FIELD "codobs" OF "obsrefer" AS character 
+  FORMAT "x(8)"
+  INITIAL ""
+  MAX-WIDTH 16
+  ORDER 90
+
+ADD FIELD "complemento" OF "obsrefer" AS character 
+  FORMAT "x(254)"
+  INITIAL ""
+  MAX-WIDTH 508
+  ORDER 100
+
+ADD INDEX "indx1" ON "obsrefer" 
+  AREA "indices"
+  UNIQUE
+  PRIMARY
+  INDEX-FIELD "etbcod" ASCENDING 
+  INDEX-FIELD "forcod" ASCENDING 
+  INDEX-FIELD "serie" ASCENDING 
+  INDEX-FIELD "numdoc" ASCENDING 
+  INDEX-FIELD "codobs" ASCENDING 
+
+ADD INDEX "indx2" ON "obsrefer" 
+  AREA "indices"
+  INDEX-FIELD "etbcod" ASCENDING 
+  INDEX-FIELD "numdoc" ASCENDING 
+
+ADD INDEX "indx3" ON "obsrefer" 
+  AREA "indices"
+  INDEX-FIELD "datadoc" ASCENDING 
+
+ADD TABLE "P01_II"
+  AREA "dados"
+  DUMP-NAME "p01_ii"
+
+ADD FIELD "chave" OF "P01_II" AS character 
+  DESCRIPTION "chave"
+  FORMAT "x(44)"
+  INITIAL ""
+  LABEL "chave"
+  MAX-WIDTH 88
+  COLUMN-LABEL "chave"
+  ORDER 10
+
+ADD FIELD "nItem" OF "P01_II" AS integer 
+  FORMAT ">>9"
+  INITIAL "0"
+  LABEL "N.Item"
+  MAX-WIDTH 4
+  COLUMN-LABEL "N.Item"
+  ORDER 20
+
+ADD FIELD "vBC" OF "P01_II" AS decimal 
+  DESCRIPTION "ValBCIcms"
+  FORMAT "->,>>>,>>9.99"
+  INITIAL "0"
+  LABEL "ValBCIcms"
+  MAX-WIDTH 17
+  COLUMN-LABEL "ValBCIcms"
+  DECIMALS 2
+  ORDER 30
+
+ADD FIELD "vDespAdu" OF "P01_II" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 40
+
+ADD FIELD "vII" OF "P01_II" AS decimal 
+  DESCRIPTION "Valor Total do II"
+  FORMAT "->>,>>>,>>9.99"
+  INITIAL "0"
+  LABEL "vII"
+  MAX-WIDTH 17
+  COLUMN-LABEL "vII"
+  DECIMALS 2
+  ORDER 50
+
+ADD FIELD "vIOF" OF "P01_II" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 60
+
+ADD INDEX "indx1" ON "P01_II" 
+  AREA "indices"
+  UNIQUE
+  PRIMARY
+  INDEX-FIELD "chave" ASCENDING 
+  INDEX-FIELD "nItem" ASCENDING 
+
+ADD TABLE "plaservi"
+  AREA "dados"
+  DESCRIPTION "Planilha de Entrada/Saida Servicos"
+  DUMP-NAME "plaservi"
+
+ADD FIELD "Numero" OF "plaservi" AS integer 
+  FORMAT ">>>>>9"
+  INITIAL ?
+  LABEL "Numero"
+  MAX-WIDTH 4
+  VALEXP "Numero > 0"
+  VALMSG "Numero do Documento Invalido."
+  HELP "Numero Sequencial da Movimentacao ( Nota Fiscal )"
+  ORDER 20
+
+ADD FIELD "PlaDat" OF "plaservi" AS date 
+  FORMAT "99/99/9999"
+  INITIAL "today"
+  LABEL "Emissao"
+  MAX-WIDTH 4
+  VALEXP "pladat <= today"
+  VALMSG "Data de Emissao deve ser maior que hoje"
+  HELP "Data de Emissao."
+  ORDER 30
+  MANDATORY
+
+ADD FIELD "AlICMS" OF "plaservi" AS decimal 
+  FORMAT "z9.99%"
+  INITIAL "0"
+  LABEL "Aliq"
+  MAX-WIDTH 17
+  COLUMN-LABEL "Aliquota"
+  HELP "Valor da Aliquota de ICMS"
+  DECIMALS 2
+  ORDER 240
+
+ADD FIELD "movtdc" OF "plaservi" AS integer 
+  FORMAT "9"
+  INITIAL "0"
+  LABEL "Tipo Documento"
+  MAX-WIDTH 4
+  COLUMN-LABEL "T.Doc."
+  ORDER 5
+  MANDATORY
+
+ADD FIELD "vencod" OF "plaservi" AS integer 
+  FORMAT ">>>9"
+  INITIAL "0"
+  LABEL "Vendedor"
+  MAX-WIDTH 4
+  VALEXP "can-find(func where func.funcod = vencod)"
+  VALMSG "Vendedor nao Cadastrado"
+  HELP "Codigo do Vendedor"
+  ORDER 50
+  MANDATORY
+
+ADD FIELD "AlIPI" OF "plaservi" AS decimal 
+  FORMAT "z9.99%"
+  INITIAL "0"
+  LABEL "Aliq"
+  MAX-WIDTH 17
+  COLUMN-LABEL "Aliquota"
+  HELP "Aliquota do IPI"
+  DECIMALS 2
+  ORDER 170
+
+ADD FIELD "crecod" OF "plaservi" AS integer 
+  FORMAT "99"
+  INITIAL "01"
+  LABEL "Pl.Cred."
+  MAX-WIDTH 4
+  COLUMN-LABEL "Pl.Cred"
+  VALEXP "can-find(crepl of plani)"
+  VALMSG "Plano de Credito inexistente."
+  HELP "Informe o Plano de Credito."
+  ORDER 80
+
+ADD FIELD "plades" OF "plaservi" AS decimal 
+  FORMAT ">9.9999 %"
+  INITIAL "0"
+  LABEL "Desconto"
+  MAX-WIDTH 19
+  HELP "Informe o desconto sobre o Movimento."
+  DECIMALS 4
+  ORDER 61
+
+ADD FIELD "AlISS" OF "plaservi" AS decimal 
+  FORMAT "z9.99%"
+  INITIAL "0"
+  LABEL "Aliq"
+  MAX-WIDTH 17
+  COLUMN-LABEL "Aliquota"
+  HELP "Valor da Aliquota do ISS"
+  DECIMALS 2
+  ORDER 260
+
+ADD FIELD "PlaCod" OF "plaservi" AS integer 
+  FORMAT ">>>>>9"
+  INITIAL ?
+  LABEL "Código"
+  MAX-WIDTH 4
+  COLUMN-LABEL "Cod"
+  VALEXP "Placod > 0"
+  VALMSG "Código da Nota Fiscal Inválido"
+  HELP "Codigo Interno da Movimentacao"
+  ORDER 12
+
+ADD FIELD "ProTot" OF "plaservi" AS decimal 
+  FORMAT "z,zzz,zz9.99"
+  INITIAL "0"
+  LABEL "Total Produtos"
+  MAX-WIDTH 17
+  COLUMN-LABEL "Total"
+  VALEXP "ProTot > 0"
+  VALMSG "Total da Movimentacao Inválido"
+  HELP "Valor Total dos Produtos"
+  DECIMALS 2
+  ORDER 690
+  MANDATORY
+
+ADD FIELD "PedCod" OF "plaservi" AS integer 
+  FORMAT ">>>>>9"
+  INITIAL "0"
+  LABEL "Pedido"
+  MAX-WIDTH 4
+  VALEXP "PedCod = 0 or can-find(pedid where pedid.pedcod = Plani.pedcod)"
+  VALMSG "Pedido inexistente."
+  HELP "Codigo do Pedido."
+  ORDER 130
+  MANDATORY
+
+ADD FIELD "BICMS" OF "plaservi" AS decimal 
+  FORMAT "z,zzz,zz9.99"
+  INITIAL "0"
+  LABEL "Base ICMS"
+  MAX-WIDTH 17
+  COLUMN-LABEL "Base ICMS"
+  VALMSG "Valor da Base do ICMS Inválido"
+  HELP "Valor da Base de ICMS"
+  DECIMALS 2
+  ORDER 270
+
+ADD FIELD "ModCod" OF "plaservi" AS character 
+  FORMAT "xxx"
+  INITIAL ""
+  LABEL "Modalidade"
+  MAX-WIDTH 6
+  VALEXP "can-find(modal of plani) or modcod = """""
+  VALMSG "Modalidade Nao Cadastrada"
+  HELP "Modalidade da Nota"
+  ORDER 230
+
+ADD FIELD "BIPI" OF "plaservi" AS decimal 
+  FORMAT "z,zzz,zz9.99"
+  INITIAL "0"
+  LABEL "Base IPI"
+  MAX-WIDTH 17
+  COLUMN-LABEL "Base IPI"
+  VALMSG "Valor da Base do IPI Inválido"
+  HELP "Valor da Base de IPI"
+  DECIMALS 2
+  ORDER 160
+
+ADD FIELD "BISS" OF "plaservi" AS decimal 
+  FORMAT "z,zzz,zz9.99"
+  INITIAL "0"
+  LABEL "Base ISS"
+  MAX-WIDTH 17
+  COLUMN-LABEL "Base ISS"
+  VALMSG "Valor da Base do ISS Inválido"
+  HELP "Valor da Base do ISS"
+  DECIMALS 2
+  ORDER 290
+
+ADD FIELD "CusMed" OF "plaservi" AS decimal 
+  FORMAT "z,zzz,zz9.99"
+  INITIAL "0"
+  LABEL "Custo Médio"
+  MAX-WIDTH 17
+  COLUMN-LABEL "Custo Médio"
+  HELP "Valor a Custo Médio"
+  DECIMALS 2
+  ORDER 300
+
+ADD FIELD "DesAcess" OF "plaservi" AS decimal 
+  FORMAT "z,zzz,zz9.99"
+  INITIAL "0"
+  LABEL "Desp.Acessórias"
+  MAX-WIDTH 17
+  HELP "Despesas Acessórias"
+  DECIMALS 2
+  ORDER 210
+
+ADD FIELD "DescProd" OF "plaservi" AS decimal 
+  FORMAT "z,zzz,zz9.99"
+  INITIAL "0"
+  LABEL "Desconto"
+  MAX-WIDTH 17
+  HELP "Desconto nos Produtos"
+  DECIMALS 2
+  ORDER 220
+
+ADD FIELD "DtInclu" OF "plaservi" AS date 
+  FORMAT "99/99/9999"
+  INITIAL "today"
+  LABEL "Dt.Incl"
+  MAX-WIDTH 4
+  HELP "Data de Inclusão"
+  ORDER 350
+  MANDATORY
+
+ADD FIELD "Frete" OF "plaservi" AS decimal 
+  FORMAT "z,zzz,zz9.99"
+  INITIAL "0"
+  LABEL "Frete"
+  MAX-WIDTH 17
+  COLUMN-LABEL "Frete"
+  HELP "Valor do Frete"
+  DECIMALS 2
+  ORDER 200
+
+ADD FIELD "HiCCod" OF "plaservi" AS integer 
+  FORMAT ">>>,>>9"
+  INITIAL "0"
+  LABEL "His.Canc"
+  MAX-WIDTH 4
+  VALEXP "(HiCCod > 0 and can-find(HiCan where HiCan.EmpCod = wempre.EmpCod and HiCan.HiCCod = HiCCod)) or HiCCod = ?"
+  VALMSG "Histórico de Cancelamento não Cadastrado"
+  HELP "Código do Cancelamento"
+  ORDER 390
+
+ADD FIELD "HorIncl" OF "plaservi" AS integer 
+  FORMAT ">>>>9"
+  INITIAL "0"
+  MAX-WIDTH 4
+  HELP "Hora de Inclusão"
+  ORDER 360
+
+ADD FIELD "ICMS" OF "plaservi" AS decimal 
+  FORMAT "z,zzz,zz9.99"
+  INITIAL "0"
+  LABEL "ICMS"
+  MAX-WIDTH 17
+  COLUMN-LABEL "ICMS"
+  VALEXP "(input bicms > 0 and icms > 0) or (input bicms = 0 and icms = 0)"
+  VALMSG "Valor do ICMS Inválido"
+  HELP "Valor do ICMS"
+  DECIMALS 2
+  ORDER 150
+
+ADD FIELD "IPI" OF "plaservi" AS decimal 
+  FORMAT "z,zzz,zz9.99"
+  INITIAL "0"
+  LABEL "IPI"
+  MAX-WIDTH 17
+  COLUMN-LABEL "IPI"
+  VALMSG "Valor do IPI Inválido"
+  HELP "Valor do IPI"
+  DECIMALS 2
+  ORDER 180
+
+ADD FIELD "Isenta" OF "plaservi" AS decimal 
+  FORMAT "z,zzz,zz9.99"
+  INITIAL "0"
+  LABEL "Isenta"
+  MAX-WIDTH 17
+  COLUMN-LABEL "Isenta"
+  VALEXP "Isenta <= input NotVl - input BICMS"
+  VALMSG "Valor das Isentas Inválido"
+  HELP "Valor de Isentas"
+  DECIMALS 2
+  ORDER 430
+
+ADD FIELD "ISS" OF "plaservi" AS decimal 
+  FORMAT "z,zzz,zz9.99"
+  INITIAL "0"
+  LABEL "ISS"
+  MAX-WIDTH 17
+  COLUMN-LABEL "ISS"
+  VALEXP "(ISS <= (truncate((input BISS * input AlISS / 100),2) + .5)) or (ISS >= (truncate((input BISS * input AlISS / 100),2) - .5))"
+  VALMSG "Valor do ISS Inválido"
+  HELP "Valor do ISS"
+  DECIMALS 2
+  ORDER 440
+
+ADD FIELD "AcFProd" OF "plaservi" AS decimal 
+  FORMAT "z,zzz,zz9.99"
+  INITIAL "0"
+  LABEL "Ac.Financeiro"
+  MAX-WIDTH 17
+  COLUMN-LABEL "Ac.Fin"
+  HELP "Acréscimo Financeiro"
+  DECIMALS 2
+  ORDER 225
+
+ADD FIELD "NotAss" OF "plaservi" AS integer 
+  FORMAT ">>>>>9"
+  INITIAL "0"
+  LABEL "NF Associada"
+  MAX-WIDTH 4
+  VALEXP "can-find(Nota where Nota.EmpCod = wempre.EmpCod and Nota.NotCod = NotAss)"
+  VALMSG "Nota Fiscal Associada não Cadastrada"
+  HELP "Nota Fiscal Associada"
+  ORDER 471
+
+ADD FIELD "Desti" OF "plaservi" AS integer 
+  FORMAT ">>>>>9"
+  INITIAL "0"
+  LABEL "Destinatário"
+  MAX-WIDTH 4
+  COLUMN-LABEL "Dest"
+  HELP "Código do Destinatário"
+  ORDER 491
+
+ADD FIELD "Emite" OF "plaservi" AS integer 
+  FORMAT ">>>>>9"
+  INITIAL "0"
+  LABEL "Emitente"
+  MAX-WIDTH 4
+  HELP "Código do Emitente"
+  ORDER 501
+  MANDATORY
+
+ADD FIELD "NotFat" OF "plaservi" AS integer 
+  FORMAT ">>>>>9"
+  INITIAL "0"
+  LABEL "Faturar para"
+  MAX-WIDTH 4
+  VALEXP "can-find(AgCom where AgCom.EmpCod = wempre.EmpCod and AgCom.ACCod = NotFat)"
+  VALMSG "Agente Comercial à Faturar não Cadastrado"
+  HELP "Código do Agente Comercial a Faturar"
+  ORDER 380
+  MANDATORY
+
+ADD FIELD "NotObs" OF "plaservi" AS character 
+  FORMAT "x(40)"
+  INITIAL ""
+  LABEL "Observações"
+  MAX-WIDTH 246
+  HELP "Observações"
+  EXTENT 3
+  ORDER 400
+
+ADD FIELD "NotPed" OF "plaservi" AS character 
+  FORMAT "x(8)"
+  INITIAL ""
+  LABEL "No.Pedido"
+  MAX-WIDTH 16
+  HELP "Número do Pedido"
+  ORDER 570
+
+ADD FIELD "NotSit" OF "plaservi" AS logical 
+  FORMAT "Aberta/Fechada"
+  INITIAL "y"
+  LABEL "Situação"
+  MAX-WIDTH 1
+  HELP "Situação da Nota Fiscal ([A]berta - [F]echada)"
+  ORDER 370
+
+ADD FIELD "NotTran" OF "plaservi" AS integer 
+  FORMAT ">>>>>9"
+  INITIAL "0"
+  LABEL "Transportadora"
+  MAX-WIDTH 4
+  VALEXP "can-find(AgCom where AgCom.EmpCod = wempre.EmpCod and AgCom.ACCod = NotTran)"
+  VALMSG "Transportadora não Cadastrada"
+  HELP "Código da transportadora"
+  ORDER 420
+  MANDATORY
+
+ADD FIELD "PLaTot" OF "plaservi" AS decimal 
+  FORMAT "z,zzz,zz9.99"
+  INITIAL "0"
+  LABEL "Total"
+  MAX-WIDTH 17
+  COLUMN-LABEL "Total"
+  VALEXP "PLaTot > 0"
+  VALMSG "Total da Movimentacao Inválido"
+  HELP "Valor Total da Movimentacao"
+  DECIMALS 2
+  ORDER 610
+  MANDATORY
+
+ADD FIELD "OpCCod" OF "plaservi" AS integer 
+  DESCRIPTION "Código da Operação Comercial"
+  FORMAT "zz9"
+  INITIAL ?
+  LABEL "Op.Comerc."
+  MAX-WIDTH 4
+  COLUMN-LABEL "Op.Com."
+  VALEXP "can-find(OpCom where OpCom.EmpCod = wempre.EmpCod and OpCom.OpCCod = OpCCod)"
+  VALMSG "Código da Operação Comercial não Cadastrado"
+  HELP "Código da Operação Comercial"
+  ORDER 620
+
+ADD FIELD "Outras" OF "plaservi" AS decimal 
+  FORMAT "z,zzz,zz9.99"
+  INITIAL "0"
+  LABEL "Outras"
+  MAX-WIDTH 17
+  COLUMN-LABEL "Outras"
+  VALEXP "Outras <= input NotVl - input BICMS"
+  VALMSG "Valor das Outras Inválido"
+  HELP "Valor de Outras"
+  DECIMALS 2
+  ORDER 250
+
+ADD FIELD "RespFre" OF "plaservi" AS logical 
+  FORMAT "Destinatário/Emitente"
+  INITIAL "no"
+  LABEL "Frete p/Conta"
+  MAX-WIDTH 1
+  HELP "O Frete é por Conta do Destinatário ou do Emitente"
+  ORDER 410
+
+ADD FIELD "Seguro" OF "plaservi" AS decimal 
+  FORMAT "z,zzz,zz9.99"
+  INITIAL "0"
+  LABEL "Seguro"
+  MAX-WIDTH 17
+  COLUMN-LABEL "Seguro"
+  HELP "Valor do Seguro"
+  DECIMALS 2
+  ORDER 190
+
+ADD FIELD "Serie" OF "plaservi" AS character 
+  FORMAT "!xx"
+  INITIAL ""
+  LABEL "Série"
+  MAX-WIDTH 6
+  VALEXP "Serie <> "" """
+  VALMSG "Série Inválida"
+  HELP "Série"
+  ORDER 40
+  MANDATORY
+
+ADD FIELD "UFDes" OF "plaservi" AS character 
+  DESCRIPTION "Unidade da Federação"
+  FORMAT "!!"
+  INITIAL ""
+  LABEL "UF Dest"
+  MAX-WIDTH 4
+  COLUMN-LABEL "UF"
+  VALEXP "can-find(UF where UF.UFCod = UFDes)"
+  VALMSG "Unidade da Federação não Cadastrada"
+  HELP "Informe a Unidade da Federação"
+  ORDER 680
+  MANDATORY
+
+ADD FIELD "UFEmi" OF "plaservi" AS character 
+  DESCRIPTION "Unidade da Federação"
+  FORMAT "!!"
+  INITIAL ""
+  LABEL "UF Emit"
+  MAX-WIDTH 4
+  COLUMN-LABEL "UF"
+  VALEXP "can-find(UF where UF.UFCod = UFEmi)"
+  VALMSG "Unidade da Federação não Cadastrada"
+  HELP "Unidade da Federação"
+  ORDER 280
+  MANDATORY
+
+ADD FIELD "UserCod" OF "plaservi" AS character 
+  DESCRIPTION "Código do Usuário"
+  FORMAT "x(8)"
+  INITIAL ""
+  LABEL "Usuário"
+  MAX-WIDTH 16
+  COLUMN-LABEL "Cod."
+  VALMSG "Código do Usuário Inválido"
+  HELP "Código do Usuário"
+  ORDER 340
+  MANDATORY
+
+ADD FIELD "EtbCod" OF "plaservi" AS integer 
+  FORMAT ">>9"
+  INITIAL "0"
+  LABEL "Estabelecimento"
+  MAX-WIDTH 4
+  COLUMN-LABEL "Etb"
+  HELP "Estabelecimento"
+  ORDER 700
+
+ADD FIELD "AcFServ" OF "plaservi" AS decimal 
+  FORMAT "z,zzz,zz9.99"
+  INITIAL "0"
+  LABEL "Ac.Fin.Serviços"
+  MAX-WIDTH 17
+  COLUMN-LABEL "Ac.Fin.Serv."
+  HELP "Acréscimo Financeiro nos Serviços"
+  DECIMALS 2
+  ORDER 96
+
+ADD FIELD "BSubst" OF "plaservi" AS decimal 
+  FORMAT "z,zzz,zz9.99"
+  INITIAL "0"
+  LABEL "Base Substituição"
+  MAX-WIDTH 17
+  COLUMN-LABEL "B.Substituição"
+  HELP "Base de Cálculo do ICMS de Substituição Tributária"
+  DECIMALS 2
+  ORDER 152
+
+ADD FIELD "DescServ" OF "plaservi" AS decimal 
+  FORMAT "z,zzz,zz9.99"
+  INITIAL "0"
+  LABEL "Desc.Serviço"
+  MAX-WIDTH 17
+  COLUMN-LABEL "Desc.Servico"
+  HELP "Desconto nos Serviços"
+  DECIMALS 2
+  ORDER 94
+
+ADD FIELD "ICMSSubst" OF "plaservi" AS decimal 
+  FORMAT "z,zzz,zz9.99"
+  INITIAL "0"
+  LABEL "ICMS Subst"
+  MAX-WIDTH 17
+  HELP "Valor do ICMS de Substituição Tributária"
+  DECIMALS 2
+  ORDER 154
+
+ADD FIELD "IndEmi" OF "plaservi" AS logical 
+  FORMAT "Próprio/Terceiros"
+  INITIAL "no"
+  MAX-WIDTH 1
+  HELP "Emitente da Nota Fiscal"
+  ORDER 500
+
+ADD FIELD "NotCoFinS" OF "plaservi" AS decimal 
+  FORMAT "z,zzz,zz9.99"
+  INITIAL "0"
+  LABEL "COFINS"
+  MAX-WIDTH 17
+  HELP "Valor do Cofins"
+  DECIMALS 2
+  ORDER 480
+
+ADD FIELD "NotPis" OF "plaservi" AS decimal 
+  FORMAT "z,zzz,zz9.99"
+  INITIAL "0"
+  LABEL "PIS"
+  MAX-WIDTH 17
+  HELP "Valor do PIS"
+  DECIMALS 2
+  ORDER 470
+
+ADD FIELD "TMovDev" OF "plaservi" AS logical 
+  FORMAT "Sim/Não"
+  INITIAL "no"
+  LABEL "É Devolução"
+  MAX-WIDTH 1
+  HELP "Tipo de Movimentação é devolução"
+  ORDER 490
+  MANDATORY
+
+ADD FIELD "VlServ" OF "plaservi" AS decimal 
+  FORMAT "z,zzz,zz9.99"
+  INITIAL "0"
+  LABEL "Valor dos Serviços"
+  MAX-WIDTH 17
+  COLUMN-LABEL "Vl.Servicos"
+  HELP "Valor dos Serviços"
+  DECIMALS 2
+  ORDER 92
+
+ADD FIELD "cxacod" OF "plaservi" AS integer 
+  FORMAT "99"
+  INITIAL "0"
+  LABEL "Caixa"
+  MAX-WIDTH 4
+  ORDER 710
+
+ADD FIELD "datexp" OF "plaservi" AS date 
+  FORMAT "99/99/99"
+  INITIAL "today"
+  MAX-WIDTH 4
+  ORDER 720
+
+ADD FIELD "base_irrf" OF "plaservi" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 730
+
+ADD FIELD "aliquota_irrf" OF "plaservi" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 740
+
+ADD FIELD "valor_irrf" OF "plaservi" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 750
+
+ADD FIELD "base_total_irrf" OF "plaservi" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 760
+
+ADD FIELD "valor_total_irrf" OF "plaservi" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 770
+
+ADD FIELD "total_retencao_irrf" OF "plaservi" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 780
+
+ADD FIELD "codigo_retencao_irrf" OF "plaservi" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 790
+
+ADD FIELD "data_retencao_irrf" OF "plaservi" AS date 
+  FORMAT "99/99/99"
+  INITIAL ?
+  MAX-WIDTH 4
+  ORDER 800
+
+ADD FIELD "base_iss" OF "plaservi" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 810
+
+ADD FIELD "aliquota_iss" OF "plaservi" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 820
+
+ADD FIELD "valor_iss" OF "plaservi" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 830
+
+ADD FIELD "base_total_iss" OF "plaservi" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 840
+
+ADD FIELD "valor_total_iss" OF "plaservi" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 850
+
+ADD FIELD "total_retencao_iss" OF "plaservi" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 860
+
+ADD FIELD "codigo_retencao_iss" OF "plaservi" AS integer 
+  FORMAT "999"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 870
+
+ADD FIELD "data_retencao_iss" OF "plaservi" AS date 
+  FORMAT "99/99/99"
+  INITIAL ?
+  MAX-WIDTH 4
+  ORDER 880
+
+ADD FIELD "base_pis" OF "plaservi" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 890
+
+ADD FIELD "aliquota_pis" OF "plaservi" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 900
+
+ADD FIELD "valor_pis" OF "plaservi" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 910
+
+ADD FIELD "base_total_pis" OF "plaservi" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 920
+
+ADD FIELD "valor_total_pis" OF "plaservi" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 930
+
+ADD FIELD "total_retencao_pis" OF "plaservi" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 940
+
+ADD FIELD "codigo_retencao_pis" OF "plaservi" AS integer 
+  FORMAT "999"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 950
+
+ADD FIELD "data_retencao_pis" OF "plaservi" AS date 
+  FORMAT "99/99/99"
+  INITIAL ?
+  MAX-WIDTH 4
+  ORDER 960
+
+ADD FIELD "base_cofins" OF "plaservi" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 970
+
+ADD FIELD "aliquota_cofins" OF "plaservi" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 980
+
+ADD FIELD "valor_cofins" OF "plaservi" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 990
+
+ADD FIELD "base_total_cofins" OF "plaservi" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 1000
+
+ADD FIELD "valor_total_cofins" OF "plaservi" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 1010
+
+ADD FIELD "total_retencao_cofins" OF "plaservi" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 1020
+
+ADD FIELD "codigo_retencao_cofins" OF "plaservi" AS integer 
+  FORMAT "999"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 1030
+
+ADD FIELD "data_retencao_cofins" OF "plaservi" AS date 
+  FORMAT "99/99/99"
+  INITIAL ?
+  MAX-WIDTH 4
+  ORDER 1040
+
+ADD FIELD "base_csll" OF "plaservi" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 1050
+
+ADD FIELD "aliquota_csll" OF "plaservi" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 1060
+
+ADD FIELD "valor_csll" OF "plaservi" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 1070
+
+ADD FIELD "base_total_csll" OF "plaservi" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 1080
+
+ADD FIELD "valor_total_csll" OF "plaservi" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 1090
+
+ADD FIELD "total_retencao_csll" OF "plaservi" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 1100
+
+ADD FIELD "codigo_retencao_csll" OF "plaservi" AS integer 
+  FORMAT "999"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 1110
+
+ADD FIELD "data_retencao_csll" OF "plaservi" AS date 
+  FORMAT "99/99/99"
+  INITIAL ?
+  MAX-WIDTH 4
+  ORDER 1120
+
+ADD FIELD "base_inss" OF "plaservi" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 1130
+
+ADD FIELD "aliquota_inss" OF "plaservi" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 1140
+
+ADD FIELD "valor_inss" OF "plaservi" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 1150
+
+ADD FIELD "base_total_inss" OF "plaservi" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 1160
+
+ADD FIELD "valot_total_inss" OF "plaservi" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 1170
+
+ADD FIELD "total_retencao_inss" OF "plaservi" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 1180
+
+ADD FIELD "codigo_retencao_inss" OF "plaservi" AS integer 
+  FORMAT "999"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 1190
+
+ADD FIELD "data_retencao_inss" OF "plaservi" AS date 
+  FORMAT "99/99/99"
+  INITIAL ?
+  MAX-WIDTH 4
+  ORDER 1200
+
+ADD FIELD "base_imp1" OF "plaservi" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 1210
+
+ADD FIELD "aliquota_imp1" OF "plaservi" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 1220
+
+ADD FIELD "valor_imp1" OF "plaservi" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 1230
+
+ADD FIELD "base_total_imp1" OF "plaservi" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 1240
+
+ADD FIELD "valor_total_imp1" OF "plaservi" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 1250
+
+ADD FIELD "total_retencao_imp1" OF "plaservi" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 1260
+
+ADD FIELD "codigo_retencao_imp1" OF "plaservi" AS integer 
+  FORMAT "999"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 1270
+
+ADD FIELD "data_retencao_imp1" OF "plaservi" AS date 
+  FORMAT "99/99/99"
+  INITIAL ?
+  MAX-WIDTH 4
+  ORDER 1280
+
+ADD FIELD "base_imp2" OF "plaservi" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 1290
+
+ADD FIELD "aliquota_imp2" OF "plaservi" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 1300
+
+ADD FIELD "valor_imp2" OF "plaservi" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 1310
+
+ADD FIELD "base_total_imp2" OF "plaservi" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 1320
+
+ADD FIELD "valor_total_imp2" OF "plaservi" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 1330
+
+ADD FIELD "total_retencao_imp2" OF "plaservi" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 1340
+
+ADD FIELD "codigo_retencao_imp2" OF "plaservi" AS integer 
+  FORMAT "999"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 1350
+
+ADD FIELD "data_retencao_imp2" OF "plaservi" AS date 
+  FORMAT "99/99/99"
+  INITIAL ?
+  MAX-WIDTH 4
+  ORDER 1360
+
+ADD INDEX "plani" ON "plaservi" 
+  AREA "indices"
+  UNIQUE
+  PRIMARY
+  INDEX-FIELD "EtbCod" ASCENDING 
+  INDEX-FIELD "PlaCod" ASCENDING 
+  INDEX-FIELD "Serie" ASCENDING 
+
+ADD INDEX "datexp" ON "plaservi" 
+  AREA "indices"
+  INDEX-FIELD "datexp" ASCENDING 
+
+ADD INDEX "Nota" ON "plaservi" 
+  AREA "indices"
+  UNIQUE
+  INDEX-FIELD "movtdc" ASCENDING 
+  INDEX-FIELD "EtbCod" ASCENDING 
+  INDEX-FIELD "Emite" ASCENDING 
+  INDEX-FIELD "Serie" ASCENDING 
+  INDEX-FIELD "Numero" ASCENDING 
+
+ADD INDEX "NotEnt" ON "plaservi" 
+  AREA "indices"
+  INDEX-FIELD "EtbCod" ASCENDING 
+  INDEX-FIELD "Desti" ASCENDING 
+  INDEX-FIELD "Emite" ASCENDING 
+
+ADD INDEX "numero" ON "plaservi" 
+  AREA "indices"
+  INDEX-FIELD "EtbCod" ASCENDING 
+  INDEX-FIELD "Emite" ASCENDING 
+  INDEX-FIELD "Serie" ASCENDING 
+  INDEX-FIELD "Numero" ASCENDING 
+
+ADD INDEX "pladat" ON "plaservi" 
+  AREA "indices"
+  INDEX-FIELD "movtdc" ASCENDING 
+  INDEX-FIELD "EtbCod" ASCENDING 
+  INDEX-FIELD "PlaDat" ASCENDING 
+
+ADD INDEX "plasai" ON "plaservi" 
+  AREA "indices"
+  INDEX-FIELD "movtdc" ASCENDING 
+  INDEX-FIELD "Desti" ASCENDING 
+  INDEX-FIELD "PlaDat" ASCENDING 
+
+ADD TABLE "prodnewfree"
+  AREA "dados"
+  DESCRIPTION "Cadastro de Produto - Agregacao Fabrica e Item"
+  VALMSG "Existem Registros de Estoque para este Produto, exclusao negada"
+  DUMP-NAME "prodnewfree"
+
+ADD FIELD "procod" OF "prodnewfree" AS integer 
+  FORMAT ">>>>99"
+  INITIAL "0"
+  LABEL "Produto"
+  MAX-WIDTH 4
+  HELP "Informe o Codigo do Produto."
+  ORDER 5
+
+ADD FIELD "proclafis" OF "prodnewfree" AS character 
+  FORMAT "999.999.999"
+  INITIAL ""
+  LABEL "Clas.Fiscal"
+  MAX-WIDTH 22
+  HELP "Informe a Classificacao Fiscal do Produto."
+  ORDER 198
+
+ADD FIELD "fabcod" OF "prodnewfree" AS integer 
+  FORMAT ">>>>99"
+  INITIAL "0"
+  LABEL "Fabricante"
+  MAX-WIDTH 4
+  COLUMN-LABEL "Fab."
+  HELP "Informe o Codigo do Fabricante."
+  ORDER 20
+  MANDATORY
+
+ADD FIELD "prouncom" OF "prodnewfree" AS character 
+  FORMAT "xx"
+  INITIAL "UN"
+  LABEL "Unidade Compra"
+  MAX-WIDTH 4
+  COLUMN-LABEL "UC"
+  HELP "Informe a Unidade de Compra do Produto (OPCIONAL)."
+  ORDER 30
+  MANDATORY
+
+ADD FIELD "prounven" OF "prodnewfree" AS character 
+  FORMAT "xx"
+  INITIAL "UN"
+  LABEL "Unidade Venda"
+  MAX-WIDTH 4
+  COLUMN-LABEL "UV"
+  HELP "Informe a Unidade de Venda do Produto."
+  ORDER 40
+  MANDATORY
+
+ADD FIELD "procvven" OF "prodnewfree" AS decimal 
+  FORMAT ">>>,>>9.<<<"
+  INITIAL "0"
+  LABEL "Conversao"
+  MAX-WIDTH 18
+  HELP "Informe a conversao de Unidades."
+  DECIMALS 3
+  ORDER 208
+
+ADD FIELD "proabc" OF "prodnewfree" AS character 
+  FORMAT "x"
+  INITIAL "A"
+  LABEL "Classe ABC"
+  MAX-WIDTH 2
+  COLUMN-LABEL "ABC"
+  HELP "Informe a Classificacao ABC ( A/B/C )."
+  ORDER 60
+
+ADD FIELD "prodtcad" OF "prodnewfree" AS date 
+  FORMAT "99/99/9999"
+  INITIAL "today"
+  LABEL "Data Cadastro"
+  MAX-WIDTH 4
+  HELP "Informe a Data de Cadastramento do Produto."
+  ORDER 110
+
+ADD FIELD "procvcom" OF "prodnewfree" AS decimal 
+  FORMAT ">>>,>>9.<<<"
+  INITIAL "0"
+  LABEL "Conversao"
+  MAX-WIDTH 18
+  HELP "Informe a conversao de Unidades."
+  DECIMALS 3
+  ORDER 210
+
+ADD FIELD "proipiper" OF "prodnewfree" AS decimal 
+  FORMAT ">9.99 %"
+  INITIAL "0"
+  LABEL "Perc. IPI"
+  MAX-WIDTH 17
+  COLUMN-LABEL "IPI %"
+  HELP "Informe o percentual de IPI sobre o Produto."
+  DECIMALS 2
+  ORDER 178
+
+ADD FIELD "propag" OF "prodnewfree" AS integer 
+  FORMAT ">>9"
+  INITIAL "0"
+  LABEL "Pagina"
+  MAX-WIDTH 4
+  HELP "Informe o Numero da Pagina do Produto no Livro Preco."
+  ORDER 160
+
+ADD FIELD "proseq" OF "prodnewfree" AS integer 
+  FORMAT ">9"
+  INITIAL "0"
+  LABEL "Sequencial"
+  MAX-WIDTH 4
+  COLUMN-LABEL "Seq"
+  HELP "Informe o Sequencial na pagina do Produto."
+  ORDER 168
+
+ADD FIELD "proipival" OF "prodnewfree" AS decimal 
+  FORMAT ">>>,>>>,>>9.99"
+  INITIAL "0"
+  LABEL "Valor IPI"
+  MAX-WIDTH 17
+  COLUMN-LABEL "IPI Valor"
+  HELP "Informe o Valor de IPI sobre o Produto."
+  DECIMALS 2
+  ORDER 188
+
+ADD FIELD "pronom" OF "prodnewfree" AS character 
+  FORMAT "x(50)"
+  INITIAL ""
+  LABEL "Nome Produto"
+  MAX-WIDTH 100
+  HELP "Informe a Descricao do Produto."
+  ORDER 11
+  MANDATORY
+
+ADD FIELD "pronomc" OF "prodnewfree" AS character 
+  FORMAT "x(20)"
+  INITIAL ""
+  LABEL "Desc.Automacao"
+  MAX-WIDTH 40
+  HELP "Informe a Descricao Resumida para Automacao Comercial."
+  ORDER 12
+  MANDATORY
+
+ADD FIELD "clacod" OF "prodnewfree" AS integer 
+  FORMAT ">>>9"
+  INITIAL "0"
+  LABEL "Classe"
+  MAX-WIDTH 4
+  HELP "Informe o Codigo da Classe a que pertence o Produto."
+  ORDER 21
+  MANDATORY
+
+ADD FIELD "prorefter" OF "prodnewfree" AS character 
+  FORMAT "x(15)"
+  INITIAL ""
+  LABEL "Refer. Terceiros"
+  MAX-WIDTH 30
+  HELP "Informe a Referencia de Terceiros do Produto."
+  ORDER 220
+
+ADD FIELD "protam" OF "prodnewfree" AS character 
+  FORMAT "X(5)"
+  INITIAL ""
+  LABEL "Tamanho"
+  MAX-WIDTH 10
+  COLUMN-LABEL "Tam"
+  HELP "Informe o Tamanho do Produto."
+  ORDER 230
+
+ADD FIELD "corcod" OF "prodnewfree" AS character 
+  FORMAT "x(4)"
+  INITIAL ""
+  LABEL "Cor"
+  MAX-WIDTH 8
+  HELP "Informe o Codigo da Cor."
+  ORDER 240
+
+ADD FIELD "itecod" OF "prodnewfree" AS integer 
+  FORMAT ">>>>99"
+  INITIAL "0"
+  LABEL "Item"
+  MAX-WIDTH 4
+  HELP "Informe o Codigo do Item."
+  ORDER 250
+  MANDATORY
+
+ADD FIELD "etccod" OF "prodnewfree" AS integer 
+  FORMAT "9"
+  INITIAL "0"
+  LABEL "Estacao"
+  MAX-WIDTH 4
+  HELP "Informe a Estacao do Produto."
+  ORDER 260
+
+ADD FIELD "procar" OF "prodnewfree" AS character 
+  FORMAT "x(20)"
+  INITIAL ""
+  LABEL "Caracteristica"
+  MAX-WIDTH 40
+  HELP "Informe a Caracteristica do Produto."
+  ORDER 290
+
+ADD FIELD "prozort" OF "prodnewfree" AS character 
+  FORMAT "x(40)"
+  INITIAL ""
+  MAX-WIDTH 80
+  ORDER 280
+
+ADD FIELD "catcod" OF "prodnewfree" AS integer 
+  FORMAT ">>9"
+  INITIAL "0"
+  LABEL "Categoria"
+  MAX-WIDTH 4
+  HELP "Informe a categoria do Produto"
+  ORDER 300
+
+ADD FIELD "proindice" OF "prodnewfree" AS character 
+  FORMAT "x(15)"
+  INITIAL ?
+  LABEL "Cod"
+  MAX-WIDTH 30
+  ORDER 310
+
+ADD FIELD "datexp" OF "prodnewfree" AS date 
+  FORMAT "99/99/99"
+  INITIAL "today"
+  MAX-WIDTH 4
+  ORDER 320
+
+ADD FIELD "codfis" OF "prodnewfree" AS integer 
+  FORMAT ">9"
+  INITIAL "0"
+  LABEL "codfis"
+  MAX-WIDTH 4
+  COLUMN-LABEL "codfis"
+  ORDER 330
+
+ADD FIELD "codori" OF "prodnewfree" AS integer 
+  FORMAT ">9"
+  INITIAL "0"
+  LABEL "codori"
+  MAX-WIDTH 4
+  COLUMN-LABEL "codori"
+  ORDER 340
+
+ADD FIELD "codtri" OF "prodnewfree" AS integer 
+  FORMAT ">>>>>>>9"
+  INITIAL "0"
+  LABEL "codtri"
+  MAX-WIDTH 4
+  COLUMN-LABEL "codtri"
+  ORDER 350
+
+ADD INDEX "iprodu" ON "prodnewfree" 
+  AREA "indices"
+  UNIQUE
+  PRIMARY
+  INDEX-FIELD "procod" ASCENDING 
+
+ADD INDEX "catcla" ON "prodnewfree" 
+  AREA "indices"
+  INDEX-FIELD "catcod" ASCENDING 
+  INDEX-FIELD "clacod" ASCENDING 
+
+ADD INDEX "catpro" ON "prodnewfree" 
+  AREA "indices"
+  INDEX-FIELD "catcod" ASCENDING 
+  INDEX-FIELD "pronom" ASCENDING 
+
+ADD INDEX "etccod" ON "prodnewfree" 
+  AREA "indices"
+  INDEX-FIELD "etccod" ASCENDING 
+
+ADD INDEX "icatcod" ON "prodnewfree" 
+  AREA "indices"
+  INDEX-FIELD "catcod" ASCENDING 
+  INDEX-FIELD "fabcod" ASCENDING 
+  INDEX-FIELD "pronom" ASCENDING 
+
+ADD INDEX "idatexp" ON "prodnewfree" 
+  AREA "indices"
+  INDEX-FIELD "datexp" ASCENDING 
+
+ADD INDEX "iprocla" ON "prodnewfree" 
+  AREA "indices"
+  INDEX-FIELD "clacod" ASCENDING 
+
+ADD INDEX "iprofab" ON "prodnewfree" 
+  AREA "indices"
+  INDEX-FIELD "fabcod" ASCENDING 
+  INDEX-FIELD "procod" ASCENDING 
+
+ADD INDEX "iproindice" ON "prodnewfree" 
+  AREA "indices"
+  UNIQUE
+  INDEX-FIELD "proindice" ASCENDING 
+
+ADD INDEX "ipronom" ON "prodnewfree" 
+  AREA "indices"
+  INDEX-FIELD "pronom" ASCENDING 
+
+ADD INDEX "ipropase" ON "prodnewfree" 
+  AREA "indices"
+  INDEX-FIELD "propag" ASCENDING 
+  INDEX-FIELD "proseq" ASCENDING 
+
+ADD INDEX "iprozort" ON "prodnewfree" 
+  AREA "indices"
+  INDEX-FIELD "prozort" ASCENDING 
+
+ADD INDEX "item" ON "prodnewfree" 
+  AREA "indices"
+  UNIQUE
+  INDEX-FIELD "itecod" ASCENDING 
+  INDEX-FIELD "corcod" ASCENDING 
+  INDEX-FIELD "protam" ASCENDING 
+
+ADD TABLE "Q01_PIS"
+  AREA "Q01_PIS"
+  LABEL "Q01_PIS"
+  DESCRIPTION "Grupo do PIS"
+  DUMP-NAME "Q01_PIS"
+
+ADD FIELD "CST" OF "Q01_PIS" AS integer 
+  DESCRIPTION "Codigo Tributacao  ICMS"
+  FORMAT "99"
+  INITIAL "0"
+  LABEL "Codigo Tributacao  ICMS"
+  MAX-WIDTH 4
+  COLUMN-LABEL "CodiTribICMS"
+  ORDER 20
+
+ADD FIELD "vBC" OF "Q01_PIS" AS decimal 
+  DESCRIPTION "Valor do BC do ICMS ST "
+  FORMAT "->,>>>,>>9.99"
+  INITIAL "0"
+  LABEL "vBCST"
+  MAX-WIDTH 17
+  COLUMN-LABEL "vBCST"
+  DECIMALS 2
+  ORDER 30
+
+ADD FIELD "pPIS" OF "Q01_PIS" AS decimal 
+  DESCRIPTION "Aliquota PIS"
+  FORMAT "->,>>9.99"
+  INITIAL "0"
+  LABEL "pPIS"
+  MAX-WIDTH 17
+  COLUMN-LABEL "pPIS"
+  DECIMALS 2
+  ORDER 40
+
+ADD FIELD "vPIS" OF "Q01_PIS" AS decimal 
+  DESCRIPTION "Valor do PIS"
+  FORMAT "->>,>>>,>>>,>>9.99"
+  INITIAL "0"
+  LABEL "vPIS"
+  MAX-WIDTH 17
+  COLUMN-LABEL "vPIS"
+  DECIMALS 2
+  ORDER 50
+
+ADD FIELD "qBCProd" OF "Q01_PIS" AS decimal 
+  DESCRIPTION "Quantidade Vendida"
+  FORMAT "->,>>>,>>>,>>9.9999"
+  INITIAL "0"
+  LABEL "qBCProd"
+  MAX-WIDTH 17
+  COLUMN-LABEL "qBCProd"
+  DECIMALS 2
+  ORDER 120
+
+ADD FIELD "vAliqProd" OF "Q01_PIS" AS decimal 
+  DESCRIPTION "Alíquota do PIS (em reais)"
+  FORMAT "->>>,>>>,>>9.9999"
+  INITIAL "0"
+  LABEL "vAliqProd"
+  MAX-WIDTH 17
+  COLUMN-LABEL "vAliqProd"
+  DECIMALS 2
+  ORDER 130
+
+ADD FIELD "nItem" OF "Q01_PIS" AS integer 
+  FORMAT ">>9"
+  INITIAL "0"
+  LABEL "N.Item"
+  MAX-WIDTH 4
+  COLUMN-LABEL "N.Item"
+  ORDER 140
+
+ADD FIELD "chave" OF "Q01_PIS" AS character 
+  DESCRIPTION "chave"
+  FORMAT "x(40)"
+  INITIAL ""
+  LABEL "chave"
+  MAX-WIDTH 80
+  COLUMN-LABEL "chave"
+  ORDER 110
+
+ADD INDEX "nitem" ON "Q01_PIS" 
+  AREA "indices"
+  UNIQUE
+  PRIMARY
+  INDEX-FIELD "chave" ASCENDING 
+  INDEX-FIELD "nItem" ASCENDING 
+
+ADD TABLE "R01_PISST"
+  AREA "R01_PISST"
+  LABEL "R01_PISST"
+  DESCRIPTION "Grupo de PIS Substituição                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+Tributária"
+  DUMP-NAME "R01_PISS"
+
+ADD FIELD "vBC" OF "R01_PISST" AS decimal 
+  DESCRIPTION "Valor do BC do ICMS ST "
+  FORMAT "->,>>>,>>9.99"
+  INITIAL "0"
+  LABEL "vBCST"
+  MAX-WIDTH 17
+  COLUMN-LABEL "vBCST"
+  DECIMALS 2
+  ORDER 30
+
+ADD FIELD "pPIS" OF "R01_PISST" AS decimal 
+  DESCRIPTION "Aliquota PIS"
+  FORMAT "->,>>9.99"
+  INITIAL "0"
+  LABEL "pPIS"
+  MAX-WIDTH 17
+  COLUMN-LABEL "pPIS"
+  DECIMALS 2
+  ORDER 40
+
+ADD FIELD "qBCProd" OF "R01_PISST" AS decimal 
+  DESCRIPTION "Quantidade Vendida"
+  FORMAT "->,>>>,>>>,>>9.9999"
+  INITIAL "0"
+  LABEL "qBCProd"
+  MAX-WIDTH 17
+  COLUMN-LABEL "qBCProd"
+  DECIMALS 2
+  ORDER 50
+
+ADD FIELD "vAliqProd" OF "R01_PISST" AS decimal 
+  DESCRIPTION "Alíquota do PIS (em reais)"
+  FORMAT "->>>,>>>,>>9.9999"
+  INITIAL "0"
+  LABEL "vAliqProd"
+  MAX-WIDTH 17
+  COLUMN-LABEL "vAliqProd"
+  DECIMALS 2
+  ORDER 60
+
+ADD FIELD "vPIS" OF "R01_PISST" AS decimal 
+  DESCRIPTION "Valor do PIS"
+  FORMAT "->>,>>>,>>>,>>9.99"
+  INITIAL "0"
+  LABEL "vPIS"
+  MAX-WIDTH 17
+  COLUMN-LABEL "vPIS"
+  DECIMALS 2
+  ORDER 70
+
+ADD FIELD "nItem" OF "R01_PISST" AS integer 
+  FORMAT ">>9"
+  INITIAL "0"
+  LABEL "N.Item"
+  MAX-WIDTH 4
+  COLUMN-LABEL "N.Item"
+  ORDER 140
+
+ADD FIELD "chave" OF "R01_PISST" AS character 
+  DESCRIPTION "chave"
+  FORMAT "x(40)"
+  INITIAL ""
+  LABEL "chave"
+  MAX-WIDTH 80
+  COLUMN-LABEL "chave"
+  ORDER 130
+
+ADD INDEX "nitem" ON "R01_PISST" 
+  AREA "indices"
+  UNIQUE
+  PRIMARY
+  INDEX-FIELD "chave" ASCENDING 
+  INDEX-FIELD "nItem" ASCENDING 
+
+ADD TABLE "S01_cofins"
+  AREA "S01_cofins"
+  LABEL "S01_cofins"
+  DESCRIPTION "Grupo do COFINS"
+  DUMP-NAME "s01_cofins"
+
+ADD FIELD "CST" OF "S01_cofins" AS integer 
+  DESCRIPTION "01 - Operação Tributável (base                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+de cálculo = valor da operação                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+alíquota normal (cumulativo/não                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
+cumulativo));                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+02 - Operação Tributável (base                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+de cálculo = valor da operação                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+(alíquota diferenciada));"
+  FORMAT "99"
+  INITIAL "0"
+  LABEL "Codigo Tributacao  ICMS"
+  MAX-WIDTH 4
+  COLUMN-LABEL "CodiTribICMS"
+  ORDER 20
+
+ADD FIELD "vBC" OF "S01_cofins" AS decimal 
+  DESCRIPTION "Valor do BC do ICMS ST "
+  FORMAT "->,>>>,>>9.99"
+  INITIAL "0"
+  LABEL "vBCST"
+  MAX-WIDTH 17
+  COLUMN-LABEL "vBCST"
+  DECIMALS 2
+  ORDER 30
+
+ADD FIELD "pCOFINS" OF "S01_cofins" AS decimal 
+  DESCRIPTION "Alíquota da COFINS (em                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+percentual)"
+  FORMAT "->,>>9.99"
+  INITIAL "0"
+  LABEL "pCOFINS"
+  MAX-WIDTH 17
+  COLUMN-LABEL "pCOFINS"
+  DECIMALS 2
+  ORDER 40
+
+ADD FIELD "vCOFINS" OF "S01_cofins" AS decimal 
+  DESCRIPTION "Valor do COFINS"
+  FORMAT "->>,>>>,>>9.99"
+  INITIAL "0"
+  LABEL "vCOFINS"
+  MAX-WIDTH 17
+  COLUMN-LABEL "vCOFINS"
+  DECIMALS 2
+  ORDER 50
+
+ADD FIELD "nItem" OF "S01_cofins" AS integer 
+  FORMAT ">>9"
+  INITIAL "0"
+  LABEL "N.Item"
+  MAX-WIDTH 4
+  COLUMN-LABEL "N.Item"
+  ORDER 120
+
+ADD FIELD "qBCProd" OF "S01_cofins" AS decimal 
+  DESCRIPTION "Quantidade Vendida"
+  FORMAT "->,>>>,>>>,>>9.9999"
+  INITIAL "0"
+  LABEL "qBCProd"
+  MAX-WIDTH 17
+  COLUMN-LABEL "qBCProd"
+  DECIMALS 2
+  ORDER 130
+
+ADD FIELD "vAliqProd" OF "S01_cofins" AS decimal 
+  DESCRIPTION "Alíquota do PIS (em reais)"
+  FORMAT "->>>,>>>,>>9.9999"
+  INITIAL "0"
+  LABEL "vAliqProd"
+  MAX-WIDTH 17
+  COLUMN-LABEL "vAliqProd"
+  DECIMALS 2
+  ORDER 140
+
+ADD FIELD "chave" OF "S01_cofins" AS character 
+  DESCRIPTION "chave"
+  FORMAT "x(40)"
+  INITIAL ""
+  LABEL "chave"
+  MAX-WIDTH 80
+  COLUMN-LABEL "chave"
+  ORDER 110
+
+ADD INDEX "nitem" ON "S01_cofins" 
+  AREA "indices"
+  UNIQUE
+  PRIMARY
+  INDEX-FIELD "chave" ASCENDING 
+  INDEX-FIELD "nItem" ASCENDING 
+
+ADD TABLE "sittri"
+  AREA "dados"
+  DESCRIPTION "Situacao tributaria ICMS"
+  DUMP-NAME "sittri"
+  TABLE-TRIGGER "Write" NO-OVERRIDE PROCEDURE "sittri.t" CRC "?" 
+
+ADD FIELD "codori" OF "sittri" AS integer 
+  FORMAT "9"
+  INITIAL "0"
+  LABEL "codori"
+  MAX-WIDTH 4
+  COLUMN-LABEL "codori"
+  ORDER 10
+
+ADD FIELD "codtri" OF "sittri" AS integer 
+  FORMAT "99"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 20
+
+ADD FIELD "desori" OF "sittri" AS character 
+  FORMAT "x(20)"
+  INITIAL ""
+  MAX-WIDTH 40
+  ORDER 30
+
+ADD FIELD "destri" OF "sittri" AS character 
+  FORMAT "x(20)"
+  INITIAL ""
+  MAX-WIDTH 40
+  ORDER 40
+
+ADD FIELD "CST" OF "sittri" AS integer 
+  DESCRIPTION "Codigo Tributacao  ICMS"
+  FORMAT "999"
+  INITIAL "0"
+  LABEL "Codigo Tributacao  ICMS"
+  MAX-WIDTH 4
+  COLUMN-LABEL "CodiTribICMS"
+  ORDER 50
+
+ADD INDEX "indx1" ON "sittri" 
+  AREA "indices"
+  UNIQUE
+  PRIMARY
+  INDEX-FIELD "codori" ASCENDING 
+  INDEX-FIELD "codtri" ASCENDING 
+
+ADD INDEX "indx2" ON "sittri" 
+  AREA "indices"
+  INDEX-FIELD "CST" ASCENDING 
+
+ADD TABLE "sit_nfe"
+  AREA "dados"
+  DUMP-NAME "sit_nfe"
+
+ADD FIELD "sitcod" OF "sit_nfe" AS integer 
+  FORMAT ">>9"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 10
+
+ADD FIELD "sitnom" OF "sit_nfe" AS character 
+  FORMAT "x(20)"
+  INITIAL ""
+  MAX-WIDTH 40
+  ORDER 20
+
+ADD INDEX "sitnom" ON "sit_nfe" 
+  AREA "indices"
+  UNIQUE
+  PRIMARY
+  INDEX-FIELD "sitnom" ASCENDING 
+
+ADD TABLE "T01_COFINSST"
+  AREA "T01_COFINSST"
+  LABEL "T01_COFINSST"
+  DESCRIPTION "Grupo de COFINS                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+Substituição Tributária"
+  DUMP-NAME "t01_cofi"
+
+ADD FIELD "vBC" OF "T01_COFINSST" AS decimal 
+  DESCRIPTION "Valor do BC do ICMS ST "
+  FORMAT "->,>>>,>>9.99"
+  INITIAL "0"
+  LABEL "vBCST"
+  MAX-WIDTH 17
+  COLUMN-LABEL "vBCST"
+  DECIMALS 2
+  ORDER 30
+
+ADD FIELD "pCOFINS" OF "T01_COFINSST" AS decimal 
+  DESCRIPTION "Aliquota  COFINS"
+  FORMAT "->,>>9.99"
+  INITIAL "0"
+  LABEL "pCOFINS"
+  MAX-WIDTH 17
+  COLUMN-LABEL "pCOFINS"
+  DECIMALS 2
+  ORDER 40
+
+ADD FIELD "qBCProd" OF "T01_COFINSST" AS decimal 
+  DESCRIPTION "Quantidade Vendida"
+  FORMAT "->,>>>,>>>,>>9.9999"
+  INITIAL "0"
+  LABEL "qBCProd"
+  MAX-WIDTH 17
+  COLUMN-LABEL "qBCProd"
+  DECIMALS 2
+  ORDER 50
+
+ADD FIELD "vAliqProd" OF "T01_COFINSST" AS decimal 
+  DESCRIPTION "Alíquota do PIS (em reais)"
+  FORMAT "->>>,>>>,>>9.9999"
+  INITIAL "0"
+  LABEL "vAliqProd"
+  MAX-WIDTH 17
+  COLUMN-LABEL "vAliqProd"
+  DECIMALS 2
+  ORDER 60
+
+ADD FIELD "vCOFINS" OF "T01_COFINSST" AS decimal 
+  DESCRIPTION "Valor do COFINS"
+  FORMAT "->>,>>>,>>>,>>9.99"
+  INITIAL "0"
+  LABEL "vCOFINS"
+  MAX-WIDTH 17
+  COLUMN-LABEL "vCOFINS"
+  DECIMALS 2
+  ORDER 70
+
+ADD FIELD "nItem" OF "T01_COFINSST" AS integer 
+  FORMAT ">>9"
+  INITIAL "0"
+  LABEL "N.Item"
+  MAX-WIDTH 4
+  COLUMN-LABEL "N.Item"
+  ORDER 140
+
+ADD FIELD "chave" OF "T01_COFINSST" AS character 
+  DESCRIPTION "chave"
+  FORMAT "x(40)"
+  INITIAL ""
+  LABEL "chave"
+  MAX-WIDTH 80
+  COLUMN-LABEL "chave"
+  ORDER 130
+
+ADD INDEX "nitem" ON "T01_COFINSST" 
+  AREA "indices"
+  UNIQUE
+  PRIMARY
+  INDEX-FIELD "chave" ASCENDING 
+  INDEX-FIELD "nItem" ASCENDING 
+
+ADD TABLE "tabobs"
+  AREA "dados"
+  DUMP-NAME "tabobs"
+
+ADD FIELD "obscod" OF "tabobs" AS integer 
+  FORMAT "->,>>>,>>9"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 10
+
+ADD FIELD "obstipo" OF "tabobs" AS character 
+  FORMAT "x(8)"
+  INITIAL ""
+  MAX-WIDTH 16
+  ORDER 20
+
+ADD FIELD "obstitulo" OF "tabobs" AS character 
+  FORMAT "x(30)"
+  INITIAL ""
+  MAX-WIDTH 60
+  ORDER 30
+
+ADD FIELD "obsdesc" OF "tabobs" AS character 
+  FORMAT "x(500)"
+  INITIAL ""
+  MAX-WIDTH 1000
+  ORDER 40
+
+ADD INDEX "obscod" ON "tabobs" 
+  AREA "indices"
+  UNIQUE
+  PRIMARY
+  INDEX-FIELD "obscod" ASCENDING 
+
+ADD TABLE "tab_asc"
+  AREA "dados"
+  DUMP-NAME "tab_asc"
+
+ADD FIELD "dec" OF "tab_asc" AS integer 
+  FORMAT "->,>>>,>>9"
+  INITIAL "0"
+  LABEL "Decimal"
+  MAX-WIDTH 4
+  ORDER 10
+
+ADD FIELD "bin" OF "tab_asc" AS integer 
+  FORMAT "99999999"
+  INITIAL "0"
+  LABEL "Binario"
+  MAX-WIDTH 4
+  ORDER 20
+
+ADD FIELD "hex" OF "tab_asc" AS character 
+  FORMAT "x(8)"
+  INITIAL ""
+  LABEL "Hexa"
+  MAX-WIDTH 16
+  ORDER 30
+
+ADD FIELD "ref" OF "tab_asc" AS character 
+  FORMAT "x(8)"
+  INITIAL ""
+  LABEL "Referencia"
+  MAX-WIDTH 16
+  ORDER 40
+
+ADD FIELD "usa" OF "tab_asc" AS character 
+  FORMAT "x(8)"
+  INITIAL ""
+  LABEL "Usar"
+  MAX-WIDTH 16
+  ORDER 50
+
+ADD INDEX "indx1" ON "tab_asc" 
+  AREA "indices"
+  UNIQUE
+  PRIMARY
+  INDEX-FIELD "dec" ASCENDING 
+
+ADD INDEX "indx2" ON "tab_asc" 
+  AREA "indices"
+  INDEX-FIELD "ref" ASCENDING 
+
+ADD TABLE "tab_erros"
+  AREA "dados"
+  DUMP-NAME "tab_erros"
+
+ADD FIELD "Codigo" OF "tab_erros" AS integer 
+  FORMAT ">>>9"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 10
+
+ADD FIELD "Descricao" OF "tab_erros" AS character 
+  FORMAT "x(60)"
+  INITIAL ""
+  MAX-WIDTH 120
+  ORDER 20
+
+ADD INDEX "codigo" ON "tab_erros" 
+  AREA "indices"
+  UNIQUE
+  PRIMARY
+  INDEX-FIELD "Codigo" ASCENDING 
+
+ADD TABLE "tab_ini"
+  AREA "dados"
+  DUMP-NAME "tab_ini"
+
+ADD FIELD "etbcod" OF "tab_ini" AS integer 
+  DESCRIPTION "Codigo do Establecimento"
+  FORMAT ">>9"
+  INITIAL "0"
+  LABEL "Estebelecimento"
+  MAX-WIDTH 4
+  COLUMN-LABEL "Estab."
+  ORDER 10
+
+ADD FIELD "cxacod" OF "tab_ini" AS integer 
+  FORMAT ">>9"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 20
+
+ADD FIELD "parametro" OF "tab_ini" AS character 
+  FORMAT "x(30)"
+  INITIAL ""
+  MAX-WIDTH 60
+  ORDER 30
+
+ADD FIELD "valor" OF "tab_ini" AS character 
+  FORMAT "x(20)"
+  INITIAL ""
+  MAX-WIDTH 40
+  ORDER 40
+
+ADD FIELD "dtinclu" OF "tab_ini" AS date 
+  FORMAT "99/99/99"
+  INITIAL ?
+  MAX-WIDTH 4
+  ORDER 50
+
+ADD FIELD "dtexp" OF "tab_ini" AS date 
+  FORMAT "99/99/99"
+  INITIAL ?
+  MAX-WIDTH 4
+  ORDER 60
+
+ADD FIELD "exportar" OF "tab_ini" AS logical 
+  FORMAT "Sim/Nao"
+  INITIAL "no"
+  MAX-WIDTH 1
+  ORDER 70
+
+ADD INDEX "tabini" ON "tab_ini" 
+  AREA "indices"
+  UNIQUE
+  PRIMARY
+  INDEX-FIELD "etbcod" ASCENDING 
+  INDEX-FIELD "cxacod" ASCENDING 
+  INDEX-FIELD "parametro" ASCENDING 
+
+ADD TABLE "tab_log"
+  AREA "dados"
+  DUMP-NAME "tab_log"
+
+ADD FIELD "etbcod" OF "tab_log" AS integer 
+  DESCRIPTION "Codigo do Establecimento"
+  FORMAT ">>9"
+  INITIAL "0"
+  LABEL "Estebelecimento"
+  MAX-WIDTH 4
+  COLUMN-LABEL "Estab."
+  ORDER 10
+
+ADD FIELD "dtinclu" OF "tab_log" AS date 
+  FORMAT "99/99/9999"
+  INITIAL ?
+  MAX-WIDTH 4
+  ORDER 20
+
+ADD FIELD "HrInclu" OF "tab_log" AS integer 
+  FORMAT ">>>>>>>>9"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 30
+
+ADD FIELD "nome_campo" OF "tab_log" AS character 
+  FORMAT "x(10)"
+  INITIAL ""
+  MAX-WIDTH 20
+  ORDER 40
+
+ADD FIELD "valor_campo" OF "tab_log" AS character 
+  FORMAT "x(20)"
+  INITIAL ""
+  MAX-WIDTH 40
+  ORDER 50
+
+ADD FIELD "datexp" OF "tab_log" AS date 
+  FORMAT "99/99/99"
+  INITIAL ?
+  MAX-WIDTH 4
+  ORDER 60
+
+ADD FIELD "exportar" OF "tab_log" AS logical 
+  FORMAT "Sim/Nao"
+  INITIAL "no"
+  MAX-WIDTH 1
+  ORDER 70
+
+ADD FIELD "tipo_campo" OF "tab_log" AS character 
+  FORMAT "x(8)"
+  INITIAL ""
+  MAX-WIDTH 16
+  ORDER 80
+
+ADD INDEX "indx-1" ON "tab_log" 
+  AREA "indices"
+  UNIQUE
+  PRIMARY
+  INDEX-FIELD "etbcod" ASCENDING 
+  INDEX-FIELD "dtinclu" ASCENDING 
+  INDEX-FIELD "HrInclu" ASCENDING 
+  INDEX-FIELD "nome_campo" ASCENDING 
+  INDEX-FIELD "valor_campo" ASCENDING 
+
+ADD INDEX "ndx-2" ON "tab_log" 
+  AREA "indices"
+  UNIQUE
+  INDEX-FIELD "etbcod" ASCENDING 
+  INDEX-FIELD "nome_campo" ASCENDING 
+  INDEX-FIELD "valor_campo" ASCENDING 
+  INDEX-FIELD "dtinclu" ASCENDING 
+  INDEX-FIELD "HrInclu" ASCENDING 
+
+ADD TABLE "U01_ISSQN"
+  AREA "dados"
+  LABEL "U01_ISSQN"
+  DESCRIPTION "Grupo do ISSQN"
+  DUMP-NAME "u01_issq"
+
+ADD FIELD "vBC" OF "U01_ISSQN" AS decimal 
+  DESCRIPTION "Valor do BC do ICMS ST "
+  FORMAT "->,>>>,>>9.99"
+  INITIAL "0"
+  LABEL "vBCST"
+  MAX-WIDTH 17
+  COLUMN-LABEL "vBCST"
+  DECIMALS 2
+  ORDER 30
+
+ADD FIELD "vAliq" OF "U01_ISSQN" AS decimal 
+  DESCRIPTION "Alíquota do ISSQN                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+"
+  FORMAT "->,>>9.99"
+  INITIAL "0"
+  LABEL "vAliq"
+  MAX-WIDTH 17
+  COLUMN-LABEL "vAliq"
+  DECIMALS 2
+  ORDER 60
+
+ADD FIELD "vlISSQN" OF "U01_ISSQN" AS decimal 
+  DESCRIPTION "Valor do ISSQN"
+  FORMAT "->>>,>>>,>>9.99"
+  INITIAL "0"
+  LABEL "vlISSQN"
+  MAX-WIDTH 17
+  COLUMN-LABEL "vlISSQN"
+  DECIMALS 2
+  ORDER 70
+
+ADD FIELD "cMunFG" OF "U01_ISSQN" AS integer 
+  DESCRIPTION "Código do município de                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+ocorrência do fato gerador do                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+ISSQN"
+  FORMAT ">>>>>>9"
+  INITIAL "0"
+  LABEL "cMunFG"
+  MAX-WIDTH 4
+  COLUMN-LABEL "cMunFG"
+  ORDER 80
+
+ADD FIELD "cListServ" OF "U01_ISSQN" AS integer 
+  DESCRIPTION "Item da Lista de Serviços"
+  FORMAT ">>>9"
+  INITIAL "0"
+  LABEL "cListServ"
+  MAX-WIDTH 4
+  COLUMN-LABEL "cListServ"
+  ORDER 90
+
+ADD FIELD "cSitTrib" OF "U01_ISSQN" AS character 
+  DESCRIPTION "Código de Tributação do                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+ISSQN                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+N - NORMAL;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+R - RETIDA;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+S -SUBSTITUTA;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+I - ISENTA. (v.2.0)"
+  FORMAT "x(1)"
+  INITIAL ""
+  LABEL "cSitTrib"
+  MAX-WIDTH 2
+  COLUMN-LABEL "cSitTrib"
+  ORDER 100
+
+ADD FIELD "nItem" OF "U01_ISSQN" AS integer 
+  FORMAT ">>9"
+  INITIAL "0"
+  LABEL "N.Item"
+  MAX-WIDTH 4
+  COLUMN-LABEL "N.Item"
+  ORDER 170
+
+ADD FIELD "chave" OF "U01_ISSQN" AS character 
+  DESCRIPTION "chave"
+  FORMAT "x(40)"
+  INITIAL ""
+  LABEL "chave"
+  MAX-WIDTH 80
+  COLUMN-LABEL "chave"
+  ORDER 160
+
+ADD INDEX "nitem" ON "U01_ISSQN" 
+  AREA "indices"
+  UNIQUE
+  PRIMARY
+  INDEX-FIELD "chave" ASCENDING 
+  INDEX-FIELD "nItem" ASCENDING 
+
+ADD TABLE "W01_total"
+  AREA "dados"
+  LABEL "W01_total"
+  DESCRIPTION "Grupo de Valores Totais                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+referentes ao ICMS"
+  DUMP-NAME "w01_total"
+
+ADD FIELD "vBC" OF "W01_total" AS decimal 
+  DESCRIPTION "Valor da BC do ICMS"
+  FORMAT "->,>>>,>>9.99"
+  INITIAL "0"
+  LABEL "vBC"
+  MAX-WIDTH 17
+  COLUMN-LABEL "vBC"
+  DECIMALS 2
+  ORDER 50
+
+ADD FIELD "vICMS" OF "W01_total" AS decimal 
+  DESCRIPTION "Valor do ICMS "
+  FORMAT "->,>>>,>>9.99"
+  INITIAL "0"
+  LABEL "vICMS"
+  MAX-WIDTH 17
+  COLUMN-LABEL "vICMS"
+  DECIMALS 2
+  ORDER 120
+
+ADD FIELD "vBCST" OF "W01_total" AS decimal 
+  DESCRIPTION "Valor da BC ST do ICMS"
+  FORMAT "->,>>>,>>9.99"
+  INITIAL "0"
+  LABEL "vBCST"
+  MAX-WIDTH 17
+  COLUMN-LABEL "vBCST"
+  DECIMALS 2
+  ORDER 160
+
+ADD FIELD "vST" OF "W01_total" AS decimal 
+  DESCRIPTION "Valor Total do ICMS ST"
+  FORMAT "->>,>>>,>>9.99"
+  INITIAL "0"
+  LABEL "vST"
+  MAX-WIDTH 17
+  COLUMN-LABEL "vST"
+  DECIMALS 2
+  ORDER 170
+
+ADD FIELD "Vprod" OF "W01_total" AS decimal 
+  DESCRIPTION "VlTotBrutoProdutos"
+  FORMAT "->,>>>,>>9.99"
+  INITIAL "0"
+  LABEL "VlTotBrutoProdutos"
+  MAX-WIDTH 17
+  COLUMN-LABEL "VlTotBrutoProdutos"
+  DECIMALS 2
+  ORDER 180
+
+ADD FIELD "Vfrete" OF "W01_total" AS decimal 
+  DESCRIPTION "Vl.Frete"
+  FORMAT "->>>,>>9.99"
+  INITIAL "0"
+  LABEL "Vl.Frete"
+  MAX-WIDTH 17
+  COLUMN-LABEL "Vl.Frete"
+  DECIMALS 2
+  ORDER 190
+
+ADD FIELD "VSeg" OF "W01_total" AS decimal 
+  DESCRIPTION "Vl.Seguro"
+  FORMAT "->>>,>>9.99"
+  INITIAL "0"
+  LABEL "Vl.Seguro"
+  MAX-WIDTH 17
+  COLUMN-LABEL "Vl.Seguro"
+  DECIMALS 2
+  ORDER 200
+
+ADD FIELD "VDesc" OF "W01_total" AS decimal 
+  DESCRIPTION "Vl.Desconto"
+  FORMAT "->>>,>>9.99"
+  INITIAL "0"
+  LABEL "Vl.Desconto"
+  MAX-WIDTH 17
+  COLUMN-LABEL "Vl.Desconto"
+  DECIMALS 2
+  ORDER 210
+
+ADD FIELD "vII" OF "W01_total" AS decimal 
+  DESCRIPTION "Valor Total do II"
+  FORMAT "->>,>>>,>>9.99"
+  INITIAL "0"
+  LABEL "vII"
+  MAX-WIDTH 17
+  COLUMN-LABEL "vII"
+  DECIMALS 2
+  ORDER 220
+
+ADD FIELD "vIPI" OF "W01_total" AS decimal 
+  DESCRIPTION "Valor do IPI"
+  FORMAT "->>,>>>,>>>,>>9.9999"
+  INITIAL "0"
+  LABEL "vIPI"
+  MAX-WIDTH 17
+  COLUMN-LABEL "vIPI"
+  DECIMALS 2
+  ORDER 230
+
+ADD FIELD "vPIS" OF "W01_total" AS decimal 
+  DESCRIPTION "Valor do PIS"
+  FORMAT "->>,>>>,>>>,>>9.9999"
+  INITIAL "0"
+  LABEL "vPIS"
+  MAX-WIDTH 17
+  COLUMN-LABEL "vPIS"
+  DECIMALS 2
+  ORDER 240
+
+ADD FIELD "vCOFINS" OF "W01_total" AS decimal 
+  DESCRIPTION "Valor do COFINS"
+  FORMAT "->>,>>>,>>>,>>9.9999"
+  INITIAL "0"
+  LABEL "vCOFINS"
+  MAX-WIDTH 17
+  COLUMN-LABEL "vCOFINS"
+  DECIMALS 2
+  ORDER 250
+
+ADD FIELD "vOutro" OF "W01_total" AS decimal 
+  DESCRIPTION "Valor de OUTROS"
+  FORMAT "->>,>>>,>>>,>>9.9999"
+  INITIAL "0"
+  LABEL "vOutro"
+  MAX-WIDTH 17
+  COLUMN-LABEL "vOutro"
+  DECIMALS 2
+  ORDER 260
+
+ADD FIELD "vNF" OF "W01_total" AS decimal 
+  DESCRIPTION "Valor Total da NF-e"
+  FORMAT "->>,>>>,>>>,>>9.9999"
+  INITIAL "0"
+  LABEL "vNF"
+  MAX-WIDTH 17
+  COLUMN-LABEL "vNF"
+  DECIMALS 2
+  ORDER 270
+
+ADD FIELD "vFCP" OF "W01_total" AS decimal 
+  FORMAT "->>,>>>,>>>,>>9.9999"
+  INITIAL "0"
+  MAX-WIDTH 17
+  HELP "Valor total do Fundo de Combate a Pobreza"
+  DECIMALS 2
+  ORDER 340
+
+ADD FIELD "vFCPST" OF "W01_total" AS decimal 
+  FORMAT "->>,>>>,>>>,>>9.9999"
+  INITIAL "0"
+  MAX-WIDTH 17
+  HELP "Valor total do FCP retido por ST"
+  DECIMALS 2
+  ORDER 350
+
+ADD FIELD "vFCPSTRet" OF "W01_total" AS decimal 
+  FORMAT "->>,>>>,>>>,>>9.9999"
+  INITIAL "0"
+  MAX-WIDTH 17
+  HELP "Valor total do FCP retido anteriormente por ST"
+  DECIMALS 2
+  ORDER 360
+
+ADD FIELD "vIPIDevol" OF "W01_total" AS decimal 
+  FORMAT "->>,>>>,>>>,>>9.9999"
+  INITIAL "0"
+  MAX-WIDTH 17
+  HELP "Valor total do IPI devolvido"
+  DECIMALS 2
+  ORDER 370
+
+ADD FIELD "chave" OF "W01_total" AS character 
+  DESCRIPTION "chave"
+  FORMAT "x(40)"
+  INITIAL ""
+  LABEL "chave"
+  MAX-WIDTH 80
+  COLUMN-LABEL "chave"
+  ORDER 330
+
+ADD INDEX "chave" ON "W01_total" 
+  AREA "indices"
+  UNIQUE
+  PRIMARY
+  INDEX-FIELD "chave" ASCENDING 
+
+ADD TABLE "W17_ISSQNtot"
+  AREA "dados"
+  LABEL "W17_ISSQNtot"
+  DESCRIPTION "Grupo de Valores Totais                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+referentes ao ISSQN"
+  DUMP-NAME "w17_issq"
+
+ADD FIELD "vServ" OF "W17_ISSQNtot" AS decimal 
+  DESCRIPTION "Valor Total dos Serviços sob                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+não-incidência ou não                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+tributados pelo ICMS"
+  FORMAT "->>,>>>,>>9.99"
+  INITIAL "0"
+  LABEL "vServ"
+  MAX-WIDTH 17
+  COLUMN-LABEL "vServ"
+  DECIMALS 2
+  ORDER 10
+
+ADD FIELD "vBC" OF "W17_ISSQNtot" AS decimal 
+  DESCRIPTION "Valor da BC do ICMS"
+  FORMAT "->,>>>,>>9.99"
+  INITIAL "0"
+  LABEL "vBC"
+  MAX-WIDTH 17
+  COLUMN-LABEL "vBC"
+  DECIMALS 2
+  ORDER 20
+
+ADD FIELD "vISS" OF "W17_ISSQNtot" AS decimal 
+  DESCRIPTION "Valor do ISS"
+  FORMAT "->>,>>>,>>>,>>9.9999"
+  INITIAL "0"
+  LABEL "vISS"
+  MAX-WIDTH 17
+  COLUMN-LABEL "vISS"
+  DECIMALS 2
+  ORDER 30
+
+ADD FIELD "vPIS" OF "W17_ISSQNtot" AS decimal 
+  DESCRIPTION "Valor do PIS"
+  FORMAT "->>,>>>,>>>,>>9.9999"
+  INITIAL "0"
+  LABEL "vPIS"
+  MAX-WIDTH 17
+  COLUMN-LABEL "vPIS"
+  DECIMALS 2
+  ORDER 40
+
+ADD FIELD "vCOFINS" OF "W17_ISSQNtot" AS decimal 
+  DESCRIPTION "Valor do COFINS"
+  FORMAT "->>,>>>,>>>,>>9.9999"
+  INITIAL "0"
+  LABEL "vCOFINS"
+  MAX-WIDTH 17
+  COLUMN-LABEL "vCOFINS"
+  DECIMALS 2
+  ORDER 50
+
+ADD FIELD "chave" OF "W17_ISSQNtot" AS character 
+  DESCRIPTION "chave"
+  FORMAT "x(40)"
+  INITIAL ""
+  LABEL "chave"
+  MAX-WIDTH 80
+  COLUMN-LABEL "chave"
+  ORDER 110
+
+ADD INDEX "chave" ON "W17_ISSQNtot" 
+  AREA "indices"
+  UNIQUE
+  PRIMARY
+  INDEX-FIELD "chave" ASCENDING 
+
+ADD TABLE "W23_retTribtot"
+  AREA "dados"
+  LABEL "W23 retTribtot"
+  DESCRIPTION "Grupo de Retenções de                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+Tributos"
+  DUMP-NAME "w23_rettribtot"
+
+ADD FIELD "vRetPIS" OF "W23_retTribtot" AS decimal 
+  DESCRIPTION "Valor Retido de PIS"
+  FORMAT "->>,>>>,>>9.99"
+  INITIAL "0"
+  LABEL "vRetPIS"
+  MAX-WIDTH 17
+  COLUMN-LABEL "vRetPIS"
+  DECIMALS 2
+  ORDER 10
+
+ADD FIELD "vRetCOFINS" OF "W23_retTribtot" AS decimal 
+  DESCRIPTION "Valor Retido do COFINS"
+  FORMAT "->>,>>>,>>9.99"
+  INITIAL "0"
+  LABEL "vRetCOFINS"
+  MAX-WIDTH 17
+  COLUMN-LABEL "vRetCOFINS"
+  DECIMALS 2
+  ORDER 20
+
+ADD FIELD "vRetCSLL" OF "W23_retTribtot" AS decimal 
+  DESCRIPTION "Valor Retido de CSLL"
+  FORMAT "->>,>>>,>>9.99"
+  INITIAL "0"
+  LABEL "vRetCSLL"
+  MAX-WIDTH 17
+  COLUMN-LABEL "vRetCSLL"
+  DECIMALS 2
+  ORDER 30
+
+ADD FIELD "vBCIRRF" OF "W23_retTribtot" AS decimal 
+  DESCRIPTION "Base de Cálculo do IRRF"
+  FORMAT "->>,>>>,>>9.99"
+  INITIAL "0"
+  LABEL "vBCIRRF"
+  MAX-WIDTH 17
+  COLUMN-LABEL "vBCIRRF"
+  DECIMALS 2
+  ORDER 40
+
+ADD FIELD "vIRRF" OF "W23_retTribtot" AS decimal 
+  DESCRIPTION "Valor Retido do IRRF"
+  FORMAT "->>,>>>>,>>9.99"
+  INITIAL "0"
+  LABEL "vIRRF"
+  MAX-WIDTH 17
+  COLUMN-LABEL "vIRRF"
+  DECIMALS 2
+  ORDER 50
+
+ADD FIELD "vBCRetPrev" OF "W23_retTribtot" AS decimal 
+  DESCRIPTION "Base de Cálculo da Retenção                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
+da Previdência Social"
+  FORMAT "->>,>>>,>>9.99"
+  INITIAL "0"
+  LABEL "vBCRetPrev"
+  MAX-WIDTH 17
+  COLUMN-LABEL "vBCRetPrev"
+  DECIMALS 2
+  ORDER 60
+
+ADD FIELD "vRetPrev" OF "W23_retTribtot" AS decimal 
+  DESCRIPTION "Valor da Retenção da                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
+Previdência Social"
+  FORMAT "->>,>>>,>>9.99"
+  INITIAL "0"
+  LABEL "vRetPrev"
+  MAX-WIDTH 17
+  COLUMN-LABEL "vRetPrev"
+  DECIMALS 2
+  ORDER 70
+
+ADD FIELD "chave" OF "W23_retTribtot" AS character 
+  DESCRIPTION "chave"
+  FORMAT "x(40)"
+  INITIAL ""
+  LABEL "chave"
+  MAX-WIDTH 80
+  COLUMN-LABEL "chave"
+  ORDER 130
+
+ADD INDEX "chave" ON "W23_retTribtot" 
+  AREA "indices"
+  UNIQUE
+  PRIMARY
+  INDEX-FIELD "chave" ASCENDING 
+
+ADD TABLE "X01_Transp"
+  AREA "dados"
+  LABEL "X01_Transp"
+  DESCRIPTION "Dados do Transporte"
+  DUMP-NAME "x01_tran"
+
+ADD FIELD "modFrete" OF "X01_Transp" AS integer 
+  DESCRIPTION "0- Por conta do emitente;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+1- Por conta do                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
+destinatário/remetente;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+2- Por conta de terceiros;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
+9- Sem frete. (V2.0)"
+  FORMAT "9"
+  INITIAL "0"
+  LABEL "modFrete"
+  MAX-WIDTH 4
+  COLUMN-LABEL "modFrete"
+  ORDER 10
+
+ADD FIELD "xnome" OF "X01_Transp" AS character 
+  DESCRIPTION "Nome"
+  FORMAT "x(40)"
+  INITIAL ""
+  LABEL "Nome"
+  MAX-WIDTH 80
+  COLUMN-LABEL "Nome"
+  ORDER 80
+
+ADD FIELD "IE" OF "X01_Transp" AS character 
+  DESCRIPTION "IE"
+  FORMAT "x(14)"
+  INITIAL ""
+  LABEL "IE"
+  MAX-WIDTH 28
+  COLUMN-LABEL "IE"
+  ORDER 90
+
+ADD FIELD "xEnder" OF "X01_Transp" AS character 
+  DESCRIPTION "Endereço Completo"
+  FORMAT "x(50)"
+  INITIAL ""
+  LABEL "xEnder"
+  MAX-WIDTH 100
+  COLUMN-LABEL "xEnder"
+  ORDER 100
+
+ADD FIELD "uf" OF "X01_Transp" AS character 
+  DESCRIPTION "Sigla UF"
+  FORMAT "x(2)"
+  INITIAL ""
+  LABEL "SiglaUF"
+  MAX-WIDTH 4
+  COLUMN-LABEL "SiglaUF"
+  ORDER 110
+
+ADD FIELD "chave" OF "X01_Transp" AS character 
+  DESCRIPTION "chave"
+  FORMAT "x(40)"
+  INITIAL ""
+  LABEL "chave"
+  MAX-WIDTH 80
+  COLUMN-LABEL "chave"
+  ORDER 70
+
+ADD FIELD "cnpj" OF "X01_Transp" AS character 
+  DESCRIPTION "Cnpj Emitente"
+  FORMAT "x(14)"
+  INITIAL ""
+  LABEL "Cnpj Emitente"
+  MAX-WIDTH 28
+  COLUMN-LABEL "Cnpj Emitente"
+  ORDER 130
+
+ADD FIELD "cpf" OF "X01_Transp" AS character 
+  DESCRIPTION "Cpf do Emitente"
+  FORMAT "x(14)"
+  INITIAL ""
+  LABEL "Cpf do Emitente"
+  MAX-WIDTH 28
+  COLUMN-LABEL "Cpf do Emitente"
+  ORDER 140
+
+ADD FIELD "xMun" OF "X01_Transp" AS character 
+  DESCRIPTION "NomeMunic"
+  FORMAT "x(40)"
+  INITIAL ""
+  LABEL "NomeMunic"
+  MAX-WIDTH 80
+  COLUMN-LABEL "NomeMunic"
+  ORDER 120
+
+ADD FIELD "vBCRet" OF "X01_Transp" AS decimal 
+  DESCRIPTION "BC da Retenção do ICMS"
+  FORMAT "->>,>>>,>>9.99"
+  INITIAL "0"
+  LABEL "vBCRet"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 160
+
+ADD FIELD "pICMSRet" OF "X01_Transp" AS decimal 
+  DESCRIPTION "Alíquota da Retenção"
+  FORMAT "->,>>9.99"
+  INITIAL "0"
+  LABEL "pICMSRet"
+  MAX-WIDTH 17
+  COLUMN-LABEL "pICMSRet"
+  DECIMALS 2
+  ORDER 170
+
+ADD FIELD "vICMSRet" OF "X01_Transp" AS decimal 
+  DESCRIPTION "Valor do ICMS Retido"
+  FORMAT "->>,>>>,>>9.99"
+  INITIAL "0"
+  LABEL "vICMSRet"
+  MAX-WIDTH 17
+  COLUMN-LABEL "vICMSRet"
+  DECIMALS 2
+  ORDER 180
+
+ADD FIELD "CFOP" OF "X01_Transp" AS integer 
+  DESCRIPTION "CFOP"
+  FORMAT ">>>9"
+  INITIAL "0"
+  LABEL "CFOP"
+  MAX-WIDTH 4
+  COLUMN-LABEL "CFOP"
+  ORDER 190
+
+ADD FIELD "cMunFG" OF "X01_Transp" AS integer 
+  DESCRIPTION "Código do município de                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+ocorrência do fato gerador do                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+ICMS do transporte - Tabela IBGE"
+  FORMAT ">>>>>>9"
+  INITIAL "0"
+  LABEL "cMunFG"
+  MAX-WIDTH 4
+  COLUMN-LABEL "cMunFG"
+  ORDER 200
+
+ADD FIELD "placa" OF "X01_Transp" AS character 
+  DESCRIPTION "placa"
+  FORMAT "x(8)"
+  INITIAL ""
+  LABEL "placa"
+  MAX-WIDTH 16
+  COLUMN-LABEL "placa"
+  ORDER 210
+
+ADD FIELD "uf-placa" OF "X01_Transp" AS character 
+  FORMAT "x(2)"
+  INITIAL ""
+  MAX-WIDTH 4
+  ORDER 220
+
+ADD FIELD "RNTC" OF "X01_Transp" AS character 
+  DESCRIPTION "Registro Nacional de                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
+Transportador de Carga"
+  FORMAT "x(20)"
+  INITIAL ""
+  LABEL "RNTC"
+  MAX-WIDTH 40
+  COLUMN-LABEL "RNTC"
+  ORDER 230
+
+ADD FIELD "vServ" OF "X01_Transp" AS decimal 
+  DESCRIPTION "Valor do Serviço"
+  FORMAT "->>,>>>,>>9.99"
+  INITIAL "0"
+  LABEL "vServ"
+  MAX-WIDTH 17
+  COLUMN-LABEL "vServ"
+  DECIMALS 2
+  ORDER 150
+
+ADD FIELD "DtMDFe" OF "X01_Transp" AS date 
+  FORMAT "99/99/9999"
+  INITIAL ?
+  MAX-WIDTH 4
+  ORDER 240
+
+ADD INDEX "chave" ON "X01_Transp" 
+  AREA "indices"
+  UNIQUE
+  PRIMARY
+  INDEX-FIELD "chave" ASCENDING 
+  INDEX-FIELD "cnpj" ASCENDING 
+  INDEX-FIELD "cpf" ASCENDING 
+
+ADD INDEX "MDFe" ON "X01_Transp" 
+  AREA "indices"
+  INDEX-FIELD "DtMDFe" ASCENDING 
+  INDEX-FIELD "placa" ASCENDING 
+
+ADD TABLE "X22_Reboque"
+  AREA "dados"
+  LABEL "X22_Reboque"
+  DESCRIPTION "Grupo reboque"
+  DUMP-NAME "x22_rebo"
+
+ADD FIELD "placa" OF "X22_Reboque" AS character 
+  DESCRIPTION "placa"
+  FORMAT "x(8)"
+  INITIAL ""
+  LABEL "placa"
+  MAX-WIDTH 16
+  COLUMN-LABEL "placa"
+  ORDER 10
+
+ADD FIELD "UF" OF "X22_Reboque" AS character 
+  DESCRIPTION "UF"
+  FORMAT "x(2)"
+  INITIAL ""
+  LABEL "UF"
+  MAX-WIDTH 4
+  COLUMN-LABEL "UF"
+  ORDER 12
+
+ADD FIELD "RNTC" OF "X22_Reboque" AS character 
+  DESCRIPTION "Registro Nacional de                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
+Transportador de Carga"
+  FORMAT "x(20)"
+  INITIAL ""
+  LABEL "RNTC"
+  MAX-WIDTH 40
+  COLUMN-LABEL "RNTC"
+  ORDER 22
+
+ADD FIELD "vagao" OF "X22_Reboque" AS character 
+  DESCRIPTION "vagao"
+  FORMAT "x(20)"
+  INITIAL ""
+  LABEL "vagao"
+  MAX-WIDTH 40
+  COLUMN-LABEL "vagao"
+  ORDER 32
+
+ADD FIELD "balsa" OF "X22_Reboque" AS character 
+  DESCRIPTION "balsa"
+  FORMAT "x(20)"
+  INITIAL ""
+  LABEL "balsa"
+  MAX-WIDTH 40
+  COLUMN-LABEL "balsa"
+  ORDER 42
+
+ADD FIELD "CNPJ" OF "X22_Reboque" AS character 
+  DESCRIPTION "CNPJ"
+  FORMAT "x(14)"
+  INITIAL ""
+  LABEL "CNPJ"
+  MAX-WIDTH 28
+  COLUMN-LABEL "CNPJ"
+  ORDER 112
+
+ADD FIELD "CPF" OF "X22_Reboque" AS character 
+  DESCRIPTION "CPF"
+  FORMAT "x(14)"
+  INITIAL ""
+  LABEL "CPF"
+  MAX-WIDTH 28
+  COLUMN-LABEL "CPF"
+  ORDER 122
+
+ADD FIELD "chave" OF "X22_Reboque" AS character 
+  DESCRIPTION "chave"
+  FORMAT "x(40)"
+  INITIAL ""
+  LABEL "chave"
+  MAX-WIDTH 80
+  COLUMN-LABEL "chave"
+  ORDER 102
+
+ADD INDEX "chave" ON "X22_Reboque" 
+  AREA "indices"
+  UNIQUE
+  PRIMARY
+  INDEX-FIELD "chave" ASCENDING 
+  INDEX-FIELD "CNPJ" ASCENDING 
+  INDEX-FIELD "CPF" ASCENDING 
+  INDEX-FIELD "placa" ASCENDING 
+
+ADD TABLE "X26_vol"
+  AREA "dados"
+  LABEL "X26_vol"
+  DESCRIPTION "Grupo Volumes                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+"
+  DUMP-NAME "x26_vol"
+
+ADD FIELD "qVol" OF "X26_vol" AS integer 
+  DESCRIPTION "Quantidade de volumes transportados"
+  FORMAT ">>>>>>>>9"
+  INITIAL "0"
+  LABEL "qVol"
+  MAX-WIDTH 4
+  COLUMN-LABEL "qVol"
+  ORDER 10
+
+ADD FIELD "esp" OF "X26_vol" AS character 
+  DESCRIPTION "Especie dos volumes transportados"
+  FORMAT "x(50))"
+  INITIAL ""
+  LABEL "esp"
+  MAX-WIDTH 102
+  COLUMN-LABEL "esp"
+  ORDER 20
+
+ADD FIELD "marca" OF "X26_vol" AS character 
+  DESCRIPTION "Marca dos volumes                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+transportados"
+  FORMAT "x(40)"
+  INITIAL ""
+  LABEL "marca"
+  MAX-WIDTH 80
+  COLUMN-LABEL "marca"
+  ORDER 30
+
+ADD FIELD "nVol" OF "X26_vol" AS integer 
+  DESCRIPTION "Numero de Volumes transportados"
+  FORMAT ">>>>>>>>9"
+  INITIAL "0"
+  LABEL "nVol"
+  MAX-WIDTH 4
+  COLUMN-LABEL "nVol"
+  ORDER 40
+
+ADD FIELD "pesoL" OF "X26_vol" AS decimal 
+  DESCRIPTION "peso liquido (Kg)"
+  FORMAT ">>>>>>>9.999"
+  INITIAL "0"
+  LABEL "pesoL"
+  MAX-WIDTH 17
+  COLUMN-LABEL "pesoL"
+  DECIMALS 2
+  ORDER 50
+
+ADD FIELD "pesoB" OF "X26_vol" AS decimal 
+  DESCRIPTION "peso Bruto (Kg)"
+  FORMAT ">>>>>>>9.999"
+  INITIAL "0"
+  LABEL "pesoB"
+  MAX-WIDTH 17
+  COLUMN-LABEL "pesoB"
+  DECIMALS 2
+  ORDER 60
+
+ADD FIELD "cnpj" OF "X26_vol" AS character 
+  DESCRIPTION "Cnpj Emitente"
+  FORMAT "x(14)"
+  INITIAL ""
+  LABEL "Cnpj Emitente"
+  MAX-WIDTH 28
+  COLUMN-LABEL "Cnpj Emitente"
+  ORDER 130
+
+ADD FIELD "cpf" OF "X26_vol" AS character 
+  DESCRIPTION "Cpf do Emitente"
+  FORMAT "x(14)"
+  INITIAL ""
+  LABEL "Cpf do Emitente"
+  MAX-WIDTH 28
+  COLUMN-LABEL "Cpf do Emitente"
+  ORDER 140
+
+ADD FIELD "chave" OF "X26_vol" AS character 
+  DESCRIPTION "chave"
+  FORMAT "x(40)"
+  INITIAL ""
+  LABEL "chave"
+  MAX-WIDTH 80
+  COLUMN-LABEL "chave"
+  ORDER 120
+
+ADD INDEX "chave" ON "X26_vol" 
+  AREA "indices"
+  UNIQUE
+  PRIMARY
+  INDEX-FIELD "chave" ASCENDING 
+  INDEX-FIELD "cnpj" ASCENDING 
+  INDEX-FIELD "cpf" ASCENDING 
+  INDEX-FIELD "esp" ASCENDING 
+  INDEX-FIELD "marca" ASCENDING 
+  INDEX-FIELD "nVol" ASCENDING 
+
+ADD TABLE "X33_lacres"
+  AREA "dados"
+  LABEL "X33_lacres"
+  DESCRIPTION "Grupo Lacres"
+  DUMP-NAME "x33_lacr"
+
+ADD FIELD "nlacre" OF "X33_lacres" AS character 
+  DESCRIPTION "Numero dos lacres"
+  FORMAT "x(50)"
+  INITIAL ""
+  LABEL "nlacre"
+  MAX-WIDTH 100
+  COLUMN-LABEL "nlacre"
+  ORDER 10
+
+ADD FIELD "cnpj" OF "X33_lacres" AS character 
+  DESCRIPTION "Cnpj Emitente"
+  FORMAT "x(14)"
+  INITIAL ""
+  LABEL "Cnpj Emitente"
+  MAX-WIDTH 28
+  COLUMN-LABEL "Cnpj Emitente"
+  ORDER 80
+
+ADD FIELD "cpf" OF "X33_lacres" AS character 
+  DESCRIPTION "Cpf do Emitente"
+  FORMAT "x(14)"
+  INITIAL ""
+  LABEL "Cpf do Emitente"
+  MAX-WIDTH 28
+  COLUMN-LABEL "Cpf do Emitente"
+  ORDER 90
+
+ADD FIELD "chave" OF "X33_lacres" AS character 
+  DESCRIPTION "chave"
+  FORMAT "x(40)"
+  INITIAL ""
+  LABEL "chave"
+  MAX-WIDTH 80
+  COLUMN-LABEL "chave"
+  ORDER 70
+
+ADD INDEX "cnpj" ON "X33_lacres" 
+  AREA "indices"
+  UNIQUE
+  PRIMARY
+  INDEX-FIELD "chave" ASCENDING 
+  INDEX-FIELD "cnpj" ASCENDING 
+  INDEX-FIELD "cpf" ASCENDING 
+  INDEX-FIELD "nlacre" ASCENDING 
+
+ADD TABLE "Y01_cobr"
+  AREA "dados"
+  LABEL "Y01_cobr"
+  DESCRIPTION "Grupo Fatura"
+  DUMP-NAME "y01_cobr"
+
+ADD FIELD "nFat" OF "Y01_cobr" AS character 
+  DESCRIPTION "Numerop da Fatura"
+  FORMAT "x(40)"
+  INITIAL ""
+  LABEL "nFat"
+  MAX-WIDTH 80
+  COLUMN-LABEL "nFat"
+  ORDER 10
+
+ADD FIELD "VOrig" OF "Y01_cobr" AS decimal 
+  DESCRIPTION "Valor Original da Fatura"
+  FORMAT "->>,>>>,>>9.99"
+  INITIAL "0"
+  LABEL "VOrig"
+  MAX-WIDTH 17
+  COLUMN-LABEL "VOrig"
+  DECIMALS 2
+  ORDER 20
+
+ADD FIELD "VLiq" OF "Y01_cobr" AS decimal 
+  DESCRIPTION "Valor Liquido da Fatura"
+  FORMAT "->>,>>>,>>9.99"
+  INITIAL "0"
+  LABEL "VLiq"
+  MAX-WIDTH 17
+  COLUMN-LABEL "VLiq"
+  DECIMALS 2
+  ORDER 30
+
+ADD FIELD "VDesc" OF "Y01_cobr" AS decimal 
+  DESCRIPTION "Valor Desconto da Fatura"
+  FORMAT "->>,>>>,>>9.99"
+  INITIAL "0"
+  LABEL "VDesc"
+  MAX-WIDTH 17
+  COLUMN-LABEL "VDesc"
+  DECIMALS 2
+  ORDER 22
+
+ADD FIELD "nDup" OF "Y01_cobr" AS character 
+  DESCRIPTION "Numero da duplicata"
+  FORMAT "x(40)"
+  INITIAL ""
+  LABEL "nDup"
+  MAX-WIDTH 80
+  COLUMN-LABEL "nDup"
+  ORDER 100
+
+ADD FIELD "dvenc" OF "Y01_cobr" AS date 
+  DESCRIPTION "Data de Vencimento"
+  FORMAT "99/99/9999"
+  INITIAL ?
+  LABEL "Data de Vencimento"
+  MAX-WIDTH 4
+  COLUMN-LABEL "Data de Vencimento"
+  ORDER 110
+
+ADD FIELD "VDup" OF "Y01_cobr" AS decimal 
+  DESCRIPTION "Valor da Duplicatra"
+  FORMAT "->>,>>>,>>9.99"
+  INITIAL "0"
+  LABEL "VDup"
+  MAX-WIDTH 17
+  COLUMN-LABEL "VDup"
+  DECIMALS 2
+  ORDER 120
+
+ADD FIELD "chave" OF "Y01_cobr" AS character 
+  DESCRIPTION "chave"
+  FORMAT "x(40)"
+  INITIAL ""
+  LABEL "chave"
+  MAX-WIDTH 80
+  COLUMN-LABEL "chave"
+  ORDER 90
+
+ADD INDEX "chave" ON "Y01_cobr" 
+  AREA "indices"
+  UNIQUE
+  PRIMARY
+  INDEX-FIELD "chave" ASCENDING 
+  INDEX-FIELD "nDup" ASCENDING 
+  INDEX-FIELD "dvenc" ASCENDING 
+
+ADD TABLE "Y01_pag"
+  AREA "dados"
+  DESCRIPTION "Detalhamento de formas de pagamento"
+  DUMP-NAME "y01_pag"
+
+ADD FIELD "chave" OF "Y01_pag" AS character 
+  DESCRIPTION "chave"
+  FORMAT "x(40)"
+  INITIAL ""
+  LABEL "chave"
+  MAX-WIDTH 80
+  COLUMN-LABEL "chave"
+  ORDER 10
+
+ADD FIELD "tPag" OF "Y01_pag" AS integer 
+  FORMAT "99"
+  INITIAL "90"
+  MAX-WIDTH 4
+  HELP "Formas de pagamento"
+  ORDER 20
+
+ADD FIELD "vPag" OF "Y01_pag" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  HELP "Valor do pagamento"
+  DECIMALS 2
+  ORDER 30
+
+ADD FIELD "vTroco" OF "Y01_pag" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  HELP "Valor do troco"
+  DECIMALS 2
+  ORDER 40
+
+ADD INDEX "indx1" ON "Y01_pag" 
+  AREA "indices"
+  UNIQUE
+  PRIMARY
+  INDEX-FIELD "chave" ASCENDING 
+  INDEX-FIELD "tPag" ASCENDING 
+
+ADD TABLE "Z01_InfAdic"
+  AREA "dados"
+  LABEL "Z01_InfAdic"
+  DESCRIPTION "Grupo de Informaçoes Adicionais"
+  DUMP-NAME "z01_infa"
+
+ADD FIELD "InfAdfisco" OF "Z01_InfAdic" AS character 
+  DESCRIPTION "Informações Adicionais de                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+Interesse do Fisco"
+  FORMAT "x(100)"
+  INITIAL ""
+  LABEL "InfAdfisco"
+  MAX-WIDTH 200
+  COLUMN-LABEL "InfAdfisco"
+  ORDER 10
+
+ADD FIELD "infCpl" OF "Z01_InfAdic" AS character 
+  DESCRIPTION "Informações Complementaresa Adicionais de                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+Interesse do Fisco"
+  FORMAT "x(100)"
+  INITIAL ""
+  LABEL "infCpl"
+  MAX-WIDTH 200
+  COLUMN-LABEL "infCpl"
+  ORDER 20
+
+ADD FIELD "obscont" OF "Z01_InfAdic" AS character 
+  FORMAT "x(60)"
+  INITIAL ""
+  MAX-WIDTH 120
+  ORDER 90
+
+ADD FIELD "xcampo" OF "Z01_InfAdic" AS character 
+  DESCRIPTION "Identificação do campo"
+  FORMAT "x(20)"
+  INITIAL ""
+  LABEL "xcampo"
+  MAX-WIDTH 40
+  COLUMN-LABEL "xcampo"
+  ORDER 100
+
+ADD FIELD "xTexto" OF "Z01_InfAdic" AS character 
+  DESCRIPTION "Conteudo do campo"
+  FORMAT "x(20)"
+  INITIAL ""
+  LABEL "xTexto"
+  MAX-WIDTH 40
+  COLUMN-LABEL "xTexto"
+  ORDER 110
+
+ADD FIELD "chave" OF "Z01_InfAdic" AS character 
+  DESCRIPTION "chave"
+  FORMAT "x(40)"
+  INITIAL ""
+  LABEL "chave"
+  MAX-WIDTH 80
+  COLUMN-LABEL "chave"
+  ORDER 80
+
+ADD INDEX "chave" ON "Z01_InfAdic" 
+  AREA "indices"
+  UNIQUE
+  PRIMARY
+  INDEX-FIELD "chave" ASCENDING 
+
+ADD TABLE "Z07_obsFisco"
+  AREA "dados"
+  LABEL "Z07_obsFisco"
+  DESCRIPTION "Grupo do Campo de uso livre do fisco"
+  DUMP-NAME "z07_obsf"
+
+ADD FIELD "xcampo" OF "Z07_obsFisco" AS character 
+  DESCRIPTION "Identificação do campo"
+  FORMAT "x(20)"
+  INITIAL ""
+  LABEL "xcampo"
+  MAX-WIDTH 40
+  COLUMN-LABEL "xcampo"
+  ORDER 10
+
+ADD FIELD "xTexto" OF "Z07_obsFisco" AS character 
+  DESCRIPTION "Conteudo do campo"
+  FORMAT "x(20)"
+  INITIAL ""
+  LABEL "xTexto"
+  MAX-WIDTH 40
+  COLUMN-LABEL "xTexto"
+  ORDER 20
+
+ADD FIELD "chave" OF "Z07_obsFisco" AS character 
+  DESCRIPTION "chave"
+  FORMAT "x(40)"
+  INITIAL ""
+  LABEL "chave"
+  MAX-WIDTH 80
+  COLUMN-LABEL "chave"
+  ORDER 90
+
+ADD INDEX "chave" ON "Z07_obsFisco" 
+  AREA "indices"
+  UNIQUE
+  PRIMARY
+  INDEX-FIELD "chave" ASCENDING 
+
+ADD TABLE "ZZ01_Signature"
+  AREA "dados"
+  LABEL "ZZ01_Signature"
+  DESCRIPTION "Grupo de Assinatura Digital"
+  DUMP-NAME "zz01_sig"
+
+ADD FIELD "Signature" OF "ZZ01_Signature" AS character 
+  DESCRIPTION "Assinatura"
+  FORMAT "x(300)"
+  INITIAL ""
+  LABEL "Signature"
+  MAX-WIDTH 600
+  COLUMN-LABEL "Signature"
+  ORDER 10
+
+ADD FIELD "versao" OF "ZZ01_Signature" AS integer 
+  DESCRIPTION "Numero da versao"
+  FORMAT ">>>>>>>>>9"
+  INITIAL "0"
+  LABEL "versao"
+  MAX-WIDTH 4
+  COLUMN-LABEL "versao"
+  ORDER 20
+
+ADD FIELD "chave" OF "ZZ01_Signature" AS character 
+  DESCRIPTION "chave"
+  FORMAT "x(40)"
+  INITIAL ""
+  LABEL "chave"
+  MAX-WIDTH 80
+  COLUMN-LABEL "chave"
+  ORDER 80
+
+ADD INDEX "chave" ON "ZZ01_Signature" 
+  AREA "indices"
+  UNIQUE
+  PRIMARY
+  INDEX-FIELD "chave" ASCENDING 
+
+.
+PSC
+cpstream=ISO8859-1
+.
+0000183978

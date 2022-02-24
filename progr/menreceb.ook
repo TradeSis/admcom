@@ -1,0 +1,11 @@
+if keyfunction(lastkey) = "CUT"
+then do :
+    find first correio where recid(correio) = an-seerec[frame-line] .
+    MESSAGE "Confirma Exclusao de" correio.assunto UPDATE sresp.
+    IF NOT sresp
+    THEN next keys-loop.
+    correio.situacao = "L".
+    an-seeid = -1.
+    next keys-loop.
+end.
+

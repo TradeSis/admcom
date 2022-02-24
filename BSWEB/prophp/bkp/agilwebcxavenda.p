@@ -1,0 +1,254 @@
+def var varquivo as char.
+def var v-clicod like clien.clicod.
+def var v-param as char.
+
+def var v-etbcod like estab.etbcod.
+def var vq as int.                                
+v-param = os-getenv("cxavenda").
+v-etbcod = int(substr(string(v-param),1,3)).
+v-clicod = int(substr(string(v-param),4,10)).
+
+def temp-table tt-clien like clien.
+
+def temp-table tt-titulo like fin.titulo.
+
+def var vcalclim as dec.
+def var vpardias as dec.
+def var vdisponivel as dec.
+def new shared temp-table tt-dados
+    field parametro as char
+    field valor     as dec
+    field valoralt  as dec
+    field percent   as dec
+    field vcalclim  as dec
+    field operacao  as char format "x(1)" column-label ""
+    field numseq    as int
+    index dado1 numseq.
+
+def var vobs as char.
+def var q as int.                    
+    
+    q = 0.
+
+    put "@INICIO;" string(time) skip.
+    
+    put "#CLIEN;" string(time) skip.
+    q = 0.
+    for each tt-clien. delete tt-clien. end.
+    for each clien where
+               clien.clicod = v-clicod no-lock:
+               create tt-clien.
+               buffer-copy clien to tt-clien.
+    end.
+    for each tt-clien where
+               tt-clien.clicod = v-clicod :
+            find clien where clien.clicod = tt-clien.clicod no-lock.
+
+                vcalclim = 0.
+                vpardias = 0.
+                vdisponivel = 0.
+                run /admcom/progr/calccredscore.p (input "",
+                        input recid(clien),
+                        output vcalclim,
+                        output vpardias,
+                        output vdisponivel).
+                tt-clien.limcrd = vcalclim.
+                tt-clien.medatr = vpardias.
+            
+            export tt-clien.
+            q = q + 1.
+            
+    end.  
+    put skip "@FIMCLIEN;" string(q,"99999") skip.
+    put "#CPCLIEN;" string(time) skip. 
+    q = 0.
+    for each cpclien where cpclien.clicod = v-clicod no-lock. 
+        export cpclien.
+        q = q + 1.    
+    end.
+    put skip "@FIMCPCLIEN;" string(q,"99999") skip.
+    put "#CARRO;" string(time) skip.
+    q = 0.
+    for each carro where
+             carro.clicod = v-clicod no-lock:
+         export carro.
+         q = q + 1.
+    end.   
+    put skip "@FIMCARRO;" string(q,"99999") skip.
+    put "#TITULO;" string(time) skip.   
+    q = 0. 
+    for each fin.titulo use-index iclicod where 
+             fin.titulo.empcod = 19        and
+             fin.titulo.titnat = no        and
+                 /*fin.titulo.modcod = "CRE"     and*/
+             fin.titulo.clifor = v-clicod no-lock:
+             /**
+             if fin.titulo.titdtpag <> ? and
+                fin.titulo.titsit = "PAG" and
+                fin.titulo.titdtpag < today - 90
+             then next.
+             **/
+             if fin.titulo.modcod = "CHQ" then next.
+             create tt-titulo.
+             assign
+                 tt-titulo.empcod = fin.titulo.empcod
+                 tt-titulo.modcod = fin.titulo.modcod
+                 tt-titulo.clifor = fin.titulo.clifor
+                 tt-titulo.titnum = fin.titulo.titnum
+                 tt-titulo.titpar = fin.titulo.titpar
+                 tt-titulo.titnat = fin.titulo.titnat
+                 tt-titulo.etbcod = fin.titulo.etbcod
+                 tt-titulo.titdtemi = fin.titulo.titdtemi
+                 tt-titulo.titdtven = fin.titulo.titdtven
+                 tt-titulo.titvlcob = fin.titulo.titvlcob
+                 tt-titulo.titsit   = fin.titulo.titsit    
+                 tt-titulo.titdtpag = fin.titulo.titdtpag
+                 tt-titulo.titvlpag = fin.titulo.titvlpag
+                 tt-titulo.titobs[1] = fin.titulo.titobs[1]
+                 tt-titulo.moecod =   fin.titulo.moecod
+                 .
+    end.
+        
+    put skip.
+    for each fin.titulo use-index iclicod where 
+                 fin.titulo.empcod = 19        and
+                 fin.titulo.titnat = yes       and
+                 fin.titulo.modcod = "BON"     and
+                 fin.titulo.clifor = v-clicod no-lock:
+
+             if fin.titulo.titobs[1] <> ""
+             then find acao where
+                       acao.acaocod = int(fin.titulo.titobs[1])
+                       no-lock no-error.
+             create tt-titulo.
+             assign
+                 tt-titulo.empcod = fin.titulo.empcod
+                 tt-titulo.modcod = fin.titulo.modcod
+                 tt-titulo.clifor = fin.titulo.clifor
+                 tt-titulo.titnum = fin.titulo.titnum
+                 tt-titulo.titpar = fin.titulo.titpar
+                 tt-titulo.titnat = fin.titulo.titnat
+                 tt-titulo.etbcod = fin.titulo.etbcod
+                 tt-titulo.titdtemi = fin.titulo.titdtemi
+                 tt-titulo.titdtven = fin.titulo.titdtven
+                 tt-titulo.titvlcob = fin.titulo.titvlcob
+                 tt-titulo.titsit   = fin.titulo.titsit    
+                 tt-titulo.titdtpag = fin.titulo.titdtpag
+                 tt-titulo.titvlpag = fin.titulo.titvlpag
+                 tt-titulo.titobs[1] = fin.titulo.titobs[1]
+                 tt-titulo.moecod =   fin.titulo.moecod
+                 tt-titulo.titagepag =   fin.titulo.titagepag
+                 .
+             if avail acao
+             then tt-titulo.titchepag = acao.descricao.
+    end.
+    put skip.
+    for each dragao.titulo use-index iclicod
+                 where dragao.titulo.empcod = 19
+                   and dragao.titulo.titnat = no
+                   and dragao.titulo.modcod = "CRE"     
+                   and dragao.titulo.clifor = v-clicod
+                   /*and dragao.titulo.titsit = "LIB"*/ no-lock:
+            
+             create tt-titulo.
+             assign
+                 tt-titulo.empcod = dragao.titulo.empcod
+                 tt-titulo.modcod = dragao.titulo.modcod
+                 tt-titulo.clifor = dragao.titulo.clifor
+                 tt-titulo.titnum = dragao.titulo.titnum
+                 tt-titulo.titpar = dragao.titulo.titpar
+                 tt-titulo.titnat = dragao.titulo.titnat
+                 tt-titulo.etbcod = dragao.titulo.etbcod
+                 tt-titulo.titdtemi = dragao.titulo.titdtemi
+                 tt-titulo.titdtven = dragao.titulo.titdtven
+                 tt-titulo.titvlcob = dragao.titulo.titvlcob
+                 tt-titulo.titsit   = dragao.titulo.titsit    
+                 tt-titulo.titdtpag = dragao.titulo.titdtpag
+                 tt-titulo.titvlpag = dragao.titulo.titvlpag
+                 tt-titulo.titobs[1] = dragao.titulo.titobs[1]
+                 tt-titulo.moecod =   dragao.titulo.moecod
+                 .
+   
+    end.      
+    for each tt-titulo:
+      export tt-titulo.
+      q = q + 1.
+    end.  
+    put skip "@FIMTITULO;" string(q,"99999") skip.
+    put "#CHEQUE;" string(time) skip. 
+    q = 0.   
+    for each fin.cheque where fin.cheque.clicod = v-clicod
+                              and fin.cheque.chesit = "LIB" no-lock:
+            
+                /****
+                vobs = "".
+                vobs = "NOME="     + string(fin.cheque.nome).
+                
+                if fin.cheque.cheemi <> ?
+                then vobs = vobs  + "|CHEEMI=" + string(fin.cheque.cheemi).
+                else vobs = vobs  + "|CHEEMI=?".
+                  
+                if fin.cheque.cheven <> ?
+                then vobs = vobs + "|CHEVEN=" + string(fin.cheque.cheven).
+                else vobs = vobs + "|CHEVEN=?".
+
+                vobs = vobs + "|CHEVAL="  + string(fin.cheque.cheval)
+                            + "|CHENUM="  + string(fin.cheque.chenum)
+                            + "|CHEBAN="  + string(fin.cheque.cheban)
+                            + "|CHEAGE="  + string(fin.cheque.cheage)
+                            + "|CHECID="  + string(fin.cheque.checid)
+                            + "|CHEETB="  + string(fin.cheque.cheetb)
+                            + "|CHEALIN=" + string(fin.cheque.chealin).
+                       
+                if fin.cheque.chedti <> ?
+                then vobs = vobs + "|CHEDTI=" + string(fin.cheque.chedti).
+                else vobs = vobs + "|CHEDTI=?".
+                
+                if fin.cheque.chedtf <> ?
+                then vobs = vobs + "|CHEDTF="  + string(fin.cheque.chedtf).
+                else vobs = vobs + "|CHEDTF=?".
+                     
+                vobs = vobs + "|CHESIT="  + string(fin.cheque.chesit)
+                            + "|CODCOB="  + string(fin.cheque.codcob) 
+                            + "|CLICOD="  + string(fin.cheque.clicod).
+                            
+                if fin.cheque.chepag <> ?
+                then vobs = vobs + "|CHEPAG="  + string(fin.cheque.chepag).
+                else vobs = vobs + "|CHEPAG=?".
+
+                vobs = vobs + "|CHEJUR="  + string(fin.cheque.chejur).
+                       
+                export "19"
+                       "CHQ"
+                       fin.cheque.clicod
+                       fin.cheque.chenum
+                       "1"
+                       "no"
+                       fin.cheque.cheetb
+                       fin.cheque.cheemi
+                       fin.cheque.cheven
+                       fin.cheque.cheval
+                       "LIB"
+                       ?
+                       0
+                       vobs.
+               *****/
+               export cheque.
+        q = q + 1.
+    end.
+    put skip "@FIMCHEQUE;" string(q,"99999") skip.
+    put "#CAMPANHA;" string(time) skip.  
+    q = 0.  
+    for each campanha where
+               campanha.clicod = v-clicod no-lock,
+        first acao where acao.acaocod = campanha.acaocod no-lock:
+        if acao.dtini <= today and
+           acao.dtfin >= today
+        then do:
+            export campanha.
+            q = q + 1.
+        end.
+    end.         
+    put skip "@FIMCAMPANHA;" string(q,"99999") skip.
+    put "#FIMFIM;" string(time) skip.
+    q = 0.

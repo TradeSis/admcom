@@ -1,0 +1,141 @@
+def var v-param as char.
+def var v-ind as char.
+def var v-etbcod like estab.etbcod.
+def var v-funcod like func.funcod.
+def var valor as dec.
+v-param = os-getenv("contacor").
+v-ind = substr(string(v-param),1,1).
+v-etbcod = int(substr(string(v-param),2,3)).
+v-funcod = int(substr(string(v-param),5,6)).
+valor = int(substr(string(v-param),11,8)) / 100. 
+def var valor-cre as dec.
+def var valor-deb as dec.
+def buffer bcontacor for contacor.
+def buffer dcontacor for contacor.
+
+def var vtexto as char.
+def var q as int.
+def var vtotal as dec.
+def var vpct as dec.
+if v-ind = "C"
+then do:    
+    FOR EACH contacor where contacor.natcor = no and
+                        contacor.etbcod = v-etbcod and
+                        contacor.clifor = ? and
+                        contacor.funcod = v-funcod and
+                        contacor.sitcor = "LIB" 
+                        no-lock .
+ 
+        vtotal = vtotal + (contacor.valcob - contacor.valpag).
+    end.
+    find first contacor where contacor.natcor = yes and
+                        contacor.etbcod = v-etbcod and
+                        contacor.clifor = ? and
+                        contacor.funcod = v-funcod and
+                        contacor.sitcor = "PAG"  and
+                        contacor.modcod = "PCT"
+                        no-lock no-error.
+    if not avail contacor
+    then find first contacor where contacor.natcor = yes and
+                        contacor.etbcod = v-etbcod and
+                        contacor.clifor = ? and
+                        contacor.funcod = 0 and
+                        contacor.sitcor = "PAG"  and
+                        contacor.modcod = "PCT"
+                        no-lock no-error.
+    if not avail contacor
+    then find first contacor where contacor.natcor = yes and
+                        contacor.etbcod = 0 and
+                        contacor.clifor = ? and
+                        contacor.funcod = 0 and
+                        contacor.sitcor = "PAG"  and
+                        contacor.modcod = "PCT"
+                        no-lock no-error.
+    if avail contacor
+    then vpct = contacor.valcob.
+    else vpct = 0.
+
+    vtexto = "VALOR;" + string(vtotal).
+    put "@INICIO;" string(time) skip.
+    put "#CONTACOR;" string(time) skip.
+    q = 1.
+    PUT unformatted vtotal " NAO " vpct  skip.
+    put skip "@FIMCONTACOR;" string(q,"99999").    
+    put skip "@FIMFIM;" + string(time) skip.
+end.
+else if v-ind = "A"  and
+     valor > 0
+then do:
+    valor-cre = valor.
+    valor-deb = 0.
+
+    for each contacor where contacor.natcor = no and
+                        contacor.etbcod = v-etbcod and
+                        contacor.clifor = ? and
+                        contacor.funcod = v-funcod and
+                        contacor.sitcor = "LIB" 
+                        :
+
+        if contacor.valcob - contacor.valpag >= valor-cre
+        then do:
+            contacor.valpag = contacor.valpag + valor-cre.
+            valor-deb = valor-deb + valor-cre.
+            create dcontacor.
+            find last bcontacor  use-index ndx-7 where 
+                  bcontacor.etbcod = v-etbcod
+                  no-lock no-error.
+            if not avail bcontacor
+            then dcontacor.numcor = v-etbcod * 10000000.
+            else dcontacor.numcor = bcontacor.numcor + 1.
+            assign
+                dcontacor.natcor = yes
+                dcontacor.etbcod = v-etbcod
+                dcontacor.funcod = v-funcod
+                dcontacor.datemi = today
+                dcontacor.datven = today
+                dcontacor.valcob = valor-cre
+                dcontacor.rec-titluc = ?
+                dcontacor.rec-conta = recid(contacor)
+            .
+            valor-cre = 0.    
+            if contacor.valcob = contacor.valpag
+            then contacor.sitcor = "PAG".
+            leave.
+        end.
+        else do:
+            create dcontacor.
+            find last bcontacor  use-index ndx-7 where 
+                  bcontacor.etbcod = v-etbcod
+                  no-lock no-error.
+            if not avail bcontacor
+            then dcontacor.numcor = v-etbcod * 10000000.
+            else dcontacor.numcor = bcontacor.numcor + 1.
+            assign
+                dcontacor.natcor = yes
+                dcontacor.etbcod = v-etbcod
+                dcontacor.funcod = v-funcod
+                dcontacor.datemi = today
+                dcontacor.datven = today
+                dcontacor.valcob = (contacor.valcob - contacor.valpag)
+                dcontacor.rec-titluc = ?
+                dcontacor.rec-conta = recid(contacor)
+                .
+
+            valor-cre = valor-cre - (contacor.valcob - contacor.valpag).
+            valor-deb = valor-deb + (contacor.valcob - contacor.valpag).
+            contacor.valpag = contacor.valpag +
+                                   (contacor.valcob - contacor.valpag).
+            if contacor.valcob = contacor.valpag
+            then contacor.sitcor = "PAG".                           
+        end.    
+        if valor-cre = 0
+        then leave.
+    end.
+    vtotal = 0.
+    put "@INICIO;" string(time) skip.
+    put "#CONTACOR;" string(time) skip.
+    q = 1.
+    PUT unformatted vtotal " SIM " vpct skip.
+    put skip "@FIMCONTACOR;" string(q,"99999").    
+    put skip "@FIMFIM;" + string(time) skip.
+end.        

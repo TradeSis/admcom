@@ -1,0 +1,264 @@
+ADD TABLE "clafis"
+  AREA "dados"
+  DESCRIPTION "Classificacao Fiscal"
+  DUMP-NAME "clafis"
+
+ADD FIELD "codfis" OF "clafis" AS integer 
+  FORMAT ">>>>>>>>>9"
+  INITIAL "0"
+  LABEL "Codigo"
+  POSITION 2
+  MAX-WIDTH 4
+  ORDER 10
+
+ADD FIELD "desfis" OF "clafis" AS character 
+  FORMAT "x(50)"
+  INITIAL ""
+  LABEL "Descricao"
+  POSITION 3
+  MAX-WIDTH 100
+  ORDER 20
+
+ADD FIELD "Tipo" OF "clafis" AS character 
+  FORMAT "x(8)"
+  INITIAL ""
+  LABEL "Tipo"
+  POSITION 4
+  MAX-WIDTH 16
+  ORDER 30
+
+ADD FIELD "pericm" OF "clafis" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  LABEL "Per.Icms"
+  POSITION 5
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 40
+
+ADD FIELD "peripi" OF "clafis" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  LABEL "Per.Ipi"
+  POSITION 6
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 50
+
+ADD FIELD "perred" OF "clafis" AS decimal 
+  FORMAT "->>,>>9.9999"
+  INITIAL "0"
+  POSITION 7
+  MAX-WIDTH 19
+  DECIMALS 4
+  ORDER 60
+
+ADD FIELD "persub" OF "clafis" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  POSITION 8
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 70
+
+ADD FIELD "sittri" OF "clafis" AS integer 
+  FORMAT ">>9"
+  INITIAL "0"
+  LABEL "Sit.Trib."
+  POSITION 9
+  MAX-WIDTH 4
+  ORDER 80
+
+ADD FIELD "pisent" OF "clafis" AS decimal 
+  FORMAT "->>9.99"
+  INITIAL "0"
+  LABEL "%PIS Entrada"
+  POSITION 10
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 90
+
+ADD FIELD "pissai" OF "clafis" AS decimal 
+  FORMAT "->>9.99"
+  INITIAL "0"
+  LABEL "%PIS Saida"
+  POSITION 11
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 100
+
+ADD FIELD "cofinsent" OF "clafis" AS decimal 
+  FORMAT "->>9.99"
+  INITIAL "0"
+  LABEL "%Confins Entrada"
+  POSITION 12
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 110
+
+ADD FIELD "cofinssai" OF "clafis" AS decimal 
+  FORMAT "->>9.99"
+  INITIAL "0"
+  LABEL "%Confins Saida"
+  POSITION 13
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 120
+
+ADD FIELD "mva_estado1" OF "clafis" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  POSITION 14
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 130
+
+ADD FIELD "mva_estado2" OF "clafis" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  POSITION 15
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 140
+
+ADD FIELD "mva_estado3" OF "clafis" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  POSITION 16
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 150
+
+ADD FIELD "mva_oestado1" OF "clafis" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  POSITION 17
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 160
+
+ADD FIELD "mva_oestado2" OF "clafis" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  POSITION 18
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 170
+
+ADD FIELD "mva_oesatdo3" OF "clafis" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  POSITION 19
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 180
+
+ADD FIELD "char1" OF "clafis" AS character 
+  FORMAT "x(60)"
+  INITIAL ""
+  POSITION 20
+  MAX-WIDTH 120
+  ORDER 190
+
+ADD FIELD "char2" OF "clafis" AS character 
+  FORMAT "x(60)"
+  INITIAL ""
+  POSITION 21
+  MAX-WIDTH 120
+  ORDER 200
+
+ADD FIELD "char3" OF "clafis" AS character 
+  FORMAT "x(8)"
+  INITIAL ""
+  POSITION 22
+  MAX-WIDTH 16
+  ORDER 210
+
+ADD FIELD "dec1" OF "clafis" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  POSITION 23
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 220
+
+ADD FIELD "dec2" OF "clafis" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  POSITION 24
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 230
+
+ADD FIELD "dec3" OF "clafis" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  POSITION 25
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 240
+
+ADD FIELD "int1" OF "clafis" AS integer 
+  FORMAT "->,>>>,>>9"
+  INITIAL "0"
+  POSITION 26
+  MAX-WIDTH 4
+  ORDER 250
+
+ADD FIELD "int2" OF "clafis" AS integer 
+  FORMAT "->,>>>,>>9"
+  INITIAL "0"
+  POSITION 27
+  MAX-WIDTH 4
+  ORDER 260
+
+ADD FIELD "int3" OF "clafis" AS integer 
+  FORMAT "->,>>>,>>9"
+  INITIAL "0"
+  POSITION 28
+  MAX-WIDTH 4
+  ORDER 270
+
+ADD FIELD "log1" OF "clafis" AS logical 
+  FORMAT "Sim/Nao"
+  INITIAL "no"
+  POSITION 29
+  MAX-WIDTH 1
+  ORDER 280
+
+ADD FIELD "log2" OF "clafis" AS logical 
+  FORMAT "Sim/Nao"
+  INITIAL "no"
+  POSITION 30
+  MAX-WIDTH 1
+  ORDER 290
+
+ADD FIELD "log3" OF "clafis" AS logical 
+  FORMAT "Sim/Nao"
+  INITIAL "no"
+  POSITION 31
+  MAX-WIDTH 1
+  ORDER 300
+
+ADD FIELD "datexp" OF "clafis" AS date 
+  FORMAT "99/99/99"
+  INITIAL "today"
+  POSITION 32
+  MAX-WIDTH 4
+  ORDER 310
+
+ADD INDEX "ind-1" ON "clafis" 
+  AREA "indices"
+  UNIQUE
+  PRIMARY
+  INDEX-FIELD "codfis" ASCENDING 
+
+ADD INDEX "ind-2" ON "clafis" 
+  AREA "indices"
+  INDEX-FIELD "desfis" ASCENDING 
+
+.
+PSC
+cpstream=ISO8859-1
+.
+0000004404

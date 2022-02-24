@@ -1,0 +1,15 @@
+
+Zipando arquivo '/admcom/relat-auto/08-09-2017/PFG-07092017.1322'...
+updating: admcom/relat-auto/08-09-2017/PFG-07092017.1322 (deflated 83%)
+
+[1m Enviando Email... [m
+Sep 08 00:24:52 sv-ca-db1-old sendEmail[19488]: Email was sent successfully!
+[1m Enviando Email com Anexo... /admcom/relat-auto/08-09-2017/PFG-07092017.1322.zip [m
+
+[1m Data: Fri Sep  8 00:24:52 BRT 2017 [m
+[1m Arquivo: /admcom/relat-auto/08-09-2017/PFG-07092017.1322.zip [m
+[1m Arquivo ZIP: /admcom/relat-auto/08-09-2017/PFG-07092017.1322.zip.zip [m
+[1m Tipo MIME: -m application/x-compress [m
+[1m Tipo Envio: ANEXO_ZIP [m
+
+[1m Email Enviado com Sucesso para joao@lebes.com.br!!! [m

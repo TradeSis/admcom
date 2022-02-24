@@ -1,0 +1,472 @@
+Inicio Pai= Name=v1:Result
+Vh=8 subtype=ELEMENT name=v1:Result hc subtype=ELEMENT name=v1:acordoAgrHdrLista node-value=
+Inicio Pai= Name=v1:acordoAgrHdrLista
+Vh=1 subtype=ELEMENT name=v1:acordoAgrHdrLista hc subtype=ELEMENT name=v1:TLebesAcordo node-value=
+Inicio Pai= Name=v1:TLebesAcordo
+Vh=24 subtype=ELEMENT name=v1:TLebesAcordo hc subtype=ELEMENT name=v1:ahacct node-value=
+Inicio Pai= Name=v1:ahacct
+Vh=1 subtype=ELEMENT name=v1:ahacct hc subtype=TEXT name=#text node-value=57709319068
+Fim v1:ahacct
+Vh=24 subtype=ELEMENT name=v1:TLebesAcordo hc subtype=ELEMENT name=v1:ahacctg node-value=
+Inicio Pai= Name=v1:ahacctg
+Vh=1 subtype=ELEMENT name=v1:ahacctg hc subtype=TEXT name=#text node-value=*
+Fim v1:ahacctg
+Vh=24 subtype=ELEMENT name=v1:TLebesAcordo hc subtype=ELEMENT name=v1:ahagagncy node-value=
+Inicio Pai= Name=v1:ahagagncy
+Vh=1 subtype=ELEMENT name=v1:ahagagncy hc subtype=TEXT name=#text node-value=0
+Fim v1:ahagagncy
+Vh=24 subtype=ELEMENT name=v1:TLebesAcordo hc subtype=ELEMENT name=v1:ahbank node-value=
+Inicio Pai= Name=v1:ahbank
+Vh=1 subtype=ELEMENT name=v1:ahbank hc subtype=TEXT name=#text node-value=0
+Fim v1:ahbank
+Vh=24 subtype=ELEMENT name=v1:TLebesAcordo hc subtype=ELEMENT name=v1:ahbreak node-value=
+Inicio Pai= Name=v1:ahbreak
+Vh=1 subtype=ELEMENT name=v1:ahbreak hc subtype=TEXT name=#text node-value=0
+Fim v1:ahbreak
+Vh=24 subtype=ELEMENT name=v1:TLebesAcordo hc subtype=ELEMENT name=v1:ahcndpaym node-value=
+Inicio Pai= Name=v1:ahcndpaym
+Vh=1 subtype=ELEMENT name=v1:ahcndpaym hc subtype=TEXT name=#text node-value=0
+Fim v1:ahcndpaym
+Vh=24 subtype=ELEMENT name=v1:TLebesAcordo hc subtype=ELEMENT name=v1:ahcndpayn node-value=
+Inicio Pai= Name=v1:ahcndpayn
+Vh=1 subtype=ELEMENT name=v1:ahcndpayn hc subtype=TEXT name=#text node-value=0
+Fim v1:ahcndpayn
+Vh=24 subtype=ELEMENT name=v1:TLebesAcordo hc subtype=ELEMENT name=v1:ahcollid node-value=
+Inicio Pai= Name=v1:ahcollid
+Vh=1 subtype=ELEMENT name=v1:ahcollid hc subtype=TEXT name=#text node-value=1
+Fim v1:ahcollid
+Vh=24 subtype=ELEMENT name=v1:TLebesAcordo hc subtype=ELEMENT name=v1:ahcsinitnt node-value=
+Inicio Pai= Name=v1:ahcsinitnt
+Vh=1 subtype=ELEMENT name=v1:ahcsinitnt hc subtype=TEXT name=#text node-value=0
+Fim v1:ahcsinitnt
+Vh=24 subtype=ELEMENT name=v1:TLebesAcordo hc subtype=ELEMENT name=v1:ahcttype node-value=
+Inicio Pai= Name=v1:ahcttype
+Vh=1 subtype=ELEMENT name=v1:ahcttype hc subtype=TEXT name=#text node-value=C
+Fim v1:ahcttype
+Vh=24 subtype=ELEMENT name=v1:TLebesAcordo hc subtype=ELEMENT name=v1:ahdt node-value=
+Inicio Pai= Name=v1:ahdt
+Vh=1 subtype=ELEMENT name=v1:ahdt hc subtype=TEXT name=#text node-value=08112020
+Fim v1:ahdt
+Vh=24 subtype=ELEMENT name=v1:TLebesAcordo hc subtype=ELEMENT name=v1:ahfreq node-value=
+Inicio Pai= Name=v1:ahfreq
+Vh=1 subtype=ELEMENT name=v1:ahfreq hc subtype=TEXT name=#text node-value=MONTHLY
+Fim v1:ahfreq
+Vh=24 subtype=ELEMENT name=v1:TLebesAcordo hc subtype=ELEMENT name=v1:ahid node-value=
+Inicio Pai= Name=v1:ahid
+Vh=1 subtype=ELEMENT name=v1:ahid hc subtype=TEXT name=#text node-value=167
+Fim v1:ahid
+Vh=24 subtype=ELEMENT name=v1:TLebesAcordo hc subtype=ELEMENT name=v1:ahlvl node-value=
+Inicio Pai= Name=v1:ahlvl
+Vh=1 subtype=ELEMENT name=v1:ahlvl hc subtype=TEXT name=#text node-value=0
+Fim v1:ahlvl
+Vh=24 subtype=ELEMENT name=v1:TLebesAcordo hc subtype=ELEMENT name=v1:ahnumup node-value=
+Inicio Pai= Name=v1:ahnumup
+Vh=1 subtype=ELEMENT name=v1:ahnumup hc subtype=TEXT name=#text node-value=0
+Fim v1:ahnumup
+Vh=24 subtype=ELEMENT name=v1:TLebesAcordo hc subtype=ELEMENT name=v1:ahprd node-value=
+Inicio Pai= Name=v1:ahprd
+Vh=1 subtype=ELEMENT name=v1:ahprd hc subtype=TEXT name=#text node-value=10
+Fim v1:ahprd
+Vh=24 subtype=ELEMENT name=v1:TLebesAcordo hc subtype=ELEMENT name=v1:ahpytype node-value=
+Inicio Pai= Name=v1:ahpytype
+Vh=1 subtype=ELEMENT name=v1:ahpytype hc subtype=TEXT name=#text node-value=LEBES
+Fim v1:ahpytype
+Vh=24 subtype=ELEMENT name=v1:TLebesAcordo hc subtype=ELEMENT name=v1:ahrate node-value=
+Inicio Pai= Name=v1:ahrate
+Vh=1 subtype=ELEMENT name=v1:ahrate hc subtype=TEXT name=#text node-value=68.9
+Fim v1:ahrate
+Vh=24 subtype=ELEMENT name=v1:TLebesAcordo hc subtype=ELEMENT name=v1:ahrate2 node-value=
+Inicio Pai= Name=v1:ahrate2
+Vh=1 subtype=ELEMENT name=v1:ahrate2 hc subtype=TEXT name=#text node-value=0
+Fim v1:ahrate2
+Vh=24 subtype=ELEMENT name=v1:TLebesAcordo hc subtype=ELEMENT name=v1:ahregdt node-value=
+Inicio Pai= Name=v1:ahregdt
+Vh=1 subtype=ELEMENT name=v1:ahregdt hc subtype=TEXT name=#text node-value=08112020
+Fim v1:ahregdt
+Vh=24 subtype=ELEMENT name=v1:TLebesAcordo hc subtype=ELEMENT name=v1:ahtotpmt node-value=
+Inicio Pai= Name=v1:ahtotpmt
+Vh=1 subtype=ELEMENT name=v1:ahtotpmt hc subtype=TEXT name=#text node-value=323.39
+Fim v1:ahtotpmt
+Vh=24 subtype=ELEMENT name=v1:TLebesAcordo hc subtype=ELEMENT name=v1:ahtype node-value=
+Vh=24 subtype=ELEMENT name=v1:TLebesAcordo hc subtype=ELEMENT name=v1:contratos node-value=
+Inicio Pai= Name=v1:contratos
+Vh=7 subtype=ELEMENT name=v1:contratos hc subtype=ELEMENT name=v1:TLebesContrato node-value=
+Inicio Pai= Name=v1:TLebesContrato
+Vh=3 subtype=ELEMENT name=v1:TLebesContrato hc subtype=ELEMENT name=v1:adacct node-value=
+Inicio Pai= Name=v1:adacct
+Vh=1 subtype=ELEMENT name=v1:adacct hc subtype=TEXT name=#text node-value=16000304643881
+Fim v1:adacct
+Vh=3 subtype=ELEMENT name=v1:TLebesContrato hc subtype=ELEMENT name=v1:adacctg node-value=
+Inicio Pai= Name=v1:adacctg
+Vh=1 subtype=ELEMENT name=v1:adacctg hc subtype=TEXT name=#text node-value=2
+Fim v1:adacctg
+Vh=3 subtype=ELEMENT name=v1:TLebesContrato hc subtype=ELEMENT name=v1:adahid node-value=
+Inicio Pai= Name=v1:adahid
+Vh=1 subtype=ELEMENT name=v1:adahid hc subtype=TEXT name=#text node-value=167
+Fim v1:adahid
+Fim v1:TLebesContrato
+Vh=7 subtype=ELEMENT name=v1:contratos hc subtype=ELEMENT name=v1:TLebesContrato node-value=
+Inicio Pai= Name=v1:TLebesContrato
+Vh=3 subtype=ELEMENT name=v1:TLebesContrato hc subtype=ELEMENT name=v1:adacct node-value=
+Inicio Pai= Name=v1:adacct
+Vh=1 subtype=ELEMENT name=v1:adacct hc subtype=TEXT name=#text node-value=16000304643881
+Fim v1:adacct
+Vh=3 subtype=ELEMENT name=v1:TLebesContrato hc subtype=ELEMENT name=v1:adacctg node-value=
+Inicio Pai= Name=v1:adacctg
+Vh=1 subtype=ELEMENT name=v1:adacctg hc subtype=TEXT name=#text node-value=2
+Fim v1:adacctg
+Vh=3 subtype=ELEMENT name=v1:TLebesContrato hc subtype=ELEMENT name=v1:adahid node-value=
+Inicio Pai= Name=v1:adahid
+Vh=1 subtype=ELEMENT name=v1:adahid hc subtype=TEXT name=#text node-value=167
+Fim v1:adahid
+Fim v1:TLebesContrato
+Vh=7 subtype=ELEMENT name=v1:contratos hc subtype=ELEMENT name=v1:TLebesContrato node-value=
+Inicio Pai= Name=v1:TLebesContrato
+Vh=3 subtype=ELEMENT name=v1:TLebesContrato hc subtype=ELEMENT name=v1:adacct node-value=
+Inicio Pai= Name=v1:adacct
+Vh=1 subtype=ELEMENT name=v1:adacct hc subtype=TEXT name=#text node-value=16000304322496
+Fim v1:adacct
+Vh=3 subtype=ELEMENT name=v1:TLebesContrato hc subtype=ELEMENT name=v1:adacctg node-value=
+Inicio Pai= Name=v1:adacctg
+Vh=1 subtype=ELEMENT name=v1:adacctg hc subtype=TEXT name=#text node-value=2
+Fim v1:adacctg
+Vh=3 subtype=ELEMENT name=v1:TLebesContrato hc subtype=ELEMENT name=v1:adahid node-value=
+Inicio Pai= Name=v1:adahid
+Vh=1 subtype=ELEMENT name=v1:adahid hc subtype=TEXT name=#text node-value=167
+Fim v1:adahid
+Fim v1:TLebesContrato
+Vh=7 subtype=ELEMENT name=v1:contratos hc subtype=ELEMENT name=v1:TLebesContrato node-value=
+Inicio Pai= Name=v1:TLebesContrato
+Vh=3 subtype=ELEMENT name=v1:TLebesContrato hc subtype=ELEMENT name=v1:adacct node-value=
+Inicio Pai= Name=v1:adacct
+Vh=1 subtype=ELEMENT name=v1:adacct hc subtype=TEXT name=#text node-value=16000304643881
+Fim v1:adacct
+Vh=3 subtype=ELEMENT name=v1:TLebesContrato hc subtype=ELEMENT name=v1:adacctg node-value=
+Inicio Pai= Name=v1:adacctg
+Vh=1 subtype=ELEMENT name=v1:adacctg hc subtype=TEXT name=#text node-value=2
+Fim v1:adacctg
+Vh=3 subtype=ELEMENT name=v1:TLebesContrato hc subtype=ELEMENT name=v1:adahid node-value=
+Inicio Pai= Name=v1:adahid
+Vh=1 subtype=ELEMENT name=v1:adahid hc subtype=TEXT name=#text node-value=167
+Fim v1:adahid
+Fim v1:TLebesContrato
+Vh=7 subtype=ELEMENT name=v1:contratos hc subtype=ELEMENT name=v1:TLebesContrato node-value=
+Inicio Pai= Name=v1:TLebesContrato
+Vh=3 subtype=ELEMENT name=v1:TLebesContrato hc subtype=ELEMENT name=v1:adacct node-value=
+Inicio Pai= Name=v1:adacct
+Vh=1 subtype=ELEMENT name=v1:adacct hc subtype=TEXT name=#text node-value=16000304643881
+Fim v1:adacct
+Vh=3 subtype=ELEMENT name=v1:TLebesContrato hc subtype=ELEMENT name=v1:adacctg node-value=
+Inicio Pai= Name=v1:adacctg
+Vh=1 subtype=ELEMENT name=v1:adacctg hc subtype=TEXT name=#text node-value=2
+Fim v1:adacctg
+Vh=3 subtype=ELEMENT name=v1:TLebesContrato hc subtype=ELEMENT name=v1:adahid node-value=
+Inicio Pai= Name=v1:adahid
+Vh=1 subtype=ELEMENT name=v1:adahid hc subtype=TEXT name=#text node-value=167
+Fim v1:adahid
+Fim v1:TLebesContrato
+Vh=7 subtype=ELEMENT name=v1:contratos hc subtype=ELEMENT name=v1:TLebesContrato node-value=
+Inicio Pai= Name=v1:TLebesContrato
+Vh=3 subtype=ELEMENT name=v1:TLebesContrato hc subtype=ELEMENT name=v1:adacct node-value=
+Inicio Pai= Name=v1:adacct
+Vh=1 subtype=ELEMENT name=v1:adacct hc subtype=TEXT name=#text node-value=16000304643881
+Fim v1:adacct
+Vh=3 subtype=ELEMENT name=v1:TLebesContrato hc subtype=ELEMENT name=v1:adacctg node-value=
+Inicio Pai= Name=v1:adacctg
+Vh=1 subtype=ELEMENT name=v1:adacctg hc subtype=TEXT name=#text node-value=2
+Fim v1:adacctg
+Vh=3 subtype=ELEMENT name=v1:TLebesContrato hc subtype=ELEMENT name=v1:adahid node-value=
+Inicio Pai= Name=v1:adahid
+Vh=1 subtype=ELEMENT name=v1:adahid hc subtype=TEXT name=#text node-value=167
+Fim v1:adahid
+Fim v1:TLebesContrato
+Vh=7 subtype=ELEMENT name=v1:contratos hc subtype=ELEMENT name=v1:TLebesContrato node-value=
+Inicio Pai= Name=v1:TLebesContrato
+Vh=3 subtype=ELEMENT name=v1:TLebesContrato hc subtype=ELEMENT name=v1:adacct node-value=
+Inicio Pai= Name=v1:adacct
+Vh=1 subtype=ELEMENT name=v1:adacct hc subtype=TEXT name=#text node-value=16000304643881
+Fim v1:adacct
+Vh=3 subtype=ELEMENT name=v1:TLebesContrato hc subtype=ELEMENT name=v1:adacctg node-value=
+Inicio Pai= Name=v1:adacctg
+Vh=1 subtype=ELEMENT name=v1:adacctg hc subtype=TEXT name=#text node-value=2
+Fim v1:adacctg
+Vh=3 subtype=ELEMENT name=v1:TLebesContrato hc subtype=ELEMENT name=v1:adahid node-value=
+Inicio Pai= Name=v1:adahid
+Vh=1 subtype=ELEMENT name=v1:adahid hc subtype=TEXT name=#text node-value=167
+Fim v1:adahid
+Fim v1:TLebesContrato
+Fim v1:contratos
+Vh=24 subtype=ELEMENT name=v1:TLebesAcordo hc subtype=ELEMENT name=v1:paymentSchedules node-value=
+Inicio Pai= Name=v1:paymentSchedules
+Vh=10 subtype=ELEMENT name=v1:paymentSchedules hc subtype=ELEMENT name=v1:TLebesParcela node-value=
+Inicio Pai= Name=v1:TLebesParcela
+Vh=6 subtype=ELEMENT name=v1:TLebesParcela hc subtype=ELEMENT name=v1:apahid node-value=
+Inicio Pai= Name=v1:apahid
+Vh=1 subtype=ELEMENT name=v1:apahid hc subtype=TEXT name=#text node-value=167
+Fim v1:apahid
+Vh=6 subtype=ELEMENT name=v1:TLebesParcela hc subtype=ELEMENT name=v1:apamt node-value=
+Inicio Pai= Name=v1:apamt
+Vh=1 subtype=ELEMENT name=v1:apamt hc subtype=TEXT name=#text node-value=32.34
+Fim v1:apamt
+Vh=6 subtype=ELEMENT name=v1:TLebesParcela hc subtype=ELEMENT name=v1:apdetid node-value=
+Inicio Pai= Name=v1:apdetid
+Vh=1 subtype=ELEMENT name=v1:apdetid hc subtype=TEXT name=#text node-value=1
+Fim v1:apdetid
+Vh=6 subtype=ELEMENT name=v1:TLebesParcela hc subtype=ELEMENT name=v1:apduedt node-value=
+Inicio Pai= Name=v1:apduedt
+Vh=1 subtype=ELEMENT name=v1:apduedt hc subtype=TEXT name=#text node-value=08142020
+Fim v1:apduedt
+Vh=6 subtype=ELEMENT name=v1:TLebesParcela hc subtype=ELEMENT name=v1:apflag node-value=
+Vh=6 subtype=ELEMENT name=v1:TLebesParcela hc subtype=ELEMENT name=v1:apintamt node-value=
+Inicio Pai= Name=v1:apintamt
+Vh=1 subtype=ELEMENT name=v1:apintamt hc subtype=TEXT name=#text node-value=11.99
+Fim v1:apintamt
+Fim v1:TLebesParcela
+Vh=10 subtype=ELEMENT name=v1:paymentSchedules hc subtype=ELEMENT name=v1:TLebesParcela node-value=
+Inicio Pai= Name=v1:TLebesParcela
+Vh=6 subtype=ELEMENT name=v1:TLebesParcela hc subtype=ELEMENT name=v1:apahid node-value=
+Inicio Pai= Name=v1:apahid
+Vh=1 subtype=ELEMENT name=v1:apahid hc subtype=TEXT name=#text node-value=167
+Fim v1:apahid
+Vh=6 subtype=ELEMENT name=v1:TLebesParcela hc subtype=ELEMENT name=v1:apamt node-value=
+Inicio Pai= Name=v1:apamt
+Vh=1 subtype=ELEMENT name=v1:apamt hc subtype=TEXT name=#text node-value=32.34
+Fim v1:apamt
+Vh=6 subtype=ELEMENT name=v1:TLebesParcela hc subtype=ELEMENT name=v1:apdetid node-value=
+Inicio Pai= Name=v1:apdetid
+Vh=1 subtype=ELEMENT name=v1:apdetid hc subtype=TEXT name=#text node-value=2
+Fim v1:apdetid
+Vh=6 subtype=ELEMENT name=v1:TLebesParcela hc subtype=ELEMENT name=v1:apduedt node-value=
+Inicio Pai= Name=v1:apduedt
+Vh=1 subtype=ELEMENT name=v1:apduedt hc subtype=TEXT name=#text node-value=09142020
+Fim v1:apduedt
+Vh=6 subtype=ELEMENT name=v1:TLebesParcela hc subtype=ELEMENT name=v1:apflag node-value=
+Vh=6 subtype=ELEMENT name=v1:TLebesParcela hc subtype=ELEMENT name=v1:apintamt node-value=
+Inicio Pai= Name=v1:apintamt
+Vh=1 subtype=ELEMENT name=v1:apintamt hc subtype=TEXT name=#text node-value=11.99
+Fim v1:apintamt
+Fim v1:TLebesParcela
+Vh=10 subtype=ELEMENT name=v1:paymentSchedules hc subtype=ELEMENT name=v1:TLebesParcela node-value=
+Inicio Pai= Name=v1:TLebesParcela
+Vh=6 subtype=ELEMENT name=v1:TLebesParcela hc subtype=ELEMENT name=v1:apahid node-value=
+Inicio Pai= Name=v1:apahid
+Vh=1 subtype=ELEMENT name=v1:apahid hc subtype=TEXT name=#text node-value=167
+Fim v1:apahid
+Vh=6 subtype=ELEMENT name=v1:TLebesParcela hc subtype=ELEMENT name=v1:apamt node-value=
+Inicio Pai= Name=v1:apamt
+Vh=1 subtype=ELEMENT name=v1:apamt hc subtype=TEXT name=#text node-value=32.34
+Fim v1:apamt
+Vh=6 subtype=ELEMENT name=v1:TLebesParcela hc subtype=ELEMENT name=v1:apdetid node-value=
+Inicio Pai= Name=v1:apdetid
+Vh=1 subtype=ELEMENT name=v1:apdetid hc subtype=TEXT name=#text node-value=3
+Fim v1:apdetid
+Vh=6 subtype=ELEMENT name=v1:TLebesParcela hc subtype=ELEMENT name=v1:apduedt node-value=
+Inicio Pai= Name=v1:apduedt
+Vh=1 subtype=ELEMENT name=v1:apduedt hc subtype=TEXT name=#text node-value=10142020
+Fim v1:apduedt
+Vh=6 subtype=ELEMENT name=v1:TLebesParcela hc subtype=ELEMENT name=v1:apflag node-value=
+Vh=6 subtype=ELEMENT name=v1:TLebesParcela hc subtype=ELEMENT name=v1:apintamt node-value=
+Inicio Pai= Name=v1:apintamt
+Vh=1 subtype=ELEMENT name=v1:apintamt hc subtype=TEXT name=#text node-value=11.99
+Fim v1:apintamt
+Fim v1:TLebesParcela
+Vh=10 subtype=ELEMENT name=v1:paymentSchedules hc subtype=ELEMENT name=v1:TLebesParcela node-value=
+Inicio Pai= Name=v1:TLebesParcela
+Vh=6 subtype=ELEMENT name=v1:TLebesParcela hc subtype=ELEMENT name=v1:apahid node-value=
+Inicio Pai= Name=v1:apahid
+Vh=1 subtype=ELEMENT name=v1:apahid hc subtype=TEXT name=#text node-value=167
+Fim v1:apahid
+Vh=6 subtype=ELEMENT name=v1:TLebesParcela hc subtype=ELEMENT name=v1:apamt node-value=
+Inicio Pai= Name=v1:apamt
+Vh=1 subtype=ELEMENT name=v1:apamt hc subtype=TEXT name=#text node-value=32.34
+Fim v1:apamt
+Vh=6 subtype=ELEMENT name=v1:TLebesParcela hc subtype=ELEMENT name=v1:apdetid node-value=
+Inicio Pai= Name=v1:apdetid
+Vh=1 subtype=ELEMENT name=v1:apdetid hc subtype=TEXT name=#text node-value=4
+Fim v1:apdetid
+Vh=6 subtype=ELEMENT name=v1:TLebesParcela hc subtype=ELEMENT name=v1:apduedt node-value=
+Inicio Pai= Name=v1:apduedt
+Vh=1 subtype=ELEMENT name=v1:apduedt hc subtype=TEXT name=#text node-value=11142020
+Fim v1:apduedt
+Vh=6 subtype=ELEMENT name=v1:TLebesParcela hc subtype=ELEMENT name=v1:apflag node-value=
+Vh=6 subtype=ELEMENT name=v1:TLebesParcela hc subtype=ELEMENT name=v1:apintamt node-value=
+Inicio Pai= Name=v1:apintamt
+Vh=1 subtype=ELEMENT name=v1:apintamt hc subtype=TEXT name=#text node-value=11.99
+Fim v1:apintamt
+Fim v1:TLebesParcela
+Vh=10 subtype=ELEMENT name=v1:paymentSchedules hc subtype=ELEMENT name=v1:TLebesParcela node-value=
+Inicio Pai= Name=v1:TLebesParcela
+Vh=6 subtype=ELEMENT name=v1:TLebesParcela hc subtype=ELEMENT name=v1:apahid node-value=
+Inicio Pai= Name=v1:apahid
+Vh=1 subtype=ELEMENT name=v1:apahid hc subtype=TEXT name=#text node-value=167
+Fim v1:apahid
+Vh=6 subtype=ELEMENT name=v1:TLebesParcela hc subtype=ELEMENT name=v1:apamt node-value=
+Inicio Pai= Name=v1:apamt
+Vh=1 subtype=ELEMENT name=v1:apamt hc subtype=TEXT name=#text node-value=32.34
+Fim v1:apamt
+Vh=6 subtype=ELEMENT name=v1:TLebesParcela hc subtype=ELEMENT name=v1:apdetid node-value=
+Inicio Pai= Name=v1:apdetid
+Vh=1 subtype=ELEMENT name=v1:apdetid hc subtype=TEXT name=#text node-value=5
+Fim v1:apdetid
+Vh=6 subtype=ELEMENT name=v1:TLebesParcela hc subtype=ELEMENT name=v1:apduedt node-value=
+Inicio Pai= Name=v1:apduedt
+Vh=1 subtype=ELEMENT name=v1:apduedt hc subtype=TEXT name=#text node-value=12142020
+Fim v1:apduedt
+Vh=6 subtype=ELEMENT name=v1:TLebesParcela hc subtype=ELEMENT name=v1:apflag node-value=
+Vh=6 subtype=ELEMENT name=v1:TLebesParcela hc subtype=ELEMENT name=v1:apintamt node-value=
+Inicio Pai= Name=v1:apintamt
+Vh=1 subtype=ELEMENT name=v1:apintamt hc subtype=TEXT name=#text node-value=11.99
+Fim v1:apintamt
+Fim v1:TLebesParcela
+Vh=10 subtype=ELEMENT name=v1:paymentSchedules hc subtype=ELEMENT name=v1:TLebesParcela node-value=
+Inicio Pai= Name=v1:TLebesParcela
+Vh=6 subtype=ELEMENT name=v1:TLebesParcela hc subtype=ELEMENT name=v1:apahid node-value=
+Inicio Pai= Name=v1:apahid
+Vh=1 subtype=ELEMENT name=v1:apahid hc subtype=TEXT name=#text node-value=167
+Fim v1:apahid
+Vh=6 subtype=ELEMENT name=v1:TLebesParcela hc subtype=ELEMENT name=v1:apamt node-value=
+Inicio Pai= Name=v1:apamt
+Vh=1 subtype=ELEMENT name=v1:apamt hc subtype=TEXT name=#text node-value=32.34
+Fim v1:apamt
+Vh=6 subtype=ELEMENT name=v1:TLebesParcela hc subtype=ELEMENT name=v1:apdetid node-value=
+Inicio Pai= Name=v1:apdetid
+Vh=1 subtype=ELEMENT name=v1:apdetid hc subtype=TEXT name=#text node-value=6
+Fim v1:apdetid
+Vh=6 subtype=ELEMENT name=v1:TLebesParcela hc subtype=ELEMENT name=v1:apduedt node-value=
+Inicio Pai= Name=v1:apduedt
+Vh=1 subtype=ELEMENT name=v1:apduedt hc subtype=TEXT name=#text node-value=01142021
+Fim v1:apduedt
+Vh=6 subtype=ELEMENT name=v1:TLebesParcela hc subtype=ELEMENT name=v1:apflag node-value=
+Vh=6 subtype=ELEMENT name=v1:TLebesParcela hc subtype=ELEMENT name=v1:apintamt node-value=
+Inicio Pai= Name=v1:apintamt
+Vh=1 subtype=ELEMENT name=v1:apintamt hc subtype=TEXT name=#text node-value=11.99
+Fim v1:apintamt
+Fim v1:TLebesParcela
+Vh=10 subtype=ELEMENT name=v1:paymentSchedules hc subtype=ELEMENT name=v1:TLebesParcela node-value=
+Inicio Pai= Name=v1:TLebesParcela
+Vh=6 subtype=ELEMENT name=v1:TLebesParcela hc subtype=ELEMENT name=v1:apahid node-value=
+Inicio Pai= Name=v1:apahid
+Vh=1 subtype=ELEMENT name=v1:apahid hc subtype=TEXT name=#text node-value=167
+Fim v1:apahid
+Vh=6 subtype=ELEMENT name=v1:TLebesParcela hc subtype=ELEMENT name=v1:apamt node-value=
+Inicio Pai= Name=v1:apamt
+Vh=1 subtype=ELEMENT name=v1:apamt hc subtype=TEXT name=#text node-value=32.34
+Fim v1:apamt
+Vh=6 subtype=ELEMENT name=v1:TLebesParcela hc subtype=ELEMENT name=v1:apdetid node-value=
+Inicio Pai= Name=v1:apdetid
+Vh=1 subtype=ELEMENT name=v1:apdetid hc subtype=TEXT name=#text node-value=7
+Fim v1:apdetid
+Vh=6 subtype=ELEMENT name=v1:TLebesParcela hc subtype=ELEMENT name=v1:apduedt node-value=
+Inicio Pai= Name=v1:apduedt
+Vh=1 subtype=ELEMENT name=v1:apduedt hc subtype=TEXT name=#text node-value=02142021
+Fim v1:apduedt
+Vh=6 subtype=ELEMENT name=v1:TLebesParcela hc subtype=ELEMENT name=v1:apflag node-value=
+Vh=6 subtype=ELEMENT name=v1:TLebesParcela hc subtype=ELEMENT name=v1:apintamt node-value=
+Inicio Pai= Name=v1:apintamt
+Vh=1 subtype=ELEMENT name=v1:apintamt hc subtype=TEXT name=#text node-value=11.99
+Fim v1:apintamt
+Fim v1:TLebesParcela
+Vh=10 subtype=ELEMENT name=v1:paymentSchedules hc subtype=ELEMENT name=v1:TLebesParcela node-value=
+Inicio Pai= Name=v1:TLebesParcela
+Vh=6 subtype=ELEMENT name=v1:TLebesParcela hc subtype=ELEMENT name=v1:apahid node-value=
+Inicio Pai= Name=v1:apahid
+Vh=1 subtype=ELEMENT name=v1:apahid hc subtype=TEXT name=#text node-value=167
+Fim v1:apahid
+Vh=6 subtype=ELEMENT name=v1:TLebesParcela hc subtype=ELEMENT name=v1:apamt node-value=
+Inicio Pai= Name=v1:apamt
+Vh=1 subtype=ELEMENT name=v1:apamt hc subtype=TEXT name=#text node-value=32.34
+Fim v1:apamt
+Vh=6 subtype=ELEMENT name=v1:TLebesParcela hc subtype=ELEMENT name=v1:apdetid node-value=
+Inicio Pai= Name=v1:apdetid
+Vh=1 subtype=ELEMENT name=v1:apdetid hc subtype=TEXT name=#text node-value=8
+Fim v1:apdetid
+Vh=6 subtype=ELEMENT name=v1:TLebesParcela hc subtype=ELEMENT name=v1:apduedt node-value=
+Inicio Pai= Name=v1:apduedt
+Vh=1 subtype=ELEMENT name=v1:apduedt hc subtype=TEXT name=#text node-value=03142021
+Fim v1:apduedt
+Vh=6 subtype=ELEMENT name=v1:TLebesParcela hc subtype=ELEMENT name=v1:apflag node-value=
+Vh=6 subtype=ELEMENT name=v1:TLebesParcela hc subtype=ELEMENT name=v1:apintamt node-value=
+Inicio Pai= Name=v1:apintamt
+Vh=1 subtype=ELEMENT name=v1:apintamt hc subtype=TEXT name=#text node-value=11.99
+Fim v1:apintamt
+Fim v1:TLebesParcela
+Vh=10 subtype=ELEMENT name=v1:paymentSchedules hc subtype=ELEMENT name=v1:TLebesParcela node-value=
+Inicio Pai= Name=v1:TLebesParcela
+Vh=6 subtype=ELEMENT name=v1:TLebesParcela hc subtype=ELEMENT name=v1:apahid node-value=
+Inicio Pai= Name=v1:apahid
+Vh=1 subtype=ELEMENT name=v1:apahid hc subtype=TEXT name=#text node-value=167
+Fim v1:apahid
+Vh=6 subtype=ELEMENT name=v1:TLebesParcela hc subtype=ELEMENT name=v1:apamt node-value=
+Inicio Pai= Name=v1:apamt
+Vh=1 subtype=ELEMENT name=v1:apamt hc subtype=TEXT name=#text node-value=32.34
+Fim v1:apamt
+Vh=6 subtype=ELEMENT name=v1:TLebesParcela hc subtype=ELEMENT name=v1:apdetid node-value=
+Inicio Pai= Name=v1:apdetid
+Vh=1 subtype=ELEMENT name=v1:apdetid hc subtype=TEXT name=#text node-value=9
+Fim v1:apdetid
+Vh=6 subtype=ELEMENT name=v1:TLebesParcela hc subtype=ELEMENT name=v1:apduedt node-value=
+Inicio Pai= Name=v1:apduedt
+Vh=1 subtype=ELEMENT name=v1:apduedt hc subtype=TEXT name=#text node-value=04142021
+Fim v1:apduedt
+Vh=6 subtype=ELEMENT name=v1:TLebesParcela hc subtype=ELEMENT name=v1:apflag node-value=
+Vh=6 subtype=ELEMENT name=v1:TLebesParcela hc subtype=ELEMENT name=v1:apintamt node-value=
+Inicio Pai= Name=v1:apintamt
+Vh=1 subtype=ELEMENT name=v1:apintamt hc subtype=TEXT name=#text node-value=11.99
+Fim v1:apintamt
+Fim v1:TLebesParcela
+Vh=10 subtype=ELEMENT name=v1:paymentSchedules hc subtype=ELEMENT name=v1:TLebesParcela node-value=
+Inicio Pai= Name=v1:TLebesParcela
+Vh=6 subtype=ELEMENT name=v1:TLebesParcela hc subtype=ELEMENT name=v1:apahid node-value=
+Inicio Pai= Name=v1:apahid
+Vh=1 subtype=ELEMENT name=v1:apahid hc subtype=TEXT name=#text node-value=167
+Fim v1:apahid
+Vh=6 subtype=ELEMENT name=v1:TLebesParcela hc subtype=ELEMENT name=v1:apamt node-value=
+Inicio Pai= Name=v1:apamt
+Vh=1 subtype=ELEMENT name=v1:apamt hc subtype=TEXT name=#text node-value=32.33
+Fim v1:apamt
+Vh=6 subtype=ELEMENT name=v1:TLebesParcela hc subtype=ELEMENT name=v1:apdetid node-value=
+Inicio Pai= Name=v1:apdetid
+Vh=1 subtype=ELEMENT name=v1:apdetid hc subtype=TEXT name=#text node-value=10
+Fim v1:apdetid
+Vh=6 subtype=ELEMENT name=v1:TLebesParcela hc subtype=ELEMENT name=v1:apduedt node-value=
+Inicio Pai= Name=v1:apduedt
+Vh=1 subtype=ELEMENT name=v1:apduedt hc subtype=TEXT name=#text node-value=05142021
+Fim v1:apduedt
+Vh=6 subtype=ELEMENT name=v1:TLebesParcela hc subtype=ELEMENT name=v1:apflag node-value=
+Vh=6 subtype=ELEMENT name=v1:TLebesParcela hc subtype=ELEMENT name=v1:apintamt node-value=
+Inicio Pai= Name=v1:apintamt
+Vh=1 subtype=ELEMENT name=v1:apintamt hc subtype=TEXT name=#text node-value=12.02
+Fim v1:apintamt
+Fim v1:TLebesParcela
+Fim v1:paymentSchedules
+Fim v1:TLebesAcordo
+Fim v1:acordoAgrHdrLista
+Vh=8 subtype=ELEMENT name=v1:Result hc subtype=ELEMENT name=v1:wsCodigoRetorno node-value=
+Inicio Pai= Name=v1:wsCodigoRetorno
+Vh=1 subtype=ELEMENT name=v1:wsCodigoRetorno hc subtype=TEXT name=#text node-value=1
+Fim v1:wsCodigoRetorno
+Vh=8 subtype=ELEMENT name=v1:Result hc subtype=ELEMENT name=v1:wsLinInfReg node-value=
+Inicio Pai= Name=v1:wsLinInfReg
+Vh=1 subtype=ELEMENT name=v1:wsLinInfReg hc subtype=TEXT name=#text node-value=0
+Fim v1:wsLinInfReg
+Vh=8 subtype=ELEMENT name=v1:Result hc subtype=ELEMENT name=v1:wsLinSupReg node-value=
+Inicio Pai= Name=v1:wsLinSupReg
+Vh=1 subtype=ELEMENT name=v1:wsLinSupReg hc subtype=TEXT name=#text node-value=0
+Fim v1:wsLinSupReg
+Vh=8 subtype=ELEMENT name=v1:Result hc subtype=ELEMENT name=v1:wsMensagemRetorno node-value=
+Inicio Pai= Name=v1:wsMensagemRetorno
+Vh=1 subtype=ELEMENT name=v1:wsMensagemRetorno hc subtype=TEXT name=#text node-value=Consulta de acordo realizada com sucesso.
+Fim v1:wsMensagemRetorno
+Vh=8 subtype=ELEMENT name=v1:Result hc subtype=ELEMENT name=v1:wsNomeMetodo node-value=
+Inicio Pai= Name=v1:wsNomeMetodo
+Vh=1 subtype=ELEMENT name=v1:wsNomeMetodo hc subtype=TEXT name=#text node-value=consultaAcordo
+Fim v1:wsNomeMetodo
+Vh=8 subtype=ELEMENT name=v1:Result hc subtype=ELEMENT name=v1:wsNomeWebService node-value=
+Inicio Pai= Name=v1:wsNomeWebService
+Vh=1 subtype=ELEMENT name=v1:wsNomeWebService hc subtype=TEXT name=#text node-value=LojasLebesService
+Fim v1:wsNomeWebService
+Vh=8 subtype=ELEMENT name=v1:Result hc subtype=ELEMENT name=v1:wsQtdReg node-value=
+Inicio Pai= Name=v1:wsQtdReg
+Vh=1 subtype=ELEMENT name=v1:wsQtdReg hc subtype=TEXT name=#text node-value=1
+Fim v1:wsQtdReg
+Fim v1:Result

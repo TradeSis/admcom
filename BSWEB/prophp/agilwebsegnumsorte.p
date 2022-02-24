@@ -1,0 +1,68 @@
+/*
+#1 07/2018 - Projeto Numero da Sorte
+*/
+def var p-etbcod as int.
+def var p-placod as int.
+def var p-contnum as int.
+def var p-certificado as char.
+def var v-param as char.
+def var q as int.
+
+v-param = os-getenv("segnumsorte").
+p-etbcod = int(substr(string(v-param),1,3)).
+p-placod = int(substr(string(v-param),4,10)). 
+p-contnum = int(substr(string(v-param),14,10)).
+p-certificado = substr(string(v-param),24,20).
+
+def temp-table tt-segnumsorte like segnumsorte.
+
+find first com.segnumsorte use-index venda-ordem /*#1 venda */ where
+          segnumsorte.dtivig = date(month(today), 1,year(today)) and
+          segnumsorte.dtfvig = date(if month(today) = 12 
+                                    then 1 else month(today) + 1, 1,
+                                    if month(today) = 12 
+                                    then year(today) + 1 else year(today)) - 1
+          and com.segnumsorte.dtuso = ?
+          exclusive no-wait no-error.
+if avail com.segnumsorte and p-etbcod <> 189 and p-etbcod <> 188
+then do on error undo:
+    assign
+        com.segnumsorte.dtuso = today
+        com.segnumsorte.hruso = time
+        com.segnumsorte.etbcod = p-etbcod
+        com.segnumsorte.placod = p-placod
+        com.segnumsorte.contnum = p-contnum
+        com.segnumsorte.certifi = p-certificado.
+    create tt-segnumsorte.
+    buffer-copy com.segnumsorte to tt-segnumsorte.
+end.
+else do:
+    output to value("/admcom/relat/segnumsorte_" + v-param).
+    if locked com.segnumsorte 
+    then put unformatted "Tabela segnumsorte esta em uso" skip.
+    else put unformatted "Numero da sorte indisponivel" skip.
+    output close. 
+end.
+
+find current segnumsorte no-lock no-error.
+
+    q = 0.
+    put "@INICIO;" string(time) skip.
+    
+    put "#SEGNUMSORTE;" string(time) skip.
+    for each tt-segnumsorte where tt-segnumsorte.nsorteio > 0 no-lock:
+        export tt-segnumsorte.Certifi 
+               tt-segnumsorte.contnum 
+               tt-segnumsorte.DtFVig 
+               tt-segnumsorte.DtIncl 
+               tt-segnumsorte.DtIVig 
+               tt-segnumsorte.DtSorteio 
+               tt-segnumsorte.DtUso
+               tt-segnumsorte.etbcod 
+               tt-segnumsorte.NSorteio 
+               tt-segnumsorte.PlaCod 
+               tt-segnumsorte.Serie.
+         q = q + 1.
+    end.  
+    put skip "@FIMSEGNUMSORTE;" string(q,"99999") skip.                      
+

@@ -1,0 +1,15 @@
+
+Zipando arquivo '/admcom/logs/gera-arquivos-smart.log'...
+updating: admcom/logs/gera-arquivos-smart.log (deflated 95%)
+
+[1m Enviando Email... [m
+Mar 14 03:33:28 sv-ca-db1-old sendEmail[12971]: Email was sent successfully!
+[1m Enviando Email com Anexo... /admcom/logs/gera-arquivos-smart.log.zip [m
+
+[1m Data: Tue Mar 14 03:33:28 BRT 2017 [m
+[1m Arquivo: /admcom/logs/gera-arquivos-smart.log.zip [m
+[1m Arquivo ZIP: /admcom/logs/gera-arquivos-smart.log.zip.zip [m
+[1m Tipo MIME: -m application/x-compress [m
+[1m Tipo Envio: ANEXO_ZIP [m
+
+[1m Email Enviado com Sucesso para lucas.leote@lebes.com.br!!! [m
