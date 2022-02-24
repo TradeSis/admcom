@@ -1,3 +1,0 @@
-run /admcom/progr/neogrid/expneogrid.p (input "SEMANAL" ,
-                                        input today - 30,
-                                        input today - 1).

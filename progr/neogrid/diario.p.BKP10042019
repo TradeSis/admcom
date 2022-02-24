@@ -1,4 +1,0 @@
-run /admcom/progr/neogrid/expneogridh2.p (input "DIARIO" ,
-                            input today - 1,
-                            input today - 1)
-
