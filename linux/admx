@@ -1,0 +1,2 @@
+cd /admcom/work
+/usr/dlc/bin/_progres -pf /admcom/bases/baseslin.pf -p /admcom/linux/logapl.p 

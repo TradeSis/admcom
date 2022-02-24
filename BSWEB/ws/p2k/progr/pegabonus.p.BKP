@@ -1,0 +1,63 @@
+/* connect crm -H "sv-mat-db1" -S sdrebcrm -N tcp -ld crm no-error. */
+    def input param v-clicod as int.
+    
+    def shared temp-table ttbonus
+        field numero_bonus as char
+        field etbcod as int
+        field nome_bonus as char
+        field venc_bonus as date
+        field vlr_bonus as dec.
+
+    if v-clicod = 1
+    then do:
+    create ttbonus.
+    ttbonus.nome_bonus = "".
+    ttbonus.numero_bonus = "".
+    ttbonus.venc_bonus = 01/01/1900.
+    ttbonus.vlr_bonus = 0.
+        return.
+    end.
+    def temp-table ttetb
+            field etbcod as int.
+            
+    for each estab no-lock.    
+        create ttetb.
+        ttetb.etbcod = estab.etbcod.
+    end.
+    create ttetb.
+    ttetb.etbcod = 0.
+    
+    for each ttetb.
+    for each fin.titulo where 
+            fin.titulo.empcod = 19        and 
+            fin.titulo.titnat = yes       and 
+            fin.titulo.modcod = "BON"     and 
+            fin.titulo.titdtpag = ? and
+            fin.titulo.clifor = v-clicod and
+            fin.titulo.titsit = "LIB" and
+            fin.titulo.etbcod = ttetb.etbcod
+            no-lock . 
+            /* fin.titulo.clifor = v-clicod no-lock: */ 
+            create ttbonus.
+            ttbonus.etbcod = titulo.etbcod.
+            ttbonus.venc_bonus = titulo.titdtven.
+            ttbonus.vlr_bonus = titulo.titvlcob.
+            ttbonus.numero_bonus  = titulo.titnum.
+            
+            if fin.titulo.titobs[1] <> "" 
+            then do: 
+                find acao where acao.acaocod = int(fin.titulo.titobs[1]) no-lock no-error. 
+                if avail acao 
+                then ttbonus.nome_bonus = acao.descricao. 
+            end. 
+   end.
+   end.
+   find first ttbonus no-error.
+   if not avail ttbonus
+   then do:
+    create ttbonus.
+    ttbonus.nome_bonus = "".
+    ttbonus.numero_bonus = "".
+    ttbonus.venc_bonus = 01/01/1900.
+    ttbonus.vlr_bonus = 0.
+   end.

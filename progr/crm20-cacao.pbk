@@ -1,0 +1,372 @@
+{admcab.i}
+
+find first acao no-lock no-error.
+if not avail acao
+then do:
+    message "Nenhuma acao gerada".
+    pause 2 no-message.
+    leave.
+end.
+
+def buffer bacao for acao.
+
+def var recatu1         as recid.
+def var recatu2         as recid.
+def var reccont         as int.
+def var esqpos1         as int.
+def var esqpos2         as int.
+def var esqregua        as log.
+def var esqvazio        as log.
+def var esqascend     as log initial yes.
+def var esqcom1         as char format "x(15)" extent 5
+    initial [" Participantes ", " Metrica ","","",""].
+
+def var esc-fil as char format "x(20)" extent 2
+    initial [" 1. Geral     ",
+             " 2. Detalhada "].
+
+def var esqcom2         as char format "x(12)" extent 5
+            initial [" "," ","","",""].
+def var esqhel1         as char format "x(80)" extent 5
+    initial ["",
+             "",
+             "",
+             "",
+             ""].
+def var esqhel2         as char format "x(12)" extent 5
+   initial ["  ",
+            " ",
+            " ",
+            " ",
+            " "].
+
+
+def var vacao         like acao.acaocod.
+
+
+form
+    esqcom1
+    with frame f-com1
+                 row 4 no-box no-labels side-labels column 1 centered.
+form
+    esqcom2
+    with frame f-com2
+                 row screen-lines no-box no-labels side-labels column 1
+                 centered.
+assign
+    esqregua = yes
+    esqpos1  = 1
+    esqpos2  = 1.
+
+bl-princ:
+repeat:
+
+    disp esqcom1 with frame f-com1.
+    disp esqcom2 with frame f-com2.
+    if recatu1 = ?
+    then
+        run leitura (input "pri").
+    else
+        find acao where recid(acao) = recatu1 no-lock.
+    if not available acao
+    then esqvazio = yes.
+    else esqvazio = no.
+    clear frame frame-a all no-pause.
+    if not esqvazio
+    then do:
+        run frame-a.
+    end.
+
+    recatu1 = recid(acao).
+    if esqregua
+    then color display message esqcom1[esqpos1] with frame f-com1.
+    else color display message esqcom2[esqpos2] with frame f-com2.
+    if not esqvazio
+    then repeat:
+        run leitura (input "seg").
+        if not available acao
+        then leave.
+        if frame-line(frame-a) = frame-down(frame-a)
+        then leave.
+        down
+            with frame frame-a.
+        run frame-a.
+    end.
+    if not esqvazio
+    then up frame-line(frame-a) - 1 with frame frame-a.
+
+    repeat with frame frame-a:
+
+        if not esqvazio
+        then do:
+            find acao where recid(acao) = recatu1 no-lock.
+
+            status default
+                if esqregua
+                then esqhel1[esqpos1] + if esqpos1 > 1 and
+                                           esqhel1[esqpos1] <> ""
+                                        then  string(acao.descricao)
+                                        else ""
+                else esqhel2[esqpos2] + if esqhel2[esqpos2] <> ""
+                                        then string(acao.descricao)
+                                        else "".
+            run color-message.
+            choose field acao.acaocod acao.descricao help ""
+                go-on(cursor-down cursor-up
+                      cursor-left cursor-right
+                      page-down   page-up
+                      tab PF4 F4 ESC return) /*color white/black*/.
+            run color-normal.
+            status default "".
+
+        end.
+            if keyfunction(lastkey) = "TAB"
+            then do:
+                if esqregua
+                then do:
+                    color display normal esqcom1[esqpos1] with frame f-com1.
+                    color display message esqcom2[esqpos2] with frame f-com2.
+                end.
+                else do:
+                    color display normal esqcom2[esqpos2] with frame f-com2.
+                    color display message esqcom1[esqpos1] with frame f-com1.
+                end.
+                esqregua = not esqregua.
+            end.
+            if keyfunction(lastkey) = "cursor-right"
+            then do:
+                if esqregua
+                then do:
+                    color display normal esqcom1[esqpos1] with frame f-com1.
+                    esqpos1 = if esqpos1 = 5 then 5 else esqpos1 + 1.
+                    color display messages esqcom1[esqpos1] with frame f-com1.
+                end.
+                else do:
+                    color display normal esqcom2[esqpos2] with frame f-com2.
+                    esqpos2 = if esqpos2 = 5 then 5 else esqpos2 + 1.
+                    color display messages esqcom2[esqpos2] with frame f-com2.
+                end.
+                next.
+            end.
+            if keyfunction(lastkey) = "cursor-left"
+            then do:
+                if esqregua
+                then do:
+                    color display normal esqcom1[esqpos1] with frame f-com1.
+                    esqpos1 = if esqpos1 = 1 then 1 else esqpos1 - 1.
+                    color display messages esqcom1[esqpos1] with frame f-com1.
+                end.
+                else do:
+                    color display normal esqcom2[esqpos2] with frame f-com2.
+                    esqpos2 = if esqpos2 = 1 then 1 else esqpos2 - 1.
+                    color display messages esqcom2[esqpos2] with frame f-com2.
+                end.
+                next.
+            end.
+            if keyfunction(lastkey) = "page-down"
+            then do:
+                do reccont = 1 to frame-down(frame-a):
+                    run leitura (input "down").
+                    if not avail acao
+                    then leave.
+                    recatu1 = recid(acao).
+                end.
+                leave.
+            end.
+            if keyfunction(lastkey) = "page-up"
+            then do:
+                do reccont = 1 to frame-down(frame-a):
+                    run leitura (input "up").
+                    if not avail acao
+                    then leave.
+                    recatu1 = recid(acao).
+                end.
+                leave.
+            end.
+            if keyfunction(lastkey) = "cursor-down"
+            then do:
+                run leitura (input "down").
+                if not avail acao
+                then next.
+                color display white/red acao.acaocod
+                                        acao.descricao
+                                        with frame frame-a.
+                if frame-line(frame-a) = frame-down(frame-a)
+                then scroll with frame frame-a.
+                else down with frame frame-a.
+            end.
+            if keyfunction(lastkey) = "cursor-up"
+            then do:
+                run leitura (input "up").
+                if not avail acao
+                then next.
+                color display white/red acao.acaocod
+                                        acao.descricao with frame frame-a.
+                if frame-line(frame-a) = 1
+                then scroll down with frame frame-a.
+                else up with frame frame-a.
+            end.
+ 
+        if keyfunction(lastkey) = "end-error"
+        then do:
+            leave bl-princ.
+        end.            
+
+        if keyfunction(lastkey) = "return" or esqvazio
+        then do:
+            if esqregua
+            then do:
+                display caps(esqcom1[esqpos1]) @ esqcom1[esqpos1]
+                        with frame f-com1.
+
+                if esqcom1[esqpos1] = " Participantes "
+                then do on error undo:
+
+                    hide frame f-com1  no-pause.
+                    hide frame f-com2  no-pause.
+                    hide frame frame-a no-pause.
+                   
+                    run crm20-part2.p(acao.acaocod).
+                    view frame frame-a.
+                    view frame f-com1.
+                    view frame f-com2.
+                    
+                    recatu1 = ?.
+                    leave.
+
+                end.
+                
+                if esqcom1[esqpos1] = " Metrica "
+                then do on error undo:
+                    
+                    view frame frame-a. pause 0.
+
+                    disp  skip(1)
+                          esc-fil[1] skip 
+                          esc-fil[2] skip(1)
+                          with frame f-esc-fil title " Metrica " row 7
+                             centered color with/black no-label overlay. 
+    
+                    choose field esc-fil auto-return with frame f-esc-fil.
+                    
+                    clear frame f-esc-fil no-pause.
+                    hide frame f-esc-fil no-pause.
+                    
+                    if frame-index = 1
+                    then
+                        run crm20-metr.p(acao.acaocod).
+                    else
+                    if frame-index = 2
+                    then
+                        run crm20-metr2.p(acao.acaocod).
+                    
+                    view frame frame-a.
+                    view frame f-com1.
+                    view frame f-com2.
+                    recatu1 = ?.
+                    leave.
+                    
+                end.
+            end.
+            else do:
+                display caps(esqcom2[esqpos2]) @ esqcom2[esqpos2]
+                        with frame f-com2.
+                if esqcom2[esqpos2] = "  "
+                then do:
+                    hide frame f-com1  no-pause.
+                    hide frame f-com2  no-pause.
+                    /* run programa de relacionamento.p (input ). */
+                    view frame f-com1.
+                    view frame f-com2.
+                end.
+                leave.
+            end.
+        end.
+        if not esqvazio
+        then do:
+            run frame-a.
+        end.
+        if esqregua
+        then display esqcom1[esqpos1] with frame f-com1.
+        else display esqcom2[esqpos2] with frame f-com2.
+        recatu1 = recid(acao).
+    end.
+    if keyfunction(lastkey) = "end-error"
+    then do:
+        find first acao where acao.acaocod = 0 no-error.
+        if avail acao
+        then
+            delete acao.
+        recatu1 = ?.    
+            
+        view frame fc1.
+        view frame fc2.
+    end.
+end.
+hide frame f-com1  no-pause.
+hide frame f-com2  no-pause.
+hide frame frame-a no-pause.
+
+procedure frame-a.
+display acao.acaocod   column-label "Acao"    format ">>>9"
+        acao.descricao column-label "Descricao" format "x(36)"
+        acao.dtini     column-label "Inicio"
+        acao.dtfin     column-label "Final"
+        acao.valor     column-label "Valor"
+        with frame frame-a 11 down centered color white/red row 5
+                title " Acoes ".
+end procedure.
+procedure color-message.
+    color display message
+            acao.acaocod
+            acao.descricao
+            acao.dtini
+            acao.dtfin
+            acao.valor
+            with frame frame-a.
+end procedure.
+procedure color-normal.
+color display normal
+        acao.acaocod
+        acao.descricao
+        acao.dtini
+        acao.dtfin
+        acao.valor
+        with frame frame-a.
+end procedure.
+
+procedure leitura. 
+def input parameter par-tipo as char.
+        
+if par-tipo = "pri" 
+then  
+    if esqascend  
+    then  
+        find first acao where true
+                                                no-lock no-error.
+    else  
+        find last acao  where true
+                                                 no-lock no-error.
+                                             
+if par-tipo = "seg" or par-tipo = "down" 
+then  
+    if esqascend  
+    then  
+        find next acao  where true
+                                                no-lock no-error.
+    else  
+        find prev acao   where true
+                                                no-lock no-error.
+             
+if par-tipo = "up" 
+then                  
+    if esqascend   
+    then   
+        find prev acao where true  
+                                        no-lock no-error.
+    else   
+        find next acao where true 
+                                        no-lock no-error.
+        
+end procedure.
+         

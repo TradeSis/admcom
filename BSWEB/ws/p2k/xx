@@ -1,0 +1,89 @@
+array(4) {
+  ["codigo_filial"]=>
+  string(1) "1"
+  ["codigo_operador"]=>
+  string(1) "1"
+  ["data_futura_pagamento"]=>
+  string(19) "2015-04-30T00:00:00"
+  ["contratos"]=>
+  array(3) {
+    ["codigo_cliente"]=>
+    string(3) "167"
+    ["numero_contrato"]=>
+    string(10) "1999100000"
+    ["parcelas"]=>
+    array(2) {
+      [0]=>
+      array(3) {
+        ["seq_parcela"]=>
+        string(2) "33"
+        ["vlr_parcela"]=>
+        string(4) "9.90"
+        ["venc_parcela"]=>
+        string(19) "2015-04-27T00:00:00"
+      }
+      [1]=>
+      array(3) {
+        ["seq_parcela"]=>
+        string(2) "34"
+        ["vlr_parcela"]=>
+        string(4) "9.90"
+        ["venc_parcela"]=>
+        string(19) "2015-04-27T00:00:00"
+      }
+    }
+  }
+}
+N
+Array
+(
+    [0] => codigo_filial
+    [1] => codigo_operador
+    [2] => data_futura_pagamento
+    [3] => contratos
+)
+< ?xml version="1.0" ?>
+ENTREI - DEPTH=0 PARAM=Array 
+ 0 CHAVE=-1 KEY=codigo_filial ITEM=1
+ 0 CHAVE=-1 KEY=codigo_operador ITEM=1
+ 0 CHAVE=-1 KEY=data_futura_pagamento ITEM=2015-04-30T00:00:00
+ 0 CHAVE=-1 KEY=contratos ITEM=Array
+  0 KEY=contratos ABRE CHAVE=-1 TAG=
+ENTREI - DEPTH=1 PARAM=Array 
+ 1 CHAVE=-1 KEY=codigo_cliente ITEM=167
+ 1 CHAVE=-1 KEY=numero_contrato ITEM=1999100000
+ 1 CHAVE=-1 KEY=parcelas ITEM=Array
+  1 KEY=parcelas ABRE CHAVE=-1 TAG=
+ENTREI - DEPTH=2 PARAM=Array 
+ 2 CHAVE=-1 KEY=0 ITEM=Array
+0 eh -1
+  2 KEY=0 ABRE CHAVE=-1 TAG=0
+ENTREI - DEPTH=3 PARAM=Array 
+ 3 CHAVE=-1 KEY=seq_parcela ITEM=33
+ 3 CHAVE=-1 KEY=vlr_parcela ITEM=9.90
+ 3 CHAVE=-1 KEY=venc_parcela ITEM=2015-04-27T00:00:00
+  2 KEY=0 FECHA CHAVE=0 TAG=0
+ 2 CHAVE=0 KEY=1 ITEM=Array
+1 eh 0
+  2 KEY=1 ABRE CHAVE=0 TAG=1
+ENTREI - DEPTH=3 PARAM=Array 
+ 3 CHAVE=0 KEY=seq_parcela ITEM=34
+ 3 CHAVE=0 KEY=vlr_parcela ITEM=9.90
+ 3 CHAVE=0 KEY=venc_parcela ITEM=2015-04-27T00:00:00
+  2 KEY=1 FECHA CHAVE=1 TAG=1
+  1 KEY=parcelas FECHA CHAVE=0 TAG=
+  0 KEY=contratos FECHA CHAVE=0 TAG=
+<codigo_filial>1<\codigo_filial>
+<codigo_operador>1<\codigo_operador>
+<data_futura_pagamento>2015-04-30T00:00:00<\data_futura_pagamento>
+<>
+	<codigo_cliente>167<\codigo_cliente>
+	<numero_contrato>1999100000<\numero_contrato>
+	<>
+			<seq_parcela>33<\seq_parcela>
+			<vlr_parcela>9.90<\vlr_parcela>
+			<venc_parcela>2015-04-27T00:00:00<\venc_parcela>
+			<seq_parcela>34<\seq_parcela>
+			<vlr_parcela>9.90<\vlr_parcela>
+			<venc_parcela>2015-04-27T00:00:00<\venc_parcela>
+

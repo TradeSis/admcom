@@ -1,0 +1,764 @@
+...DadosContratoNf.p                  03/08/2017 16:42:31   PROGRESS(R) Page 1   
+
+{} Line Blk
+-- ---- ---
+      1     
+      2     /* buscarplanopagamento */
+      3     def new global shared var setbcod       as int.
+      4     def var vstatus as char.   
+      5     def var vmensagem_erro as char.
+      6     def var vchar as char.
+      7     def var vdata as date.
+      8     def var vetbcod as int.
+      9     def var vcontnum like geranum.contnum.
+     10     def var vcertifi as char.
+     11     def var vnsorte  as char.
+     12     def var vseq     as int.
+     13     
+     14     def var vTaxa         as dec.
+     15     def var vSeguro       as dec.
+     16     def var vcet as dec.
+     17     def var vcet_ano as dec.
+     18     def var vtx_mes as dec.
+     19     def var vvalor_iof as dec.
+     20      
+     21     def shared temp-table parcelas 
+     22         field seq_parcela as char
+     23         field vlr_parcela as char
+     24         field venc_parcela as char
+     25         field numero_contrato as char.
+     26      
+     27     def shared temp-table BuscaDadosContratoNf
+     28         field tipo_documento as char
+     29         field numero_documento as char
+     30         field codigo_filial as char
+     31         field codigo_operador as char
+     32         field numero_pdv    as char
+     33         field valor_compra as char
+     34         field nsu_venda as char
+     35         field vendedor  as char
+     36         field codigo_seguro_prestamista as char
+     37         field valor_seguro_prestamista  as char.
+     38       
+     39     /* CET */
+     40     def var vLoja         as integer.
+     41     def var vPrazo        as int.
+     42     def var vValorCompra  as decimal.
+     43     def var vValorPMT     as decimal.
+     44     def var vDiasParaPgto as integer.
+     45     def var vProduto      as integer init 1.
+     46     def var vPlano        as integer init 326.
+     47       
+     48     find first buscadadoscontratonf no-error.
+     49     
+     50     vstatus = if avail buscadadoscontratonf
+     51               then "S"
+...DadosContratoNf.p                  03/08/2017 16:42:31   PROGRESS(R) Page 2   
+
+{} Line Blk
+-- ---- ---
+     52               else "E".
+     53     vmensagem_erro = if avail buscadadoscontratonf
+     54                      then "S"
+     55                      else "Parametros de Entrada nao recebidos.".
+     56     
+     57     {bsxml.i}
+ 1    1     def var bsxml as char. /* contem o XML */
+ 1    2     def var bsxml-fill as int.
+ 1    3     def var bsxml-tipo as char.
+ 1    4     
+ 1    5     function topto returns character
+ 1    6         (input par-virgula as char).
+ 1    7         return
+ 1    8             replace(par-virgula,",",".").
+ 1    9     end function.
+ 1   10     
+ 1   11     
+ 1   12     function tovig returns character
+ 1   13         (input par-ponto as char).
+ 1   14         return
+ 1   15             replace(par-ponto,".",",").
+ 1   16     end function.
+ 1   17     
+ 1   18     
+ 1   19     function bsxml returns char
+ 1   20         (input tag as char,
+ 1   21          input conteudo as char).
+ 1   22     
+ 1   23         def var vskip as char.
+ 1   24         vskip = "". /*chr(10).*/
+ 1   25     
+ 1   26         if conteudo = ? then conteudo = "".
+ 1   27         
+ 1   28         if bsxml-tipo <> "VARIAVEL" then bsxml = "".
+ 1   29         
+ 1   30         if tag = "ABREXML"
+ 1   31   1     then do:
+ 1   32             bsxml = "<?xml version=\"1.0\" encoding=\"UTF-8\"  ?>" + vsk
+ 1   32   1 ip +
+ 1   33   1                   vskip.
+ 1   34   1         bsxml-fill = 1 /***4***/.
+ 1   35   1         if conteudo <> ""
+ 1   36   1         then bsxml-tipo = conteudo.
+ 1   37         end.
+ 1   38         else if tag = "FECHAXML"
+ 1   39   1     then do:
+ 1   40   1         bsxml = bsxml +  vskip.
+ 1   41   1         if bsxml-tipo = "VARIAVEL"
+ 1   42   2         then do:
+ 1   43   2             /**
+ 1   44   2             **  MANDA O XML 
+...DadosContratoNf.p                  03/08/2017 16:42:31   PROGRESS(R) Page 3   
+
+{} Line Blk
+-- ---- ---
+ 1   45   2             **/
+ 1   46   2             put unformatted bsxml.
+ 1   47   2             bsxml = "".
+ 1   48   1         end.
+ 1   49         end.        
+ 1   50         else if tag = "ABRE"
+ 1   51   1     then do:
+ 1   52             bsxml = "<?xml version=\"1.0\" encoding=\"UTF-8\"  ?>" + vsk
+ 1   52   1 ip +
+ 1   53   1                  "<conteudo>" + vskip.
+ 1   54   1         bsxml-fill = 1 /***4***/.
+ 1   55   1         if conteudo <> ""
+ 1   56   1         then bsxml-tipo = conteudo.
+ 1   57         end.
+ 1   58         else if tag = "FECHA"
+ 1   59   1     then do:
+ 1   60   1         bsxml = bsxml + "</conteudo>" + vskip.
+ 1   61   1         if bsxml-tipo = "VARIAVEL"
+ 1   62   2         then do:
+ 1   63   2             /**
+ 1   64   2             **  MANDA O XML 
+ 1   65   2             **/
+ 1   66   2             put unformatted bsxml.
+ 1   67   2             bsxml = "".
+ 1   68   1         end.
+ 1   69         end.        
+ 1   70         else if tag = "ABRETABELA"
+ 1   71   1     then do: 
+ 1   72             bsxml = bsxml + fill(" ",bsxml-fill) + "<" + conteudo + ">" 
+ 1   72   1 + vskip.
+ 1   73   1         /***bsxml-fill = bsxml-fill + 4.***/
+ 1   74         end.        
+ 1   75         else if tag = "FECHATABELA"
+ 1   76   1     then do: 
+ 1   77   1         /***bsxml-fill = bsxml-fill - 4.***/
+ 1   78             bsxml = bsxml + fill(" ",bsxml-fill) + "</" + conteudo + ">"
+ 1   78   1  + vskip.
+ 1   79         end.
+ 1   80         else if tag = "ABREREGISTRO"
+ 1   81   1     then do:
+ 1   82             bsxml = bsxml + fill(" ",bsxml-fill) + "<" + conteudo + ">" 
+ 1   82   1 + vskip.
+ 1   83   1         /***bsxml-fill = bsxml-fill + 4.***/
+ 1   84         end.        
+ 1   85         else if tag = "FECHAREGISTRO"
+ 1   86   1     then do:
+ 1   87   1         /***bsxml-fill = bsxml-fill - 4.***/
+ 1   88             bsxml = bsxml + fill(" ",bsxml-fill) + "</" + conteudo + ">"
+ 1   88   1  + vskip.
+ 1   89         end.        
+ 1   90         else if tag = "ABRETAG"
+...DadosContratoNf.p                  03/08/2017 16:42:31   PROGRESS(R) Page 4   
+
+{} Line Blk
+-- ---- ---
+ 1   91         then bsxml = bsxml + fill(" ",bsxml-fill) + "<" + conteudo + ">"
+ 1   91      + vskip.
+ 1   92         else if tag = "FECHATAG"
+ 1   93         then bsxml = bsxml + fill(" ",bsxml-fill) + "</" + conteudo + ">
+ 1   93     " + vskip.
+ 1   94         else bsxml = bsxml + fill(" ",bsxml-fill) + "<" + tag + ">" + 
+ 1   95                         trim(conteudo) + "</" + tag + ">" + vskip.
+ 1   96     
+ 1   97         if bsxml-tipo <> "VARIAVEL"
+ 1   98         then put unformatted bsxml.
+ 1   99     
+ 1  100         return bsxml.     
+ 1  101     
+ 1  102     end function.
+ 1  103     
+ 1  104     
+ 1  105     function bsxmlvar returns char
+ 1  106         (input tag as char,
+ 1  107          input conteudo as char).
+ 1  108     
+ 1  109         if tag = "ABREXML"
+ 1  110         then return "<?xml version=\'1.0\' encoding=\'UTF-8\' ?>".
+ 1  111         else if tag = "ABRETABELA"
+ 1  112         then return " <" + conteudo + "> ".
+ 1  113         else if tag = "FECHATABELA"
+ 1  114         then return " </" + conteudo + "> ".
+ 1  115         else if tag = "ABREREGISTRO"
+ 1  116         then return " <" + conteudo + "> ".
+ 1  117         else if tag = "FECHAREGISTRO"
+ 1  118         then return "   </" + conteudo + "> ".
+ 1  119         else return "   <" + tag + ">" + conteudo + "</" + tag + ">".
+ 1  120          
+ 1  121     end function.
+ 1  122     
+ 1  123     
+ 1  124     function montatab           returns char 
+ 1  125             (input tabela      as char,
+ 1  126              input registro    as char,
+ 1  127              input parametros  as char).
+ 1  128         def var vxml as char.
+ 1  129         def var vx   as int.
+ 1  130         def var auxiliar as char.
+ 1  131     
+ 1  132         vxml = vxml + bsxmlvar("ABRETABELA",tabela).
+ 1  133         if registro <> ""
+ 1  134         then vxml = vxml + bsxmlvar("ABREREGISTRO",registro).
+ 1  135     
+ 1  136         if parametros <> ""
+ 1  137   1     then do: 
+ 1  138   2         do vx = 1 to num-entries(parametros,"|"). 
+ 1  139   2             auxiliar    = entry(vx,parametros,"|").
+...DadosContratoNf.p                  03/08/2017 16:42:31   PROGRESS(R) Page 5   
+
+{} Line Blk
+-- ---- ---
+ 1  140   2             vxml = vxml + bsxmlvar(entry(1,auxiliar   ,"="),
+ 1  141   2                                    entry(2,auxiliar   ,"=")).
+ 1  142   1         end.
+ 1  143         end.
+ 1  144         if registro <> ""
+ 1  145         then vxml = vxml + bsxmlvar("FECHAREGISTRO",registro).
+ 1  146         
+ 1  147         vxml = vxml + bsxmlvar("FECHATABELA",tabela).
+ 1  148         
+ 1  149         return vxml.
+ 1  150     end function.
+ 1  151     
+ 1  152     
+ 1  153     function montaxml           returns char 
+ 1  154             (input controles   as char,
+ 1  155              input parametros  as char).
+ 1  156         def var vxml as char.
+ 1  157         def var vx   as int.
+ 1  158         def var auxiliar as char.
+ 1  159         vxml = vxml + bsxmlvar("ABREXML","").
+ 1  160         vxml = vxml + bsxmlvar("ABRETABELA","conteudo").
+ 1  161         if controles <> ""
+ 1  162   1     then do:
+ 1  163   1         vxml = vxml + bsxmlvar("ABREREGISTRO","controle").
+ 1  164   1         if controles = "bsecombrivia"
+ 1  165   2         then do:
+ 1  166   2             vxml = vxml + bsxmlvar("usuario","brivia").
+ 1  167                 vxml = vxml + bsxmlvar("senha","1f0efad05bbbfa9017047262
+ 1  167   2 c54b86f4").
+ 1  168   1         end.
+ 1  169   2         else do:
+ 1  170   2             if controles <> ""
+ 1  171   3             then do:
+ 1  172   4                 do vx = 1 to num-entries(controles,"|").
+ 1  173   4                     auxiliar             = entry(vx,controles,"|").
+ 1  174   4                     vxml = vxml + bsxmlvar(entry(1,auxiliar   ,"="),
+ 1  175                                                entry(2,auxiliar   ,"="))
+ 1  175   4 .
+ 1  176   3                 end.
+ 1  177   2             end.
+ 1  178   1         end.
+ 1  179   1         vxml = vxml + bsxmlvar("FECHAREGISTRO","controle").
+ 1  180         end.
+ 1  181         if parametros <> "" 
+ 1  182   1     then do: 
+ 1  183   1         if num-entries(parametros,"|") > 0
+ 1  184   2         then do:
+ 1  185   3             do vx = 1 to num-entries(parametros,"|"). 
+ 1  186   3                 auxiliar    = entry(vx,parametros,"|").
+ 1  187   3                 if num-entries(auxiliar,"=") > 1
+ 1  188                     then vxml = vxml + bsxmlvar(entry(1,auxiliar   ,"=")
+...DadosContratoNf.p                  03/08/2017 16:42:31   PROGRESS(R) Page 6   
+
+{} Line Blk
+-- ---- ---
+ 1  188   3 , 
+ 1  189                                                    entry(2,auxiliar   ,"
+ 1  189   3 =")).
+ 1  190   3                 else vxml = vxml + auxiliar.
+ 1  191   2             end.
+ 1  192   1         end.
+ 1  193         end.
+ 1  194         vxml = vxml + bsxmlvar("FECHATABELA","conteudo").
+ 1  195         
+ 1  196         return vxml.
+ 1  197     end function.
+ 1  198     
+ 1  199     
+ 1  200     function chamawebservices return char 
+ 1  201         (input webcliente as char,
+ 1  202          input webservidor as char,
+ 1  203          input acao        as char,
+ 1  204          input xml         as char).
+ 1  205          
+ 1  206         def var varquivo as char.
+ 1  207         def var ctime as char.
+ 1  208     
+ 1  209         ctime = string(time).
+ 1  210         varquivo =  "/u/bsweb/works/" + acao + "." + ctime + ".xml".
+ 1  211     
+ 1  212         unix silent value("wget \"http://" + webcliente +
+ 1  213                             "?chamar=" + acao +
+ 1  214                             "&servidor=" + webservidor +
+ 1  215                             "&xml=" + xml + "\"" +
+ 1  216                             " -O " + varquivo + " -q --timeout=30").
+ 1  217         return varquivo.
+ 1  218     end function.
+ 1  219     
+ 1  220     
+ 1  221     function testavalido return log
+ 1  222         (input par-palavra as char).
+ 1  223         def var vok as log.
+ 1  224     
+ 1  225            if  par-palavra <> "" and 
+ 1  226                par-palavra <> ?  and
+ 1  227                par-palavra <> "?"
+ 1  228            then vok = yes.
+ 1  229            else vok = no.
+ 1  230          return vok.
+ 1  231     
+ 1  232     end function.
+ 1  233     
+ 1  234     
+ 1  235     function trata-numero returns character
+ 1  236         (input par-num as char).
+ 1  237     
+...DadosContratoNf.p                  03/08/2017 16:42:31   PROGRESS(R) Page 7   
+
+{} Line Blk
+-- ---- ---
+ 1  238         def var par-ret as char.
+ 1  239         def var j as int.
+ 1  240         def var t as int.
+ 1  241         def var vletra as char.
+ 1  242     
+ 1  243         if par-num = ?
+ 1  244         then par-num = "".
+ 1  245     
+ 1  246         t = length(par-num).
+ 1  247   1     do j = 1 to t:
+ 1  248   1         vletra = substr(par-num,j,1).
+ 1  249   1         if vletra = "0" or
+ 1  250   1            vletra = "1" or
+ 1  251   1            vletra = "2" or
+ 1  252   1            vletra = "3" or
+ 1  253   1            vletra = "4" or
+ 1  254   1            vletra = "5" or
+ 1  255   1            vletra = "6" or
+ 1  256   1            vletra = "7" or
+ 1  257   1            vletra = "8" or
+ 1  258   1            vletra = "9"
+ 1  259   1         then assign par-ret = par-ret + vletra.
+ 1  260         end.
+ 1  261         return par-ret.
+ 1  262     
+ 1  263     end function.
+ 1  264     
+ 1  265     
+ 1  266     /*** Formatar data para envio no XML ***/
+ 1  267     function EnviaData returns character
+ 1  268         (input par-data as date).
+ 1  269     
+ 1  270         if par-data <> ?
+ 1  271         then return string(year(par-data),"9999") + "-" +
+ 1  272                     string(month(par-data),"99") + "-" + 
+ 1  273                     string(day(par-data),"99") + 
+ 1  274                     "T00:00:00".
+ 1  275         else return "1900-01-01T00:00:00".
+ 1  276     
+ 1  277     end function.
+ 1  278     
+ 1  279     
+ 1  280     /*** Retirar acentos ***/
+ 1  281     function Texto return character
+ 1  282         (input par-texto as char).
+ 1  283     
+ 1  284         def var vtexto as char.
+ 1  285         def var vletra as char.
+ 1  286         def var vct    as int.
+ 1  287         def var vi     as int.
+ 1  288         def var vtam   as int.
+...DadosContratoNf.p                  03/08/2017 16:42:31   PROGRESS(R) Page 8   
+
+{} Line Blk
+-- ---- ---
+ 1  289     
+ 1  290         if par-texto = ?
+ 1  291         then return "".
+ 1  292     
+ 1  293         par-texto = caps(trim(replace(par-texto, "~\","."))).
+ 1  294         vtam = length(par-texto).
+ 1  295   1     do vi = 1 to vtam.
+ 1  296   1         vletra = substring(par-texto, vi, 1).
+ 1  297   1         if vletra = "<" or
+ 1  298   1            vletra = ">" or
+ 1  299   1            asc(vletra) = 34 or
+ 1  300   1            asc(vletra) = 39
+ 1  301   1         then vtexto = vtexto + " ".
+ 1  302   1         else if vletra = "&" then vtexto = vtexto + "E".
+ 1  303   1         else
+ 1  304   1             if length(vletra) = 1 and
+ 1  305   1                asc(vletra) >  31 and
+ 1  306   1                asc(vletra) < 127
+ 1  307   1         then vtexto = vtexto + vletra.
+ 1  308         end.
+ 1  309     
+ 1  310         return vtexto.
+ 1  311     
+ 1  312     end function.
+ 1  313     
+     57      
+     58     
+     59     if avail buscadadoscontratonf
+     60   1 then do.
+     61   1     vetbcod = int(buscadadoscontratonf.codigo_filial).
+     62   1 
+     63   1     if buscadadoscontratonf.tipo_documento = "1" /* cpF */
+     64   2     then do:
+     65   2         find first clien where 
+     66   2             clien.ciccgc = buscadadoscontratonf.numero_documento
+     67   2             no-lock no-error.
+     68   1     end.
+     69         if buscadadoscontratonf.tipo_documento = "2" /* codigo-cliente *
+     69   1 /
+     70   2     then do:
+     71   2         find first clien where 
+     72                 clien.clicod = int(buscadadoscontratonf.numero_documento
+     72   2 )
+     73   2             no-lock no-error.
+     74   1     end.
+     75   1 
+     76   1     if vstatus = "S"
+     77   2     then do:
+     78   2         if not avail clien
+     79   3         then do:
+     80   3             vstatus = "E".
+...DadosContratoNf.p                  03/08/2017 16:42:31   PROGRESS(R) Page 9   
+
+{} Line Blk
+-- ---- ---
+     81   3             vmensagem_erro = "CLIENTE Nao Encontrado".
+     82   2         end.
+     83   3         else do:
+     84   3             vstatus = "S".
+     85   3             vmensagem_erro = "".
+     86   2         end.
+     87   1     end.
+     88     end.
+     89     
+     90     BSXml("ABREXML","").
+     91     bsxml("abretabela","return").
+     92     bsxml("status",vstatus).
+     93     bsxml("mensagem_erro",vmensagem_erro).
+     94         
+     95     if vstatus = "S" /*** avail clien***/
+     96   1 then do:
+     97   2     do for geranum on error undo on endkey undo:
+     98   2         /*** Numeracao para CONTRATOS criados na matriz ***/
+     99   2         find geranum where geranum.etbcod = 999 exclusive no-error.
+    100   2         if not avail geranum
+    101   3         then do:
+    102   3             create geranum.
+    103   3             assign
+    104   3                 geranum.etbcod  = 999
+    105   3                 geranum.clicod  = 300000000
+    106   3                 geranum.contnum = 300000000.
+    107   2         end.
+    108   2         geranum.contnum = geranum.contnum + 1. 
+    109   2         find current geranum no-lock. 
+    110   2         vcontnum = geranum.contnum.
+    111   1     end.
+    112   1 /***
+    113   1     end.    
+    114   1                                            
+    115   1     if avail clien
+    116   1     then do:
+    117   1 ***/
+    118   1         bsxml("codigo_cliente",string(clien.clicod)).
+    119   1         if clien.ciccgc = ?
+    120   1         then bsxml("cpf","").
+    121   1         else bsxml("cpf",clien.ciccgc).
+    122   1         bsxml("nome",Texto(clien.clinom)).
+    123   1         bsxml("numero_contrato", string(vcontnum)).
+    124     end.
+    125   1 else do:
+    126   1     bsxml("codigo_cliente",buscadadoscontratonf.numero_documento).
+    127   1     bsxml("cpf","").
+    128   1     bsxml("nome","").
+    129   1     bsxml("numero_contrato","").
+    130     end.
+    131     
+...DadosContratoNf.p                  03/08/2017 16:42:31   PROGRESS(R) Page 10  
+
+{} Line Blk
+-- ---- ---
+    132     if avail buscadadoscontratonf
+    133   1 then do.
+    134   1     bsxml("codigo_filial",buscadadoscontratonf.codigo_filial).
+    135   1     bsxml("numero_pdv",buscadadoscontratonf.numero_pdv).
+    136     end.
+    137   1 else do.
+    138   1     bsxml("codigo_filial","").
+    139   1     bsxml("numero_pdv","").
+    140     end.
+    141     
+    142     if vstatus = "S"
+    143   1 then do.
+    144   1     vloja = int(buscadadoscontratonf.codigo_filial).
+    145   1     vvalorcompra = dec(buscadadoscontratonf.valor_compra).
+    146   1     vprazo = 0.
+    147   2     for each parcelas by int(parcelas.seq_parcela).
+    148   2         vprazo = vprazo + 1.
+    149   2         if vprazo = 1
+    150   3         then do:
+    151   3             vvalorpmt = dec(parcelas.vlr_parcela).
+    152   3             vchar = parcelas.venc_parcela.
+    153   3             if testavalido(vchar)
+    154   4             then do:
+    155   4                 vdata = date(int(substring(vchar,6,2)),
+    156   4                                      int(substring(vchar,9,2)),
+    157                                          int(substring(vchar,1,4))) no-e
+    157   4 rror.
+    158   3             end.                                  
+    159   3             if vdata <> ?
+    160   3             then vdiasparapgto = vdata - today.
+    161   3             else vdiasparapgto = 1.
+    162   2         end.    
+    163   1     end.
+    164   1     {ws/p2k/progr/chama-cal-tx-wssicred.i}
+ 1    1   1 
+ 1    2   1 def var vEmpresa      as integer.
+ 1    3   1 def var vAgencia      as integer.
+ 1    4   1 def var vLojista      as integer.
+ 1    5   1 
+ 1    6   1 def var vret-Empresa             as char.
+ 1    7   1 def var vret-Agencia             as char.
+ 1    8   1 def var vret-Lojista             as char.
+ 1    9   1 def var vret-Loja                as char.
+ 1   10   1 def var vret-Produto             as char.
+ 1   11   1 def var vret-Plano               as char.
+ 1   12   1 def var vret-Prazo               as char.
+ 1   13   1 def var vret-Emissao             as char.
+ 1   14   1 def var vret-PrimeiroVencimento  as char.
+ 1   15   1 def var vret-PMT                 as char.
+ 1   16   1 def var vret-ValorTAC            as char.
+ 1   17   1 def var vret-ValorTfc            as char.
+...DadosContratoNf.p                  03/08/2017 16:42:31   PROGRESS(R) Page 11  
+
+{} Line Blk
+-- ---- ---
+ 1   18   1 def var vret-Seguro              as char.
+ 1   19   1 def var vret-ValorIOF            as char.
+ 1   20   1 def var vret-ValorFinanciado     as char.
+ 1   21   1 def var vret-Taxa                as char.
+ 1   22   1 def var vret-Coeficiente         as char.
+ 1   23   1 def var vret-IRR                 as char.
+ 1   24   1 def var vret-ValorLiberar        as char.
+ 1   25   1 def var vret-CET                 as char.
+ 1   26   1 def var vret-CETAnual            as char.
+ 1   27   1 def var vret-PST                 as char.
+ 1   28   1 def var vret-TFC                 as char.
+ 1   29   1 def var vret-Tac                 as char.
+ 1   30   1 def var vret-ValorTotal          as char.
+ 1   31   1 
+ 1   32   1 assign vEmpresa      = 1
+ 1   33   1        vAgencia      = 1
+ 1   34   1        /***
+ 1   35   1        vProduto      = 1
+ 1   36   1        vPlano        = 326
+ 1   37   1        ***/
+ 1   38   1        vLojista      = 1.
+ 1   39   1 
+ 1   40   1 if vetbcod = 189 then vloja = 1.
+ 1   41   1 
+ 1   42   1 run ws/p2k/progr/cal-tx-wssicred2.p
+ 1   43   1                      (input vEmpresa,
+ 1   44   1                       input vAgencia,
+ 1   45   1                       input vProduto,
+ 1   46   1                       input vLojista,
+ 1   47   1                       input vLoja,
+ 1   48   1                       input vPlano,
+ 1   49   1                       input vPrazo,
+ 1   50   1                       input vValorCompra,
+ 1   51   1                       input vValorPMT,
+ 1   52   1                       input vDiasParaPgto,
+ 1   53   1                       input vTaxa,
+ 1   54   1                       input vSeguro,
+ 1   55   1                       output vret-Empresa,
+ 1   56   1                       output vret-Agencia,
+ 1   57   1                       output vret-Lojista,
+ 1   58   1                       output vret-Loja,
+ 1   59   1                       output vret-Produto,
+ 1   60   1                       output vret-Plano,
+ 1   61   1                       output vret-Prazo,
+ 1   62   1                       output vret-Emissao,
+ 1   63   1                       output vret-PrimeiroVencimento,
+ 1   64   1                       output vret-PMT,
+ 1   65   1                       output vret-ValorTAC,
+ 1   66   1                       output vret-ValorTfc,
+ 1   67   1                       output vret-Seguro,
+ 1   68   1                       output vret-ValorIOF,
+...DadosContratoNf.p                  03/08/2017 16:42:31   PROGRESS(R) Page 12  
+
+{} Line Blk
+-- ---- ---
+ 1   69   1                       output vret-ValorFinanciado,
+ 1   70   1                       output vret-Taxa,
+ 1   71   1                       output vret-Coeficiente,
+ 1   72   1                       output vret-IRR,
+ 1   73   1                       output vret-ValorLiberar,
+ 1   74   1                       output vret-CET,
+ 1   75   1                       output vret-CETAnual,
+ 1   76   1                       output vret-PST,
+ 1   77   1                       output vret-TFC,
+ 1   78   1                       output vret-Tac,
+ 1   79   1                       output vret-ValorTotal).
+ 1   80   1 
+    164   1  
+    165   1 
+    166   1     assign vCET         = round(decimal(vret-CET),2).
+    167   1     assign vCET_Ano     = round(decimal(vret-CETAnual),2).
+    168   1     assign vvalor_iof   = dec(vret-valoriof).
+    169     end.
+    170     
+    171     if vret-taxa = ""
+    172     then vret-taxa = "0".
+    173     
+    174     bsxml("tipo_operacao","CDC").
+    175     bsxml("cet",string(vcet,">>>>>>>>>>9.99")).
+    176     bsxml("cet_ano",string(vcet_ano,">>>>>>>>>>9.99")).
+    177     bsxml("tx_mes",vret-taxa).
+    178     bsxml("valor_iof",string(vvalor_iof,">>>>>>>>>9.99")).
+    179     
+    180     if vstatus = "S"
+    181   1 then do.
+    182   1     if buscadadoscontratonf.codigo_seguro_prestamista = "559910" or
+    183   1        buscadadoscontratonf.codigo_seguro_prestamista = "559911"
+    184   2     then do.
+    185   2         /* Gerar Numero do Certificado */
+    186   2         find geraseguro where geraseguro.tpseguro = 2
+    187   2                           and geraseguro.etbcod = vetbcod
+    188   2                         exclusive no-error.
+    189   2         if not avail geraseguro
+    190   3         then do.
+    191   3             create geraseguro.
+    192   3             assign
+    193   3                 geraseguro.tpseguro = 2
+    194   3                 geraseguro.etbcod   = vetbcod.
+    195   2         end.
+    196   2         assign
+    197   2             geraseguro.sequencia = geraseguro.sequencia + 1.
+    198   2 
+    199   2         vcertifi = string(vetbcod, "999") +
+    200   2                    "2" /* tpserv P2K */ +
+    201   2                    string(geraseguro.sequencia, "9999999").
+    202   2         release geraseguro.
+...DadosContratoNf.p                  03/08/2017 16:42:31   PROGRESS(R) Page 13  
+
+{} Line Blk
+-- ---- ---
+    203   1     end.
+    204   1     
+    205   1     if buscadadoscontratonf.codigo_seguro_prestamista = "559911"
+    206   2     then do on error undo.
+    207   2         find first segnumsorte use-index venda where
+    208   2                   segnumsorte.dtivig <= today and
+    209   2                   segnumsorte.dtfvig >= today and
+    210   2                   segnumsorte.dtuso = ?
+    211   2                   no-error.
+    212   2         if avail segnumsorte
+    213   2         then assign
+    214   2                 segnumsorte.dtuso = today
+    215   2                 segnumsorte.hruso = time
+    216   2                 segnumsorte.etbcod = vetbcod
+    217   2                 /***segnumsorte.placod = p-placod***/
+    218   2                 segnumsorte.contnum = vcontnum
+    219   2                 segnumsorte.certifi = vcertifi
+    220                     segnumsorte.nsu    = int(buscadadoscontratonf.nsu_ve
+    220   2 nda)
+    221                     segnumsorte.cxacod = int(buscadadoscontratonf.numero
+    221   2 _pdv)
+    222   2                 vnsorte = string(segnumsorte.serie,"999") +
+    223   2                           string(segnumsorte.nsorteio,"99999").
+    224   1     end.
+    225     end.
+    226     
+    227     bsxml("numero_bilhete",vcertifi).
+    228     bsxml("numero_sorte",  vnsorte).
+    229                                                               
+    230     bsxml("fechatabela","return").
+    231     BSXml("FECHAXML","").
+    232     
+...DadosContratoNf.p                  03/08/2017 16:42:31   PROGRESS(R) Page 14  
+
+     File Name       Line Blk. Type   Tran            Blk. Label            
+-------------------- ---- ----------- ---- --------------------------------
+...web/progr/bsxml.i    5 Function    No   Function topto                   
+...web/progr/bsxml.i   12 Function    No   Function tovig                   
+...web/progr/bsxml.i   19 Function    No   Function bsxml                   
+...web/progr/bsxml.i   30 Do          No                                    
+...web/progr/bsxml.i   38 Do          No                                    
+...web/progr/bsxml.i   41 Do          No                                    
+...web/progr/bsxml.i   50 Do          No                                    
+...web/progr/bsxml.i   58 Do          No                                    
+...web/progr/bsxml.i   61 Do          No                                    
+...web/progr/bsxml.i   70 Do          No                                    
+...web/progr/bsxml.i   75 Do          No                                    
+...web/progr/bsxml.i   80 Do          No                                    
+...web/progr/bsxml.i   85 Do          No                                    
+...web/progr/bsxml.i  105 Function    No   Function bsxmlvar                
+...web/progr/bsxml.i  124 Function    No   Function montatab                
+...web/progr/bsxml.i  136 Do          No                                    
+...web/progr/bsxml.i  138 Do          No                                    
+...web/progr/bsxml.i  153 Function    No   Function montaxml                
+...web/progr/bsxml.i  161 Do          No                                    
+...web/progr/bsxml.i  164 Do          No                                    
+...web/progr/bsxml.i  169 Do          No                                    
+...web/progr/bsxml.i  170 Do          No                                    
+...web/progr/bsxml.i  172 Do          No                                    
+...web/progr/bsxml.i  181 Do          No                                    
+...web/progr/bsxml.i  183 Do          No                                    
+...web/progr/bsxml.i  185 Do          No                                    
+...web/progr/bsxml.i  200 Function    No   Function chamawebservices        
+...web/progr/bsxml.i  221 Function    No   Function testavalido             
+...web/progr/bsxml.i  235 Function    No   Function trata-numero            
+...web/progr/bsxml.i  247 Do          No                                    
+...web/progr/bsxml.i  267 Function    No   Function EnviaData               
+...web/progr/bsxml.i  281 Function    No   Function Texto                   
+...web/progr/bsxml.i  295 Do          No                                    
+...DadosContratoNf.p    0 Procedure   Yes                                   
+    Buffers: com.segnumsorte
+             ger.GeraSeguro
+             ger.clien
+             BuscaDadosContratoNf
+
+...DadosContratoNf.p   59 Do          No                                    
+...DadosContratoNf.p   63 Do          No                                    
+...DadosContratoNf.p   69 Do          No                                    
+...DadosContratoNf.p   76 Do          No                                    
+...DadosContratoNf.p   78 Do          No                                    
+...DadosContratoNf.p   83 Do          No                                    
+...DadosContratoNf.p   95 Do          No                                    
+...DadosContratoNf.p   97 Do          Yes                                   
+    Buffers: ger.geranum
+
+...DadosContratoNf.p  100 Do          No                                    
+...DadosContratoNf.p  125 Do          No                                    
+...DadosContratoNf.p  132 Do          No                                    
+...DadosContratoNf.p  137 Do          No                                    
+...DadosContratoNf.p  142 Do          No                                    
+...DadosContratoNf.p  147 For         No                                    
+    Buffers: parcelas
+
+...DadosContratoNf.p  149 Do          No                                    
+...DadosContratoNf.p  153 Do          No                                    
+...DadosContratoNf.p  180 Do          No                                    
+...DadosContratoNf.p  182 Do          No                                    
+...DadosContratoNf.p  189 Do          No                                    
+...DadosContratoNf.p  205 Do          Yes                                   
+

@@ -1,0 +1,79 @@
+{gerxmlnfe.i}    
+
+def var vmetodo as char.
+def var varquivo as char.    
+def var vnumero as int.
+def var vretorno as char.
+def var vetbcod like estab.etbcod.
+vetbcod = 1.
+vnumero = 3699.
+def var arq_envio as char.
+arq_envio = "/u/ws/ws-nfe/envia/".
+def var cnpj_emi as char.
+cnpj_emi = "96662168006920".
+def var vserie as int.
+vserie = 1.
+
+    vmetodo = "ConsultarPdfNfe".
+
+    varquivo = "/u/ws/ws-nfe/envia/" + vmetodo + "_"
+                           + string(vnumero) + "_"
+                           + string(time).
+
+    output to value(varquivo).
+       
+    geraXmlNfe(yes,
+               "chave_nfe",
+               "43110996662168006920550010000036971713055278",
+               yes). 
+                       
+    output close.
+   
+    unix silent value("chmod 777 " + varquivo).
+    
+    run chama-ws.p(input vetbcod,
+                   input vnumero,
+                   input "NotaMax",
+                   input vmetodo,
+                   input varquivo,
+                   output vretorno).
+            
+    pause.
+    
+    
+    assign vmetodo = "ConsultarNfe".
+
+    assign varquivo = arq_envio + vmetodo + "_"
+                                  + string(vnumero) + "_"
+                                  + string(time).
+
+            output to value(varquivo).
+        
+            geraXmlNfe(yes,
+                       "cnpj_emitente",
+                       cnpj_emi,
+                       no). 
+                       
+            geraXmlNfe(no,
+                       "numero_nota",
+                       string(vnumero),
+                       no).
+                       
+            geraXmlNfe(no,
+                       "serie_nota",
+                       string(vserie),
+                       yes).
+                       
+            output close.
+
+    unix silent value("chmod 777 " + varquivo).
+            /* Apos esperar, realiza uma consulta ao NotaMax */ 
+            run chama-ws.p(input vetbcod,
+                           input vnumero,
+                           input "NotaMax",
+                           input vmetodo,
+                           input varquivo,
+                           output vretorno).
+    
+       message vretorno. pause.      
+

@@ -1,0 +1,313 @@
+def var v-procod like produ.procod.
+def var v-param as char.
+def var v-etbcod like estab.etbcod.
+v-param = os-getenv("teclar").
+v-etbcod = int(substr(string(v-param),1,3)).
+v-procod = int(substr(string(v-param),4,9)).
+
+
+def buffer bestoq for estoq.  
+def var vlipqtd like liped.lipqtd.
+def var vdata as date.
+def buffer bpedid for pedid.
+def var q as int.
+def var v-entregar like liped.lipqtd.
+def var vreserva-ecm        as int.
+def temp-table tt-produ 
+            field procod like produ.procod.
+create tt-produ.
+tt-produ.procod = v-procod.
+
+for each prosubst where
+         prosubst.tipo = "F" and
+         prosubst.etbcod = v-etbcod and
+         prosubst.procod = v-procod and
+         prosubst.situacao <> "EXC"
+         no-lock:
+    create tt-produ.
+    tt-produ.procod = prosubst.prosub .
+end. 
+               
+def temp-table tt-estoq like estoq.
+    
+    put "~"@INICIO;" string(time) "~"" skip.
+    
+    put "~"#ESTOQ;" string(time) "~"" skip.
+
+    for each tt-produ:
+    v-procod = tt-produ.procod.
+    find estoq where estoq.etbcod = 993 and
+                     estoq.procod = v-procod no-lock no-error.
+    if avail estoq
+    then do:
+        find bestoq where bestoq.etbcod = 995 and
+                            bestoq.procod = v-procod no-lock no-error.
+        create tt-estoq.
+        buffer-copy estoq to tt-estoq.
+        assign 
+            tt-estoq.estpedven = 0
+            tt-estoq.estpedcom = 0
+            tt-estoq.estinvqtd = 0
+            tt-estoq.estinvctm = 0
+            tt-estoq.estloc = ""  .
+        if avail bestoq and
+                   bestoq.estatual > 0
+        then tt-estoq.estatual = tt-estoq.estatual + bestoq.estatual.
+
+                  
+        do vdata = today - 40 to today.
+            for each liped where liped.pedtdc = 3
+                             and liped.predt  = vdata
+                             and liped.procod = estoq.procod no-lock:
+                                         
+                find pedid where pedid.etbcod = liped.etbcod and
+                                 pedid.pedtdc = liped.pedtdc and
+                                 pedid.pednum = liped.pednum no-lock no-error.
+                if not avail pedid 
+                then next.
+
+                if pedid.sitped <> "E" and
+                   pedid.sitped <> "L"
+                then next.
+                
+                tt-estoq.estpedven = tt-estoq.estpedven + liped.lipqtd.
+            
+            end.
+        end.
+
+        /***
+        for each liped where /*liped.etbcod = 86 and*/
+                                 liped.procod = estoq.procod and
+                                 liped.pedtdc = 1 and
+                                 (liped.lipsit = "A" or
+                                  liped.lipsit = "P") and
+                                 (liped.predtf = ? or
+                                 liped.predtf >= today - 30) no-lock,
+              first pedid of liped where pedid.pedsit = yes and
+                            pedid.sitped <> "F"  and
+                            pedid.peddat > today - 180   no-lock:
+                            
+              find first bpedid where 
+                        (bpedid.pedtdc = 4 or
+                         bpedid.pedtdc = 6) and
+                         bpedid.pedsit = yes and
+                         bpedid.comcod = pedid.pednum
+                         no-lock no-error.
+              if avail bpedid
+              then next.
+              v-entregar = lipe.lipqtd - liped.lipent.
+              if v-entregar <= 0
+              then next.
+              tt-estoq.estpedcom = tt-estoq.estpedcom + v-entregar.
+                            
+              if pedid.peddtf = ?
+              then do:
+                tt-estoq.estloc = tt-estoq.estloc +
+                    "SEM PREVISAO=" +
+                    string(v-entregar,">>>9") + " | ".
+              end.
+              else if pedid.peddtf >= today
+              then do:
+                tt-estoq.estloc = tt-estoq.estloc +
+                    string(pedid.peddtf,"99/99/9999") + "=" +
+                    string(v-entregar,">>>9") + " | ".
+              end.
+              else do:
+                tt-estoq.estloc = tt-estoq.estloc +
+                    "Previsao estourada=" +
+                    string(v-entregar,">>>9") + " | ".
+              end.
+        end.
+        ****/
+        
+        find bestoq where bestoq.etbcod = v-etbcod and
+                            bestoq.procod = v-procod no-lock no-error.
+        if avail bestoq
+        then  do:
+            find last movim where 
+                      movim.etbcod = v-etbcod and
+                      movim.movtdc = 5 and
+                      movim.procod = bestoq.procod
+                      no-lock no-error.
+            tt-estoq.estinvqtd = bestoq.estatual.
+            if avail movim
+            then tt-estoq.estinvctm = movim.placod.
+            else tt-estoq.estinvctm = 0.
+        end.  
+        else tt-estoq.estinvqtd = 0.
+        
+        run /admcom/progr/disponivel.p (v-procod, output vreserva-ecm).
+        
+        assign tt-estoq.estpedven = tt-estoq.estpedven + vreserva-ecm.
+
+        tt-estoq.estpedven = 0.
+        
+    def var vestoq_depos like estoq.estatual.
+    def var vreservas as dec.
+    def var vdisponivel like tt-estoq.estpedven.
+    run /admcom/progr/corte_disponivel.p (input  v-procod,
+                                          output vestoq_depos, 
+                                          output vreservas, 
+                                          output vdisponivel).
+        
+        tt-estoq.estpedven = vreservas.
+        tt-estoq.estatual = vestoq_depos.
+        /*
+        message vestoq_depos vreservas vdisponivel.
+        pause.
+        */
+
+        tt-estoq.estloc = "".
+        
+        def var vestatual_cd   as   dec.
+        def var vpedid_abe     like liped.lipqtd.
+        def var vestoq_fil     like estoq.estatual.
+
+        run produ_descontinuado
+                 (input  v-etbcod     ,
+                  input  v-procod     ,
+                  output vestatual_cd ,
+                  output vpedid_abe   ,
+                  output vestoq_fil   ).
+        tt-estoq.estloc =       string(vestatual_cd) +
+                          "|" + string(vpedid_abe)   +
+                          "|" + string(vestoq_fil).
+    end.
+    end.
+         
+    q = 0.
+    for each tt-estoq no-lock:
+        export tt-estoq.
+        q = q + 1.
+    end.
+
+    put skip "~"@FIMESTOQ;"  string(q,"9999") "~"". 
+
+    
+    put "#PRODU;" string(time) skip. 
+    q = 0.
+    for each produ where produ.procod = v-procod no-lock. 
+        export  produ.procod         
+                produ.pronom         
+                produ.fabcod         
+                produ.clacod         
+                produ.proseq         
+                produ.proipiper
+                produ.proindice      
+                produ.codfis
+                produ.protam
+                produ.proindice
+                produ.catcod .         
+        q = q + 1.    
+    end.
+    put skip "@FIMPRODU;" string(q,"99999") skip.
+    
+    put skip "~"@FIMFIM;"  string(time) "~""
+    skip.
+
+
+
+
+
+
+
+procedure produ_descontinuado .
+def input  parameter vetbcod        like estab.etbcod.
+def input  parameter vprocod        like produ.procod.
+def output parameter vestatual_cd   as   dec.
+def output parameter vpedid_abe     like liped.lipqtd.
+def output parameter vestoq_fil     like estoq.estatual.
+
+
+def var vestatual995  like estoq.estatual format "->>>>9".
+def var vestatual980  like estoq.estatual format "->>>>9".
+def var vdisponiv993  like estoq.estatual format "->>>>9".
+def var vdisponiv981  like estoq.estatual format "->>>>9".
+def var vestatual993  like estoq.estatual format "->>>>9".
+def var vestatual981  like estoq.estatual format "->>>>9".
+def var vestatual998  like estoq.estatual format "->>>>9".
+def var vestatual500  like estoq.estatual format "->>>>9".
+
+def buffer pprodu for produ.
+
+
+find pprodu where pprodu.procod = vprocod no-lock no-error.
+
+    assign
+           vestatual_cd     = 0  
+           vpedid_abe       = 0  
+           vestoq_fil       = 0  
+           vestatual995     = 0  
+           vestatual980     = 0  
+           vdisponiv993     = 0  
+           vdisponiv981     = 0  
+           vestatual993     = 0  
+           vestatual981     = 0  
+           vestatual998     = 0  
+           vestatual500     = 0  .
+
+if not avail pprodu then leave.           
+
+def buffer pestoq for estoq.
+   
+    find pestoq where pestoq.etbcod = vetbcod      and 
+                      pestoq.procod = pprodu.procod no-lock no-error.
+    vestoq_fil = if avail pestoq 
+                 then pestoq.estatual
+                 else 0.
+                 
+
+                         
+    find pestoq where pestoq.etbcod = 993 and pestoq.procod = vprocod
+        no-lock no-error.
+    if avail pestoq then assign vestatual993 = vestatual993 + pestoq.estatual.
+    find pestoq where pestoq.etbcod = 981 and pestoq.procod = vprocod
+        no-lock no-error.
+    if avail pestoq then assign vestatual981 = vestatual981 + pestoq.estatual.
+    
+    find pestoq where pestoq.etbcod = 995 and pestoq.procod = vprocod
+        no-lock no-error.
+    if avail pestoq then assign vestatual995 = vestatual995 + pestoq.estatual.
+
+    find pestoq where pestoq.etbcod = 980 and pestoq.procod = vprocod
+        no-lock no-error.
+    if avail pestoq then assign vestatual980 = vestatual980 + pestoq.estatual.
+
+    find pestoq where pestoq.etbcod = 998 and pestoq.procod = vprocod
+        no-lock no-error.
+    if avail pestoq then assign vestatual998 = vestatual998 + pestoq.estatual.
+    find pestoq where pestoq.etbcod = 500 and pestoq.procod = vprocod           
+        no-lock no-error.                                                     
+    if avail pestoq then assign vestatual500 = vestatual500 + pestoq.estatual.  
+
+    
+    run compras_pendentes_entrega_CD ( input  vprocod, 
+                                       output vpedid_abe).
+
+
+    vestatual_cd =  vestatual993 + vestatual981 + vestatual995 +  
+                    vestatual980 +  vestatual500.
+
+
+
+end procedure.
+
+
+procedure compras_pendentes_entrega_CD.
+def input  parameter par-procod like produ.procod.
+def output parameter compras_pendentes_entrega_CD as int.
+    compras_pendentes_entrega_CD = 0.
+    for each liped where  liped.procod = par-procod and
+                                 liped.pedtdc = 1 and
+                                 (liped.predtf = ? or
+                                 liped.predtf >= today - 365) no-lock,
+              first pedid of liped where pedid.pedsit = yes and
+                            pedid.sitped <> "F"  and
+                            pedid.peddat > today - 365 no-lock:
+            compras_pendentes_entrega_CD = compras_pendentes_entrega_CD +
+                                (liped.lipqtd - liped.lipent).
+    end.
+
+end procedure.
+
+

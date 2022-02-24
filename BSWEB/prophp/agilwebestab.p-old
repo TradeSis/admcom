@@ -1,0 +1,86 @@
+def var vdata       as date.
+def var vetbcod     as int.
+def var vi          as int.
+def var vi2         as int.
+
+vetbcod = int(os-getenv("estab")).
+find estab where estab.etbcod = vetbcod no-lock no-error.
+if not avail estab
+then do:
+    put unformatted "NAOEXISTE".
+    quit.
+end.
+
+vi = 0.
+for each tipmov where tipmov.movttra no-lock.
+    do vdata = today - 5 to today.
+        for each plani where plani.desti = estab.clfcod
+                         and plani.movtdc = tipmov.movtdc
+                         and plani.dtincl = vdata
+                         and plani.notsit = "F"
+                       no-lock.
+            vi = vi + 1.
+            for each movim of plani no-lock.
+                vi2 = vi2 + 1.
+            end.
+        end.
+        for each plani where plani.desti = estab.clfcod
+                         and plani.movtdc = tipmov.movtdc
+                         and plani.dtincl = vdata
+                         and plani.notsit = "C"
+                       no-lock.
+            vi = vi + 1.
+            for each movim of plani no-lock.
+                vi2 = vi2 + 1.
+            end.
+        end.
+    end.
+end.
+
+if vi > 0
+then do.
+    put unformatted skip "#plani," + string(vi) skip.
+    for each tipmov where tipmov.movttra no-lock.
+        do vdata = today - 5 to today.
+            for each plani where plani.desti = estab.clfcod
+                             and plani.movtdc = tipmov.movtdc
+                             and plani.dtincl = vdata
+                             and plani.notsit = "F"
+                           no-lock.
+                export plani.
+            end.
+            for each plani where plani.desti = estab.clfcod
+                             and plani.movtdc = tipmov.movtdc
+                             and plani.dtincl = vdata
+                             and plani.notsit = "C"
+                           no-lock.               
+                export plani.
+            end.
+            
+        end.
+    end.
+
+    put unformatted skip "#movim," + string(vi2) skip.
+    for each tipmov where tipmov.movttra no-lock.
+        do vdata = today - 5 to today.
+            for each plani where plani.desti = estab.clfcod
+                             and plani.movtdc = tipmov.movtdc
+                             and plani.dtincl = vdata
+                             and plani.notsit = "F"
+                           no-lock.
+                for each movim of plani no-lock.
+                    export movim.
+                end.
+            end.
+            for each plani where plani.desti = estab.clfcod
+                             and plani.movtdc = tipmov.movtdc
+                             and plani.dtincl = vdata
+                             and plani.notsit = "C"
+                           no-lock.
+                for each movim of plani no-lock.
+                    export movim.
+                end.
+            end.
+        end.
+    end.
+end.

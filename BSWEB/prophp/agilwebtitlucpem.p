@@ -1,0 +1,125 @@
+def var v-param as char.
+def var v-ind as char.
+def var v-etbcod like estab.etbcod.
+def var v-funcod like func.funcod.
+def var v-titsit like fin.titluc.titsit.
+v-param = os-getenv("titlucdf").
+v-ind = substr(string(v-param),1,1).
+v-etbcod = int(substr(string(v-param),2,3)).
+v-titsit = substr(string(v-param),5,3).
+v-funcod = int(substr(string(v-param),8,4)).
+
+def temp-table tt-foraut like suporte.foraut.
+def temp-table tt-titluc like fin.titluc.
+def var q as int.
+def var vdt as date.
+
+
+def temp-table tt-modal 
+    field modcod like modal.modcod.
+    
+def buffer bmodgru for modgru.
+find first modgru where modgru.modcod = "PEM" and
+        modgru.mogsup = 0
+        no-lock no-error.
+if avail modgru
+then for each bmodgru where 
+              bmodgru.mogsup = modgru.mogcod  no-lock:
+              
+        create tt-modal.
+        tt-modal.modcod = bmodgru.modcod.
+    end. 
+find first tt-modal where tt-modal.modcod = "COM" no-error.
+if not avail tt-modal
+then do:
+    create tt-modal.
+    tt-modal.modcod = "COM".
+end.
+find first tt-modal where tt-modal.modcod = "PBM" no-error.
+if not avail tt-modal
+then do:
+    create tt-modal.
+    tt-modal.modcod = "PBM".
+end. 
+find first tt-modal where tt-modal.modcod = "PBC" no-error.
+if not avail tt-modal
+then do:
+    create tt-modal.
+    tt-modal.modcod = "PBC".
+end. 
+
+
+    
+do vdt = today - 60 to today:
+    for each tt-modal no-lock:
+    for each fin.titluc where
+             fin.titluc.empcod = 19 and
+             fin.titluc.titnat  = yes and
+             fin.titluc.modcod  = tt-modal.modcod and
+             fin.titluc.titdtven = vdt and 
+             fin.titluc.etbcod = v-etbcod and
+             fin.titluc.vencod = v-funcod and
+             fin.titluc.titsit <> "PAG" no-lock:
+        find first foraut where foraut.forcod = fin.titluc.clifor 
+                no-lock no-error.
+        if avail foraut
+        then do:
+            create tt-titluc.
+            buffer-copy fin.titluc to tt-titluc.
+            find first tt-foraut where
+                       tt-foraut.forcod = foraut.forcod no-error.
+            if not avail tt-foraut
+            then do:           
+                create tt-foraut.
+                buffer-copy foraut to tt-foraut.
+            end.
+        end.    
+    end. 
+    for each fin.titluc where
+             fin.titluc.empcod = 19 and
+             fin.titluc.titnat  = yes and
+             fin.titluc.modcod  = tt-modal.modcod and
+             fin.titluc.titdtven = vdt and 
+             fin.titluc.etbcod = v-etbcod and
+             fin.titluc.vencod = v-funcod and
+             fin.titluc.titsit = "PAG" no-lock:
+ 
+        find first foraut where foraut.forcod = titluc.clifor 
+                no-lock no-error.
+        if avail foraut
+        then do:
+            create tt-titluc.
+            buffer-copy fin.titluc to tt-titluc.
+            find first tt-foraut where
+                       tt-foraut.forcod = foraut.forcod no-error.
+            if not avail tt-foraut
+            then do:           
+                create tt-foraut.
+                buffer-copy foraut to tt-foraut.
+            end.
+        end.    
+    end. 
+    end.
+end.
+    put "@INICIO;" string(time) skip.
+    put "#TITLUC;" string(time) skip.
+    q = 0.
+    for each tt-titluc:
+        export tt-titluc.
+        q = q + 1.
+    end.                 
+    put skip "@FIMTITLUC;" string(q,"99999").    
+    put skip "#FORAUT;" string(time) skip.
+    q = 0.
+    for each tt-foraut :
+        export tt-foraut.autlp
+               tt-foraut.forcod
+               tt-foraut.fornom
+               tt-foraut.modcod
+               tt-foraut.setcod.
+        q = q + 1.
+    end.
+    put skip "@FIMFORAUT;" string(q,"99999").
+    put skip "@FIMFIM;" + string(time) skip.
+
+

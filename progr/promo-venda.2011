@@ -1,0 +1,3982 @@
+/****************************************************************************
+    Tipos: LIBERA-PRECO    ;  
+           LIBERA-PLANO    ; 
+           CASADINHA       ;
+           DINHEIRO-NA-MAO ;
+           PLANO-DEFAULT   ; 
+           PRECO-ESPECIAL  ; 
+           DESCONTO-ITEM   ; 
+           DESCONTO-TOTAL  ;
+           GERA-CPG        ;
+****************************************************************************/
+
+{admcab.i}
+
+def input parameter parametro-in as char.
+def output parameter parametro-out as char.
+def new shared var p-dtentra as date.
+def new shared var p-dtparcela as date.
+def new global shared var scartao as char.
+def var vindice as dec.
+def var spromoc as log init no.
+def var produto-vinculado as log.
+def var qtd-vinculado as int.
+def var vin-valor as dec.
+def var vin-pct as dec.
+def var vpreco as dec.
+def var p-venda-prazo as dec.
+def var vpctgerente as dec.
+def var vpctvendedor as dec.
+def shared temp-table tt-valpromo
+    field tipo   as int
+    field forcod as int
+    field nome   as char
+    field valor  as dec
+    field recibo as log 
+    field despro as char
+    field desval as char.
+
+
+def temp-table tt-valp
+    field tipo   as int
+    field forcod as int
+    field nome   as char
+    field valor  as dec
+    field venda  as dec
+    field recibo as log 
+    field despro as char
+    field desval as char.
+
+for each tt-valpromo.
+    delete tt-valpromo.
+end.
+
+def var na-promocao as log.
+def var na-casadinha as log.
+def var p-procod like produ.procod.
+def var p-fincod like finan.fincod.
+def var p-ok as log.
+assign
+    p-procod = int(acha("PRODUTO",parametro-in))
+    p-fincod = int(acha("PLANO",parametro-in))
+    parametro-out = ""
+    p-ok = no.
+def var valt-movpc as log init no.
+if acha("ALTERA-PRECO",parametro-in) = "N"
+then valt-movpc = no.
+else valt-movpc = yes.
+def var vbrinde-menos as log init no. 
+def shared var vdata-teste-promo as date.
+
+def var va as int.
+
+def shared workfile wf-movim
+    field wrec      as   recid
+    field movqtm    like movim.movqtm
+    field lipcor    like liped.lipcor
+    field movalicms like movim.movalicms
+    field desconto  like movim.movdes
+    field movpc     like movim.movpc
+    field precoori  like movim.movpc
+    field vencod    like func.funcod.
+
+def buffer bctpromoc for ctpromoc.
+def buffer b1ctpromoc for ctpromoc.
+def buffer fctpromoc for ctpromoc.
+def buffer dctpromoc for ctpromoc.
+def buffer qctpromoc for ctpromoc.
+
+def var vliqui as dec.
+def var vparce as dec.
+def var ventra as dec.
+def var total-venda as dec.
+def var total-produ as dec.
+def var total-venda-prazo as dec.
+def var total-produ-prazo as dec.
+def var total-vinculado as dec.
+def var cartao-valor as dec. 
+def var le-vinculado as log.
+
+def var vqtd-pro as int init 0.
+def var vpro-promo as int init 0.
+def var vqtd-venda as int init 0.
+def var vqtd-produ as int init 0.
+def var val-tot-promo as dec init 0.
+
+for each wf-movim:
+    find produ where recid(produ) = wf-movim.wrec no-lock no-error.
+    if not avail produ then next.
+    if produ.procod = p-procod
+    then do:
+        total-produ = wf-movim.movqtm * wf-movim.movpc.
+        vqtd-produ = vqtd-produ + wf-movim.movqtm.
+    end.
+    total-venda = total-venda + (wf-movim.movqtm * wf-movim.movpc).
+    vqtd-pro = vqtd-pro + wf-movim.movqtm.    
+end.
+if total-produ > 0
+then do:
+    if p-fincod > 0
+    then do:
+        run gercpg1.p( input p-fincod, 
+                   input total-produ, 
+                           input 0, 
+                           input 0, 
+                           output vliqui, 
+                           output ventra,
+                           output vparce). 
+        find finan where finan.fincod = p-fincod no-lock no-error.
+        if avail finan
+        then total-venda-prazo = ventra + (vparce * finan.finnpc).
+        else  total-venda-prazo = vliqui.
+    end.
+    else total-produ-prazo = total-produ.
+end.
+if total-venda > 0
+then do:
+    if p-fincod > 0
+    then do:
+        run gercpg1.p( input p-fincod, 
+                   input total-venda, 
+                           input 0, 
+                           input 0, 
+                           output vliqui, 
+                           output ventra,
+                           output vparce). 
+        find finan where finan.fincod = p-fincod no-lock no-error.
+        if avail finan
+        then total-venda-prazo = ventra + (vparce * finan.finnpc).
+        else  total-venda-prazo = vliqui.
+    end.
+    else total-venda-prazo = total-venda.
+end.
+
+if p-procod > 0 and acha("LIBERA-PRECO",parametro-in) <> ?
+then do:
+    find produ where produ.procod = p-procod no-lock no-error.
+    if not avail produ then return.
+    find clase where clase.clacod = produ.clacod no-lock no-error.
+    if not avail clase then return.
+ 
+    RUN p-libera-preco.
+
+end.
+if p-procod > 0 and acha("DESCONTO-ITEM",parametro-in) <> ?
+then do:
+    find produ where produ.procod = p-procod no-lock no-error.
+    if not avail produ then return.
+    find clase where clase.clacod = produ.clacod no-lock no-error.
+    if not avail clase then return.
+ 
+    RUN p-desconto-item.
+
+end.
+if p-procod > 0 and acha("PRECO-ESPECIAL",parametro-in) <> ?
+then do:
+    find produ where produ.procod = p-procod no-lock no-error.
+    if not avail produ then return.
+    find clase where clase.clacod = produ.clacod no-lock no-error.
+    if not avail clase then return.
+
+    RUN preco-especial.
+
+end.
+if p-fincod > 0 and acha("LIBERA-PLANO",parametro-in) <> ?
+then do:
+    find finan where finan.fincod = p-fincod no-lock no-error.
+    if not avail finan then return.
+
+    RUN p-libera-plano.
+    
+end.
+def var vsetcod as int.
+if acha("PLANO-DEFAULT",parametro-in) <> ?
+then do:
+    vsetcod = int(acha("CATEGORIA",parametro-in)).
+    if vsetcod > 0
+    then  RUN p-plano-default.
+end.
+if acha("CASADINHA",parametro-in) <> ?
+then do:
+    run p-casadinha.
+end.
+if acha("DINHEIRO-NA-MAO",parametro-in) <> ?
+then do:
+    run p-dinheiro-na-mao.
+end.
+if acha("DESCONTO-TOTAL",parametro-in) <> ?
+then do:
+    RUN p-desconto-total.
+end.
+if acha("GERA-CPG",parametro-in) <> ?
+then do:
+    find finan where finan.fincod = p-fincod no-lock no-error.
+    if not avail finan then return.
+    RUN p-gera-cpg.
+end.
+
+def var v-menos1 as log init yes.
+def var vi as int init 0.
+def var vbrinde like produ.procod extent 20 init 0.
+def var qbrinde as int init 0.
+def var qpago as int init 0.
+def var vprodu like produ.procod extent 20 init 0.
+def var qprodu as int init 0.
+def var qtd-item as int init 0.
+def var qtd-prod as int init 0.
+def var qtd-menos as int init 0.
+def var vok as log init no.
+def var qtd-vendida as int.
+def var cod-vendedor as int.
+def var tipo-venda as char.
+def buffer ectpromoc for ctpromoc.
+def buffer pctpromoc for ctpromoc.
+def buffer tctpromoc for ctpromoc.
+def var vclicod like clien.clicod.
+
+/*
+vqtd-venda = 0.
+if scartao <> ""
+then do:
+    vclicod = int(substr(string(scartao,"x(12)"),4,9)).
+    for each plani where plani.etbcod = setbcod and
+                         plani.movtdc = 5 and
+                         plani.pladat = today
+                         no-lock:
+        vqtd-venda = vqtd-venda + 1.
+    end.                     
+end. 
+if vqtd-venda >= 1
+then next.
+*/
+
+procedure calcula-total-venda:
+    total-produ = 0.
+    total-venda = 0.
+    vqtd-pro = 0.
+    for each wf-movim:
+        find produ where recid(produ) = wf-movim.wrec no-lock no-error.
+        if not avail produ then next.
+        
+        na-promocao = no.
+        run find-pro-promo.
+        
+        if ctpromoc.campolog4
+        then do:
+            if not na-promocao
+            then do:
+                vqtd-pro = vqtd-pro + wf-movim.movqtm.
+            end.
+            else do:
+                total-venda = total-venda + (wf-movim.movqtm * wf-movim.movpc).
+                vqtd-pro = vqtd-pro + wf-movim.movqtm.    
+                do vi = 1 to ctpromoc.qtdbrinde:
+                    if vbrinde[vi] = produ.procod
+                    then do:
+                        total-venda = total-venda -
+                            (wf-movim.movqtm * wf-movim.movpc).
+                        vbrinde-menos = yes.
+                    end.
+                end.
+            end.
+        end.
+        else do:
+        if produ.procod = p-procod
+        then do:
+            total-produ = wf-movim.movqtm * wf-movim.movpc.
+        end.
+        
+        total-venda = total-venda + (wf-movim.movqtm * wf-movim.movpc).
+        vqtd-pro = vqtd-pro + wf-movim.movqtm.    
+        do vi = 1 to ctpromoc.qtdbrinde:
+            if vbrinde[vi] = produ.procod
+            then do:
+                total-venda = total-venda -
+                    (wf-movim.movqtm * wf-movim.movpc).
+                vbrinde-menos = yes.
+            end.
+        end.
+        end.
+    end.
+end procedure.
+
+procedure quantidade-vendida:
+    def input parameter vp-tipo as char.
+    qtd-vendida = 0.
+    cod-vendedor = 0.
+    def var venda-total as dec.
+    def var gb as dec init 1.
+    def var gm as dec init 200.
+    def var ga as dec init 500.
+    tipo-venda = "".
+    for each wf-movim no-lock:
+        find produ where recid(produ) = wf-movim.wrec
+                            no-lock no-error.
+        if not avail produ then next.
+        find clase where clase.clacod = produ.clacod no-lock no-error.
+        if avail clase and
+           (clase.clanom begins "CHIP" or
+            clase.clanom matches "*CHIP*")
+        then next.         
+        
+        run find-pro-promo.
+        
+        if na-promocao 
+        then do:
+            cod-vendedor = wf-movim.vencod.
+            venda-total = venda-total + (wf-movim.movpc * wf-movim.movqtm).
+            qtd-vendida = qtd-vendida + wf-movim.movqtm.
+        end.    
+    end. 
+    if vp-tipo = "PROMOTOR"
+    then cod-vendedor = 0.
+    if venda-total > 0  and
+       venda-total >= ctpromoc.vendaacimade  and
+       venda-total <= ctpromoc.campodec2[3]
+    then do:    
+        if venda-total >= ga
+        then tipo-venda = "GA".
+        else if venda-total >= gm
+            then tipo-venda = "GM".
+            else if venda-total >= gb
+                then tipo-venda = "GB".
+        for each tctpromoc where
+                 tctpromoc.sequencia = ctpromoc.sequencia and
+                 tctpromoc.linha > 0 and
+                 tctpromoc.procod > 0
+                 no-lock .
+            find produ where produ.procod = tctpromoc.procod no-lock.
+            find clase where clase.clacod = produ.clacod no-lock no-error.
+            if avail clase and
+                (clase.clanom begins "CHIP" or
+                clase.clanom matches "*CHIP*")
+            then next. 
+            for each movim where 
+                     movim.etbcod = setbcod and
+                     movim.movtdc = 5 and
+                     movim.procod = produ.procod and
+                     movim.movdat >= ctpromoc.dtinicio and
+                     movim.movdat <= ctpromoc.dtfim
+                     no-lock,
+                    first plani where plani.etbcod = movim.etbcod and
+                                  plani.placod = movim.placod and
+                                  plani.movtdc = movim.movtdc and
+                                  plani.pladat = movim.movdat and
+                                 (if cod-vendedor > 0
+                                  then plani.vencod = cod-vendedor else true)
+                                  no-lock:
+                    if movim.movpc >= ctpromoc.vendaacimade and
+                        movim.movpc <= ctpromoc.campodec2[3]
+                    then qtd-vendida = qtd-vendida + movim.movqtm.
+                end.
+        end.
+        for tctpromoc where
+                    tctpromoc.sequencia = ctpromoc.sequencia and
+                    tctpromoc.linha > 0 and
+                    tctpromoc.clacod > 0
+                    no-lock .
+            if tctpromoc.situacao = "I" or
+               tctpromoc.situacao = "E"
+            then next.  
+            find clase where clase.clacod = tctpromoc.clacod no-lock no-error.
+            if avail clase and
+                (clase.clanom begins "CHIP" or
+                clase.clanom matches "*CHIP*")
+            then next. 
+            for each produ where produ.clacod = tctpromoc.clacod no-lock:
+                find first pctpromoc where 
+                           pctpromoc.sequencia = ctpromoc.sequencia and
+                           pctpromoc.linha > 0 and
+                           pctpromoc.procod = produ.procod
+                           no-lock no-error.
+                if avail pctpromoc and
+                         (pctpromoc.situacao = "I" or
+                         pctpromoc.situacao = "E")
+                then next.           
+                for each movim where 
+                     movim.etbcod = setbcod and
+                     movim.movtdc = 5 and
+                     movim.procod = produ.procod and
+                     movim.movdat >= ctpromoc.dtinicio and
+                     movim.movdat <= ctpromoc.dtfim
+                     no-lock,
+                    first plani where plani.etbcod = movim.etbcod and
+                                  plani.placod = movim.placod and
+                                  plani.movtdc = movim.movtdc and
+                                  plani.pladat = movim.movdat and
+                                 (if cod-vendedor > 0
+                                  then plani.vencod = cod-vendedor else true)
+                                  no-lock:
+                    if movim.movpc >= ctpromoc.vendaacimade and
+                        movim.movpc <= ctpromoc.campodec2[3]
+                    then qtd-vendida = qtd-vendida + movim.movqtm.
+                end. 
+            end.
+        end.
+    end.
+end procedure.
+
+procedure cria-temp-valor:
+    def input parameter p-tipo as int.
+    def input parameter p-nome as char.
+    def input parameter p-valor as dec.
+    def input parameter p-venda as dec.
+
+    if p-nome = "VENDEDOR"
+    THEN DO:
+        find first  
+            tt-valp where
+            tt-valp.tipo   = p-tipo and
+            tt-valp.forcod = 
+                    int(acha("FORNE-VENDEDOR",ctpromoc.campochar[2])) and
+            tt-valp.venda = p-venda        
+            no-error.
+
+        if not avail tt-valp
+        then do:
+            create tt-valp.
+            assign
+                tt-valp.tipo = p-tipo
+                tt-valp.forcod =
+                    int(acha("FORNE-VENDEDOR",ctpromoc.campochar[2]))
+                tt-valp.nome = p-nome
+                tt-valp.recibo = ctpromoc.recibo
+                tt-valp.venda = p-venda.
+        END.
+        tt-valp.valor = tt-valp.valor + p-valor.
+    end. 
+    if p-nome = "GERENTE"
+    THEN DO:
+        find first  
+            tt-valp where
+            tt-valp.tipo   = p-tipo and
+            tt-valp.forcod = 
+                    int(acha("FORNE-GERENTE",ctpromoc.campochar[2])) and
+            tt-valp.venda = p-venda        
+            no-error.
+
+        if not avail tt-valp
+        then do:
+            create tt-valp.
+            assign
+                tt-valp.tipo = p-tipo
+                tt-valp.forcod =
+                    int(acha("FORNE-GERENTE",ctpromoc.campochar[2]))
+                tt-valp.nome = p-nome
+                tt-valp.recibo = ctpromoc.recibo
+                tt-valp.venda = p-venda.
+        END.
+        tt-valp.valor = tt-valp.valor + p-valor .
+    end.                          
+    if p-nome = "SUPERVISOR"
+    THEN DO:
+        find first  
+            tt-valp where
+            tt-valp.tipo   = p-tipo and
+            tt-valp.forcod = 
+                    int(acha("FORNE-SUPERVISOR",ctpromoc.campochar[2])) and
+            tt-valp.venda = p-venda        
+            no-error.
+
+        if not avail tt-valp
+        then do:
+            create tt-valp.
+            assign
+                tt-valp.tipo = p-tipo
+                tt-valp.forcod =
+                    int(acha("FORNE-SUPERVISOR",ctpromoc.campochar[2]))
+                tt-valp.nome = p-nome
+                tt-valp.recibo = ctpromoc.recibo
+                tt-valp.venda = p-venda.
+        END.
+        tt-valp.valor = tt-valp.valor + p-valor.
+
+    end.  
+    if p-nome = "PROMOTOR"
+    THEN DO:
+        find first  
+            tt-valp where
+            tt-valp.tipo   = p-tipo and 
+            tt-valp.forcod = 
+                    int(acha("FORNE-PROMOTOR",ctpromoc.campochar[2])) and
+            tt-valp.venda = p-venda        
+            no-error.
+
+        if not avail tt-valp
+        then do:
+            create tt-valp.
+            assign
+                tt-valp.tipo = p-tipo
+                tt-valp.forcod =
+                    int(acha("FORNE-PROMOTOR",ctpromoc.campochar[2]))
+                tt-valp.nome = p-nome
+                tt-valp.recibo = ctpromoc.recibo
+                tt-valp.venda = p-venda.
+        END.
+        tt-valp.valor =  tt-valp.valor + p-valor    .
+
+    end.
+    if p-nome = "PROMOCAO"
+    THEN DO:
+        find first  
+            tt-valp where
+            tt-valp.tipo   = p-tipo and 
+            tt-valp.forcod = ctpromoc.sequencia
+            no-error.
+
+        if not avail tt-valp
+        then do:
+            create tt-valp.
+            assign
+                tt-valp.tipo = p-tipo
+                tt-valp.forcod = ctpromoc.sequencia
+                tt-valp.nome = p-nome.
+        END.
+    end.   
+end procedure.
+
+procedure p-gera-cpg:
+    for each ctpromoc where  (if vdata-teste-promo <> ?
+                              then ctpromoc.dtinicio >= vdata-teste-promo
+                              else ctpromoc.dtinicio <= today) and
+         ctpromoc.dtfim  >= today and
+         ctpromoc.linha = 0
+         no-lock:
+
+        if ctpromoc.tipo <> ""
+        then next.
+        if scartao = "" and 
+            (ctpromo.promocod = 28 or
+             ctpromoc.descricao[1] matches "*CARTAO LEBES*" or
+             ctpromoc.descricao[2] matches "*CARTAO LEBES*")
+        THEN NEXT.   
+        if ctpromoc.situacao = "L" and 
+            ((ctpromoc.dtentrada <> ? and
+            ctpromoc.dtentrada >= today ) or
+            (ctpromoc.dataparcela <> ? and
+            ctpromoc.dataparcela >= today) or
+            (ctpromoc.arredonda   <> ? and
+             ctpromoc.arredonda   <> 0))
+        then do:
+            p-ok = no.
+            find first bctpromoc where
+                 bctpromoc.sequenci = ctpromoc.sequencia and
+                 bctpromoc.linha > 0 and
+                 bctpromoc.fincod <> ? no-lock no-error.
+            if avail bctpromoc 
+            then do:    
+            for each bctpromoc where
+                 bctpromoc.sequenci = ctpromoc.sequencia and
+                 bctpromoc.linha > 0 and
+                 bctpromoc.fincod <> ? no-lock:
+
+                if bctpromoc.fincod = p-fincod and
+                    bctpromoc.situacao <> "I" and
+                    bctpromoc.situacao <> "E"
+                then do:
+                    find first ectpromoc where
+                               ectpromoc.sequencia = ctpromoc.sequencia and
+                               ectpromoc.etbcod > 0 no-lock no-error.
+                    if not avail ectpromoc
+                    then p-ok = yes.
+                    else do:   
+                        find first ectpromoc where
+                               ectpromoc.sequencia = ctpromoc.sequencia and
+                               ectpromoc.etbcod = setbcod no-lock no-error.
+                        if avail ectpromoc
+                        then do:
+                            if ectpromoc.situacao <> "I" and
+                               ectpromoc.situacao <> "E"
+                            then     p-ok = yes.
+                        end.
+                    end. 
+                end.
+            end.
+            end.
+            if p-ok = yes
+            then do:
+                spromoc = no.
+ 
+                if ctpromoc.dtentrada <> ?
+                then do:
+                    parametro-out = parametro-out + "DATA-ENTRADA=" + 
+                            string(ctpromoc.dtentrada,"99/99/9999") +
+                            "|".
+                    spromoc = yes.
+                end.
+                if ctpromoc.dataparcela <> ?
+                then do:
+                    parametro-out = parametro-out + "DATA-PARCELA=" + 
+                            string(ctpromoc.dataparcela,"99/99/9999") +
+                            "|".
+                    spromoc = yes.
+                end.
+                if ctpromoc.arredonda <> ? and
+                   ctpromoc.arredonda <> 0
+                then do:
+                    parametro-out = parametro-out + "ARREDONDA-PARCELA=" + 
+                        string(ctpromoc.arredonda,">>9.99") + "|".
+                    spromoc = yes.
+                end. 
+                if spromoc = yes
+                then run cria-temp-valor(9, "PROMOCAO", 0, 0).
+            end.
+        end.
+        else if ctpromoc.situacao = "L" and 
+             ((ctpromoc.diasentrada <> ? and
+              ctpromoc.diasentrada <> 0) or
+             (ctpromoc.diasparcela <> ? and
+              ctpromoc.diasparcela <> 0) or
+             (ctpromoc.arredonda   <> ? and
+              ctpromoc.arredonda   <> 0))
+        then do:
+            p-ok = no.
+            find first bctpromoc where
+                 bctpromoc.sequenci = ctpromoc.sequencia and
+                 bctpromoc.linha > 0 and
+                 bctpromoc.fincod <> ? no-lock no-error.
+            if avail bctpromoc
+            then do:    
+            for each bctpromoc where
+                 bctpromoc.sequenci = ctpromoc.sequencia and
+                 bctpromoc.linha > 0 and
+                 bctpromoc.fincod <> ? no-lock:
+                if bctpromoc.fincod = p-fincod  and
+                   bctpromoc.situacao <> "I" and
+                   bctpromoc.situacao <> "E"
+                then do:
+                    find first ectpromoc where
+                               ectpromoc.sequencia = ctpromoc.sequencia and
+                               ectpromoc.etbcod > 0 no-lock no-error.
+                    if not avail ectpromoc
+                    then p-ok = yes.
+                    else do:
+                        find first ectpromoc where
+                               ectpromoc.sequencia = ctpromoc.sequencia and
+                               ectpromoc.etbcod = setbcod no-lock no-error.
+                        if avail ectpromoc
+                        then do:
+                            if ectpromoc.situacao <> "I" and
+                               ectpromoc.situacao <> "E"
+                            then     p-ok = yes.
+                        end.
+                    end. 
+                end.
+            end.
+            end.
+            if p-ok = yes
+            then do:
+                spromoc = no.
+ 
+                if ctpromoc.diasentrada <> ? and
+                   ctpromoc.diasentrada > 0
+                then do:
+                    parametro-out = parametro-out + "DATA-ENTRADA=" + 
+                        string(today + ctpromoc.diasentrada,"99/99/9999") +
+                            "|".
+                    spromoc = yes.
+                end.
+                if ctpromoc.diasparcela <> ? and
+                   ctpromoc.diasparcela > 0
+                then do:
+                    parametro-out = parametro-out + "DATA-PARCELA=" + 
+                        string(today + ctpromoc.diasparcela,"99/99/9999") +
+                            "|".
+                    spromoc = yes.
+                end.
+                if ctpromoc.arredonda <> ? and
+                   ctpromoc.arredonda <> 0
+                then do:
+                    parametro-out = parametro-out + "ARREDONDA-PARCELA=" + 
+                        string(ctpromoc.arredonda,">>9.99") + "|".
+                    spromoc = yes.
+                end. 
+                if spromoc = yes
+                then run cria-temp-valor(9, "PROMOCAO", 0, 0).
+            end.
+        end.
+
+    end.        
+end procedure.
+ 
+procedure p-libera-preco:
+    for each ctpromoc where  (if vdata-teste-promo <> ?
+                              then ctpromoc.dtinicio >= vdata-teste-promo
+                              else ctpromoc.dtinicio <= today) and
+         ctpromoc.dtfim  >= today and
+         ctpromoc.linha = 0
+         no-lock:
+        if ctpromoc.tipo <> ""
+        then next.
+        if scartao = "" and
+            (ctpromoc.promocod = 28  or
+             ctpromoc.descricao[1] matches "*CARTAO LEBES*" or
+             ctpromoc.descricao[2] matches "*CARTAO LEBES*")
+        THEN NEXT.
+            
+        if ctpromoc.situacao = "L" and ctpromoc.precoliberado
+        then do:
+            for each bctpromoc where
+                 bctpromoc.sequenci = ctpromoc.sequencia and
+                 bctpromoc.linha > 0 and
+                 bctpromoc.procod > 0 no-lock:
+
+                if bctpromoc.procod = produ.procod 
+                then do:
+                    p-ok = yes.
+                    leave.
+                end.
+            end.
+            if p-ok = no
+            then
+            for each bctpromoc where
+                 bctpromoc.sequenci = ctpromoc.sequencia and
+                 bctpromoc.linha > 0 and
+                 bctpromoc.clacod > 0 no-lock:
+                if bctpromoc.situacao = "I" or
+                   bctpromoc.situacao = "E"
+                then next.   
+                if bctpromoc.clacod = clase.clacod or
+                   bctpromoc.clacod = clase.clasup
+                then do:
+                    p-ok = yes.
+                    leave.
+                end.
+            end.
+            if p-ok = no
+            then
+            for each bctpromoc where
+                 bctpromoc.sequenci = ctpromoc.sequencia and
+                 bctpromoc.linha > 0 and
+                 bctpromoc.setcod > 0 no-lock:
+
+                if bctpromoc.setcod = produ.catcod
+                then do:
+                    p-ok = yes.
+                    leave.
+                end.
+            end.
+            if p-ok = no
+            then
+            for each bctpromoc where
+                 bctpromoc.sequenci = ctpromoc.sequencia and
+                 bctpromoc.linha > 0 and
+                 bctpromoc.fabcod > 0 no-lock:
+
+                if bctpromoc.fabcod = produ.fabcod
+                then do:
+                    p-ok = yes.
+                    leave.
+                end.
+            end.         
+               
+            if p-ok = yes
+            then do:
+ 
+                find first bctpromoc where
+                    bctpromoc.sequenci = ctpromoc.sequencia and
+                    bctpromoc.linha > 0 and
+                    bctpromoc.etbcod  > 0 no-lock no-error.
+                if avail bctpromoc
+                then do:
+                    find first dctpromoc where
+                        dctpromoc.sequenci = ctpromoc.sequencia and
+                        dctpromoc.linha  > 0 and
+                        dctpromoc.etbcod = setbcod no-lock no-error.
+                    if not avail dctpromoc  or
+                        dctpromoc.situacao = "I"  or
+                        dctpromoc.situacao = "E"
+                    then p-ok = no.
+                end.    
+            end.
+            if p-ok = yes 
+            then do:
+                run cria-temp-valor(9, "PROMOCAO", 0, 0).
+ 
+                parametro-out = parametro-out + "LIBERA-PRECO=S|".
+                leave.
+            end.
+        end.
+    end.
+end procedure.
+
+procedure p-desconto-item:
+    for each ctpromoc where  (if vdata-teste-promo <> ?
+                              then ctpromoc.dtinicio >= vdata-teste-promo
+                              else ctpromoc.dtinicio <= today) and
+         ctpromoc.dtfim  >= today and
+         ctpromoc.linha = 0
+         no-lock:
+        if ctpromoc.tipo <> ""
+        then next.
+        if scartao = "" and 
+            (ctpromo.promocod = 28 or
+             ctpromoc.descricao[1] matches "*CARTAO LEBES*" or
+             ctpromoc.descricao[2] matches "*CARTAO LEBES*")
+        THEN NEXT.    
+        p-ok = no.
+        if ctpromoc.situacao = "L" and 
+            (ctpromoc.descontovalor > 0 or
+             ctpromoc.descontopercentual > 0) and
+              ctpromoc.campolog4 = yes and
+              valt-movpc = yes
+        then do:
+            for each bctpromoc where
+                 bctpromoc.sequenci = ctpromoc.sequencia and
+                 bctpromoc.linha > 0 and
+                 bctpromoc.procod > 0 and
+                 bctpromoc.situacao <> "I" and 
+                 bctpromoc.situacao <> "E"
+                 no-lock:
+                if bctpromoc.procod = produ.procod 
+                then do:
+                    p-ok = yes.
+                    leave.
+                end.
+            end.
+            if p-ok = no
+            then
+            for each bctpromoc where
+                 bctpromoc.sequenci = ctpromoc.sequencia and
+                 bctpromoc.linha > 0 and
+                 bctpromoc.clacod > 0 and
+                 bctpromoc.situacao <> "I" and 
+                 bctpromoc.situacao <> "E"
+                 no-lock:
+
+                if bctpromoc.clacod = clase.clacod or
+                   bctpromoc.clacod = clase.clasup
+                then do:
+                    p-ok = yes.
+                    leave.
+                end.
+            end.
+            if p-ok = no
+            then
+            for each bctpromoc where
+                 bctpromoc.sequenci = ctpromoc.sequencia and
+                 bctpromoc.linha > 0 and
+                 bctpromoc.setcod > 0 no-lock:
+
+                if bctpromoc.setcod = produ.catcod
+                then do:
+                    p-ok = yes.
+                    leave.
+                end.
+            end.
+            if p-ok = no
+            then
+            for each bctpromoc where
+                 bctpromoc.sequenci = ctpromoc.sequencia and
+                 bctpromoc.linha > 0 and
+                 bctpromoc.fabcod > 0 no-lock:
+
+                if bctpromoc.fabcod = produ.fabcod
+                then do:
+                    p-ok = yes.
+                    leave.
+                end.
+            end.         
+               
+            if p-ok = yes
+            THEN DO:
+                find first bctpromoc where
+                    bctpromoc.sequenci = ctpromoc.sequencia and
+                    bctpromoc.linha > 0 and
+                    bctpromoc.etbcod  > 0 
+                    no-lock no-error.
+                if avail bctpromoc
+                then do:
+                    find first dctpromoc where
+                        dctpromoc.sequenci = ctpromoc.sequencia and
+                        dctpromoc.linha  > 0 and
+                        dctpromoc.etbcod = setbcod no-lock no-error.
+                    if avail dctpromoc and
+                        dctpromoc.situacao <> "I" and
+                        dctpromoc.situacao <> "E"
+                    then.
+                    else if avail dctpromoc
+                    then p-ok = no.
+                    else if not avail dctpromoc
+                    then do:
+                        find first dctpromoc where
+                                   dctpromoc.sequenci = ctpromoc.sequencia and
+                                   dctpromoc.linha  > 0 and
+                                   dctpromoc.etbcod > 0 and
+                                   dctpromoc.situacao <> "I" and
+                                   dctpromoc.situacao <> "E"
+                                   no-lock no-error.
+                        if avail dctpromoc
+                        then p-ok = no.
+                    end.
+                end.
+                if p-ok = yes
+                then do:
+                    find first bctpromoc where
+                        bctpromoc.sequenci = ctpromoc.sequencia and
+                        bctpromoc.linha > 0 and
+                        bctpromoc.procod = produ.procod no-lock no-error.
+                    if avail bctpromoc and 
+                        bctpromoc.situacao <> "I" and 
+                        bctpromoc.situacao <> "E"
+                    then.
+                    else if avail bctpromoc
+                    then p-ok = no.
+                end.
+                if p-ok = yes
+                then do:
+                    find first bctpromoc where
+                        bctpromoc.sequenci = ctpromoc.sequencia and
+                        bctpromoc.linha > 0 and
+                        bctpromoc.clacod = clase.clacod
+                        no-lock no-error.
+                    if avail bctpromoc and
+                        bctpromoc.situacao <> "I" and 
+                        bctpromoc.situacao <> "E"
+                    then.
+                    else if avail bctpromoc
+                    then p-ok = no.    
+                    else if not avail bctpromoc
+                    then do:
+                        find first bctpromoc where
+                            bctpromoc.sequenci = ctpromoc.sequencia and
+                            bctpromoc.linha > 0 and
+                            bctpromoc.clacod = clase.clasup
+                            no-lock no-error.
+                        if avail bctpromoc and
+                            bctpromoc.situacao <> "I" and 
+                            bctpromoc.situacao <> "E"
+                        then.
+                        else if avail bctpromoc
+                        then p-ok = no.  
+                    end.
+                end.
+            end.
+            if p-ok = yes 
+            then do:
+                 run calcula-total-venda.
+                if ctpromoc.vendaacimade > 0  and
+                    total-venda > 0
+                then do:
+                    if ctpromoc.campolog3 = no
+                    then do:
+                            run valor-prazo.
+                    end.
+                    else total-venda-prazo = total-venda.
+                end.    
+                if ctpromoc.vendaacimade = 0 or
+                        (total-venda-prazo >= ctpromoc.vendaacimade and
+                        (ctpromoc.campodec2[3] = 0 or
+                         total-venda-prazo <= ctpromoc.campodec2[3]))
+                then do:
+                spromoc = no.
+                find first wf-movim where 
+                       wf-movim.wrec = recid(produ) no-error.
+                if avail wf-movim
+                then do:     
+                    vpreco = wf-movim.movpc.
+                    /***
+                    find estoq where estoq.etbcod = setbcod and
+                                     estoq.procod = produ.procod
+                                     no-lock no-error.
+                    if avail estoq and
+                        (ctpromoc.sequencia = 2915 or
+                         ctpromoc.sequencia = 2932 or
+                         ctpromoc.sequencia = 2939)             
+                    then do:
+                        if  estoq.estbaldat <> ? and
+                            estoq.estprodat <> ?
+                        then do:
+                            if  estoq.estbaldat <= today and
+                                estoq.estprodat >= today
+                            then vpreco = estoq.estproper.   
+                        end.
+                        else do:
+                            if estoq.estprodat <> ?
+                            then if estoq.estprodat >= today
+                            then vpreco = estoq.estproper.
+                        end.
+
+                    end.
+                    ***/
+                    if ctpromoc.descontovalor > 0
+                    then do:
+                        wf-movim.movpc = vpreco - ctpromoc.descontovalor.
+                         /*
+                        wf-movim.movpc = 
+                            wf-movim.movpc - ctpromoc.descontovalor.
+                        */
+                        spromoc = yes.
+                    end.
+                    else if ctpromoc.descontopercentual > 0
+                    then do:
+                        wf-movim.movpc = vpreco -
+                         (vpreco * (ctpromoc.descontopercentual / 100)) .
+                        /*
+                        wf-movim.movpc = wf-movim.movpc -
+                         (wf-movim.movpc * (ctpromoc.descontopercentual / 100))
+                        . */
+                        spromoc = yes.
+                    end.
+                    wf-movim.desconto =  wf-movim.precoori - wf-movim.movpc.
+                end.
+                if spromoc = yes
+                then run cria-temp-valor(9, "PROMOCAO", 0, 0).
+                end.
+            end.
+        end.
+    end.
+end procedure.
+
+procedure preco-especial:
+    for each ctpromoc where  (if vdata-teste-promo <> ?
+                              then ctpromoc.dtinicio >= vdata-teste-promo
+                              else ctpromoc.dtinicio <= today) and
+         ctpromoc.dtfim  >= today and
+         ctpromoc.linha = 0
+         no-lock:
+         
+        if ctpromoc.tipo <> ""
+        then next. 
+        if scartao = "" and 
+            (ctpromo.promocod = 28 or
+             ctpromoc.descricao[1] matches "*CARTAO LEBES*" or
+             ctpromoc.descricao[2] matches "*CARTAO LEBES*")
+        THEN NEXT.   
+        if ctpromoc.situacao = "L" and ctpromoc.precoliberado
+        then do:
+            p-ok = no.
+            run find-pro-promo.
+            if na-promocao 
+            then p-ok = yes.
+            
+            /***
+            for each bctpromoc where
+                 bctpromoc.sequenci = ctpromoc.sequencia and
+                 bctpromoc.linha > 0 and
+                 bctpromoc.procod > 0 no-lock:
+
+                if bctpromoc.procod = produ.procod 
+                then do:
+                    p-ok = yes.
+                    leave.
+                end.
+            end.
+            if p-ok = no
+            then
+            for each bctpromoc where
+                 bctpromoc.sequenci = ctpromoc.sequencia and
+                 bctpromoc.linha > 0 and
+                 bctpromoc.clacod > 0 no-lock:
+                if bctpromoc.situacao = "I" or
+                   bctpromoc.situacao = "E"
+                then next.   
+                if bctpromoc.clacod = clase.clacod or
+                   bctpromoc.clacod = clase.clasup
+                then do:
+                    p-ok = yes.
+                    leave.
+                end.
+            end.
+            if p-ok = no
+            then
+            for each bctpromoc where
+                 bctpromoc.sequenci = ctpromoc.sequencia and
+                 bctpromoc.linha > 0 and
+                 bctpromoc.setcod > 0 no-lock:
+
+                if bctpromoc.setcod = produ.catcod
+                then do:
+                    p-ok = yes.
+                    leave.
+                end.
+            end.
+            if p-ok = no
+            then
+            for each bctpromoc where
+                 bctpromoc.sequenci = ctpromoc.sequencia and
+                 bctpromoc.linha > 0 and
+                 bctpromoc.fabcod > 0 no-lock:
+
+                if bctpromoc.fabcod = produ.fabcod
+                then do:
+                    p-ok = yes.
+                    leave.
+                end.
+            end.         
+               
+            if p-ok = yes
+            then do:
+ 
+                find first bctpromoc where
+                    bctpromoc.sequenci = ctpromoc.sequencia and
+                    bctpromoc.linha > 0 and
+                    bctpromoc.etbcod  > 0 no-lock no-error.
+                if avail bctpromoc
+                then do:
+                    find first dctpromoc where
+                        dctpromoc.sequenci = ctpromoc.sequencia and
+                        dctpromoc.linha  > 0 and
+                        dctpromoc.etbcod = setbcod no-lock no-error.
+                    if not avail dctpromoc
+                            or dctpromoc.situacao = "I"
+                            or dctpromoc.situacao = "E"
+                    then p-ok = no.
+                end.  
+            end.
+            ***/
+            
+            if p-ok = yes 
+            then do:
+ 
+            find first dctpromoc where
+                       dctpromoc.sequencia = ctpromoc.sequencia and
+                       dctpromoc.linha > 0 and
+                       dctpromoc.procod = produ.procod and
+                       dctpromoc.situacao <> "I" and
+                       dctpromoc.situacao <> "E"
+                       no-lock no-error.
+            if avail dctpromoc
+            then do:
+               
+               if ctpromoc.qtdvenda = 0 or
+                   ctpromoc.qtdvenda = vqtd-pro  + 1
+               then do:   
+                    run cria-temp-valor(9, "PROMOCAO", 0, 0).
+                    if (ctpromoc.sequencia = 2932 or
+                        ctpromoc.sequencia = 2939) and
+                       (setbcod = 100 or setbcod = 101)
+                    then parametro-out = "LIBERA-PRECO=S|PRECO-ESPECIAL=" +
+                         string(dctpromoc.precosugerido * .90) +
+                         "|PROMOCAO=" + string(ctpromoc.sequencia).
+                    else parametro-out = "LIBERA-PRECO=S|PRECO-ESPECIAL=" +
+                    string(dctpromoc.precosugerido).
+                /*leave.*/
+               end.
+               else if  
+                ctpromoc.qtdvenda > 0 and
+                ctpromoc.qtdvenda = vqtd-produ + 1
+               then do:   
+                    run cria-temp-valor(9, "PROMOCAO", 0, 0).
+                    if (ctpromoc.sequencia = 2932 or
+                        ctpromoc.sequencia = 2939) and
+                       (setbcod = 100 or setbcod = 101)
+                    then parametro-out = "LIBERA-PRECO=S|PRECO-ESPECIAL=" +
+                            string(dctpromoc.precosugerido * .90) +
+                            "|PROMOCAO=" + string(ctpromoc.sequencia).
+                    else parametro-out = "LIBERA-PRECO=S|PRECO-ESPECIAL=" +
+                    string(dctpromoc.precosugerido).
+                /*leave.*/
+               end.
+               
+            end.
+            end.
+        end.
+    end.
+end procedure.
+
+procedure p-libera-plano:
+    def var p-libera as log.
+    for each ctpromoc where  (if vdata-teste-promo <> ?
+                              then ctpromoc.dtinicio >= vdata-teste-promo
+                              else ctpromoc.dtinicio <= today) and
+        ctpromoc.dtfim  >= today and
+        ctpromoc.linha = 0 
+        no-lock:
+        if ctpromoc.tipo <> ""
+        then next.
+        if scartao = "" and 
+            (ctpromo.promocod = 28 or
+             ctpromoc.descricao[1] matches "*CARTAO LEBES*" or
+             ctpromoc.descricao[2] matches "*CARTAO LEBES*")
+        THEN NEXT.   
+        if ctpromoc.situacao = "L" and ctpromoc.liberavenda
+        then do:
+            p-ok = no.
+            p-libera = yes.
+            find first bctpromoc where
+                 bctpromoc.sequenci = ctpromoc.sequencia and
+                 bctpromoc.linha > 0 and
+                 bctpromoc.fincod <> ? no-lock no-error.
+            if avail bctpromoc
+            then     
+            for each bctpromoc where
+                 bctpromoc.sequenci = ctpromoc.sequencia and
+                 bctpromoc.linha > 0 and
+                 bctpromoc.fincod <> ? no-lock:
+
+                if bctpromoc.fincod = p-fincod   and
+                   bctpromoc.situacao <> "I" and
+                   bctpromoc.situacao <> "E"
+                then do:
+                    find first ectpromoc where
+                               ectpromoc.sequencia = ctpromoc.sequencia and
+                               ectpromoc.etbcod > 0 no-lock no-error.
+                    if not avail ectpromoc
+                    then p-ok = yes.
+                    else do:   
+                        find first ectpromoc where
+                               ectpromoc.sequencia = ctpromoc.sequencia and
+                               ectpromoc.etbcod = setbcod no-lock no-error.
+                        if avail ectpromoc
+                        then do:
+                            if ectpromoc.situacao <> "I" and
+                                ectpromoc.situacao <> "E"
+                            then p-ok = yes.
+                            else p-libera = no.
+                        end.    
+                    end. 
+                end.
+                else if  bctpromoc.fincod = p-fincod
+                then do:
+                     
+                     /*
+                     p-libera = no.
+                     */
+                     
+                     bl_verif_produ_1:
+                     for each wf-movim:
+                         
+                         find produ where recid(produ) = wf-movim.wrec
+                                no-lock no-error.
+                         if not avail produ then next.
+
+                         run find-pro-promo.
+                        
+                         if not na-promocao
+                         then p-libera = yes.
+                         else do:
+                            p-libera = no.
+                            leave bl_verif_produ_1.
+                         end.
+                     end.
+                end.    
+            end.
+            else do:
+                find first ectpromoc where
+                               ectpromoc.sequencia = ctpromoc.sequencia and
+                               ectpromoc.etbcod > 0 no-lock no-error.
+                if not avail ectpromoc
+                then p-ok = yes.
+                else do:   
+                    find first ectpromoc where
+                               ectpromoc.sequencia = ctpromoc.sequencia and
+                               ectpromoc.etbcod = setbcod no-lock no-error.
+                    if avail ectpromoc
+                    then do:
+               
+                        if ectpromoc.situacao <> "I" and
+                            ectpromoc.situacao <> "E"
+                        then     p-ok = yes.
+                        else p-libera = no.
+                        
+                    end.        
+                end. 
+            end.
+            if p-ok = yes or
+               p-libera = no
+            then do:
+ 
+                find first bctpromoc where
+                    bctpromoc.sequenci = ctpromoc.sequencia and
+                    (bctpromoc.procod > 0 or
+                     bctpromoc.clacod > 0 or
+                     bctpromoc.setcod > 0 or
+                     bctpromoc.fabcod > 0) and
+                     bctpromoc.situacao <> "I" and
+                     bctpromoc.situacao <> "E"
+                    no-lock no-error.
+                if avail bctpromoc
+                then do:
+                    for each wf-movim:
+                        find produ where recid(produ) = wf-movim.wrec
+                            no-lock no-error.
+                        if not avail produ then next.
+                        run find-pro-promo.
+                        if na-promocao
+                        then p-ok = yes.
+                        else p-ok = no.
+                    end. 
+                end.    
+            end.
+            
+            if p-ok = yes and p-libera = yes
+            then do:
+                run cria-temp-valor(9, "PROMOCAO", 0, 0).
+ 
+                parametro-out = "LIBERA-PLANO=S|" + parametro-out.
+            end.
+            else if p-libera = no
+            then do:
+                run cria-temp-valor(9, "PROMOCAO", 0, 0).
+ 
+                parametro-out = "LIBERA-PLANO=N|" + parametro-out.
+            end.
+        end.
+    end.
+end procedure.
+
+procedure p-plano-default:
+    for each ctpromoc where  (if vdata-teste-promo <> ?
+                              then ctpromoc.dtinicio >= vdata-teste-promo
+                              else ctpromoc.dtinicio <= today) and
+         ctpromoc.dtfim  >= today and
+         ctpromoc.linha = 0
+         no-lock:
+        if ctpromoc.tipo <> ""
+        then next.
+        if scartao = "" and 
+            (ctpromo.promocod = 28 or
+             ctpromoc.descricao[1] matches "*CARTAO LEBES*" or
+             ctpromoc.descricao[2] matches "*CARTAO LEBES*")
+        THEN NEXT.   
+        if ctpromoc.situacao = "L" and ctpromoc.defaultprevenda
+        then do:
+            p-ok = no.
+            find first  bctpromoc where
+                 bctpromoc.sequenci = ctpromoc.sequencia and
+                 bctpromoc.linha > 0 and
+                 bctpromoc.fincod = ? and
+                 bctpromoc.setcod = vsetcod no-lock no-error.
+            if avail bctpromoc
+            then do:
+                    find first ectpromoc where
+                               ectpromoc.sequencia = ctpromoc.sequencia and
+                               ectpromoc.etbcod > 0 no-lock no-error.
+                    if not avail ectpromoc
+                    then p-ok = yes.
+                    else do:   
+                        find first ectpromoc where
+                               ectpromoc.sequencia = ctpromoc.sequencia and
+                               ectpromoc.etbcod = setbcod no-lock no-error.
+                        if avail ectpromoc
+                        then do:
+                            if ectpromoc.situacao <> "I" and
+                                ectpromoc.situacao <> "E"
+                                then p-ok = yes.
+                        end.    
+                    end. 
+                if p-ok = yes
+                then do:
+ 
+                    find first ectpromoc where
+                         ectpromoc.sequenci = ctpromoc.sequencia and
+                         ectpromoc.linha > 0 and
+                         ectpromoc.fincod <> ? no-lock no-error.
+                    if avail ectpromoc
+                    then do:
+                        /*
+                        run cria-temp-valor(9, "PROMOCAO", 0, 0).
+                        */
+                        find finan where 
+                         finan.fincod = ectpromoc.fincod no-lock no-error.
+                        if avail finan
+                        then parametro-out = parametro-out +
+                            "PLANO-DEFAULT=" + string(finan.fincod) + "|" +
+                            "MENSAGEM=" + ctpromoc.fraseprevenda + "|".
+                    end.
+                end.        
+            end.
+        end.
+    end.
+end procedure.
+
+procedure p-casadinha:
+    def var lbrinde as log init no.
+    def var lcasada as log init no.
+    def var pr-brinde as log init no.
+    val-tot-promo = 0.
+    for each ctpromoc where   (if vdata-teste-promo <> ?
+                              then ctpromoc.dtinicio >= vdata-teste-promo
+                              else ctpromoc.dtinicio <= today) and
+            ctpromoc.dtfim  >= today and
+            ctpromoc.linha = 0
+            no-lock:
+        if ctpromoc.tipo <> ""
+        then next.
+        if scartao = "" and 
+            (ctpromo.promocod = 28 or
+             ctpromoc.descricao[1] matches "*CARTAO LEBES*" or
+             ctpromoc.descricao[2] matches "*CARTAO LEBES*")
+        THEN NEXT.   
+        if ctpromoc.situacao = "L" 
+        then do:
+            /***** BRINDE *****/
+            assign
+                pr-brinde = no
+                lbrinde = no
+                qbrinde = 0
+                qpago = 0
+                qprodu = 0
+                vbrinde = 0
+                vprodu = 0
+                vok = no.
+            find first  dctpromoc where 
+                        dctpromoc.sequencia = ctpromoc.sequencia and
+                        dctpromoc.probrinde > 0
+                        no-lock no-error.
+            if avail dctpromoc
+            then do:
+                lbrinde = yes.
+                for each wf-movim :
+                    find produ where recid(produ) = wf-movim.wrec
+                           no-lock no-error.
+                    if not avail produ then next.
+                    find first bctpromoc where
+                         bctpromoc.sequenci = ctpromoc.sequencia and
+                         bctpromoc.probrinde = produ.procod 
+                         no-lock no-error.
+                    if avail bctpromoc
+                    then do:
+                        do vi = 1 to ctpromoc.qtdbrinde:
+                            if vbrinde[vi] = 0
+                            then do:
+                                vbrinde[vi] = produ.procod.
+                                leave.
+                            end.
+                        end.
+                        run find-pro-promo.
+                        if na-promocao = no
+                        then qbrinde = qbrinde + wf-movim.movqtm.
+                        else qbrinde = qbrinde + 1.
+                    end.     
+                end.
+                if qbrinde > 0 and
+                   qbrinde = ctpromoc.qtdbrinde
+                then do:
+                    for each wf-movim :
+                        find produ where recid(produ) = wf-movim.wrec
+                           no-lock no-error.
+                        if not avail produ then next.
+                        find first bctpromoc where
+                         bctpromoc.sequenci = ctpromoc.sequencia and
+                         bctpromoc.probrinde = produ.procod 
+                         no-lock no-error.
+                        if avail bctpromoc and
+                            wf-movim.movqtm = 1
+                        then next.
+                        run find-pro-promo.
+                        if na-promocao = no
+                        then next.
+                        /*run find-cas-promo.
+                        if na-casadinha = yes
+                        then next.*/
+                        if wf-movim.movpc > qbrinde  or
+                           wf-movim.movpc = 1 
+                        then 
+                        do vi = 1 to ctpromoc.qtdvenda:
+                            if vprodu[vi] = 0
+                            then do:
+                                vprodu[vi] = produ.procod.
+                                leave.
+                            end.
+                        end.
+                        qprodu = qprodu + wf-movim.movqtm.
+                        if avail bctpromoc
+                        then qprodu = qprodu - 1.    
+                    end.    
+                end.
+                vok = no. 
+                if  (qbrinde > 0 and
+                     qbrinde = ctpromoc.qtdbrinde) or
+                    (qprodu > 0 and 
+                     qprodu  >= ctpromoc.qtdvenda)
+                then do:
+                    find first ectpromoc where
+                               ectpromoc.sequencia = ctpromoc.sequencia and
+                               ectpromoc.etbcod > 0 no-lock no-error.
+                    if not avail ectpromoc or
+                        ectpromoc.situacao = "I" or
+                        ectpromoc.situacao = "E"
+                    then do:
+                        find first ectpromoc where
+                               ectpromoc.sequencia = ctpromoc.sequencia and
+                               ectpromoc.fincod <> ? no-lock no-error.
+                        if not avail ectpromoc
+                        then vok = yes.
+                        else do:
+                            find first ectpromoc where
+                               ectpromoc.sequencia = ctpromoc.sequencia and
+                               ectpromoc.fincod = p-fincod no-lock no-error.
+                            if avail ectpromoc and
+                                ectpromoc.situacao <> "I" and
+                                ectpromoc.situacao <> "E"
+                            then vok = yes. 
+                        end.
+                    end.
+                    else do:   
+                        find first ectpromoc where
+                               ectpromoc.sequencia = ctpromoc.sequencia and
+                               ectpromoc.etbcod = setbcod no-lock no-error.
+                        if avail ectpromoc  and
+                            ectpromoc.situacao <> "I" and
+                            ectpromoc.situacao <> "E"
+                        then do:
+                            find first ectpromoc where
+                               ectpromoc.sequencia = ctpromoc.sequencia and
+                               ectpromoc.fincod <> ? no-lock no-error.
+                            if not avail ectpromoc
+                            then vok = yes.
+                            else do:
+                                find first ectpromoc where
+                                    ectpromoc.sequencia = ctpromoc.sequencia and
+                                    ectpromoc.fincod = p-fincod 
+                                    no-lock no-error.
+                                if avail ectpromoc and
+                                    ectpromoc.situacao <> "I" and
+                                    ectpromoc.situacao <> "E"
+                                then vok = yes. 
+                            end.    
+                        end.
+                    end.  
+                end.
+                if vok = yes
+                then do:
+                    spromoc = no.
+                    run calcula-total-venda.
+                    if ctpromoc.vendaacimade > 0  and
+                        total-venda > 0
+                    then do:
+                        if ctpromoc.campolog3 = no
+                        then do:
+                            run valor-prazo.
+                        end.
+                        else total-venda-prazo = total-venda.
+                    end.
+                    if qbrinde > 0 and
+                       qbrinde = ctpromoc.qtdbrinde and
+                       qprodu >= ctpromoc.qtdvenda 
+                    then do:
+                        
+                        if ctpromoc.vendaacimade = 0 or
+                           (total-venda-prazo >= ctpromoc.vendaacimade and
+                            (ctpromoc.campodec2[3] = 0 or
+                            total-venda-prazo <= ctpromoc.campodec2[3]))
+                        then 
+                        do vi = 1 to qbrinde:
+                            if vbrinde[vi] = 0
+                            then leave.
+                            find produ where 
+                                 produ.procod = vbrinde[vi] no-lock.
+                            find first wf-movim where 
+                                       wf-movim.wrec = recid(produ) no-error.
+                            if avail wf-movim
+                            then do:
+                                if valt-movpc = yes
+                                then do:
+                                    run find-pro-promo.
+                                    if na-promocao = no or
+                                        wf-movim.movqtm = 1
+                                    then do:
+                                        wf-movim.movpc = 1.
+                                    end.
+                                    else do:
+                                        wf-movim.movpc = wf-movim.movpc -
+                                        (wf-movim.movpc / wf-movim.movqtm)
+                                        .
+                                    end.    
+                                    spromoc = yes.
+                                end.
+                            end.          
+                        end.
+                        if vprodu[1] = 0 and
+                           ctpromoc.vendaacimade > 0 and
+                           total-venda-prazo >= ctpromoc.vendaacimade and
+                           (ctpromoc.campodec2[3] = 0 or
+                           total-venda-prazo <= ctpromoc.campodec2[3])
+                        then do:
+                            for each wf-movim:
+                                find produ where 
+                                    recid(produ) = wf-movim.wrec no-lock.
+                                pr-brinde = no.
+                                do vi = 1 to qbrinde:
+                                    if vbrinde[vi] = produ.procod
+                                    then pr-brinde = yes.
+                                end.    
+                                if pr-brinde = no and
+                                   wf-movim.movpc > qbrinde
+                                then do:
+                                    if valt-movpc = yes and
+                                       v-menos1 = yes
+                                    then do:
+                                        wf-movim.movpc = 
+                                            wf-movim.movpc - qbrinde.
+                                        spromoc = yes.                
+                                    end.
+                                    leave.
+                                end.
+                            end.
+                        end.
+                    end.
+                    if qprodu > 0 and
+                       qprodu >= ctpromoc.qtdvenda
+                    then    
+                    if vprodu[1] > 0
+                    then do:
+                    
+                        if ctpromoc.vendaacimade = 0 or
+                           (total-venda-prazo >= ctpromoc.vendaacimade and
+                            (ctpromoc.campodec2[3] = 0 or
+                            total-venda-prazo <= ctpromoc.campodec2[3]))
+                        then 
+                        do va = 1 to qprodu:
+                            find produ where produ.procod = vprodu[va] no-lock.
+                            find first wf-movim where 
+                                  wf-movim.wrec = recid(produ) no-error.
+                            if avail wf-movim
+                            then do:
+                                pr-brinde = no.
+                                do vi = 1 to qbrinde:
+                                    if vbrinde[vi] = produ.procod
+                                    then assign
+                                        pr-brinde = yes
+                                        qbrinde = qbrinde - 1.
+                                end.
+                                if pr-brinde then next.
+                                
+                                if valt-movpc = yes  and
+                                    v-menos1 = yes
+                                then do:
+                                    wf-movim.movpc = wf-movim.movpc - qbrinde.
+                                    spromoc = yes.
+                                    leave.
+                                end.
+                            end.
+                        end.          
+                    end.
+                    if spromoc = yes
+                    then run cria-temp-valor(9, "PROMOCAO", 0, 0).
+                end.  
+            end.
+            /*** VENDA CASADA ****/
+            lcasada = no.
+            find first  dctpromoc where 
+                        dctpromoc.sequencia = ctpromoc.sequencia and
+                        dctpromoc.produtovendacasada > 0
+                        no-lock no-error.
+            if avail dctpromoc
+            then do:
+                /**
+                if ctpromoc.sequencia = 325 or
+                   ctpromoc.sequencia = 326 or
+                   ctpromoc.sequencia = 327
+                **/
+                if (ctpromoc.sequencia >= 625 and
+                    ctpromoc.sequencia <= 646) or
+                   (ctpromoc.sequencia >= 650 and
+                    ctpromoc.sequencia <= 653) or
+                    ctpromoc.sequencia = 734 or
+                    ctpromoc.sequencia = 736 or
+                    ctpromoc.sequencia = 770 or
+                   (ctpromoc.sequencia >= 1915 and
+                    ctpromoc.sequencia <= 1919) or
+                   (ctpromoc.sequencia >= 1924 and 
+                    ctpromoc.sequencia <= 1927) /*or
+                    ctpromoc.sequencia = 3162     */
+                then do:
+                    run promo-conf-especial.
+                end.  
+                else do: 
+                total-venda = 0.
+                lcasada = yes.   
+                qtd-item = 0.
+                vpro-promo = 0.
+                val-tot-promo = 0.
+                for each wf-movim by wf-movim.movpc:
+                    find produ where recid(produ) = wf-movim.wrec
+                           no-lock no-error.
+                    if not avail produ then next.
+                    
+                    na-casadinha = no.
+                    find first bctpromoc where
+                         bctpromoc.sequenci = ctpromoc.sequencia and
+                         bctpromoc.produtovendacasada = produ.procod and
+                         (bctpromoc.tipo begins "PRODUTO" or
+                          bctpromoc.tipo = "")
+                         no-lock no-error.
+                    if not avail bctpromoc
+                    then find first bctpromoc where
+                         bctpromoc.sequenci = ctpromoc.sequencia and
+                         bctpromoc.produtovendacasada = produ.clacod and
+                         bctpromoc.tipo begins "CLASSE"
+                         no-lock no-error.
+                    if not avail bctpromoc
+                    then do:
+                        find first  b1ctpromoc where
+                            b1ctpromoc.sequenci = ctpromoc.sequencia and
+                            b1ctpromoc.produtovendacasada > 0 and
+                            b1ctpromoc.produtovendacasada <> ?  and
+                            b1ctpromoc.tipo begins "CLASSE"
+                            no-lock no-error.
+                        if avail b1ctpromoc
+                        then do:    
+
+                            na-casadinha = no.
+                            run find-cas-promo.
+                            if na-casadinha
+                            then find bctpromoc where
+                                    recid(bctpromoc) = recid(fctpromoc)
+                                    no-lock no-error.
+                        end.
+                    end.
+                    
+                    if  avail bctpromoc and
+                        qbrinde < ctpromoc.qtdbrinde
+                    then do:
+                        do vi = 1 to ctpromoc.qtdbrinde:
+                            if vbrinde[vi] = 0
+                            then do:
+                                vbrinde[vi] = produ.procod.
+                                leave.
+                            end.
+                        end.
+                        if wf-movim.movqtm > ctpromoc.qtdbrinde
+                        then qbrinde = qbrinde + 1.
+                        else qbrinde = qbrinde + wf-movim.movqtm.
+                    end.
+                    qtd-item = qtd-item + 1.
+                    total-venda = total-venda +
+                        (wf-movim.movpc * wf-movim.movqtm).
+                    na-promocao = no.
+                    run find-pro-promo.
+                    if na-promocao = yes
+                    then assign
+                            vpro-promo = vpro-promo + wf-movim.movqtm
+                            val-tot-promo = val-tot-promo +
+                                (wf-movim.movpc * wf-movim.movqtm). 
+                end.
+                
+                
+                if qtd-item = 1 and
+                    qbrinde > ctpromoc.qtdbrinde
+                then qbrinde = ctpromoc.qtdbrinde.
+                if qbrinde > 0 and
+                   qbrinde >= ctpromoc.qtdbrinde
+                then do:
+                    for each wf-movim :
+                        find produ where recid(produ) = wf-movim.wrec
+                           no-lock no-error.
+                        if not avail produ then next.
+                        na-promocao = no.
+                        run find-pro-promo.
+                        if not na-promocao
+                        then next.
+                        /*run find-cas-promo.
+                        if na-casadinha
+                        then next.*/
+                        do vi = 1 to ctpromoc.qtdvenda:
+                            if vbrinde[vi] = produ.procod and
+                               qtd-item > 1 and
+                               wf-movim.movqtm = 1
+                            then leave.    
+                            if vprodu[vi] = 0
+                            then do:
+                                vprodu[vi] = produ.procod.
+                                leave.
+                            end.
+                        end.
+                        qprodu = qprodu + wf-movim.movqtm.
+                    end.    
+                end.
+                
+                /*** Casadinha PNEU ***/
+                if vprodu[1] = vbrinde[1]
+                then qprodu = qprodu - qbrinde.
+
+                vok = no. 
+                if (qbrinde > 0 and qbrinde = ctpromoc.qtdbrinde) or 
+                    (qprodu  > 0 and qprodu  >= ctpromoc.qtdvenda)
+                then do:
+                    find first ectpromoc where
+                               ectpromoc.sequencia = ctpromoc.sequencia and
+                               ectpromoc.etbcod > 0 no-lock no-error.
+                    if not avail ectpromoc or
+                        ectpromoc.situacao = "I" or
+                        ectpromoc.situacao = "E"
+                    then do:
+                        find first ectpromoc where
+                               ectpromoc.sequencia = ctpromoc.sequencia and
+                               ectpromoc.fincod <> ? no-lock no-error.
+                        if not avail ectpromoc
+                        then vok = yes.
+                        else do:
+                            find first ectpromoc where
+                               ectpromoc.sequencia = ctpromoc.sequencia and
+                               ectpromoc.fincod = p-fincod no-lock no-error.
+                            if avail ectpromoc  and
+                                ectpromoc.situacao <> "I" and
+                                ectpromoc.situacao <> "E"
+                            then vok = yes. 
+                        end.
+                    end.
+                    else do:    
+                        find first ectpromoc where
+                               ectpromoc.sequencia = ctpromoc.sequencia and
+                               ectpromoc.etbcod = setbcod no-lock no-error.
+                        if avail ectpromoc and
+                            ectpromoc.situacao <> "I" and
+                            ectpromoc.situacao <> "E"
+                        then do:
+                            find first ectpromoc where
+                               ectpromoc.sequencia = ctpromoc.sequencia and
+                               ectpromoc.fincod <> ? no-lock no-error.
+                            if not avail ectpromoc
+                            then vok = yes.
+                            else do:
+                                find first ectpromoc where
+                                    ectpromoc.sequencia = ctpromoc.sequencia and
+                                    ectpromoc.fincod = p-fincod 
+                                    no-lock no-error.
+                                if avail ectpromoc and
+                                    ectpromoc.situacao <> "I" and
+                                    ectpromoc.situacao <> "E"
+                                then vok = yes. 
+                            end.    
+                        end.
+                    end.    
+                end.
+                if vok = yes
+                then do:
+                    spromoc = no.
+                    if ctpromoc.vendaacimade > 0  and
+                        total-venda > 0
+                    then do:
+                        vbrinde-menos = no.
+                        total-venda = 0.
+                        run calcula-total-venda.
+                            
+                        if ctpromoc.campolog3 = no
+                        then do:
+                            vbrinde-menos = yes.
+                            run valor-prazo.
+                        end.
+                        else total-venda-prazo = total-venda.
+                    end.
+  
+                    if qbrinde > 0 and
+                       qbrinde = ctpromoc.qtdbrinde and
+                       vqtd-pro > 1 and
+                       /*qprodu >= ctpromoc.qtdvenda and*/
+                       vpro-promo >= ctpromoc.qtdvenda and
+                       vprodu[1] > 0 
+                    then do:
+                    do vi = 1 to qbrinde: 
+                        if vbrinde[vi] = 0
+                        then leave.
+                        find produ where produ.procod = vbrinde[vi] no-lock.
+                        find first wf-movim where 
+                                  wf-movim.wrec = recid(produ) no-error.
+                        if avail wf-movim
+                        then do:
+                            find first pctpromoc where 
+                                       pctpromoc.sequencia = ctpromoc.sequencia
+                                   and pctpromoc.produtovendacasada =
+                                       produ.procod 
+                                   and pctpromoc.fincod <> ?
+                                       no-lock no-error.
+                            if not avail pctpromoc
+                            then  find first pctpromoc where 
+                                       pctpromoc.sequencia = ctpromoc.sequencia
+                                   and pctpromoc.produtovendacasada =
+                                       produ.clacod 
+                                   and pctpromoc.fincod <> ?
+                                       no-lock no-error.
+                            if avail pctpromoc
+                            then do:
+                                find first pctpromoc where 
+                                       pctpromoc.sequencia = ctpromoc.sequencia
+                                   and pctpromoc.produtovendacasada =
+                                       produ.procod 
+                                   and pctpromoc.fincod = p-fincod
+                                       no-lock no-error.
+                                if not avail pctpromoc
+                                then find first pctpromoc where 
+                                       pctpromoc.sequencia = ctpromoc.sequencia
+                                   and pctpromoc.produtovendacasada =
+                                       produ.clacod 
+                                   and pctpromoc.fincod = p-fincod
+                                       no-lock no-error.
+                            end.
+                            else do:
+                                find first pctpromoc where 
+                                       pctpromoc.sequencia = ctpromoc.sequencia
+                                   and pctpromoc.produtovendacasada =
+                                       produ.procod 
+                                       no-lock no-error.
+                                if not avail pctpromoc
+                                then find first pctpromoc where 
+                                       pctpromoc.sequencia = ctpromoc.sequencia
+                                   and pctpromoc.produtovendacasada =
+                                       produ.clacod 
+                                       no-lock no-error.
+                            end.
+                            if not avail pctpromoc
+                            then do:
+                                na-casadinha = no.
+                                na-promocao = no.
+                                run find-pro-promo.
+                                /*if na-promocao
+                                then*/ do:
+                                    na-casadinha = no.
+                                    run find-cas-promo.
+                                end.
+                                if na-casadinha
+                                then
+                                find pctpromoc where
+                                    recid(pctpromoc) = recid(fctpromoc)
+                                    no-lock no-error.
+                            end.
+                            if avail pctpromoc 
+                            then do:
+                                /*
+                                if ctpromoc.vendaacimade = 0 or
+                                   ctpromoc.vendaacimade <= total-venda-prazo
+                                 */
+                                if ctpromoc.vendaacimade = 0 or
+                                  (total-venda-prazo >= ctpromoc.vendaacimade 
+                                  and (ctpromoc.campodec2[3] = 0 or
+                                  total-venda-prazo <= ctpromoc.campodec2[3]))
+                                then do:
+                                  if pctpromoc.campolog2 = no
+                                  then do:
+                                    if valt-movpc = yes
+                                    then do:
+                                      if acha("PERCENTUAL",pctpromoc.tipo) = ?
+                                      then do:     
+                                        if qtd-item = 1
+                                        then do:
+                                            if vbrinde[1] <> vprodu[1]
+                                            then
+                                            wf-movim.movpc = 
+                                                 wf-movim.movpc -       
+                                           (pctpromoc.valorprodutovendacasada
+                                            / vqtd-pro).
+                                            else wf-movim.movpc =
+                                            ((wf-movim.movpc * 
+                                            (vpro-promo - qbrinde)) +
+                                             (pctpromoc.valorprodutovendacasada
+                                                * qbrinde)) / vpro-promo.
+
+                                        end.
+                                        else do:
+                                         if pctpromoc.valorprodutovendacasada
+                                            > 0
+                                         then do:
+                                            if vprodu[1] <> vbrinde[1]
+                                            then
+                                            wf-movim.movpc = 
+                                           pctpromoc.valorprodutovendacasada.
+                                            else wf-movim.movpc =
+                                            ((wf-movim.movpc * 
+                                            (vpro-promo - qbrinde)) +
+                                             (pctpromoc.valorprodutovendacasada
+                                                * qbrinde)) / vpro-promo.
+                                         end.
+                                         else 
+                                           wf-movim.movpc = 
+                                             wf-movim.movpc - 1.
+                                         end.   
+                                      end.
+                                      else do:
+                                        
+                                        run csadinha-desconto-percentual.
+                                        
+                                        /***
+                                        if qtd-item = 1
+                                        then wf-movim.movpc = 
+                                             wf-movim.movpc - 
+                                             ((wf-movim.movpc *     
+                                           (pctpromoc.valorprodutovendacasada /
+                                            100))
+                                            / vqtd-pro).
+                                        else do:
+                                            if vprodu[1] <> vbrinde[1]
+                                        
+                                            then wf-movim.movpc = 
+                                             wf-movim.movpc - 
+                                             ((wf-movim.movpc / wf-movim.movqtm)
+                                              *     
+                                           (pctpromoc.valorprodutovendacasada /
+                                            100)).
+                                            else do:
+                                             wf-movim.movpc =
+                                            ((wf-movim.movpc * 
+                                            (vpro-promo - qbrinde)) +
+                                            ((wf-movim.movpc *  (100 - 
+                                            pctpromoc.valorprodutovendacasada)
+                                            / 100) / qbrinde)) / vpro-promo.
+                                            end.
+                                        end.
+                                        ***/
+                                      end.
+                                      spromoc = yes.
+                                    end.
+                                    v-menos1 = no.
+                                  end.
+                                  else do:
+                                      find first qctpromoc where 
+                                       qctpromoc.sequencia = ctpromoc.sequencia
+                                            and qctpromoc.produtovendacasada =
+                                            produ.procod 
+                                            and qctpromoc.fincod = p-fincod
+                                            no-lock no-error.
+                                        if avail qctpromoc and
+                                        qctpromoc.valorprodutovendacasada > 0
+                                        then do:
+                                            if valt-movpc = yes
+                                            then do:
+                                             wf-movim.movpc =
+                                            qctpromoc.valorprodutovendacasada.
+                                            parametro-out = parametro-out +
+                                            "ARREDONDA=N|PARCELA-" +
+                                            string(produ.procod) + "=" +
+                                      string(pctpromoc.valorprodutovendacasada)
+                                            + "|".
+                                            spromoc = yes.
+                                            end.
+                                            v-menos1 = no.
+                                        end.
+                                        else do:
+                                            if valt-movpc = yes
+                                            then do:
+                                            wf-movim.movpc = 
+                                            pctpromoc.valorprodutovendacasada
+                                                        / finan.finfat.
+                                            spromoc = yes.
+                                            end.
+                                            v-menos1 = no.
+                                        end.
+                                    end.  
+                                end.                     
+                            end.
+                            else do:
+                                if ctpromoc.vendaacimade > 0 and
+                                   ctpromoc.vendaacimade <= total-venda-prazo
+                                then.
+                            end.    
+                        end.          
+                    end. 
+                    end.
+                    if qprodu > 0  and
+                       qprodu >= ctpromoc.qtdvenda
+                    then
+                    do vi = 1 to qprodu:
+                        if vprodu[vi] = 0 or ctpromoc.precosugerido = 0
+                        then leave.
+                        find produ where produ.procod = vprodu[vi] no-lock.
+                        find first wf-movim where 
+                                  wf-movim.wrec = recid(produ) no-error.
+                        if avail wf-movim and
+                            wf-movim.movqtm >= ctpromoc.qtdvenda
+                        then do:
+                            if valt-movpc = yes and
+                                ctpromoc.precosugerido > 0
+                            then do:
+                                wf-movim.movpc = ctpromoc.precosugerido.
+                                spromoc = yes.
+                            end.
+                            v-menos1 = no.
+                        end.          
+                    end.
+                    if spromoc = yes
+                    then run cria-temp-valor(9, "PROMOCAO", 0, 0).
+                end. 
+                end.
+            end.
+            if lcasada = no and
+               lbrinde = no
+            then do:
+                spromoc = no.
+                vok = no.
+                find first ectpromoc where
+                               ectpromoc.sequencia = ctpromoc.sequencia and
+                               ectpromoc.etbcod > 0 no-lock no-error.
+                if not avail ectpromoc  
+                then do:
+                    find first ectpromoc where
+                               ectpromoc.sequencia = ctpromoc.sequencia and
+                               ectpromoc.fincod <> ?
+                               no-lock no-error.
+                    if not avail ectpromoc
+                    then vok = yes.
+                    else do:
+                        find first ectpromoc where
+                               ectpromoc.sequencia = ctpromoc.sequencia and
+                               ectpromoc.fincod = p-fincod no-lock no-error.
+                        if avail ectpromoc  and
+                            ectpromoc.situacao <> "E" and
+                            ectpromoc.situacao <> "I"
+                        then vok = yes. 
+                    end.
+                end.
+                else do:    
+                    find first ectpromoc where
+                               ectpromoc.sequencia = ctpromoc.sequencia and
+                               ectpromoc.etbcod = setbcod no-lock no-error.
+                    if avail ectpromoc
+                        AND ectpromoc.situacao <> "I" and
+                        ectpromoc.situacao <> "E"
+                    then do:
+                        find first ectpromoc where
+                               ectpromoc.sequencia = ctpromoc.sequencia and
+                               ectpromoc.fincod <> ? 
+                               no-lock no-error.
+                        if not avail ectpromoc
+                        then vok = yes.
+                        else do:
+                            find first ectpromoc where
+                                ectpromoc.sequencia = ctpromoc.sequencia and
+                                    ectpromoc.fincod = p-fincod 
+                                    no-lock no-error.
+                            if avail ectpromoc and
+                                ectpromoc.situacao <> "I" and
+                                ectpromoc.situacao <> "E"
+                            then vok = yes. 
+                        end.    
+                    end.
+                end. 
+                if ctpromoc.qtdvenda > 0
+                then do:
+                    qprodu = 0.
+                    total-vinculado = 0.
+                    le-vinculado = no.
+                    qtd-vinculado = 0.
+                    for each wf-movim:
+                        find produ where recid(produ) = wf-movim.wrec
+                           no-lock no-error.
+                        if not avail produ then next.
+                        
+                        produto-vinculado = no.
+                        run prod-vinculado.
+                        if produto-vinculado
+                        then qtd-vinculado = qtd-vinculado + 1.
+ 
+                        run find-pro-promo.
+                        if not na-promocao
+                        then  next.
+
+                        run conf-vinculado.
+                        if le-vinculado = no
+                        then next.
+                        
+                        total-vinculado = total-vinculado + 
+                            (wf-movim.movqtm * wf-movim.movpc).
+                         do vi = 1 to ctpromoc.qtdvenda:
+                            if vprodu[vi] = 0
+                            then do:
+                                vprodu[vi] = produ.procod.
+                                leave.
+                            end.
+                        end.
+                        qprodu = qprodu + wf-movim.movqtm.     
+                    end.
+
+                    if qtd-vinculado > 0 and
+                        program-name(3) <> "gerpla.p"
+                    then do:
+                        vin-valor = 0.
+                        vin-pct = 0.
+                        if ctpromoc.descontovalor > 0
+                        then do:
+                            for each wf-movim:
+                                find produ where recid(produ) = wf-movim.wrec
+                                        no-lock no-error.
+                                if not avail produ then next.
+                        
+                                produto-vinculado = no.
+                                run prod-vinculado.
+                                if produto-vinculado
+                                then next.
+ 
+                                run find-pro-promo.
+                                if not na-promocao
+                                then  next.
+                                vin-valor = vin-valor + 
+                                        (wf-movim.movpc * wf-movim.movqtm).
+                            end.  
+                            if ctpromoc.descontovalor > vin-valor
+                            then vin-pct = 0.
+                            else vin-pct = ctpromoc.descontovalor / vin-valor.   
+                        end.
+                        else if ctpromoc.descontopercentual > 0
+                        then do:
+                            vin-pct = ctpromoc.descontopercentual.
+                        end.
+                        if vin-pct > 0
+                        then do:
+                            for each wf-movim:
+                                find produ where recid(produ) = wf-movim.wrec
+                                        no-lock no-error.
+                                if not avail produ then next.
+                        
+                                produto-vinculado = no.
+                                run prod-vinculado.
+                                if produto-vinculado
+                                then next.
+ 
+                                run find-pro-promo.
+                                if not na-promocao
+                                then  next.
+                                wf-movim.movpc = wf-movim.movpc - 
+                                        (wf-movim.movpc * vin-pct).
+                            end.
+                        end.
+                    end.
+                    
+                    /***
+                    if ctpromoc.sequencia = 1522 and
+                       setbcod < 100
+                    then do:
+                        le-vinculado = no.
+                        for each wf-movim:
+                            find produ where recid(produ) = wf-movim.wrec
+                                no-lock no-error.
+                            if not avail produ then next.
+                            run find-pro-promo.
+                            if not na-promocao
+                            then next.
+                            run conf-vinculado.
+                            if le-vinculado = no
+                            then leave.
+                        end.
+                    end.
+                    ***/
+                    if qprodu < ctpromoc.qtdvenda and
+                        vok = yes
+                    then vok = no. 
+                    if total-vinculado > 0
+                    then total-venda = total-vinculado. 
+                end.
+                run valor-prazo.
+                /*
+                message ctpromoc.sequencia
+                    vok = yes
+                    ctpromoc.campodec[1]
+                    ctpromoc.qtdvenda
+                    valt-movpc.
+                    pause.
+                */
+                if vok = yes and ctpromoc.campodec[1] > 0
+                   and ctpromoc.campodec[1] < ctpromoc.qtdvenda
+                   and valt-movpc 
+                then do:    /*** Leva x paga y ***/
+
+                    run leva-x-paga-y.
+
+                    /*** Transformado na procedure acima
+                    spromoc = yes.
+                    qtd-menos = 0.
+                    qtd-prod = int(substr
+                    (string(qprodu / ctpromoc.qtdvenda,">>>>9.99"),1,5))  .
+                    qtd-prod = (ctpromoc.qtdvenda - ctpromoc.campodec[1])
+                            * qtd-prod.
+                    for each wf-movim break by wf-movim.movpc :
+                        find produ where recid(produ) = wf-movim.wrec
+                           no-lock no-error.
+                        if not avail produ then next.
+                        run find-pro-promo.
+                        if not na-promocao
+                        then next.
+                        if qtd-prod = 0 
+                        then do:
+                            if qtd-menos > 0
+                            then do:
+                                wf-movim.movpc = wf-movim.movpc - 
+                                (1 / wf-movim.movqtm).
+                                spromoc = yes.
+                            end.
+                            leave.
+                        end.
+                        if wf-movim.movqtm = 1  and
+                           wf-movim.movpc > 1 
+                        then do:
+                            wf-movim.movpc = 1.
+                            qtd-prod = qtd-prod - 1.
+                            qtd-menos = qtd-menos + 1.
+                        end.    
+                        else if wf-movim.movqtm > qtd-prod
+                        then do:
+                            wf-movim.movpc = (wf-movim.movpc / wf-movim.movqtm)
+                                * (wf-movim.movqtm - qtd-prod).
+                            spromoc = yes.
+                            qtd-prod = 0.    
+                        end.
+                    end.
+                    *************/
+                end.
+
+                if vok = yes and
+                   ctpromoc.vendaacimade > 0  and
+                   ctpromoc.vendaacimade <= total-venda-prazo
+                then do: 
+                    if ctpromoc.campolog1 = yes
+                    then do:
+                        run mensagem-na-venda.
+                    end.
+                end.
+                if vok = yes
+                then do:
+                    if ctpromoc.precosugerido > 0
+                    then do vi = 1 to qprodu:
+                        if vprodu[vi] = 0 
+                        then leave.
+                        find produ where produ.procod = vprodu[vi] no-lock.
+                        find first wf-movim where 
+                                  wf-movim.wrec = recid(produ) no-error.
+                        if avail wf-movim and
+                            wf-movim.movqtm >= ctpromoc.qtdvenda
+                        then do:
+                            if valt-movpc = yes
+                            then do:
+                                wf-movim.movpc =  ctpromoc.precosugerido.
+                                spromoc = yes.
+                            end.
+                            v-menos1 = no.
+                        end.          
+                    end.
+                    if ctpromoc.cartaovalor > 0 
+                    then do:
+                        if ctpromoc.campolog4 = no and
+                           total-venda-prazo  >= ctpromoc.vendaacimade and
+                           total-venda-prazo  <= ctpromoc.campodec2[3]
+                        then do:
+                            parametro-out = "CARTAO-PRESENTE=VAL|" +
+                            "VALOR-CARTAO-PRESENTE=" + 
+                            string(ctpromoc.cartaovalor) + "|" + parametro-out.
+                            spromoc = yes.
+                        end.
+                        else if ctpromoc.campolog4 = yes
+                        then do:
+                            cartao-valor = 0.
+                            for each wf-movim no-lock:
+                                find produ where recid(produ) = wf-movim.wrec
+                                        no-lock no-error.
+                                if not avail produ then next.
+                                run find-pro-promo.
+                                if not na-promocao
+                                then next.
+                                total-venda = wf-movim.movpc.
+                                if ctpromoc.campolog3 = no
+                                then run valor-prazo.
+                                else total-venda-prazo = total-venda.
+                                if total-venda-prazo >= ctpromoc.vendaacimade 
+                                    and total-venda-prazo <=                                                         ctpromoc.campodec2[3]
+                                 then do:
+                                    cartao-valor = cartao-valor +
+                                            ctpromoc.cartaovalor.
+                                end. 
+                            end.
+                            if cartao-valor > 0
+                            then do:
+                                parametro-out = "CARTAO-PRESENTE=VAL|" +
+                                    "VALOR-CARTAO-PRESENTE=" + 
+                                        string(cartao-valor) + 
+                                        "|" + parametro-out.
+                               spromoc = yes.
+                            end. 
+                        end.
+                        if ctpromoc.geradespesa = yes
+                        then 
+                        parametro-out = parametro-out + "GERA-DESPESA-CP=S|"
+                            + ctpromoc.campochar[2].
+                        if ctpromoc.recibo = yes
+                        then 
+                        parametro-out = parametro-out + "EMITE-RECIBO-CP=S|".
+                    end.
+                    if ctpromoc.cartaoparcela = yes
+                    then do:
+                        parametro-out = parametro-out + "CARTAO-PRESENTE=PAR|".
+                        spromoc = yes.
+                        if ctpromoc.geradespesa = yes
+                        then 
+                        parametro-out = parametro-out + "GERA-DESPESA-CP=S|"
+                            + ctpromoc.campochar[2].
+                        if ctpromoc.recibo = yes
+                        then 
+                        parametro-out = parametro-out + "EMITE-RECIBO-CP=S|".
+                    end. 
+                    if ctpromoc.cartaopercentual > 0
+                    then do:
+                       parametro-out = parametro-out + "CARTAO-PRESENTE=PCT|" +
+                            "PERCENTUAL-CARTAO-PRESENTE=" +
+                            string(ctpromoc.cartaopercentual) + "|".
+                        spromoc = yes.
+                        if ctpromoc.geradespesa = yes
+                        then 
+                        parametro-out = parametro-out + "GERA-DESPESA-CP=S|"
+                            + ctpromoc.campochar[2].
+                        if ctpromoc.recibo = yes
+                        then 
+                        parametro-out = parametro-out + "EMITE-RECIBO-CP=S|".
+                    end.
+                    if (ctpromoc.descontovalor > 0  or
+                       ctpromoc.descontopercentual > 0 ) and
+                       ctpromoc.campolog4 = yes and
+                       valt-movpc = yes
+                    then do:    
+                        for each wf-movim :
+                            find produ where recid(produ) = wf-movim.wrec
+                                        no-lock no-error.
+                            if not avail produ then next.
+                            find estoq where estoq.etbcod = setbcod and
+                                             estoq.procod = produ.procod
+                                             no-lock no-error.
+                            run find-pro-promo.
+                            if not na-promocao
+                            then next.
+                            wf-movim.precoori = /*if avail estoq
+                                    then estoq.estvenda.
+                                    else*/ wf-movim.movpc.
+                            if ctpromoc.descontovalor > 0
+                            then do:
+                                /*if avail estoq
+                                then wf-movim.movpc = estoq.estvenda -
+                                        ctpromoc.descontovalor.
+                                else*/ wf-movim.movpc = wf-movim.movpc -
+                                        ctpromoc.descontovalor.
+                            end.
+                            else do:
+                                /*if avail estoq
+                                then wf-movim.movpc = estoq.estvenda -
+                                        (estoq.estvenda * 
+                                        (ctpromoc.descontopercentual / 100)).
+                                else*/ wf-movim.movpc = wf-movim.movpc -
+                                        (wf-movim.movpc * 
+                                        (ctpromoc.descontopercentual / 100)).
+                            end.
+                            spromoc = yes.
+                        end.
+                    
+                        if ctpromoc.geradespesa = yes
+                        then parametro-out = parametro-out + "GERA-DESPESA=S|"
+                            + ctpromoc.campochar[2].
+                        if ctpromoc.recibo = yes
+                        then parametro-out = parametro-out + "EMITE-RECIBO=S|".
+                    end.
+                    /**DESCONTO TOTAL***/
+                    if (ctpromoc.descontovalor > 0  or
+                       ctpromoc.descontopercentual > 0 ) and
+                       ctpromoc.campolog4 = no and
+                       valt-movpc = yes
+                    then do: 
+                        run calcula-total-venda.
+                        if ctpromoc.vendaacimade > 0  and
+                        total-venda > 0
+                        then do:
+                        if ctpromoc.campolog3 = no
+                        then do:
+                            run valor-prazo.
+                        end.
+                        else total-venda-prazo = total-venda.
+                    end.    
+                    if ctpromoc.vendaacimade = 0 or
+                        (total-venda-prazo >= ctpromoc.vendaacimade and
+                        (ctpromoc.campodec2[3] = 0 or
+                         total-venda-prazo <= ctpromoc.campodec2[3]))
+                    then do:
+                         
+                        vindice = 0.
+                        if ctpromoc.descontovalor > 0
+                        then vindice = ctpromoc.descontovalor / total-venda.
+                        for each wf-movim :
+                            find produ where recid(produ) = wf-movim.wrec
+                                        no-lock no-error.
+                            if not avail produ then next.
+                            find estoq where estoq.etbcod = setbcod and
+                                             estoq.procod = produ.procod
+                                             no-lock no-error.
+                            run find-pro-promo.
+                            if not na-promocao
+                            then next.
+                            wf-movim.precoori = /*if avail estoq
+                                    then estoq.estvenda
+                                    else*/ wf-movim.movpc.
+                            if ctpromoc.descontovalor > 0
+                            then do:
+                                if avail estoq
+                                then wf-movim.movpc =  wf-movim.movpc -
+                                        ( wf-movim.movpc  * vindice).
+                                else wf-movim.movpc = wf-movim.movpc -
+                                        (wf-movim.movpc * vindice).
+                            end.
+                            else do:
+                                /*if avail estoq
+                                then wf-movim.movpc = estoq.estvenda -
+                                        (estoq.estvenda * 
+                                        (ctpromoc.descontopercentual / 100)).
+                                else*/ wf-movim.movpc = wf-movim.movpc -
+                                        (wf-movim.movpc * 
+                                        (ctpromoc.descontopercentual / 100)).
+                            end.
+                            spromoc = yes.
+                        end.
+                    
+                        if ctpromoc.geradespesa = yes
+                        then parametro-out = parametro-out + "GERA-DESPESA=S|"
+                            + ctpromoc.campochar[2].
+                        if ctpromoc.recibo = yes
+                        then parametro-out = parametro-out + "EMITE-RECIBO=S|".
+                        
+                    end.
+                    end.             
+                end.
+                if spromoc = yes
+                then run cria-temp-valor(9, "PROMOCAO", 0, 0).  
+            end.                      
+        end.
+    end.
+end procedure.
+
+procedure leva-x-paga-y:
+    def var vtotal as dec init 0.
+    def var vdesco as dec init 0.
+    def var vpdesc as dec init 0.
+    
+    if vok = yes and ctpromoc.campodec[1] > 0
+                 and ctpromoc.campodec[1] < ctpromoc.qtdvenda
+                 and valt-movpc 
+    then do:  
+                    
+        spromoc = yes.
+        qtd-menos = 0.
+        qtd-prod = int(substr
+        (string(qprodu / ctpromoc.qtdvenda,">>>>9.99"),1,5))  .
+        qtd-prod = (ctpromoc.qtdvenda - ctpromoc.campodec[1])
+                            * qtd-prod.
+        
+        for each wf-movim break by wf-movim.movpc :
+            find produ where recid(produ) = wf-movim.wrec
+                           no-lock no-error.
+            if not avail produ then next.
+            run find-pro-promo.
+            if not na-promocao
+            then next.
+            /*
+            message ctpromoc.sequencia produ.procod wf-movim.movpc wf-movim.movqtm.
+            pause.
+            */
+            vtotal = vtotal + (wf-movim.movpc * wf-movim.movqtm).
+            
+            /*
+            if qtd-prod = 0 
+            then do:
+                if qtd-menos > 0
+                then do:
+                    wf-movim.movpc = wf-movim.movpc - 
+                              (1 / wf-movim.movqtm).
+                                spromoc = yes.
+                end.
+                leave.
+            end.
+            ***/
+            if qtd-prod > 0
+            then do:
+            if wf-movim.movqtm = 1  and
+            wf-movim.movpc > 1 
+            then do:
+                vdesco = vdesco + wf-movim.movpc.
+                /*
+                wf-movim.movpc = 1.
+                */
+                qtd-prod = qtd-prod - 1.
+                qtd-menos = qtd-menos + 1.
+                spromoc = yes.
+            end.    
+            else if wf-movim.movqtm >= qtd-prod
+            then do:
+                vdesco = vdesco + (wf-movim.movpc * qtd-prod).
+                /*
+                vdesco = vdesco - ((wf-movim.movpc / wf-movim.movqtm)
+                                   * (wf-movim.movqtm - qtd-prod)).
+                */
+                /*
+                wf-movim.movpc = (wf-movim.movpc / wf-movim.movqtm)
+                                * (wf-movim.movqtm - qtd-prod).
+                */
+                spromoc = yes.
+                qtd-prod = 0.    
+            end.
+            else if wf-movim.movqtm < qtd-prod
+            then do:
+                vdesco = vdesco + (wf-movim.movpc *  wf-movim.movqtm).
+                qtd-prod = qtd-prod -  wf-movim.movqtm.
+                spromoc = yes.
+            end.    
+            end.
+        end.
+        for each wf-movim:
+            find produ where recid(produ) = wf-movim.wrec
+                           no-lock no-error.
+            if not avail produ then next.
+            
+            run find-pro-promo.
+            if not na-promocao
+            then next.
+
+            wf-movim.movpc = wf-movim.movpc -
+                    (vdesco * (wf-movim.movpc  / vtotal)).
+
+        end.
+    end. 
+end procedure.
+
+procedure mensagem-na-venda:
+    def var resposta-io as log init no.
+    repeat on endkey undo :
+        run mensagem.p (input-output resposta-io,
+                        input ctpromoc.campochar[1],
+                        input "  Mensagem  ",
+                        input "OK", 
+                        input "OK").
+        leave.
+    end.
+end procedure.
+
+def var qtd-val as dec.
+procedure p-dinheiro-na-mao:
+    def var lg-vinculado as log init no.
+    for each ctpromoc where   (if vdata-teste-promo <> ?
+                              then ctpromoc.dtinicio >= vdata-teste-promo
+                              else ctpromoc.dtinicio <= today) and
+         ctpromoc.dtfim  >= today and
+         ctpromoc.linha = 0
+         no-lock:
+        if ctpromoc.tipo <> ""
+        then next.
+        if scartao = "" and 
+            (ctpromo.promocod = 28 or
+             ctpromoc.descricao[1] matches "*CARTAO LEBES*" or
+             ctpromoc.descricao[2] matches "*CARTAO LEBES*")
+        THEN NEXT.   
+        if ctpromoc.situacao = "L"  
+        then do:
+            
+            qprodu = 0.
+            qbrinde = 0.
+            if ctpromoc.qtdvenda > 0
+            then do:
+                for each wf-movim:
+                    find produ where recid(produ) = wf-movim.wrec
+                           no-lock no-error.
+                    if not avail produ then next.
+                    run find-pro-promo.
+                    if not na-promocao
+                    then next.
+                    do vi = 1 to ctpromoc.qtdvenda:
+                            if vprodu[vi] = 0
+                            then do:
+                                vprodu[vi] = produ.procod.
+                                leave.
+                            end.
+                    end.
+                    qprodu = qprodu + wf-movim.movqtm.
+                end.    
+            end.
+            vok = no. 
+            if /*qprodu > 0 and*/
+               qprodu  >= ctpromoc.qtdvenda
+            then do:
+                    find first ectpromoc where
+                               ectpromoc.sequencia = ctpromoc.sequencia and
+                               ectpromoc.etbcod > 0 and
+                               ectpromoc.situacao <> "I" and
+                               ectpromoc.situacao <> "E"
+                               no-lock no-error.
+                    if not avail ectpromoc 
+                    then do:
+                        find first ectpromoc where
+                               ectpromoc.sequencia = ctpromoc.sequencia and
+                               ectpromoc.fincod <> ? 
+                               no-lock no-error.
+                        if not avail ectpromoc
+                        then vok = yes.
+                        else do:
+                            find first ectpromoc where
+                               ectpromoc.sequencia = ctpromoc.sequencia and
+                               ectpromoc.fincod = p-fincod no-lock no-error.
+                            if avail ectpromoc and
+                                ectpromoc.situacao <> "I" and
+                                ectpromoc.situacao <> "E"
+                            then vok = yes. 
+                        end.
+                    end.
+                    else do:    
+                        find first ectpromoc where
+                               ectpromoc.sequencia = ctpromoc.sequencia and
+                               ectpromoc.etbcod = setbcod no-lock no-error.
+                        if avail ectpromoc and
+                            ectpromoc.situacao <> "I" and
+                            ectpromoc.situacao <> "E"
+                        then do:
+                            find first ectpromoc where
+                               ectpromoc.sequencia = ctpromoc.sequencia and
+                               ectpromoc.fincod <> ? 
+                                no-lock no-error.
+                            if not avail ectpromoc
+                            then vok = yes.
+                            else do:
+                                find first ectpromoc where
+                                    ectpromoc.sequencia = ctpromoc.sequencia and
+                                    ectpromoc.fincod = p-fincod 
+                                    no-lock no-error.
+                                if avail ectpromoc and
+                                    ectpromoc.situacao <> "I" and
+                                    ectpromoc.situacao <> "E"
+                                then vok = yes. 
+                            end.    
+                        end.
+                    end.  
+            end.
+            if vok = yes
+            then do:
+                spromoc = no.
+ 
+                if ctpromoc.vendaacimade > 0  and
+                    total-venda > 0
+                then do:
+                    if ctpromoc.campolog3 = no
+                    then  run valor-prazo.
+                    else total-venda-prazo = total-venda.
+                end.
+                if ctpromoc.bonusvalor > 0
+                then do:
+                    if ctpromoc.perguntaprodutousado = yes
+                    then do:
+                        if acha("VAL-BONUS-U",parametro-out) <> ? and
+                            dec(acha("VAL-BONUS-U",parametro-out)) 
+                                > ctpromoc.bonusvalor
+                        then.
+                        else do:
+                            parametro-out = "BONUS=VAL|" + "VAL-BONUS-U=" + 
+                            string(ctpromoc.bonusvalor) + "|" +
+                            parametro-out.
+                            spromoc = yes.
+                        end.
+                    end.
+                    else do:
+                        if acha("RECARGA",ctpromoc.campochar[3]) = "SIM"
+                        then do:
+                            lg-vinculado = no.
+                            find first bctpromoc where
+                                   bctpromoc.sequencia = ctpromoc.sequencia and
+                                   bctpromoc.campodec1[2] > 0
+                                   no-lock no-error.
+                            if avail bctpromoc
+                            then
+                            for each wf-movim:
+                                find produ where recid(produ) = wf-movim.wrec
+                                            no-lock no-error.
+                               if not avail produ then next.
+                               run find-pro-promo.
+                               if na-promocao then next.
+                               find first bctpromoc where
+                                   bctpromoc.sequencia = ctpromoc.sequencia and
+                                   bctpromoc.campodec1[2] = dec(produ.procod)
+                                   no-lock no-error.
+                               if avail bctpromoc
+                               then do:
+                                   lg-vinculado = yes.
+                                   leave.
+                               end.    
+                            end.
+                            else lg-vinculado = yes.
+                            if lg-vinculado
+                            then do:
+                            if acha("VALOR-BONUS",parametro-out) <> ? and
+                                dec(acha("VALOR-BONUS",parametro-out)) 
+                                    > ctpromoc.bonusvalor
+                            then.
+                            else do:
+                                parametro-out = "BONUS=RECARGA|" + 
+                                    "VALOR-BONUS=" + 
+                                    string(ctpromoc.bonusvalor) + "|" +
+                                    parametro-out.
+                                spromoc = yes.
+                            end.
+                            end.
+                        end.
+                        else do:
+                            if acha("VALOR-BONUS",parametro-out) <> ? and
+                                dec(acha("VALOR-BONUS",parametro-out)) 
+                                    > ctpromoc.bonusvalor
+                            then.
+                            else do:
+                                parametro-out = "BONUS=VAL|" + 
+                                    "VALOR-BONUS=" + 
+                                    string(ctpromoc.bonusvalor) + "|" +
+                                    parametro-out.
+                                spromoc = yes.
+                            end.
+                        end.    
+                    end.
+                end.
+                if ctpromoc.bonusparcela = yes
+                then do:
+                    parametro-out = parametro-out + "BONUS=PAR|".
+                    spromoc = yes.
+                end. 
+                if ctpromoc.bonuspercentual > 0
+                then do:
+                    parametro-out = "BONUS=PCT|" + "PERCENTUAL-BONUS=" +
+                            string(ctpromoc.bonuspercentual) + "|" +
+                            parametro-out.
+                    spromoc = yes.        
+                end.
+                if ctpromoc.valvendedor > 0
+                then do:
+                    qtd-val = 0.
+                    if ctpromoc.vendaacimade = 0
+                    then do:
+                        if ctpromoc.campolog4 = yes
+                        then
+                        for each wf-movim no-lock:
+                            find produ where recid(produ) = wf-movim.wrec
+                                    no-lock no-error.
+                            if not avail produ then next.
+                            run find-pro-promo.
+                            if not na-promocao
+                            then next.
+                            /*
+                            qtd-val = qtd-val + 1.
+                            */
+                            qtd-val = qtd-val + wf-movim.movqtm.
+                        end.
+                        else qtd-val = 1.
+
+                        run cria-temp-valor(1, "VENDEDOR",
+                                ctpromoc.valvendedor * qtd-val, 0).
+                        spromoc = yes.
+                    end.
+                    else if ctpromoc.vendaacimade > 0
+                    then do:
+                        if ctpromoc.campodec2[4] > 0 and
+                           ctpromoc.campodec2[5] > 0
+                        then run quantidade-vendida("VENDEDOR").
+                        if ctpromoc.vendaacimade <= total-venda-prazo and
+                           (ctpromoc.campodec2[4] = 0 or 
+                            qtd-vendida >= ctpromoc.campodec2[4]) and
+                           (ctpromoc.campodec2[5] = 0 or
+                            qtd-vendida <= ctpromoc.campodec2[5]) 
+                        then do:
+                            run cria-temp-valor(1, "VENDEDOR",
+                                ctpromoc.valvendedor, ctpromo.vendaacimade) .
+                            parametro-out = tipo-venda + "=" + 
+                                            string(qtd-vendida) + "|" +
+                                            parametro-out.
+                            spromoc = yes.
+                        end.
+                    end.
+                end.
+                p-venda-prazo = total-venda-prazo.
+                if ctpromoc.pctvendedor > 0
+                then do:
+                    qtd-val = 0.
+                    if ctpromoc.vendaacimade = 0
+                    then do:
+                        if ctpromoc.campolog4 = yes
+                        then do:
+                            if ctpromoc.campolog3 = no
+                            then total-venda = 0.
+                            for each wf-movim no-lock:
+                                find produ where recid(produ) = wf-movim.wrec
+                                    no-lock no-error.
+                                if not avail produ then next.
+                                run find-pro-promo.
+                                if not na-promocao
+                                then next.
+                                qtd-val = qtd-val + 1.
+                                if ctpromoc.campolog3 = no
+                                then total-venda = total-venda +
+                                    (wf-movim.movpc * wf-movim.movqtm).
+                            end.
+                            if ctpromoc.campolog3 = no
+                            then do:
+                                qtd-val = 1.
+                                run valor-prazo.
+                                vpctvendedor = 
+                                (total-venda-prazo * ctpromoc.pctvendedor)
+                                / p-venda-prazo.
+                            end.
+                            else vpctvendedor = ctpromoc.pctvendedor.    
+                        end.
+                        else assign
+                                qtd-val = 1
+                                vpctvendedor = ctpromoc.pctvendedor.
+ 
+                        run cria-temp-valor(2, "VENDEDOR",
+                                vpctvendedor * qtd-val, 0).
+                        spromoc = yes.
+                        total-venda-prazo = p-venda-prazo.
+                    end.
+                    else if ctpromoc.vendaacimade > 0
+                    then do:
+                        if ctpromoc.campodec2[4] > 0 and
+                           ctpromoc.campodec2[5] > 0
+                        then run quantidade-vendida("VENDEDOR").
+                        if ctpromoc.vendaacimade <= total-venda-prazo and
+                           (ctpromoc.campodec2[4] = 0 or 
+                            qtd-vendida >= ctpromoc.campodec2[4]) and
+                           (ctpromoc.campodec2[5] = 0 or
+                            qtd-vendida <= ctpromoc.campodec2[5]) 
+                        then do:
+                            run cria-temp-valor(2, "VENDEDOR",
+                                ctpromoc.pctvendedor, ctpromo.vendaacimade) .
+                            parametro-out = tipo-venda + "=" + 
+                                            string(qtd-vendida) + "|" +
+                                            parametro-out.
+                            spromoc = yes.
+                        end.
+                    end.
+
+                end.
+                if ctpromoc.valgerente > 0
+                then do:
+                    qtd-val = 0.
+                    if ctpromoc.vendaacimade = 0
+                    then do:
+                        if ctpromoc.campolog4 = yes
+                        then
+                        for each wf-movim no-lock:
+                            find produ where recid(produ) = wf-movim.wrec
+                                    no-lock no-error.
+                            if not avail produ then next.
+                            run find-pro-promo.
+                            if not na-promocao
+                            then next.
+                            qtd-val = qtd-val + 1.
+                        end.
+                        else qtd-val = 1.
+                        
+                        run cria-temp-valor(1, "GERENTE",
+                                ctpromoc.valgerente * qtd-val, 0).
+                        spromoc = yes.        
+                    end.
+                    ELSE if ctpromoc.vendaacimade > 0
+                    then do:
+                        if ctpromoc.campodec2[4] > 0 and
+                           ctpromoc.campodec2[5] > 0
+                        then run quantidade-vendida("GERENTE").
+
+                        if ctpromoc.vendaacimade <= total-venda-prazo and
+                           (ctpromoc.campodec2[4] = 0 or 
+                            qtd-vendida >= ctpromoc.campodec2[4]) and
+                           (ctpromoc.campodec2[5] = 0 or
+                            qtd-vendida <= ctpromoc.campodec2[5]) 
+                        then do:
+
+                            run cria-temp-valor(1, "GERENTE",
+                                ctpromoc.valgerente, ctpromo.vendaacimade).
+                            spromoc = yes.
+                        end.
+                    end.
+                end.
+                if ctpromoc.pctgerente > 0
+                then do:
+                    qtd-val = 0.
+                    if ctpromoc.vendaacimade = 0
+                    then do:
+                        if ctpromoc.campolog4 = yes
+                        then do:
+                            if ctpromoc.campolog3 = no
+                            then total-venda = 0.
+                            for each wf-movim no-lock:
+                                find produ where recid(produ) = wf-movim.wrec
+                                    no-lock no-error.
+                                if not avail produ then next.
+                                run find-pro-promo.
+                                if not na-promocao
+                                then next.
+                                qtd-val = qtd-val + 1.
+                                if ctpromoc.campolog3 = no
+                                then total-venda = total-venda +
+                                    (wf-movim.movpc * wf-movim.movqtm).
+                            end.
+                            if ctpromoc.campolog3 = no
+                            then do:
+                                qtd-val = 1.
+                                run valor-prazo.
+                                vpctgerente = 
+                                (total-venda-prazo * ctpromoc.pctgerente)
+                                / p-venda-prazo.
+                            end.
+                            else vpctgerente = ctpromoc.pctgerente.    
+                        end.
+                        else assign
+                                qtd-val = 1
+                                vpctgerente = ctpromoc.pctgerente.
+
+                        run cria-temp-valor(2, "GERENTE",
+                                vpctgerente * qtd-val, 0).
+                        spromoc = yes. 
+                        total-venda-prazo = p-venda-prazo.       
+                    end.
+                    ELSE if ctpromoc.vendaacimade > 0
+                    then do:
+                        if ctpromoc.campodec2[4] > 0 and
+                           ctpromoc.campodec2[5] > 0
+                        then run quantidade-vendida("GERENTE").
+
+                        if ctpromoc.vendaacimade <= total-venda-prazo and
+                           (ctpromoc.campodec2[4] = 0 or 
+                            qtd-vendida >= ctpromoc.campodec2[4]) and
+                           (ctpromoc.campodec2[5] = 0 or
+                            qtd-vendida <= ctpromoc.campodec2[5]) 
+                        then do:
+
+                            run cria-temp-valor(2, "GERENTE",
+                                ctpromoc.pctgerente, ctpromo.vendaacimade).
+                            spromoc = yes.
+                        end.
+                    end.
+                end.
+                if ctpromoc.valsupervisor > 0
+                then do:
+                    if ctpromoc.vendaacimade > 0
+                    then do:
+                        if ctpromoc.campodec2[4] > 0 and
+                           ctpromoc.campodec2[5] > 0
+                        then run quantidade-vendida("SUPERVISOR").
+
+                        if ctpromoc.vendaacimade <= total-venda-prazo and
+                           (ctpromoc.campodec2[4] = 0 or 
+                            qtd-vendida >= ctpromoc.campodec2[4]) and
+                           (ctpromoc.campodec2[5] = 0 or
+                            qtd-vendida <= ctpromoc.campodec2[5]) 
+                        then do:
+                            run cria-temp-valor(1, "SUPERVISOR",
+                                ctpromoc.valsupervisor, ctpromoc.vendaacimade).
+                            spromoc = yes.
+                        end.
+                    end.
+                end.
+                if ctpromoc.pctsupervisor > 0
+                then do:
+                  run cria-temp-valor(2, "SUPERVISOR",
+                                ctpromoc.pctsupervisor, 0).
+                    spromoc = yes.
+                end.
+                if ctpromoc.campodec2[1] > 0
+                then do:
+                    qtd-val = 0.
+                    if ctpromoc.vendaacimade = 0
+                    then do:
+                        if ctpromoc.campolog4 = yes
+                        then
+                        for each wf-movim no-lock:
+                            find produ where recid(produ) = wf-movim.wrec
+                                    no-lock no-error.
+                            if not avail produ then next.
+                            run find-pro-promo.
+                            if not na-promocao
+                            then next.
+                            qtd-val = qtd-val + 1.
+                        end.
+                        else qtd-val = 1.
+                        run cria-temp-valor(1, "PROMOTOR",
+                                ctpromoc.campodec2[1] * qtd-val, 0).
+                        spromoc = yes.
+                    end.
+                    else if ctpromoc.vendaacimade > 0
+                    then do:
+                        if ctpromoc.campodec2[4] > 0 and
+                           ctpromoc.campodec2[5] > 0
+                        then run quantidade-vendida("PROMOTOR").
+
+                        if ctpromoc.vendaacimade <= total-venda-prazo and
+                           (ctpromoc.campodec2[4] = 0 or 
+                            qtd-vendida >= ctpromoc.campodec2[4]) and
+                           (ctpromoc.campodec2[5] = 0 or
+                            qtd-vendida <= ctpromoc.campodec2[5]) 
+                        then do:
+                            run cria-temp-valor(1, "PROMOTOR",
+                                ctpromoc.campodec2[1], ctpromoc.vendaacimade).
+                            spromoc = yes.
+                        end.
+                    end.
+                end.
+                if ctpromoc.campodec2[2] > 0
+                then do:
+                    run cria-temp-valor(2, "PROMOTOR",
+                                ctpromoc.campodec2[2], 0).
+                    spromoc = yes.
+                end.
+
+                if ctpromoc.perguntaprodutousado = yes
+                then parametro-out = parametro-out + "PRODUTO-USADO=S|".
+                if ctpromoc.geradespesa = yes
+                then  parametro-out = parametro-out + "GERA-DESPESA=S|"
+                        + ctpromoc.campochar[2].
+                if ctpromoc.recibo = yes
+                then parametro-out = parametro-out + "EMITE-RECIBO=S|".
+
+
+                if spromoc = yes
+                then run cria-temp-valor(9, "PROMOCAO", 0, 0).
+            end.
+        end.
+    end.
+end procedure.
+def buffer bclase for clase.
+def buffer gclase for clase.
+procedure find-pro-promo:
+    na-promocao = no.
+    find clase where clase.clacod = produ.clacod no-lock no-error.
+    find bclase where bclase.clacod = clase.clasup no-lock no-error.
+    find gclase where gclase.clacod = bclase.clasup no-lock no-error.
+    if not avail clase
+    then.
+    else do:
+    /*
+    find first pctpromoc where 
+               pctpromoc.sequencia = ctpromoc.sequencia and
+               pctpromoc.procod    = produ.procod
+               no-lock no-error.
+    if avail pctpromoc and
+               (pctpromoc.situacao = "I" or
+                pctpromoc.situacao = "E")
+    then.
+    else do:*/            
+    find first fctpromoc where
+               fctpromoc.sequenci = ctpromoc.sequencia and
+               fctpromoc.procod = produ.procod and
+               produ.procod > 0 and
+               fctpromoc.situacao <> "I" and
+               fctpromoc.situacao <> "E"
+               no-lock no-error.
+    if not avail fctpromoc
+    then find first fctpromoc where
+                    fctpromoc.sequenci = ctpromoc.sequencia and
+                    fctpromoc.procod = 0 and
+                    fctpromoc.clacod = produ.clacod and
+                    clase.clacod > 0 and
+                    fctpromoc.situacao <> "I" and
+                    fctpromoc.situacao <> "E" 
+                    no-lock no-error.
+    if not avail fctpromoc
+    then find first fctpromoc where
+                    fctpromoc.sequenci = ctpromoc.sequencia and
+                    fctpromoc.procod = 0 and
+                    fctpromoc.clacod = clase.clasup   and
+                    clase.clasup > 0 and
+                    fctpromoc.situacao <> "I" and
+                    fctpromoc.situacao <> "E" 
+                    no-lock no-error.
+    if not avail fctpromoc and
+        avail gclase
+    then find first fctpromoc where
+                    fctpromoc.sequenci = ctpromoc.sequencia and
+                    fctpromoc.procod = 0 and
+                    fctpromoc.clacod = gclase.clacod and
+                    fctpromoc.clacod > 0 and
+                    fctpromoc.situacao <> "I" and
+                    fctpromoc.situacao <> "E" 
+                    no-lock no-error.
+    if not avail fctpromoc and
+        avail gclase
+    then find first fctpromoc where
+                    fctpromoc.sequenci = ctpromoc.sequencia and
+                    fctpromoc.procod = 0 and
+                    fctpromoc.clacod = gclase.clasup and
+                    fctpromoc.clacod > 0 and
+                    fctpromoc.situacao <> "I" and
+                    fctpromoc.situacao <> "E" 
+                     no-lock no-error.
+    if not avail fctpromoc
+    then find first fctpromoc where
+                    fctpromoc.sequenci = ctpromoc.sequencia and
+                    fctpromoc.procod = 0 and
+                    fctpromoc.clacod = 0 and
+                    fctpromoc.setcod = produ.catcod and
+                    produ.catcod > 0  and
+                    fctpromoc.situacao <> "I" and
+                    fctpromoc.situacao <> "E" 
+                    no-lock no-error.
+    if not avail fctpromoc 
+    then find first fctpromoc where
+                    fctpromoc.sequenci = ctpromoc.sequencia and
+                    fctpromoc.procod = 0 and
+                    fctpromoc.clacod = 0 and
+                    fctpromoc.setcod = 0 and
+                    fctpromoc.fabcod = produ.fabcod and
+                    produ.fabcod > 0
+                    no-lock no-error.
+    end.
+    /*
+    if ctpromoc.sequencia = 3187 and avail fctpromoc
+    then find first fctpromoc where
+                    fctpromoc.sequenci = ctpromoc.sequencia and
+                    fctpromoc.procod = 0 and
+                    fctpromoc.clacod = 0 and
+                    fctpromoc.setcod = 0 and
+                    fctpromoc.fabcod = produ.fabcod and
+                    produ.fabcod > 0
+                    no-lock no-error.
+    */        
+    if avail fctpromoc
+    then do:
+        if fctpromoc.procod > 0
+        then do:
+        end.
+        else if fctpromoc.clacod > 0
+        then do:
+            find first pctpromoc where 
+               pctpromoc.sequencia = ctpromoc.sequencia and
+               pctpromoc.procod    = produ.procod
+               no-lock no-error.
+ 
+        end.
+        else if fctpromoc.fabcod > 0
+        then do:
+            find first pctpromoc where 
+               pctpromoc.sequencia = ctpromoc.sequencia and
+               pctpromoc.procod    = produ.procod
+               no-lock no-error.
+         end.
+        else if fctpromoc.setcod > 0
+        then do:
+            find first pctpromoc where 
+               pctpromoc.sequencia = ctpromoc.sequencia and
+               pctpromoc.procod    = produ.procod
+               no-lock no-error.
+            if not avail pctpromoc
+            then find first pctpromoc where 
+               pctpromoc.sequencia = ctpromoc.sequencia and
+               pctpromoc.procod    = 0 and
+               pctpromoc.clacod = clase.clacod
+               no-lock no-error.
+            if not avail pctpromoc
+            then find first pctpromoc where 
+               pctpromoc.sequencia = ctpromoc.sequencia and
+               pctpromoc.procod    = 0 and
+               pctpromoc.clacod = bclase.clacod
+               no-lock no-error.
+            if not avail pctpromoc
+            then find first pctpromoc where 
+               pctpromoc.sequencia = ctpromoc.sequencia and
+               pctpromoc.procod    = 0 and
+               pctpromoc.clacod = gclase.clacod
+               no-lock no-error.
+ 
+        end.
+        if avail pctpromoc and
+               (pctpromoc.situacao = "I" or
+                pctpromoc.situacao = "E")
+        then.
+        else na-promocao = yes.
+    end.
+    if na-promocao and ctpromoc.sequencia = 3187 and
+       produ.fabcod <> 5027
+    then na-promocao = no.
+    if na-promocao and ctpromoc.sequencia = 4039
+      and produ.fabcod <> 5027
+    then na-promocao = no.
+    
+    if produ.pronom begins "CARTAO PRESENTE"
+    THEN NA-PROMOCAO = NO.
+
+end procedure.                
+
+procedure find-cas-promo:
+    na-casadinha = no.
+    find clase where clase.clacod = produ.clacod no-lock no-error.
+    find bclase where bclase.clacod = clase.clasup no-lock no-error.
+    find gclase where gclase.clacod = bclase.clasup no-lock no-error.
+    if not avail clase
+    then.
+    else do:
+
+    find first fctpromoc where
+               fctpromoc.sequenci = ctpromoc.sequencia and
+               fctpromoc.tipo begins "PRODUTO" and
+               fctpromoc.produtovendacasada = produ.procod
+               no-lock no-error.
+    if not avail fctpromoc
+    then find first fctpromoc where
+                    fctpromoc.sequenci = ctpromoc.sequencia and
+                    fctpromoc.tipo begins "CLASSE" and
+                    fctpromoc.produtovendacasada = produ.clacod 
+                    no-lock no-error.
+    if not avail fctpromoc
+    then find first fctpromoc where
+                    fctpromoc.sequenci = ctpromoc.sequencia and
+                    fctpromoc.tipo begins "CLASSE" and
+                    fctpromoc.produtovendacasada = clase.clasup
+                    no-lock no-error.
+    if not avail fctpromoc and
+        avail gclase
+    then find first fctpromoc where
+                    fctpromoc.sequenci = ctpromoc.sequencia and
+                    fctpromoc.tipo begins "CLASSE" and
+                    fctpromoc.produtovendacasada = gclase.clacod 
+                    no-lock no-error.
+        
+    end.
+    if avail fctpromoc
+    then na-casadinha = yes.
+
+    if na-casadinha and ctpromoc.sequencia = 3187 and
+       produ.fabcod <> 5027
+    then na-casadinha = no.
+    if na-casadinha and ctpromoc.sequencia = 4039 and
+       produ.fabcod <> 5027
+    then na-casadinha = no.
+
+
+end procedure.  
+
+procedure valor-prazo:
+        total-venda-prazo = total-venda.
+        if vbrinde-menos = no
+        then
+        do vi = 1 to qbrinde:
+            if vbrinde[vi] = 0
+            then leave.
+            find produ where produ.procod = vbrinde[vi] no-lock.
+            find first wf-movim where 
+                      wf-movim.wrec = recid(produ) no-error.
+            if avail wf-movim
+            then do:
+                total-venda-prazo = total-venda-prazo -
+                               (wf-movim.movpc * wf-movim.movqtm).
+            end.  
+            vbrinde-menos = yes.  
+        end.
+        if total-venda-prazo > 0
+        then do:
+            if p-fincod > 0
+            then do:
+                run gercpg1.p( input p-fincod, 
+                               input total-venda-prazo, 
+                               input 0, 
+                               input 0, 
+                               output vliqui, 
+                               output ventra,
+                               output vparce). 
+                find finan where finan.fincod = p-fincod no-lock no-error.
+                if avail finan
+                then total-venda-prazo = ventra + (vparce * finan.finnpc).
+                else  total-venda-prazo = vliqui.
+             end.
+        end.
+end procedure.
+
+procedure prod-vinculado:
+    
+    find first ectpromoc where
+                ectpromoc.sequencia = ctpromoc.sequencia and
+                ectpromoc.probrinde = 0  and
+                ectpromoc.fincod = ? and
+                ectpromoc.campodec1[2] = produ.procod
+                no-lock no-error.
+    if avail ectpromoc
+    then produto-vinculado = yes.
+    
+end procedure.
+
+procedure conf-vinculado:
+     le-vinculado = no.
+     def buffer ectpromoc for ctpromoc.
+     find estoq where estoq.etbcod = setbcod and
+                      estoq.procod = produ.procod
+                      no-lock.
+                      
+     find first ectpromoc where
+                ectpromoc.sequencia = ctpromoc.sequencia and
+                ectpromoc.probrinde = 0  and
+                ectpromoc.fincod = ? and
+                ectpromoc.campodec1[2] > 0
+                no-lock no-error.
+     if not avail ectpromoc
+     then find first ectpromoc where
+                ectpromoc.sequencia = ctpromoc.sequencia and
+                ectpromoc.probrinde = 0  and
+                ectpromoc.fincod = ? and
+                ectpromoc.campodec1[3] > 0
+                no-lock no-error.
+     if not avail ectpromoc
+     then le-vinculado = yes.
+     else do:
+        if ectpromoc.campodec1[1] = 0
+        then do:
+            find estoq where estoq.etbcod = setbcod and
+                             estoq.procod = produ.procod
+                             no-lock no-error.
+            if avail estoq
+            then do:
+                for each ectpromoc where
+                         ectpromoc.sequencia = ctpromoc.sequencia and
+                         ectpromoc.probrinde = 0  and
+                         ectpromoc.fincod = ? and
+                         ectpromoc.campodec1[3] > 0
+                         no-lock:
+                    if estoq.estvenda >= ectpromoc.campodec1[2] and
+                       estoq.estvenda <= ectpromoc.campodec1[3] 
+                    then le-vinculado = yes.    
+                    if ctpromoc.sequencia = 1522 and
+                       setbcod < 100 and 
+                       produ.etccod <> 2
+                   then le-vinculado = no.    
+                end.
+            end.
+        end.                    
+     end.
+end procedure.
+def var v-venda as dec.
+def var v-promo as dec.
+for each tt-valp where
+         tt-valp.tipo   = 1  and
+         tt-valp.forcod > 0 and
+         tt-valp.venda  > 0 break by forcod:
+         
+    if tt-valp.venda > v-venda
+    then do:
+        v-venda = tt-valp.venda.
+        v-promo = tt-valp.valor.
+    end.
+    if last-of(tt-valp.forcod)
+    then do:
+        create tt-valpromo.
+        assign
+            tt-valpromo.tipo   = tt-valp.tipo
+            tt-valpromo.forcod = tt-valp.forcod
+            tt-valpromo.nome   = tt-valp.nome
+            tt-valpromo.valor  = v-promo
+            tt-valpromo.recibo = tt-valp.recibo
+            tt-valpromo.despro = tt-valp.despro
+            tt-valpromo.desval = tt-valp.desval.
+        v-venda = 0.
+        v-promo = 0.
+    end.    
+end.
+for each tt-valp where
+         tt-valp.venda  = 0 :
+    find first tt-valpromo where 
+               tt-valpromo.tipo   = tt-valp.tipo and
+               tt-valpromo.forcod = tt-valp.forcod 
+               no-error.
+    if not avail tt-valpromo
+    then do:           
+        create tt-valpromo.
+        assign
+            tt-valpromo.tipo   = tt-valp.tipo
+            tt-valpromo.forcod = tt-valp.forcod
+            .
+    end.
+    assign        
+            tt-valpromo.nome   = tt-valp.nome
+            tt-valpromo.valor  = tt-valpromo.valor + tt-valp.valor
+            tt-valpromo.recibo = tt-valp.recibo
+            tt-valpromo.despro = tt-valp.despro
+            tt-valpromo.desval = tt-valp.desval.
+end.
+    
+def temp-table tt-produ
+    field procod like produ.procod
+    field val as dec
+    field pct as dec
+    index i1 procod.
+
+procedure promo-conf-especial:
+    def var qtd-casadinha as int.
+    def var ite-casadinha as int.
+    def var qtd-vendida as int.
+    def var ite-vendida as int.
+    def var vmovpc as dec.
+    def var pro-casadinha as int extent 5.
+    for each tt-produ:
+        delete tt-produ.
+    end.    
+    for each bctpromoc where bctpromoc.sequencia = ctpromoc.sequencia and
+                             bctpromoc.produtovendacasada > 0
+                             no-lock:
+        
+        if bctpromoc.tipo = "" or
+           substr(bctpromoc.tipo,1,7) = "PRODUTO"
+        THEN DO:
+            find first tt-produ where
+                       tt-produ.procod = bctpromoc.produtovendacasada
+                       no-error.
+            if not avail tt-produ
+            then do:
+                create tt-produ.
+                tt-produ.procod = bctpromoc.produtovendacasada.
+                if acha("PERCENTUAL",bctpromoc.tipo) <> ?
+                then tt-produ.pct = bctpromoc.valorprodutovendacasada.
+                else tt-produ.val = bctpromoc.valorprodutovendacasada. 
+            end.           
+        END.
+        else do:
+            for each wf-movim no-lock:
+                find produ where recid(produ) = wf-movim.wrec 
+                  no-lock no-error.
+                if not avail produ then next.
+                find clase where clase.clacod = produ.clacod no-lock
+                    no-error.
+                if not avail clase then next.    
+                find bclase where bclase.clacod = clase.clasup no-lock
+                    no-error.
+                if not avail bclase then next.    
+                if  produ.clacod <> bctpromoc.produtovendacasada and
+                    clase.clasup <> bctpromoc.produtovendacasada and
+                    bclase.clasup <> bctpromoc.produtovendacasada
+                then next.
+
+                find first tt-produ where
+                       tt-produ.procod = produ.procod 
+                       no-error.
+                if not avail tt-produ
+                then do:
+                    create tt-produ.
+                    tt-produ.procod = produ.procod.
+                    if acha("PERCENTUAL",bctpromoc.tipo) <> ?
+                    then tt-produ.pct = bctpromoc.valorprodutovendacasada.
+                    else tt-produ.val = bctpromoc.valorprodutovendacasada. 
+                end.          
+            end.         
+        end.
+    END.
+    for each wf-movim no-lock:
+        find produ where recid(produ) = wf-movim.wrec no-lock no-error.
+        if not avail produ then next.
+        find first tt-produ where tt-produ.procod = produ.procod no-error.
+        if avail tt-produ
+        then assign
+                qtd-casadinha = qtd-casadinha + wf-movim.movqtm
+                ite-casadinha = ite-casadinha + 1.
+    end.
+    def var vpct as dec decimals 0.
+    spromoc = no.
+    
+    if qtd-casadinha >= 5
+    then.
+    else do:
+    if ite-casadinha = 1
+    then do:
+            if valt-movpc = yes and
+                qtd-casadinha >= 2 
+            then do:
+                for each wf-movim no-lock:
+                    find produ where 
+                        recid(produ) = wf-movim.wrec no-lock no-error.
+                    if not avail produ then next.
+                    find first tt-produ where 
+                    tt-produ.procod = produ.procod no-error.
+                    if avail tt-produ
+                    then do:
+                        if qtd-casadinha = 4
+                        then vpct = tt-produ.pct / 2.
+                        else vpct = tt-produ.pct / wf-movim.movqtm.
+                        if tt-produ.val > 0
+                        then wf-movim.movpc = wf-movim.movpc -
+                                (tt-produ.val / wf-movim.movqtm).
+                        else wf-movim.movpc = wf-movim.movpc - 
+                              (wf-movim.movpc * (vpct / 100 )).
+                        spromoc = yes.
+                    end.
+                end.
+            end.
+    end. 
+    else if ite-casadinha = 2   
+    then do:
+        if qtd-casadinha = 2
+        then do:
+            if valt-movpc = yes
+            then do:
+                vmovpc = 0.
+                for each wf-movim no-lock:
+                    find produ where 
+                        recid(produ) = wf-movim.wrec no-lock no-error.
+                    if not avail produ then next.
+                    find first tt-produ where 
+                    tt-produ.procod = produ.procod no-error.
+                    if avail tt-produ
+                    then do:
+                        if vmovpc = 0 or
+                           wf-movim.movpc <= vmovpc
+                        then do:
+                            vmovpc = wf-movim.movpc.
+                            pro-casadinha[1] = produ.procod.
+                        end.    
+                    end.
+                end.
+                for each wf-movim no-lock:
+                    find produ where 
+                        recid(produ) = wf-movim.wrec no-lock no-error.
+                    if not avail produ then next.
+                    find first tt-produ where 
+                    tt-produ.procod = produ.procod no-error.
+                    if avail tt-produ and
+                        pro-casadinha[1] = produ.procod
+                    then do:
+                        if tt-produ.val > 0
+                        then wf-movim.movpc = wf-movim.movpc -
+                                (tt-produ.val / wf-movim.movqtm).
+                        else do:
+                            vpct = tt-produ.pct / wf-movim.movqtm.
+                            wf-movim.movpc = wf-movim.movpc - 
+                              (wf-movim.movpc * (vpct / 100)).
+                        end.
+                        spromoc = yes.
+                    end.
+                end.
+            end.
+        end.
+        else if qtd-casadinha = 3
+        then do:
+            if valt-movpc = yes
+            then do:
+                for each wf-movim no-lock
+                    break by wf-movim.movqtm:
+                    find produ where 
+                        recid(produ) = wf-movim.wrec no-lock no-error.
+                    if not avail produ then next.
+                    find first tt-produ where 
+                    tt-produ.procod = produ.procod no-error.
+                    if avail tt-produ 
+                    then do:
+                        if vmovpc = 0 or
+                           wf-movim.movpc <= vmovpc
+                        then do:
+                            vmovpc = wf-movim.movpc.
+                            pro-casadinha[1] = produ.procod.
+                        end.    
+                    end.
+                end.
+                for each wf-movim no-lock:
+                    find produ where 
+                        recid(produ) = wf-movim.wrec no-lock no-error.
+                    if not avail produ then next.
+                    find first tt-produ where 
+                    tt-produ.procod = produ.procod no-error.
+                    if avail tt-produ and
+                        pro-casadinha[1] = produ.procod
+                    then do:
+                        if tt-produ.val > 0
+                        then wf-movim.movpc = wf-movim.movpc -
+                                (tt-produ.val / wf-movim.movqtm).
+                        else wf-movim.movpc = wf-movim.movpc - 
+                              (wf-movim.movpc *     
+                               ((tt-produ.pct / wf-movim.movqtm) / 100)).
+                        spromoc = yes.
+                    end.
+                end.
+            end.
+        end.
+        else if qtd-casadinha = 4
+        then do:
+            if valt-movpc = yes
+            then do:
+                vmovpc = 0.
+                for each wf-movim no-lock:
+                    find produ where 
+                        recid(produ) = wf-movim.wrec no-lock no-error.
+                    if not avail produ then next.
+                    find first tt-produ where 
+                    tt-produ.procod = produ.procod no-error.
+                    if avail tt-produ 
+                    then do:
+                        if vmovpc = 0 or
+                            wf-movim.movpc <= vmovpc
+                        then do:
+                            vmovpc = wf-movim.movpc.
+                            pro-casadinha[1] = produ.procod.
+                        end.    
+                    end.
+                end.
+                vmovpc = 0.
+                for each wf-movim no-lock:
+                    find produ where 
+                        recid(produ) = wf-movim.wrec no-lock no-error.
+                    if not avail produ then next.
+                    find first tt-produ where 
+                    tt-produ.procod = produ.procod no-error.
+                    if avail tt-produ 
+                    then do:
+                        if (vmovpc = 0 or
+                            wf-movim.movpc <= vmovpc) and
+                            pro-casadinha[1] <> produ.procod
+                        then do:
+                            vmovpc = wf-movim.movpc.
+                            pro-casadinha[2] = produ.procod.
+                        end.    
+                    end.
+                end.
+                for each wf-movim no-lock
+                    break by wf-movim.movpc:
+                    find produ where 
+                        recid(produ) = wf-movim.wrec no-lock no-error.
+                    if not avail produ then next.
+                    find first tt-produ where 
+                    tt-produ.procod = produ.procod no-error.
+                    if avail tt-produ and
+                       (pro-casadinha[1] = produ.procod or
+                        pro-casadinha[2] = produ.procod)
+                    then do:
+                        if tt-produ.val > 0
+                        then wf-movim.movpc = wf-movim.movpc -
+                                (tt-produ.val / wf-movim.movqtm).
+                        else do:
+                            vpct = tt-produ.pct / wf-movim.movqtm.
+                            if wf-movim.movqtm = 3  and
+                                pro-casadinha[1] = produ.procod
+                            then do:
+                                vpct = 33.
+                                pro-casadinha[2] = 0.
+                            end.
+                            if wf-movim.movqtm = 3  and
+                                pro-casadinha[2] = produ.procod
+                            then vpct = 17.
+                            if wf-movim.movqtm = 2  and
+                                pro-casadinha[1] = produ.procod
+                            then do:
+                                vpct = 50.
+                                pro-casadinha[2] = 0.
+                            end.
+                            wf-movim.movpc = wf-movim.movpc - 
+                              (wf-movim.movpc * (vpct / 100)).
+                            spromoc = yes.
+                        end.
+                    end.
+                end.
+            end.
+        end.
+    end.
+    else if ite-casadinha = 3
+    then do:
+        if qtd-casadinha = 3
+        then do:
+            if valt-movpc = yes
+            then do:
+                vmovpc = 0.
+                for each wf-movim no-lock:
+                    find produ where 
+                        recid(produ) = wf-movim.wrec no-lock no-error.
+                    if not avail produ then next.
+                    find first tt-produ where 
+                    tt-produ.procod = produ.procod no-error.
+                    if avail tt-produ 
+                    then do:
+                        if vmovpc = 0 or
+                           wf-movim.movpc  <= vmovpc
+                        then do:
+                            vmovpc = wf-movim.movpc.
+                            pro-casadinha[1] = produ.procod.
+                        end.    
+                    end.
+                end.
+                for each wf-movim no-lock:
+                    find produ where 
+                        recid(produ) = wf-movim.wrec no-lock no-error.
+                    if not avail produ then next.
+                    find first tt-produ where 
+                    tt-produ.procod = produ.procod no-error.
+                    if avail tt-produ and
+                        pro-casadinha[1] = produ.procod
+                    then do:
+                        if tt-produ.val > 0
+                        then wf-movim.movpc = wf-movim.movpc -
+                                (tt-produ.val / wf-movim.movqtm).
+                        else wf-movim.movpc = wf-movim.movpc - 
+                              (wf-movim.movpc *     
+                               ((tt-produ.pct / wf-movim.movqtm) / 100)).
+                        spromoc = yes.
+                    end.
+                end.
+            end.
+        end.
+        else if qtd-casadinha = 4
+        then do:
+            if valt-movpc = yes
+            then do:
+                vmovpc = 0.
+                for each wf-movim no-lock:
+                    find produ where 
+                        recid(produ) = wf-movim.wrec no-lock no-error.
+                    if not avail produ then next.
+                    find first tt-produ where 
+                    tt-produ.procod = produ.procod no-error.
+                    if avail tt-produ 
+                    then do:
+                        if vmovpc = 0 or
+                           wf-movim.movpc <= vmovpc
+                        then do:
+                            vmovpc = wf-movim.movpc.
+                            pro-casadinha[1] = produ.procod.
+                        end.    
+                    end.
+                end.
+                vmovpc = 0.
+                for each wf-movim no-lock:
+                    find produ where 
+                        recid(produ) = wf-movim.wrec no-lock no-error.
+                    if not avail produ then next.
+                    find first tt-produ where 
+                    tt-produ.procod = produ.procod no-error.
+                    if avail tt-produ 
+                    then do:
+                        if (vmovpc = 0 or
+                           wf-movim.movpc <= vmovpc) and
+                           pro-casadinha[1] <> produ.procod
+                        then do:
+                            vmovpc = wf-movim.movpc.
+                            pro-casadinha[2] = produ.procod.
+                        end.    
+                    end.
+                end.
+                vmovpc = 0.
+                for each wf-movim no-lock:
+                    find produ where 
+                        recid(produ) = wf-movim.wrec no-lock no-error.
+                    if not avail produ then next.
+                    find first tt-produ where 
+                    tt-produ.procod = produ.procod no-error.
+                    if avail tt-produ and
+                        (pro-casadinha[1] = produ.procod or
+                         pro-casadinha[2] = produ.procod)
+                    then do:
+                        if tt-produ.val > 0
+                        then wf-movim.movpc = wf-movim.movpc -
+                                (tt-produ.val / wf-movim.movqtm).
+                        else wf-movim.movpc = wf-movim.movpc - 
+                              (wf-movim.movpc *     
+                               ((tt-produ.pct / wf-movim.movqtm) / 100)).
+                        spromoc = yes.
+                    end.
+                end.
+            end.
+        end.
+    end.
+    else if ite-casadinha = 4
+    then do:
+        if qtd-casadinha = 4
+        then do:
+            if valt-movpc = yes
+            then do:
+                vmovpc = 0.
+                for each wf-movim no-lock:
+                    find produ where 
+                        recid(produ) = wf-movim.wrec no-lock no-error.
+                    if not avail produ then next.
+                    find first tt-produ where 
+                    tt-produ.procod = produ.procod no-error.
+                    if avail tt-produ 
+                    then do:
+                        if vmovpc = 0 or
+                           wf-movim.movpc <= vmovpc
+                        then do:
+                            vmovpc = wf-movim.movpc.
+                            pro-casadinha[1] = produ.procod.
+                        end.    
+                    end.
+                end.
+                vmovpc = 0.
+                for each wf-movim no-lock:
+                    find produ where 
+                        recid(produ) = wf-movim.wrec no-lock no-error.
+                    if not avail produ then next.
+                    find first tt-produ where 
+                    tt-produ.procod = produ.procod no-error.
+                    if avail tt-produ and
+                        pro-casadinha[1] <> produ.procod
+                    then do:
+                        if vmovpc = 0 or
+                           wf-movim.movpc <= vmovpc
+                        then do:
+                            vmovpc = wf-movim.movpc.
+                            pro-casadinha[2] = produ.procod.
+                        end.    
+                    end.
+                end.
+                for each wf-movim no-lock:
+                    find produ where 
+                        recid(produ) = wf-movim.wrec no-lock no-error.
+                    if not avail produ then next.
+                    find first tt-produ where 
+                    tt-produ.procod = produ.procod no-error.
+                    if avail tt-produ and
+                        (pro-casadinha[1] = produ.procod or
+                         pro-casadinha[2] = produ.procod)
+                    then do:
+                        if tt-produ.val > 0
+                        then wf-movim.movpc = wf-movim.movpc -
+                                (tt-produ.val / wf-movim.movqtm).
+                        else wf-movim.movpc = wf-movim.movpc - 
+                              ((wf-movim.movpc *     
+                               (tt-produ.pct / 100)) / wf-movim.movqtm).
+                        spromoc = yes.
+                    end.
+                end.
+            end.
+        end.
+    end.
+    end. 
+    if spromoc = yes
+    then run cria-temp-valor(9, "PROMOCAO", 0, 0).
+end procedure.             
+
+procedure csadinha-desconto-percentual:
+    def var vfator as dec.
+    def var total-desconto as dec.
+    def var qt-promo as int.
+    total-desconto =  wf-movim.movpc * 
+                (pctpromoc.valorprodutovendacasada / 100).
+    qt-promo = int(substr(string(vpro-promo / ctpromo.qtdvenda,
+                ">>>9.99"),1,4)).
+    
+    if ctpromoc.campolog4 = yes
+    then total-desconto = total-desconto * qt-promo.
+            
+    vfator = total-desconto / val-tot-promo /*total-venda*/. 
+
+    for each wf-movim :
+        find produ where recid(produ) = wf-movim.wrec no-lock no-error.
+        if not avail produ then next.
+        na-promocao = no.
+        run find-pro-promo.
+        if na-promocao = yes
+        then wf-movim.movpc  = wf-movim.movpc - (wf-movim.movpc * vfator).
+    end.    
+    
+    /*
+    if qtd-item = 1      
+    then do:
+        wf-movim.movpc =  wf-movim.movpc -  ((wf-movim.movpc *     
+                           (pctpromoc.valorprodutovendacasada / 100))
+                            / vqtd-pro).
+    end.
+    else do:
+        if vprodu[1] <> vbrinde[1] and
+            ctpromoc.campolog4 = no
+        then do:
+            wf-movim.movpc =  wf-movim.movpc - 
+                               ((wf-movim.movpc / wf-movim.movqtm) *     
+                               (pctpromoc.valorprodutovendacasada / 100)).
+            /*** 
+             if ctpromoc.campolog4 = no
+            
+            if vpro-promo <= ctpromoc.dtdvenda
+            then .
+            
+            do vi = 1 to int(vpro-promo / ctpromoc.qtdvenda):
+                find produ where produ.procod = vbrinde[vi] no-lock no-error.
+                if avail produ
+                then do:
+                    find first wf-movim where 
+                            wf-movim.wrec = recid(produ) no-error.
+                    if avail wf-movim
+                    then wf-movim.movpc =  wf-movim.movpc - 
+                               ((wf-movim.movpc / wf-movim.movqtm) *     
+                               (pctpromoc.valorprodutovendacasada / 100)).
+                end.
+            end. 
+            ***/       
+        end.
+        else do:
+            wf-movim.movpc = ((wf-movim.movpc * (vpro-promo - qbrinde)) +
+                             ((wf-movim.movpc *  (100 - 
+                              pctpromoc.valorprodutovendacasada)
+                             / 100) / qbrinde)) / vpro-promo.
+        end.
+    end.
+    **/
+end procedure.

@@ -1,0 +1,29 @@
+def stream stela.
+output stream stela to terminal.
+output to l:\work\probl.tit.
+for each titulo where titulo.empcod = 19    and
+                      titulo.titnat = no    and
+                      titulo.modcod = "CRE" and
+                      titulo.titsit = "lib" no-lock.
+
+    display stream stela
+            titulo.etbcod
+            titulo.clifor
+            titulo.titnum
+            titulo.titpar
+            titulo.titdtven
+            titulo.titvlcob with 1 down. pause 0.
+            
+    if titulo.titdtpag <> ?
+    then display 
+            titulo.etbcod
+            titulo.clifor
+            titulo.titnum
+            titulo.titpar
+            titulo.titdtven
+            titulo.titvlcob with frame f1 down. 
+
+            
+end.
+output close.
+output stream stela close.

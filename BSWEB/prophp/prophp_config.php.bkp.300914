@@ -1,0 +1,8 @@
+<?php
+
+$proexe 	= "/usr/dlc/bin/_progres -h 10 -Mm 4096 ";
+$pf     	= "/admcom/bases/webagil.pf";
+$tmp    	= "/admcom/work";
+$projeto 	= "/var/www/html/prophp/";
+
+?>

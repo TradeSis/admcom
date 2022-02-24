@@ -1,0 +1,145 @@
+{admcab.i}
+
+def var vvisu as log format "Impressora/Tela".
+def var recimp   as   recid.
+def var varquivo as   char.
+def var fila     as   char.
+
+def var vforcod like produ.fabcod.
+def var vclacod like produ.clacod.
+def var vqtdest-wms like estoq.estatual.
+
+repeat:
+    
+    do on error undo:
+
+        vforcod = 0.
+        
+        update vforcod label "Fabricante..."
+               with frame f-dados width 80 side-labels overlay.
+    
+        
+        if vforcod > 0 then do:
+        find fabri where fabri.fabcod = vforcod no-lock no-error.
+        if not avail fabri
+        then do:
+
+            message "Fabricante nao cadastrado.".
+            undo.
+            
+        end.
+        else disp fabri.fabnom no-label with frame f-dados.
+        end.
+    
+    end.           
+
+    do on error undo:
+        
+        vclacod = 0.
+        
+        update skip
+               vclacod label "Classe......."
+               with frame f-dados.
+
+        find clase where clase.clacod = vclacod no-lock no-error.
+        if not avail clase
+        then do:
+
+            message "Classe nao cadastrada.".
+            undo.
+            
+        end.
+        else disp clase.clanom no-label with frame f-dados.
+    
+    end.    
+
+    vvisu = no.
+    update skip vvisu     label "Visualizacao."
+           help " [I] Impressora [T] Tela "
+           with frame f-dados.
+    
+    if opsys = "unix" 
+    then do: 
+        if vvisu
+        then do:
+        find first impress where impress.codimp = setbcod no-lock no-error. 
+        if avail impress
+        then do:
+            run acha_imp.p (input recid(impress), 
+                            output recimp).
+            find impress where recid(impress) = recimp no-lock no-error.
+            assign fila = string(impress.dfimp). 
+        end.    
+        end.
+    end.
+    else assign fila = "". 
+
+    varquivo = "/admcom/relat/resterpw." + string(time).
+
+    {mdadmcab.i &Saida     = "value(varquivo)" 
+                &Page-Size = "64" 
+                &Cond-Var  = "100" 
+                &Page-Line = "66" 
+                &Nom-Rel   = ""resterpw"" 
+                &Nom-Sis   = """WMS """ 
+                &Tit-Rel   = """COMPARATIVO ESTOQUE ERP X ESTOQUE WMS"""
+                &Width     = "100" 
+                &Form      = "frame f-cabcab"}
+
+    for each produ where produ.fabcod = (if vforcod <> 0
+                                         then vforcod
+                                         else produ.fabcod)
+                     and produ.clacod = (if vclacod <> 0
+                                         then vclacod
+                                         else produ.clacod) no-lock:
+
+        if produ.procod > 10000000
+        then next.
+        
+        find estoq where estoq.etbcod = 93
+                     and estoq.procod = produ.procod no-lock no-error.
+        
+        
+        vqtdest-wms = 0.
+        find first kit where kit.procod = produ.procod no-lock no-error.
+        if avail kit
+        then do:
+            for each wmsendpro where wmsendpro.procod = kit.itecod no-lock.
+
+                vqtdest-wms = vqtdest-wms + wmsendpro.qtdest.
+                
+            end.
+        end.
+        else do:
+            for each wmsendpro where wmsendpro.procod = produ.procod no-lock.
+
+                vqtdest-wms = vqtdest-wms + wmsendpro.qtdest.
+                
+            end.
+        end.
+        
+        if estoq.estatual = 0 and vqtdest-wms = 0
+        then next.
+        
+        disp produ.procod   column-label "Produto"   format ">>>>>>>>>9"
+             produ.pronom   column-label "Descricao" format "x(30)"
+             estoq.estatual column-label "Est.ERP"   format "->>>>>>>9" 
+                                                     when avail estoq
+             (total)
+             vqtdest-wms    column-label "Est.WMS"   format "->>>>>>>9"
+             (total).
+    
+    end.
+
+    output close.
+    
+    if opsys = "unix"
+    then do:
+
+        if vvisu
+        then os-command silent lpr value(fila + " " + varquivo).
+        else run visurel.p (input varquivo, input "").
+        
+    end.        
+
+end.

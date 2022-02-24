@@ -1,0 +1,8 @@
+for each A01_infnfe where A01_infnfe.solicitacao = "inutilizacao"
+                        and A01_infnfe.etbcod = 22  :
+    
+    disp numero.
+    if avail A01_infnfe
+        then assign A01_infnfe.sitnfe = 12  
+                    A01_infnfe.situacao = "Inutilizada"
+                    A01_infnfe.solicitacao = "".

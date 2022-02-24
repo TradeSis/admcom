@@ -1,0 +1,3 @@
+def var vtoday                  as date format "99/99/9999" init today no-undo.
+def var vtime                   as int  format "999999"      .
+

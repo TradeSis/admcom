@@ -1,0 +1,326 @@
+def var vaspas as char format "x(1)".
+vaspas = chr(34).
+
+def temp-table ttlj 
+    field etbcod like estab.etbcod
+    field valor as dec format "->>>,>>>,>>9.99"
+    field data as date.
+    
+def temp-table ttloja
+    field etbcod like estab.etbcod
+    field etbnom like estab.etbnom
+    field platot as dec format "->>>,>>>,>>9.99"
+    field data as date.
+    
+def var vtotal as dec.
+def var d as date .
+def var vi as date.
+def var vf as date.
+
+def var vdia as char extent 7 initial ["DOMINGO","SEGUNDA","TERCA","QUARTA","QUINTA","SEXTA","SABADO"].
+
+assign vi = today - 1 /*5 */
+       vf = today - 1.
+
+/*********
+if search("/admcom/dg/rankloj.ini") <> ? 
+then do :
+    input from /admcom/dg/rankloj.ini.
+    repeat :
+        create ttlj.
+        import ttlj.etbcod ttlj.valor ttlj.data.
+    end.    
+    input close.
+end.
+*********/
+
+for each recorde where recorde.vencod = 0 no-lock:
+
+    create ttlj.
+    assign ttlj.etbcod = recorde.etbcod
+           ttlj.valor  = recorde.vlreco
+           ttlj.data   = recorde.dtreco.
+
+end.
+
+for each estab where estab.etbcod <= 90: 
+    find first ttlj where ttlj.etbcod = estab.etbcod no-lock no-error.
+    if not avail ttlj
+    then do :
+        create ttlj.
+        ttlj.etbcod = estab.etbcod.
+        ttlj.valor = 0.
+    end.
+end.
+
+output to /admcom/work/dg005.log append.
+    put "Criou as Lojas " skip.
+output close.
+
+run calc.
+
+for each ttlj,
+    each ttloja where ttloja.etbcod = ttlj.etbcod break by ttloja.platot desc:
+
+    output to /admcom/work/dg005.log append.
+        put "Verificando Loja " ttloja.etbcod
+            skip.
+    output close.
+
+    if first-of(ttloja.platot) 
+    then do :
+        if ttloja.platot > ttlj.valor
+        then do :
+            output to /admcom/work/arquivodg005.htm.
+
+                put "<html>" skip
+                    "<body>" skip
+                   /****
+                   "<IMG SRC="
+                   vaspas
+                   "http://geocities.yahoo.com.br/morpheurgs/lebes.jpg" 
+                   vaspas 
+                   ">"
+                   "</IMG>" skip
+                   "<IMG SRC="
+                   vaspas
+                   "http://geocities.yahoo.com.br/morpheurgs/logo.jpg" 
+                   vaspas
+                   ">"
+                   "</IMG>" skip
+                   "<br><br>"
+                   ****/
+                   skip
+                   "<table border=" vaspas "0" vaspas "summary=>" skip
+                   "<tr>" skip
+               "<td width=766 align=center><b><h2>RECORDE MAIOR VENDA DA REDE"
+                   "</h2></b></td>" skip
+                   "</tr>" skip
+                   "</table>" skip
+                   "<table border=" vaspas "3
+                   " vaspas "borderColor=green summary=>"
+                   "<tr>"
+                   "<td width=766 align=center><b>RECORDE</b></td>" skip
+                   "</tr>" skip
+                   "</table>" skip
+                   "<table border=" vaspas "3" 
+                   vaspas " borderColor=green>" skip.
+
+                put "<tr>" skip
+                    "<td width=140 align=left><b>Data Recorde :</b></td>"  skip
+                    "<td width=620 align=left>" ttloja.data format "99/99/9999"
+                    "</td>" skip
+                    "</tr>" skip.
+                
+                put "<tr>" skip
+                    "<td width=140 align=left><b>Valor Vendido :</b></td>" skip
+                    "<td width=620 align=left>" ttloja.platot
+                    "</td>" skip
+                    "</tr>" skip.
+
+                put "<tr>" skip
+                  "<td width=140 align=left><b>Data Recorde Anterior:</b></td>"
+                    skip
+                    "<td width=620 align=left>" ttlj.data format "99/99/9999"
+                    "</td>" skip
+                    "</tr>" skip.
+
+                put "<tr>" skip
+                    "<td width=140 align=left><b>Recorde Anterior :</b></td>"
+                    skip 
+                    "<td width=620 align=left>" ttlj.valor 
+                    "</td>" skip 
+                    "</tr>" skip.
+
+                put "<tr>" skip
+                    "<td width=140 align=left><b>Loja :</b></td>"  skip
+                    "<td width=620 align=left>" ttloja.etbcod
+                    "</td>" skip
+                    "</tr>" skip
+                    "</table>" skip
+                    "</body>" skip
+                    "</html>".
+
+            output close.
+
+            ttlj.valor = ttloja.platot.
+            ttlj.data = ttloja.data.
+        
+            if ttlj.etbcod = 0
+            then do:
+
+        unix silent /usr/bin/metasend -b -s "Recorde_Maior_Venda_da_Rede" -F guardian@lebes.com.br -f /admcom/work/arquivodg005.htm -m text/html -t julio@custombs.com.br.
+
+        unix silent /usr/bin/metasend -b -s "Recorde_Maior_Venda_da_Rede" -F informativo@lebes.com.br -f /admcom/work/arquivodg005.htm -m text/html -t rafael@lebes.com.br.
+
+        unix silent /usr/bin/metasend -b -s "Recorde_Maior_Venda_da_Rede" -F guardian@lebes.com.br -f /admcom/work/arquivodg005.htm -m text/html -t masiero@custombs.com.br.
+                
+/*        unix silent /usr/bin/metasend -b -s "Recorde_Maior_Venda_da_Rede" -F gu~ ardian@lebes.com.br -f /admcom/work/arquivodg005.htm -m text/html -t otelmo@leb~ es.com.br.*/
+
+/*        unix silent /usr/bin/metasend -b -s "Recorde_Maior_Venda_da_Rede" -F in~ formativo@lebes.com.br -f /admcom/work/arquivodg005.htm -m text/html -t brocca@~ lebes.com.br.*/
+
+
+            end.
+            else do:
+
+        unix silent /usr/bin/metasend -b -s "Recorde_Venda_da_Loja" -F guardian@lebes.com.br  -f /admcom/work/arquivodg005.htm -m text/html -t julio@custombs.com.br.
+
+        unix silent /usr/bin/metasend -b -s "Recorde_Venda_da_Loja" -F informativo@lebes.com.br -f /admcom/work/arquivodg005.htm -m text/html -t rafael@lebes.com.br.
+
+/*        unix silent /usr/bin/metasend -b -s "Recorde_Venda_da_Loja" -F guardian~ @lebes.com.br  -f /admcom/work/arquivodg005.htm -m text/html -t otelmo@lebes.co~ m.br.*/
+
+        unix silent /usr/bin/metasend -b -s "Recorde_Venda_da_Loja" -F guardian@lebes.com.br  -f /admcom/work/arquivodg005.htm -m text/html -t masiero@custombs.com.br.
+
+/*        unix silent /usr/bin/metasend -b -s "Recorde_Venda_da_Loja" -F informat~ ivo@lebes.com.br -f /admcom/work/arquivodg005.htm -m text/html -t brocca@lebes.~ com.br.*/
+
+
+
+            end.
+        end.
+    end.
+end.    
+
+output to /admcom/work/arquivodg005b.htm.
+           put "<html>" skip
+               "<body>" skip
+               /****
+               "<IMG SRC="
+               vaspas
+               "http://geocities.yahoo.com.br/morpheurgs/lebes.jpg" 
+               vaspas 
+               ">"
+               "</IMG>" skip
+               "<IMG SRC="
+               vaspas
+               "http://geocities.yahoo.com.br/morpheurgs/logo.jpg" 
+               vaspas
+               ">"
+               "</IMG>" skip
+               "<br><br>"
+                ****/ skip
+               
+               "<table border=" vaspas "0" vaspas "summary=>" skip
+               "<tr>" skip
+               "<td width=756 align=center><b><h2>RECORDE DE VENDA DA LOJA EM TODA REDE"
+               "</h2></b></td>" skip
+               "</tr>" skip
+               "</table>" skip
+               
+               "<table border=" vaspas "3" vaspas "borderColor=green summary=>"
+               "<tr>" skip
+               "<td width=756 align=center><b>RECORDE</b></td>"
+               "</tr>"    skip
+               "</table>"
+               "<table border=3 borderColor=green>" skip
+               "<tr>" skip
+                    
+               "<td width=160 align=left><b>Data Recorde</b></td>" skip
+               "<td width=110 align=right><b>Valor Vendido</b></td>" skip
+               "<td width=474 align=left><b>Loja</b></td>" skip
+               "</tr>" skip.
+
+output close.
+
+do d = vf to vi by -1:
+    for each ttloja where ttloja.etbcod <> 0
+                      and ttloja.data = d 
+                      break by ttloja.platot desc:
+
+        if first(ttloja.platot)
+        then do:
+            output to /admcom/work/arquivodg005b.htm append.
+
+                put skip
+                    "<tr>"
+                    skip
+                    "<td width=160 align=left>"
+                    ttloja.data  format "99/99/9999"
+                    " " 
+                    vdia[weekday(ttloja.data)] format "x(10)" 
+                    "</td>"
+                    skip
+                    "<td width=110 align=right> "
+                    ttloja.platot
+                    "</td>"
+                    skip
+                    "<td width=474 align=left>" 
+                    ttloja.etbcod " " ttloja.etbnom
+                    "</b></td></tr>" skip.
+
+            output close.
+        end.
+    end.
+end.
+
+output to /admcom/work/arquivodg005b.htm append.
+   put "</table>" skip 
+       "</body>"  skip 
+       "</html>".
+output close.
+
+    unix silent /usr/bin/metasend -b -s "Recorde_Venda_da_Loja_em_toda_Rede" -F guardian@lebes.com.br -f /admcom/work/arquivodg005b.htm -m text/html -t julio@custombs.com.~ br.
+
+        unix silent /usr/bin/metasend -b -s "Recorde_Venda_da_Loja_em_toda_Rede~" -F informativo@lebes.com.br -f /admcom/work/arquivodg005b.htm -m text/html -t rafael@lebes.com.br.
+
+        unix silent /usr/bin/metasend -b -s "Recorde_Venda_da_Loja_em_toda_Rede" -F guardian@lebes.com.br -f /admcom/work/arquivodg005b.htm -m text/html -t masiero@custombs.com.br.
+
+/*        unix silent /usr/bin/metasend -b -s "Recorde_Venda_da_Loja_em_toda_Rede~ " -F guardian@lebes.com.br -f /admcom/work/arquivodg005b.htm -m text/html -t ot~ elmo@lebes.com.br.*/
+
+ /*       unix silent /usr/bin/metasend -b -s "Recorde_Venda_da_Loja_em_toda_Rede~ " -F informativo@lebes.com.br -f /admcom/work/arquivodg005b.htm -m text/html -t~  brocca@lebes.com.br.
+   */
+
+output to /admcom/dg/rankloj.ini.
+for each ttlj :
+    export ttlj.etbcod ttlj.valor ttlj.data.
+end.
+output close.
+
+
+PROCEDURE calc.
+    for each ttloja.
+        delete ttloja.
+    end.
+    
+    do d = vi to vf :    
+        for each estab where estab.etbcod < 90 no-lock :
+            for each plani where plani.movtdc = 5
+                            and  plani.etbcod = estab.etbcod
+                            and plani.pladat = d 
+                           no-lock :
+                  
+                find first tipmov where tipmov.movtdc = 5 no-lock.                
+                find first ttloja where ttloja.etbcod = plani.etbcod 
+                                and ttloja.data = d no-error.
+                if not avail ttloja
+                then do:
+                    create ttloja.
+                    assign ttloja.etbcod = plani.etbcod
+                           ttloja.etbnom = estab.etbnom
+                           ttloja.data = d.
+                end.
+        
+                if plani.biss <> 0
+                then ttloja.platot = ttloja.platot + plani.biss.
+                else ttloja.platot = ttloja.platot + plani.platot.
+                
+            end.
+        end.
+    end.
+    
+    for each ttloja where ttloja.etbcod = 0:
+        delete ttloja.
+    end.
+
+    vtotal = 0.
+    do d = vi to vf : 
+        for each ttloja where ttloja.data = d and ttloja.etbcod <> 0 :
+            vtotal = vtotal + ttloja.platot.
+        end.
+        create ttloja.
+        ttloja.etbcod = 0.
+        ttloja.etbnom = "EMPRESA".
+        ttloja.data = d.
+        ttloja.platot = vtotal.
+        vtotal = 0.
+    end.
+end.

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?><conteudo><controle></controle><DataFuturaPagamentoPrestacao><codigo_filial>1</codigo_filial>
+<codigo_operador>1</codigo_operador>
+<data_futura_pagamento>2015-07-15T00:00:00</data_futura_pagamento>
+	<contratos>
+		<codigo_cliente>167</codigo_cliente>
+		<numero_contrato>1999100000</numero_contrato>
+			<parcelas>
+				<seq_parcela>33</seq_parcela>
+				<vlr_parcela>9,90</vlr_parcela>
+				<venc_parcela>2015-04-27T00:00:00</venc_parcela>
+			</parcelas>
+			<parcelas>
+				<seq_parcela>34</seq_parcela>
+				<vlr_parcela>9,90</vlr_parcela>
+				<venc_parcela>2015-05-27T00:00:00</venc_parcela>
+			</parcelas>
+	</contratos>
+	<contratos>
+		<codigo_cliente>167</codigo_cliente>
+		<numero_contrato>2</numero_contrato>
+			<parcelas>
+				<seq_parcela>2.33</seq_parcela>
+				<vlr_parcela>9,90</vlr_parcela>
+				<venc_parcela>2015-04-27T00:00:00</venc_parcela>
+			</parcelas>
+			<parcelas>
+				<seq_parcela>2.34</seq_parcela>
+				<vlr_parcela>9,90</vlr_parcela>
+				<venc_parcela>2015-05-27T00:00:00</venc_parcela>
+			</parcelas>
+	</contratos>
+</DataFuturaPagamentoPrestacao></conteudo>
+

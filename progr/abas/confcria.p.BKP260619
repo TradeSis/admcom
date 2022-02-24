@@ -1,0 +1,69 @@
+def input param par-interface   as char.
+def input param par-arquivo     as char.
+
+def input param par-dcbcod      like abascorte.dcbcod.
+def input param par-dcbpseq     like abascorteprod.dcbpseq.
+def input param par-procod      like abascorteprod.procod.
+def input param par-qtdconf     like abasconfprod.qtdconf.
+
+    find abascorte where abascorte.dcbcod = par-dcbcod no-lock.
+    
+
+                find abasintegracao where abasintegracao.interface = par-interface and
+                                abasintegracao.arquivo = par-arquivo no-lock no-error.
+    
+                create abasCONFprod.
+                abasconfprod.datareal = if avail abasintegracao 
+                                        then abasintegracao.datareal
+                                        else today.
+                abasconfprod.horareal = if avail abasintegracao 
+                                        then abasintegracao.horareal
+                                        else time.
+                                        
+                abasconfprod.interface          = par-interface.
+                abasconfprod.arquivo            = par-arquivo.
+                abasconfprod.dcbcod             = par-dcbcod.
+                abasconfprod.dcbpseq            = par-dcbpseq.
+
+                abasconfprod.procod             = par-procod.
+                abasconfprod.qtdconf            = par-qtdconf.
+                
+                find abasCORTEprod where 
+                        abascorteprod.dcbcod = abasconfprod.dcbcod and
+                        abascorteprod.dcbpseq = abasconfprod.dcbpseq
+                    exclusive no-error.
+                if not avail abascorteprod
+                then do:
+                    create abascorteprod.
+                    ASSIGN
+                        abascorteprod.etbcod   = abascorte.etbcod
+                        abascorteprod.dcbcod   = abasconfprod.dcbcod
+                        abascorteprod.dcbpseq  = abasconfprod.dcbpseq
+                        abascorteprod.abtcod   = ?
+                        abascorteprod.qtdCorte = 0.
+                        abascorteprod.procod   = abasconfprod.procod.
+                end. 
+
+                abascorteprod.procod = abasconfprod.procod.
+                    
+                if abascorteprod.abtcod <> ?
+                then do:
+                    find abastransf of abascorteprod exclusive no-error.
+                    if avail abastransf
+                    then do:
+
+                        abastransf.qtdemWMS = abastransf.qtdemWMS - abascorteprod.qtdcorte.
+                        abastransf.qtdemWMS = abastransf.qtdemWMS + abasconfprod.qtdconf.
+                    
+                        if abastransf.abtqtd > 
+                            (abastransf.qtdemWMS + abastransf.qtdatend)
+                        then do:
+                            abastransf.abtsit = "AC". /* Volta pro Corte */
+                        end.
+                        else do:
+                            abastransf.abtsit = "SE". /* Separado*/
+                        end.
+                        
+                    end.    
+                    
+                end.
