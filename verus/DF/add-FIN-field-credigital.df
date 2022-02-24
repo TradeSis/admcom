@@ -1,0 +1,127 @@
+ ADD TABLE "contrsitbai"
+   AREA "dados"
+   DUMP-NAME "contrsitbai"
+ 
+ ADD FIELD "codigoPedido" OF "contrsitbai" AS character 
+   FORMAT "x(20)"
+   INITIAL ""
+   MAX-WIDTH 40
+   ORDER 100
+ 
+ ADD FIELD "contnum" OF "contrsitbai" AS integer 
+   FORMAT ">>>>>>>>>>999"
+   INITIAL ?
+   LABEL "Contrato"
+   MAX-WIDTH 4
+   HELP "Numero do Contrato."
+   ORDER 210
+ 
+ ADD FIELD "titpar" OF "contrsitbai" AS integer 
+   FORMAT ">>9"
+   INITIAL "0"
+   LABEL "Parcela"
+   MAX-WIDTH 4
+   COLUMN-LABEL "PC"
+   VALEXP "titpar > 0"
+   VALMSG "Numero da Parcela do Titulo nao pode ser zero."
+   HELP "Informe o Numero da Parcela do Titulo."
+   ORDER 220
+ 
+ ADD FIELD "titvlcredito" OF "contrsitbai" AS decimal 
+   FORMAT "->>,>>9.99"
+   INITIAL "0"
+   MAX-WIDTH 17
+   DECIMALS 2
+   ORDER 230
+ 
+ ADD FIELD "titvlbaixa" OF "contrsitbai" AS decimal 
+   FORMAT "->>,>>9.99"
+   INITIAL "0"
+   MAX-WIDTH 17
+   DECIMALS 2
+   ORDER 240
+ 
+ ADD FIELD "titvlprod" OF "contrsitbai" AS decimal 
+   FORMAT "->>,>>9.99"
+   INITIAL "0"
+   MAX-WIDTH 17
+   DECIMALS 2
+   ORDER 250
+ 
+ ADD FIELD "titvlfrete" OF "contrsitbai" AS decimal 
+   FORMAT "->>,>>9.99"
+   INITIAL "0"
+   MAX-WIDTH 17
+   DECIMALS 2
+   ORDER 260
+ 
+ ADD FIELD "titvlacres" OF "contrsitbai" AS decimal 
+   FORMAT "->>,>>9.99"
+   INITIAL "0"
+   MAX-WIDTH 17
+   DECIMALS 2
+   ORDER 270
+ 
+ ADD FIELD "titdtpag" OF "contrsitbai" AS date 
+   FORMAT "99/99/9999"
+   INITIAL ?
+   LABEL "Data Pagamento"
+   MAX-WIDTH 4
+   COLUMN-LABEL "Data Paga."
+   VALEXP "titdtpag >= titdtemi"
+   VALMSG "Data de Pagamento do Titulo nao deve ser inferior a Emissao."
+   HELP "Informe a Data de Pagamento do Titulo."
+   ORDER 280
+ 
+ ADD FIELD "Sequencia" OF "contrsitbai" AS integer 
+   FORMAT ">>>>9"
+   INITIAL "0"
+   LABEL "Seq"
+   MAX-WIDTH 4
+   ORDER 40
+ 
+ ADD INDEX "contrsitbai" ON "contrsitbai" 
+   AREA "indices"
+   UNIQUE
+   PRIMARY
+   INDEX-FIELD "codigoPedido" ASCENDING 
+   INDEX-FIELD "contnum" ASCENDING 
+   INDEX-FIELD "titpar" ASCENDING 
+   INDEX-FIELD "titdtpag" ASCENDING 
+   INDEX-FIELD "Sequencia" ASCENDING 
+ 
+ ADD FIELD "valorFrete" OF "contrSite" AS decimal 
+   FORMAT "->>>,>>9.99"
+   INITIAL "0"
+   MAX-WIDTH 17
+   DECIMALS 2
+   ORDER 310
+ 
+ ADD FIELD "valorFrete" OF "contrSitem" AS decimal 
+   FORMAT "->>>,>>9.99"
+   INITIAL "0"
+   MAX-WIDTH 17
+   DECIMALS 2
+   ORDER 170
+ 
+ ADD FIELD "valorPeso" OF "contrSitem" AS decimal 
+   FORMAT "->>,>>9.99"
+   INITIAL "0"
+   MAX-WIDTH 17
+   DECIMALS 2
+   ORDER 180
+ 
+ ADD FIELD "valorContrato" OF "contrSitem" AS decimal 
+   FORMAT "->>,>>9.99"
+   INITIAL "0"
+   MAX-WIDTH 17
+   DECIMALS 2
+   ORDER 190
+ 
+ ADD FIELD "valorAcres" OF "contrSitem" AS decimal 
+   FORMAT "->>>,>>9.99"
+   INITIAL "0"
+   MAX-WIDTH 17
+   DECIMALS 2
+   ORDER 200
+ 

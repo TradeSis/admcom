@@ -1,0 +1,9 @@
+ADD INDEX "datexp" ON "clafis"
+  AREA "Schema Area"
+  INDEX-FIELD "datexp" ASCENDING
+
+.
+PSC
+cpstream=ISO8859-1
+.
+0000000088

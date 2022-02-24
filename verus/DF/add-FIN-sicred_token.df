@@ -1,0 +1,59 @@
+
+ADD TABLE "sicred_token"
+  AREA "dados"
+  DUMP-NAME "sicred_token"
+
+ADD FIELD "username" OF "sicred_token" AS character 
+  FORMAT "x(15)"
+  INITIAL ""
+  POSITION 2
+  MAX-WIDTH 30
+  ORDER 10
+
+ADD FIELD "password" OF "sicred_token" AS character 
+  FORMAT "x(20)"
+  INITIAL ""
+  POSITION 3
+  MAX-WIDTH 40
+  ORDER 20
+
+ADD FIELD "expires_in" OF "sicred_token" AS integer 
+  FORMAT ">>>>>>>9"
+  INITIAL "0"
+  POSITION 4
+  MAX-WIDTH 4
+  ORDER 30
+
+ADD FIELD "data_in" OF "sicred_token" AS date 
+  FORMAT "99/99/9999"
+  INITIAL ?
+  POSITION 5
+  MAX-WIDTH 4
+  ORDER 40
+
+ADD FIELD "time_in" OF "sicred_token" AS integer 
+  FORMAT ">>>>>>>9"
+  INITIAL "0"
+  POSITION 6
+  MAX-WIDTH 4
+  ORDER 50
+
+ADD FIELD "access_token" OF "sicred_token" AS character 
+  FORMAT "x(70)"
+  INITIAL ""
+  POSITION 7
+  MAX-WIDTH 140
+  ORDER 60
+
+ADD INDEX "sicred_token" ON "sicred_token" 
+  AREA "dados"
+  UNIQUE
+  PRIMARY
+  INDEX-FIELD "username" ASCENDING 
+
+
+.
+PSC
+cpstream=ISO8859-1
+.
+0000009323

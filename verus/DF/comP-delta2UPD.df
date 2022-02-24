@@ -1,0 +1,12 @@
+
+UPDATE FIELD "al_Fcp" OF "produ"
+  ORDER 451
+
+UPDATE FIELD "Certifi" OF "vndseguro"
+  FORMAT "x(16)"
+
+.
+PSC
+cpstream=ISO8859-1
+.
+0000001405

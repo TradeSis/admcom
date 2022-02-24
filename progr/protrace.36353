@@ -1,0 +1,65 @@
+
+
+PROGRESS stack trace as of Wed Feb 19 23:05:11 2020
+Command line arguments are
+/usr/dlc/bin/_progres -b -pf /admcom/bases/baseslocal.pf -p /admcom/progr/exp_crm_cron.p -Wa -wpp 
+
+Startup parameters:
+-pf /usr/dlc/startup.pf,-cpinternal ISO8859-1,-cpstream ISO8859-1,-cpcoll Basic,-cpcase Basic,-d dmy,(end .pf),-b,-pf /admcom/bases/baseslocal.pf,-T /tmp,-d dmy,-h 50,-inp 32000,-s 300,-TB 31,-TM 32,-mmax 16384,-db /dados/bases/adm,-db /dados/bases/com,-db /dados/bases/fin,-db /dados/bases/ger,-db /dados/bases/nfe,-db /dados/bases/suporte,(end .pf),-p /admcom/progr/exp_crm_cron.p
+
+#1   [0x9e7d7d] uttraceback+0x144  from /usr/dlc/bin/_progres
+#2   [0x9ea5a3] uttrace+0x13c  from /usr/dlc/bin/_progres
+#3   [0x9ea447] utcore+0x103  from /usr/dlc/bin/_progres
+#4   [0x458c26] drexit+0x39a  from /usr/dlc/bin/_progres
+#5   [0x45331f] msgout+0x255  from /usr/dlc/bin/_progres
+#6   [0x452a64] msgnCB+0xb9  from /usr/dlc/bin/_progres
+#7   [0x45292e] msgCB+0x13  from /usr/dlc/bin/_progres
+#8   [0x8af9f8] dsmFatalMsgnCallBack+0xd8  from /usr/dlc/bin/_progres
+#9   [0x85a374] bmReleaseBuffer+0x1cf  from /usr/dlc/bin/_progres
+#10  [0x85bff4] bmPopLocks+0x150  from /usr/dlc/bin/_progres
+#11  [0x884b41] dbenvout+0x226  from /usr/dlc/bin/_progres
+#12  [0x8986b3] dbUserDisconnect+0x95  from /usr/dlc/bin/_progres
+#13  [0x8afe4a] dsmThreadSafeEntry+0xc9  from /usr/dlc/bin/_progres
+#14  [0x8bb11c] dsmUserDisconnect+0x6c  from /usr/dlc/bin/_progres
+#15  [0x6e830f] proend+0x2db  from /usr/dlc/bin/_progres
+#16  [0x45bb11] fdend+0x141  from /usr/dlc/bin/_progres
+#17  [0x458bb7] drexit+0x32b  from /usr/dlc/bin/_progres
+#18  [0x45331f] msgout+0x255  from /usr/dlc/bin/_progres
+#19  [0x452a64] msgnCB+0xb9  from /usr/dlc/bin/_progres
+#20  [0x45292e] msgCB+0x13  from /usr/dlc/bin/_progres
+#21  [0x8af9f8] dsmFatalMsgnCallBack+0xd8  from /usr/dlc/bin/_progres
+#22  [0x84c147] bkRead+0x267  from /usr/dlc/bin/_progres
+#23  [0x858059] bmrdnew+0x1b8  from /usr/dlc/bin/_progres
+#24  [0x8588f2] bmsteal+0x4ff  from /usr/dlc/bin/_progres
+#25  [0x859742] bmLocateBuffer2+0xb6b  from /usr/dlc/bin/_progres
+#26  [0x907857] rmLocate+0x13d  from /usr/dlc/bin/_progres
+#27  [0x9072d3] rmRecordFetch+0x16c  from /usr/dlc/bin/_progres
+#28  [0x892c27] dbRecordGet+0x1e0  from /usr/dlc/bin/_progres
+#29  [0x8b78b3] dsmRecordGet+0xbe  from /usr/dlc/bin/_progres
+#30  [0x4baa2a] slrmget+0x9a  from /usr/dlc/bin/_progres
+#31  [0x4bc16c] dbrmget+0x5e  from /usr/dlc/bin/_progres
+#32  [0x4bc595] dbnxt1+0x3fe  from /usr/dlc/bin/_progres
+#33  [0x4bc789] dbnxt+0x9f  from /usr/dlc/bin/_progres
+#34  [0x6ecc55] profnd+0x515  from /usr/dlc/bin/_progres
+#35  [0x45c10a] fdfnd+0x129  from /usr/dlc/bin/_progres
+#36  [0x740014] bfFindRow+0x379  from /usr/dlc/bin/_progres
+#37  [0x793b87] rnbfnxtDoit+0x41c  from /usr/dlc/bin/_progres
+#38  [0x793601] rnbfnxtBody+0x3f0  from /usr/dlc/bin/_progres
+#39  [0x7931ad] rnbfnxt+0x253  from /usr/dlc/bin/_progres
+#40  [0x79933b] rnexec_entry+0x33b  from /usr/dlc/bin/_progres
+#41  [0x79a5ca] rninterpret+0x3b  from /usr/dlc/bin/_progres
+#42  [0x4a1991] rnrq+0x101  from /usr/dlc/bin/_progres
+#43  [0x4518ff] main+0x428  from /usr/dlc/bin/_progres
+#44  [0x8a28d1d] __libc_start_main+0xfd  from /lib64/libc.so.6
+
+** ABL Stack Trace **
+
+--> calccredscore.p (calccredscore.r) at line 422
+    p-cliente /admcom/progr/exp-novo-crm.p (/admcom/progr/exp-novo-crm.r) at line 1198
+    pre-geracao /admcom/progr/exp-novo-crm.p (/admcom/progr/exp-novo-crm.r) at line 712
+    p-gera-clientes-crm /admcom/progr/exp-novo-crm.p (/admcom/progr/exp-novo-crm.r) at line 562
+    /admcom/progr/exp-novo-crm.p (/admcom/progr/exp-novo-crm.r) at line 426
+    /admcom/progr/exp_crm_cron.p (/admcom/progr/exp_crm_cron.r) at line 166
+
+** Persistent procedures/Classes **
+

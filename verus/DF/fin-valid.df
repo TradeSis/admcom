@@ -1,0 +1,200 @@
+ ADD FIELD "descerro" OF "sicred_contrato" AS character 
+   FORMAT "x(60)"
+   INITIAL ""
+   MAX-WIDTH 120
+   ORDER 140
+ 
+ ADD FIELD "fincod" OF "sicred_contrato" AS integer 
+   FORMAT ">>>>9"
+   INITIAL "0"
+   MAX-WIDTH 4
+   ORDER 150
+ 
+ ADD FIELD "codProduto" OF "sicred_contrato" AS integer 
+   FORMAT ">>>9"
+   INITIAL "0"
+   MAX-WIDTH 4
+   ORDER 160
+ 
+ ADD FIELD "DtEnvio" OF "sicred_contrato" AS date 
+   FORMAT "99/99/9999"
+   INITIAL ?
+   LABEL "Envio"
+   MAX-WIDTH 4
+   ORDER 170
+ 
+ ADD INDEX "StatusOper" ON "sicred_contrato" 
+   AREA "indices"
+   INDEX-FIELD "sstatus" ASCENDING 
+   INDEX-FIELD "DataMov" ASCENDING 
+   INDEX-FIELD "operacao" ASCENDING 
+ 
+ ADD FIELD "descerro" OF "sicred_pagamen" AS character 
+   FORMAT "x(60)"
+   INITIAL ""
+   MAX-WIDTH 120
+   ORDER 140
+ 
+ ADD FIELD "DtEnvio" OF "sicred_pagamen" AS date 
+   FORMAT "99/99/9999"
+   INITIAL ?
+   LABEL "Envio"
+   MAX-WIDTH 4
+   ORDER 150
+ 
+ ADD INDEX "statusoper" ON "sicred_pagamen" 
+   AREA "indices"
+   INDEX-FIELD "sstatus" ASCENDING 
+   INDEX-FIELD "DataMov" ASCENDING 
+   INDEX-FIELD "operacao" ASCENDING 
+ 
+ ADD TABLE "sicred_param"
+   AREA "dados"
+   DUMP-NAME "sicred_param"
+ 
+ ADD FIELD "dtini" OF "sicred_param" AS date 
+   FORMAT "99/99/9999"
+   INITIAL ?
+   LABEL "inicio"
+   MAX-WIDTH 4
+   ORDER 30
+ 
+ ADD FIELD "dtfim" OF "sicred_param" AS date 
+   FORMAT "99/99/9999"
+   INITIAL ?
+   LABEL "final"
+   MAX-WIDTH 4
+   ORDER 40
+ 
+ ADD FIELD "dias_retroativo" OF "sicred_param" AS integer 
+   FORMAT ">>9"
+   INITIAL "0"
+   MAX-WIDTH 4
+   COLUMN-LABEL "Retroa"
+   ORDER 50
+ 
+ ADD FIELD "codigoLojista" OF "sicred_param" AS integer 
+   FORMAT ">>>>>>9"
+   INITIAL "0"
+   MAX-WIDTH 4
+   COLUMN-LABEL "Lojista"
+   ORDER 60
+ 
+ ADD FIELD "tfc_minimo" OF "sicred_param" AS decimal 
+   FORMAT "->>,>>9.99"
+   INITIAL "0"
+   MAX-WIDTH 17
+   COLUMN-LABEL "TfcMin"
+   DECIMALS 2
+   ORDER 70
+ 
+ ADD FIELD "tfc_maximo" OF "sicred_param" AS decimal 
+   FORMAT "->>,>>9.99"
+   INITIAL "0"
+   MAX-WIDTH 17
+   COLUMN-LABEL "TFCMax"
+   DECIMALS 2
+   ORDER 80
+ 
+ ADD FIELD "valor_min_acrescimo" OF "sicred_param" AS decimal 
+   FORMAT "->>,>>9.99"
+   INITIAL "0"
+   MAX-WIDTH 17
+   COLUMN-LABEL "AcresMin"
+   DECIMALS 2
+   ORDER 90
+ 
+ ADD FIELD "codProdutoEcom" OF "sicred_param" AS integer 
+   FORMAT ">>9"
+   INITIAL "0"
+   MAX-WIDTH 4
+   ORDER 100
+ 
+ ADD INDEX "sicred_param" ON "sicred_param" 
+   AREA "indices"
+   PRIMARY
+   INDEX-FIELD "dtfim" ASCENDING 
+   INDEX-FIELD "dtini" ASCENDING 
+ 
+ ADD TABLE "sicred_planos"
+   AREA "dados"
+   DUMP-NAME "sicred_planos"
+ 
+ ADD FIELD "dias_max_primeira" OF "sicred_planos" AS integer 
+   FORMAT ">>9"
+   INITIAL "0"
+   MAX-WIDTH 4
+   COLUMN-LABEL "DiasMax"
+   ORDER 50
+ 
+ ADD FIELD "qtd_vezes" OF "sicred_planos" AS integer 
+   FORMAT ">>9"
+   INITIAL "0"
+   MAX-WIDTH 4
+   COLUMN-LABEL "PrazoMax"
+   ORDER 60
+ 
+ ADD FIELD "fincod" OF "sicred_planos" AS integer 
+   FORMAT ">>>>9"
+   INITIAL "0"
+   MAX-WIDTH 4
+   ORDER 1
+ 
+ ADD FIELD "lista_produtos" OF "sicred_planos" AS character 
+   FORMAT "x(20)"
+   INITIAL ""
+   MAX-WIDTH 40
+   ORDER 70
+ 
+ ADD FIELD "taxa_minima" OF "sicred_planos" AS decimal 
+   FORMAT ">>9.99"
+   INITIAL "0"
+   MAX-WIDTH 17
+   COLUMN-LABEL "taxaMin"
+   DECIMALS 2
+   ORDER 80
+ 
+ ADD FIELD "taxa_maxima" OF "sicred_planos" AS decimal 
+   FORMAT ">>9.99"
+   INITIAL "0"
+   MAX-WIDTH 17
+   COLUMN-LABEL "TaxMax"
+   DECIMALS 2
+   ORDER 90
+ 
+ ADD FIELD "dias_valido_emissao" OF "sicred_planos" AS integer 
+   FORMAT ">>9"
+   INITIAL "0"
+   MAX-WIDTH 4
+   COLUMN-LABEL "DiasValEmi"
+   ORDER 100
+ 
+ ADD FIELD "dias_min_privenc" OF "sicred_planos" AS integer 
+   FORMAT ">>9"
+   INITIAL "0"
+   MAX-WIDTH 4
+   COLUMN-LABEL "Dias PriVenc"
+   ORDER 110
+ 
+ ADD FIELD "dias_max_venc" OF "sicred_planos" AS integer 
+   FORMAT ">>9"
+   INITIAL "0"
+   MAX-WIDTH 4
+   COLUMN-LABEL "Dias Max Venc"
+   ORDER 120
+ 
+ ADD FIELD "dtvigencia" OF "sicred_planos" AS date 
+   FORMAT "99/99/9999"
+   INITIAL ?
+   MAX-WIDTH 4
+   COLUMN-LABEL "Vigencia Plano"
+   ORDER 130
+ 
+ ADD INDEX "sicred_planos" ON "sicred_planos" 
+   AREA "indices"
+   UNIQUE
+   PRIMARY
+   INDEX-FIELD "fincod" ASCENDING 
+ 
+
+

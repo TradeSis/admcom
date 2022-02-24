@@ -1,0 +1,14 @@
+
+UPDATE FIELD "ctmnom" OF "pdvtmov"
+  FORMAT "x(25)"
+
+UPDATE FIELD "titdesc" OF "titulo"
+  FORMAT ">>>,>>9.99"
+  HELP "Valor do Seguro"
+  LABEL "Vl Seguro"
+
+.
+PSC
+cpstream=ISO8859-1
+.
+0000018295

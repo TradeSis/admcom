@@ -1,0 +1,744 @@
+ADD TABLE "poscart"
+  AREA "Schema Area"
+  DUMP-NAME "poscart"
+
+ADD FIELD "modcod" OF "poscart" AS character 
+  FORMAT "x(5)"
+  INITIAL ""
+  POSITION 2
+  MAX-WIDTH 10
+  ORDER 50
+
+ADD FIELD "tpcontrato" OF "poscart" AS character 
+  FORMAT "x(1)"
+  INITIAL ""
+  POSITION 3
+  MAX-WIDTH 2
+  ORDER 60
+
+ADD FIELD "etbcod" OF "poscart" AS integer 
+  FORMAT "9999"
+  INITIAL "0"
+  POSITION 4
+  MAX-WIDTH 4
+  ORDER 80
+
+ADD FIELD "dtref" OF "poscart" AS date 
+  FORMAT "99/99/9999"
+  INITIAL ?
+  POSITION 5
+  MAX-WIDTH 4
+  ORDER 90
+
+ADD FIELD "dtvenc" OF "poscart" AS date 
+  FORMAT "99/99/9999"
+  INITIAL ?
+  POSITION 6
+  MAX-WIDTH 4
+  ORDER 100
+
+ADD FIELD "emissao" OF "poscart" AS decimal 
+  FORMAT "->>>>>>,>>9.99"
+  INITIAL "0"
+  POSITION 7
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 110
+
+ADD FIELD "pagamento" OF "poscart" AS decimal 
+  FORMAT "->>>>>>,>>9.99"
+  INITIAL "0"
+  POSITION 8
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 120
+
+ADD FIELD "entradas" OF "poscart" AS decimal 
+  FORMAT "->>>>>>,>>9.99"
+  INITIAL "0"
+  POSITION 9
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 130
+
+ADD FIELD "saidas" OF "poscart" AS decimal 
+  FORMAT "->>>>>>,>>9.99"
+  INITIAL "0"
+  POSITION 10
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 140
+
+ADD FIELD "saldoanterior" OF "poscart" AS decimal 
+  FORMAT "->>>>>>,>>9.99"
+  INITIAL "0"
+  POSITION 11
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 150
+
+ADD FIELD "saldo" OF "poscart" AS decimal 
+  FORMAT "->>>>>>>>>,>>9.99"
+  INITIAL "0"
+  POSITION 12
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 160
+
+ADD FIELD "cobcod" OF "poscart" AS integer 
+  FORMAT ">9"
+  INITIAL ?
+  LABEL "Prop"
+  POSITION 13
+  MAX-WIDTH 4
+  COLUMN-LABEL "Pr"
+  ORDER 170
+
+ADD INDEX "poscart" ON "poscart" 
+  AREA "Schema Area"
+  UNIQUE
+  PRIMARY
+  INDEX-FIELD "etbcod" ASCENDING 
+  INDEX-FIELD "modcod" ASCENDING 
+  INDEX-FIELD "tpcontrato" ASCENDING 
+  INDEX-FIELD "cobcod" ASCENDING 
+  INDEX-FIELD "dtref" ASCENDING 
+  INDEX-FIELD "dtvenc" ASCENDING 
+
+ADD INDEX "dtref" ON "poscart" 
+  AREA "Schema Area"
+  INDEX-FIELD "dtref" ASCENDING 
+  INDEX-FIELD "etbcod" ASCENDING 
+  INDEX-FIELD "modcod" ASCENDING 
+  INDEX-FIELD "tpcontrato" ASCENDING 
+  INDEX-FIELD "cobcod" ASCENDING 
+  INDEX-FIELD "dtvenc" ASCENDING 
+
+ADD INDEX "dtven" ON "poscart" 
+  AREA "Schema Area"
+  INDEX-FIELD "dtvenc" ASCENDING 
+  INDEX-FIELD "etbcod" ASCENDING 
+  INDEX-FIELD "modcod" ASCENDING 
+  INDEX-FIELD "tpcontrato" ASCENDING 
+  INDEX-FIELD "cobcod" ASCENDING 
+  INDEX-FIELD "dtref" ASCENDING 
+
+ADD TABLE "poshiscart"
+  AREA "Schema Area"
+  DUMP-NAME "poshiscart"
+
+ADD FIELD "dtref" OF "poshiscart" AS date 
+  FORMAT "99/99/9999"
+  INITIAL ?
+  POSITION 2
+  MAX-WIDTH 4
+  ORDER 20
+
+ADD FIELD "operacao" OF "poshiscart" AS character 
+  FORMAT "x(10)"
+  INITIAL ""
+  POSITION 3
+  MAX-WIDTH 20
+  ORDER 30
+
+ADD FIELD "Valor" OF "poshiscart" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  POSITION 4
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 40
+
+ADD FIELD "dtinc" OF "poshiscart" AS date 
+  FORMAT "99/99/9999"
+  INITIAL ?
+  POSITION 5
+  MAX-WIDTH 4
+  ORDER 50
+
+ADD FIELD "hrinc" OF "poshiscart" AS integer 
+  FORMAT "->>>>>>9"
+  INITIAL "0"
+  POSITION 6
+  MAX-WIDTH 4
+  ORDER 60
+
+ADD FIELD "cobcod" OF "poshiscart" AS integer 
+  FORMAT ">9"
+  INITIAL "0"
+  LABEL "Prop"
+  POSITION 7
+  MAX-WIDTH 4
+  COLUMN-LABEL "Pr"
+  ORDER 70
+
+ADD FIELD "contnum" OF "poshiscart" AS integer 
+  FORMAT ">>>>>>999"
+  INITIAL "0"
+  LABEL "Contrato"
+  POSITION 8
+  MAX-WIDTH 4
+  HELP "Numero do Contrato."
+  ORDER 80
+
+ADD FIELD "titpar" OF "poshiscart" AS integer 
+  FORMAT ">>9"
+  INITIAL "0"
+  LABEL "Parcela"
+  POSITION 9
+  MAX-WIDTH 4
+  COLUMN-LABEL "PC"
+  VALEXP "titpar > 0"
+  VALMSG "Numero da Parcela do Titulo nao pode ser zero."
+  HELP "Informe o Numero da Parcela do Titulo."
+  ORDER 90
+
+ADD INDEX "poscart" ON "poshiscart" 
+  AREA "Schema Area"
+  PRIMARY
+  INDEX-FIELD "contnum" ASCENDING 
+  INDEX-FIELD "titpar" ASCENDING 
+  INDEX-FIELD "dtinc" ASCENDING 
+  INDEX-FIELD "hrinc" ASCENDING 
+
+ADD TABLE "sicred_contrato"
+  AREA "dados"
+  DUMP-NAME "sicred_contrato"
+
+ADD FIELD "operacao" OF "sicred_contrato" AS character 
+  FORMAT "x(10)"
+  INITIAL ""
+  POSITION 2
+  MAX-WIDTH 20
+  ORDER 10
+
+ADD FIELD "dtinc" OF "sicred_contrato" AS date 
+  FORMAT "99/99/9999"
+  INITIAL ?
+  POSITION 3
+  MAX-WIDTH 4
+  ORDER 20
+
+ADD FIELD "hrinc" OF "sicred_contrato" AS integer 
+  FORMAT "->>>>>>9"
+  INITIAL "0"
+  POSITION 4
+  MAX-WIDTH 4
+  ORDER 30
+
+ADD FIELD "contnum" OF "sicred_contrato" AS integer 
+  FORMAT ">>>>>>>999"
+  INITIAL ?
+  LABEL "Contrato"
+  POSITION 5
+  MAX-WIDTH 4
+  HELP "Numero do Contrato."
+  ORDER 40
+
+ADD FIELD "sstatus" OF "sicred_contrato" AS character 
+  FORMAT "x(8)"
+  INITIAL ""
+  POSITION 6
+  MAX-WIDTH 16
+  HELP "ENVIAR ENVIADO CANCELAR CANCELADO"
+  ORDER 50
+
+ADD FIELD "cobcod" OF "sicred_contrato" AS integer 
+  FORMAT ">>9"
+  INITIAL "0"
+  LABEL "Propried"
+  POSITION 7
+  MAX-WIDTH 4
+  COLUMN-LABEL "Pro"
+  HELP "Tipo de Cobranca - Propriedade"
+  ORDER 60
+
+ADD FIELD "lotnum" OF "sicred_contrato" AS integer 
+  FORMAT ">>>>>>9"
+  INITIAL "0"
+  LABEL "Lote"
+  POSITION 8
+  MAX-WIDTH 4
+  COLUMN-LABEL "Lote"
+  ORDER 70
+
+ADD FIELD "cmocod" OF "sicred_contrato" AS integer 
+  FORMAT ">>>>>9"
+  INITIAL "0"
+  POSITION 9
+  MAX-WIDTH 4
+  ORDER 80
+
+ADD FIELD "ctmcod" OF "sicred_contrato" AS character 
+  FORMAT "x(3)"
+  INITIAL ""
+  LABEL "Tipo Movimento"
+  POSITION 10
+  MAX-WIDTH 6
+  COLUMN-LABEL "Tipo"
+  ORDER 90
+
+ADD FIELD "DataMov" OF "sicred_contrato" AS date 
+  FORMAT "99/99/9999"
+  INITIAL ?
+  POSITION 11
+  MAX-WIDTH 4
+  ORDER 100
+
+ADD FIELD "etbcod" OF "sicred_contrato" AS integer 
+  FORMAT ">>9"
+  INITIAL "0"
+  POSITION 12
+  MAX-WIDTH 4
+  ORDER 110
+
+ADD FIELD "Sequencia" OF "sicred_contrato" AS integer 
+  FORMAT ">>>>9"
+  INITIAL "0"
+  LABEL "Seq"
+  POSITION 13
+  MAX-WIDTH 4
+  ORDER 120
+
+ADD FIELD "seqforma" OF "sicred_contrato" AS integer 
+  FORMAT ">>>9"
+  INITIAL "0"
+  LABEL "SR"
+  POSITION 14
+  MAX-WIDTH 4
+  ORDER 130
+
+ADD INDEX "sicre_contrato" ON "sicred_contrato" 
+  AREA "indices"
+  UNIQUE
+  PRIMARY
+  INDEX-FIELD "contnum" ASCENDING 
+  INDEX-FIELD "operacao" ASCENDING 
+  INDEX-FIELD "dtinc" ASCENDING 
+  INDEX-FIELD "hrinc" ASCENDING 
+
+ADD INDEX "lote" ON "sicred_contrato" 
+  AREA "indices"
+  INDEX-FIELD "lotnum" ASCENDING 
+  INDEX-FIELD "cobcod" ASCENDING 
+  INDEX-FIELD "DataMov" ASCENDING 
+  INDEX-FIELD "operacao" ASCENDING 
+
+ADD INDEX "operStatus" ON "sicred_contrato" 
+  AREA "indices"
+  INDEX-FIELD "operacao" ASCENDING 
+  INDEX-FIELD "cobcod" ASCENDING 
+  INDEX-FIELD "sstatus" ASCENDING 
+  INDEX-FIELD "DataMov" ASCENDING 
+  INDEX-FIELD "etbcod" ASCENDING 
+
+ADD TABLE "sicred_pagamen"
+  AREA "dados"
+  DUMP-NAME "sicred_pagamen"
+
+ADD FIELD "operacao" OF "sicred_pagamen" AS character 
+  FORMAT "x(10)"
+  INITIAL ""
+  POSITION 2
+  MAX-WIDTH 20
+  ORDER 10
+
+ADD FIELD "dtinc" OF "sicred_pagamen" AS date 
+  FORMAT "99/99/9999"
+  INITIAL ?
+  POSITION 3
+  MAX-WIDTH 4
+  ORDER 20
+
+ADD FIELD "hrinc" OF "sicred_pagamen" AS integer 
+  FORMAT "->>>>>>9"
+  INITIAL "0"
+  POSITION 4
+  MAX-WIDTH 4
+  ORDER 30
+
+ADD FIELD "contnum" OF "sicred_pagamen" AS integer 
+  FORMAT ">>>>>>>999"
+  INITIAL ?
+  LABEL "Contrato"
+  POSITION 5
+  MAX-WIDTH 4
+  HELP "Numero do Contrato."
+  ORDER 40
+
+ADD FIELD "sstatus" OF "sicred_pagamen" AS character 
+  FORMAT "x(8)"
+  INITIAL ""
+  POSITION 6
+  MAX-WIDTH 16
+  HELP "ENVIAR ENVIADO CANCELAR CANCELADO"
+  ORDER 50
+
+ADD FIELD "cobcod" OF "sicred_pagamen" AS integer 
+  FORMAT ">>9"
+  INITIAL "0"
+  LABEL "Propried"
+  POSITION 7
+  MAX-WIDTH 4
+  COLUMN-LABEL "Pro"
+  HELP "Tipo de Cobranca - Propriedade"
+  ORDER 60
+
+ADD FIELD "lotnum" OF "sicred_pagamen" AS integer 
+  FORMAT ">>>>>>9"
+  INITIAL "0"
+  LABEL "Lote"
+  POSITION 8
+  MAX-WIDTH 4
+  COLUMN-LABEL "Lote"
+  ORDER 70
+
+ADD FIELD "cmocod" OF "sicred_pagamen" AS integer 
+  FORMAT ">>>>>9"
+  INITIAL "0"
+  POSITION 9
+  MAX-WIDTH 4
+  ORDER 80
+
+ADD FIELD "ctmcod" OF "sicred_pagamen" AS character 
+  FORMAT "x(3)"
+  INITIAL ""
+  LABEL "Tipo Movimento"
+  POSITION 10
+  MAX-WIDTH 6
+  COLUMN-LABEL "Tipo"
+  ORDER 90
+
+ADD FIELD "DataMov" OF "sicred_pagamen" AS date 
+  FORMAT "99/99/9999"
+  INITIAL ?
+  POSITION 11
+  MAX-WIDTH 4
+  ORDER 100
+
+ADD FIELD "etbcod" OF "sicred_pagamen" AS integer 
+  FORMAT ">>9"
+  INITIAL "0"
+  POSITION 12
+  MAX-WIDTH 4
+  ORDER 110
+
+ADD FIELD "Sequencia" OF "sicred_pagamen" AS integer 
+  FORMAT ">>>>9"
+  INITIAL "0"
+  LABEL "Seq"
+  POSITION 13
+  MAX-WIDTH 4
+  ORDER 120
+
+ADD FIELD "seqreg" OF "sicred_pagamen" AS integer 
+  FORMAT ">>9"
+  INITIAL ?
+  POSITION 15
+  MAX-WIDTH 4
+  ORDER 130
+
+ADD FIELD "titpar" OF "sicred_pagamen" AS integer 
+  FORMAT ">9"
+  INITIAL ?
+  LABEL "Parcela"
+  POSITION 16
+  MAX-WIDTH 4
+  COLUMN-LABEL "PC"
+  ORDER 41
+
+ADD INDEX "sicre_contrato" ON "sicred_pagamen" 
+  AREA "indices"
+  UNIQUE
+  PRIMARY
+  INDEX-FIELD "contnum" ASCENDING 
+  INDEX-FIELD "titpar" ASCENDING 
+  INDEX-FIELD "operacao" ASCENDING 
+  INDEX-FIELD "dtinc" ASCENDING 
+  INDEX-FIELD "hrinc" ASCENDING 
+
+ADD INDEX "lote" ON "sicred_pagamen" 
+  AREA "indices"
+  INDEX-FIELD "lotnum" ASCENDING 
+  INDEX-FIELD "cobcod" ASCENDING 
+  INDEX-FIELD "DataMov" ASCENDING 
+  INDEX-FIELD "operacao" ASCENDING 
+
+ADD INDEX "operStatus" ON "sicred_pagamen" 
+  AREA "indices"
+  INDEX-FIELD "operacao" ASCENDING 
+  INDEX-FIELD "cobcod" ASCENDING 
+  INDEX-FIELD "sstatus" ASCENDING 
+  INDEX-FIELD "DataMov" ASCENDING 
+  INDEX-FIELD "etbcod" ASCENDING 
+
+ADD INDEX "pdvdoc" ON "sicred_pagamen" 
+  AREA "indices"
+  INDEX-FIELD "etbcod" ASCENDING 
+  INDEX-FIELD "cmocod" ASCENDING 
+  INDEX-FIELD "DataMov" ASCENDING 
+  INDEX-FIELD "Sequencia" ASCENDING 
+  INDEX-FIELD "ctmcod" ASCENDING 
+  INDEX-FIELD "seqreg" ASCENDING 
+
+ADD FIELD "observacao" OF "banmassatit" AS character
+  FORMAT "x(30)"
+  POSITION 6
+  INITIAL ""
+  ORDER 90
+  MAX-WIDTH 60
+
+ADD FIELD "sicred" OF "cobra" AS logical
+  FORMAT "Sim/Nao"
+  POSITION 5
+  INITIAL "no"
+  ORDER 40
+  MAX-WIDTH 1
+
+ADD FIELD "tpcontrato" OF "contrato" AS character
+  FORMAT "x(1)"
+  POSITION 26
+  INITIAL ""
+  LABEL "Tipo Contrato"
+  COLUMN-LABEL "T"
+  ORDER 240
+  MAX-WIDTH 2
+
+ADD FIELD "dtenveis4" OF "cretrigger" AS date
+  FORMAT "99/99/9999"
+  POSITION 13
+  INITIAL ?
+  ORDER 110
+  MAX-WIDTH 4
+
+ADD FIELD "dtenveis4bonus" OF "cretrigger" AS date
+  FORMAT "99/99/9999"
+  POSITION 14
+  INITIAL ?
+  ORDER 120
+  MAX-WIDTH 4
+
+ADD FIELD "hispaddesc" OF "pdvdoc" AS character
+  FORMAT "x(78)"
+  POSITION 43
+  INITIAL ""
+  ORDER 410
+  MAX-WIDTH 156
+
+ADD FIELD "hiscod" OF "pdvdoc" AS integer
+  FORMAT ">>9"
+  POSITION 44
+  INITIAL "0"
+  HELP "Historico Padrao"
+  LABEL "Historico Padrao"
+  COLUMN-LABEL "HPA"
+  ORDER 420
+  MAX-WIDTH 4
+
+ADD FIELD "pstatus" OF "pdvdoc" AS logical
+  FORMAT "Fec/Abe"
+  POSITION 45
+  INITIAL "no"
+  ORDER 430
+  MAX-WIDTH 1
+
+ADD FIELD "DtEnvSap" OF "pdvdoc" AS date
+  FORMAT "99/99/9999"
+  POSITION 46
+  INITIAL ?
+  ORDER 440
+  MAX-WIDTH 4
+
+ADD FIELD "procod" OF "pdvitem-garantia" AS integer
+  FORMAT ">>>>99"
+  POSITION 18
+  INITIAL "0"
+  HELP "Codigo do Produto."
+  LABEL "Produto"
+  COLUMN-LABEL "Produ."
+  ORDER 170
+  MAX-WIDTH 4
+
+ADD FIELD "CliFor" OF "pdvmoeda" AS integer
+  FORMAT ">>>>>>>999"
+  POSITION 21
+  INITIAL "0"
+  HELP "Codigo do Cliente/Fornecedor"
+  LABEL "Cli/For"
+  ORDER 120
+  MAX-WIDTH 4
+
+ADD FIELD "modcod" OF "pdvmoeda" AS character
+  FORMAT "x(5)"
+  POSITION 23
+  INITIAL ""
+  ORDER 270
+  MAX-WIDTH 10
+
+ADD FIELD "titdtpag" OF "pdvmoeda" AS date
+  FORMAT "99/99/9999"
+  POSITION 26
+  INITIAL ?
+  ORDER 320
+  MAX-WIDTH 4
+
+ADD FIELD "titnum" OF "pdvmoeda" AS character
+  FORMAT "x(15)"
+  POSITION 28
+  INITIAL ""
+  ORDER 350
+  MAX-WIDTH 30
+
+ADD FIELD "titvlpag" OF "pdvmoeda" AS decimal
+  FORMAT ">>>>,>>9.99"
+  POSITION 31
+  INITIAL "0"
+  HELP "Informe o Valor Liquido Pago."
+  LABEL "Vl.Liquidado"
+  COLUMN-LABEL "Vl.Liquidado"
+  DECIMALS 2
+  ORDER 390
+  MAX-WIDTH 17
+
+ADD FIELD "CARAutoriza" OF "pdvmoeda" AS character
+  FORMAT "x(20)"
+  POSITION 32
+  INITIAL ""
+  ORDER 130
+  MAX-WIDTH 40
+
+ADD FIELD "CARvan" OF "pdvmoeda" AS character
+  FORMAT "x(20)"
+  POSITION 33
+  INITIAL ""
+  ORDER 220
+  MAX-WIDTH 40
+
+ADD FIELD "CMTCod" OF "pdvtmov" AS character
+  FORMAT "x(3)"
+  POSITION 4
+  INITIAL ""
+  HELP "Tipo de Centro Monetario"
+  LABEL "Tipo"
+  COLUMN-LABEL "Tip CM"
+  ORDER 70
+  MAX-WIDTH 6
+
+ADD FIELD "Operacao" OF "pdvtmov" AS logical
+  FORMAT "Saida/Entrada"
+  POSITION 5
+  INITIAL "no"
+  HELP "Operacao Monetaria e' de Saida ou Entrada"
+  LABEL "Operacao"
+  ORDER 320
+  MAX-WIDTH 1
+
+ADD FIELD "Pagamentos" OF "pdvtmov" AS logical
+  FORMAT "Sim/Nao"
+  POSITION 6
+  INITIAL "no"
+  ORDER 330
+  MAX-WIDTH 1
+
+ADD FIELD "Novacao" OF "pdvtmov" AS logical
+  FORMAT "Sim/Nao"
+  POSITION 7
+  INITIAL "no"
+  ORDER 340
+  MAX-WIDTH 1
+
+ADD FIELD "Devolucao" OF "pdvtmov" AS logical
+  FORMAT "Sim/Nao"
+  POSITION 8
+  INITIAL "no"
+  ORDER 350
+  MAX-WIDTH 1
+
+ADD FIELD "ExpSap" OF "pdvtmov" AS logical
+  FORMAT "Sim/Nao"
+  POSITION 9
+  INITIAL "no"
+  ORDER 360
+  MAX-WIDTH 1
+
+ADD FIELD "Cet" OF "titulo" AS decimal
+  FORMAT ">>9.99"
+  POSITION 42
+  INITIAL "0"
+  LABEL "CET"
+  DECIMALS 2
+  ORDER 400
+  MAX-WIDTH 17
+
+ADD FIELD "TxJuros" OF "titulo" AS decimal
+  FORMAT ">>9.9999"
+  POSITION 43
+  INITIAL "0"
+  LABEL "Tx.Juros"
+  DECIMALS 4
+  ORDER 410
+  MAX-WIDTH 19
+
+ADD FIELD "vlfrete" OF "titulo" AS decimal
+  FORMAT "->>>,>>>,>>9.99"
+  POSITION 44
+  INITIAL "0"
+  LABEL "Frete"
+  DECIMALS 2
+  ORDER 420
+  MAX-WIDTH 17
+
+ADD FIELD "contnum" OF "titulo" AS integer
+  FORMAT ">>>>>>999"
+  POSITION 47
+  INITIAL ?
+  HELP "Numero do Contrato."
+  LABEL "Contrato"
+  ORDER 470
+  MAX-WIDTH 4
+
+ADD FIELD "dtultpgparcial" OF "titulo" AS date
+  DESCRIPTION "Indica que houve pagamento parcial no pdvdoc"
+  FORMAT "99/99/9999"
+  POSITION 49
+  INITIAL ?
+  ORDER 490
+  MAX-WIDTH 4
+
+ADD FIELD "titvltot" OF "titulo" AS decimal
+  FORMAT ">,>>>,>>>,>>9.99"
+  POSITION 50
+  INITIAL "0"
+  HELP "Valor Total do Titulo, Armazenado quando houver baixa Parcial"
+  LABEL "Valor Total"
+  DECIMALS 2
+  ORDER 500
+  MAX-WIDTH 17
+
+ADD FIELD "titpagdesc" OF "titulo" AS decimal
+  FORMAT ">>>,>>9.99"
+  POSITION 52
+  INITIAL "0"
+  HELP "Informe o Valor do Desconto Concedido."
+  LABEL "Desconto"
+  COLUMN-LABEL "Desconto"
+  DECIMALS 2
+  ORDER 520
+  MAX-WIDTH 17
+
+ADD FIELD "tittotpag" OF "titulo" AS decimal
+  FORMAT ">>>,>>9.99"
+  POSITION 53
+  INITIAL "0"
+  HELP "Informe o Valor Liquido Pago."
+  LABEL "Vlr Principal Pg"
+  COLUMN-LABEL "Total Pago"
+  DECIMALS 2
+  ORDER 530
+  MAX-WIDTH 17
+
+.
+PSC
+cpstream=ISO8859-1
+.
+0000018295

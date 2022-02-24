@@ -1,0 +1,6 @@
+#! /bin/bash
+
+#export TERM=vt100
+
+cd /admcom/work
+/usr/dlc/bin/mpro -pf /admcom/scripts/hmlprd.pf -p /admcom/linux/logapl.p 

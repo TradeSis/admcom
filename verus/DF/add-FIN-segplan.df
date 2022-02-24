@@ -1,0 +1,44 @@
+ADD TABLE "segplan"
+  AREA "dados"
+  DUMP-NAME "segplan"
+
+ADD FIELD "etbcod" OF "segplan" AS integer 
+  FORMAT ">>9"
+  INITIAL "0"
+  POSITION 2
+  MAX-WIDTH 4
+  ORDER 10
+
+ADD FIELD "Ativo" OF "segplan" AS logical 
+  FORMAT "Sim/Nao"
+  INITIAL "yes"
+  LABEL "Ativo"
+  POSITION 3
+  MAX-WIDTH 1
+  COLUMN-LABEL "Atv"
+  ORDER 30
+
+ADD FIELD "fincod" OF "segplan" AS integer 
+  FORMAT ">>>>9"
+  INITIAL "0"
+  POSITION 4
+  MAX-WIDTH 4
+  ORDER 50
+
+ADD FIELD "procod" OF "segplan" AS integer 
+  FORMAT ">>>>>>>99"
+  INITIAL "0"
+  LABEL "Produto"
+  POSITION 7
+  MAX-WIDTH 4
+  COLUMN-LABEL "Produ."
+  HELP "Codigo do Produto."
+  ORDER 60
+
+ADD INDEX "segplanproduto" ON "segplan" 
+  AREA "indices"
+  UNIQUE
+  PRIMARY
+  INDEX-FIELD "procod" ASCENDING 
+  INDEX-FIELD "etbcod" ASCENDING 
+  INDEX-FIELD "fincod" ASCENDING 

@@ -1,0 +1,16 @@
+-T /tmp
+-d dmy
+-h 50
+-inp 32000
+-s 300
+-TB 31
+-TM 32
+-mmax 16384
+
+-db ger     -N tcp -S sdrebger -H sv-ca-dbe
+-db com     -N tcp -S sdrebcom -H sv-ca-dbe
+-db fin     -N tcp -S sdrebfin -H sv-ca-dbe
+-db suporte -N tcp -S sdrebsup -H sv-ca-dbe
+-db adm     -N tcp -S sadm     -H sv-ca-dbe
+-db nfe     -N tcp -S sdrebnfe -H sv-ca-dbe
+

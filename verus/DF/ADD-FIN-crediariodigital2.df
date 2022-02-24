@@ -1,0 +1,171 @@
+ ADD FIELD "nome" OF "contrSite" AS character 
+   FORMAT "x(30)"
+   INITIAL ""
+   MAX-WIDTH 60
+   ORDER 250
+ 
+ ADD FIELD "emailCliente" OF "contrSite" AS character 
+   FORMAT "x(25)"
+   INITIAL ""
+   MAX-WIDTH 50
+   ORDER 260
+ 
+ ADD FIELD "celular" OF "contrSite" AS character 
+   FORMAT "x(20)"
+   INITIAL ""
+   MAX-WIDTH 40
+   ORDER 270
+ 
+ ADD FIELD "valorParcela" OF "contrSite" AS decimal 
+   FORMAT "->>,>>9.99"
+   INITIAL "0"
+   MAX-WIDTH 17
+   DECIMALS 2
+   ORDER 280
+ 
+ ADD FIELD "acrescimoTotal" OF "contrSite" AS decimal 
+   FORMAT "->>,>>9.99"
+   INITIAL "0"
+   MAX-WIDTH 17
+   DECIMALS 2
+   ORDER 290
+ 
+ ADD FIELD "saldoCredito" OF "contrSite" AS decimal 
+   FORMAT "->>,>>9.99"
+   INITIAL "0"
+   MAX-WIDTH 17
+   DECIMALS 2
+   ORDER 300
+ 
+ ADD INDEX "cliente" ON "contrSite" 
+   AREA "dados"
+   INDEX-FIELD "clicod" ASCENDING 
+   INDEX-FIELD "etbcod" ASCENDING 
+   INDEX-FIELD "contnum" ASCENDING 
+ 
+ ADD INDEX "contrato" ON "contrSite" 
+   AREA "dados"
+   UNIQUE
+   INDEX-FIELD "contnum" ASCENDING 
+ 
+ ADD TABLE "contrSitem"
+   AREA "Schema Area"
+   DUMP-NAME "contrsitem"
+ 
+ ADD FIELD "codigoPedido" OF "contrSitem" AS character 
+   FORMAT "x(20)"
+   INITIAL ""
+   MAX-WIDTH 40
+   ORDER 100
+ 
+ ADD FIELD "etbcod" OF "contrSitem" AS integer 
+   FORMAT ">>9"
+   INITIAL "0"
+   MAX-WIDTH 4
+   ORDER 80
+ 
+ ADD FIELD "codigoProduto" OF "contrSitem" AS int64 
+   FORMAT ">>>>>>>>9"
+   INITIAL "0"
+   MAX-WIDTH 8
+   ORDER 110
+ 
+ ADD FIELD "descricao" OF "contrSitem" AS character 
+   FORMAT "x(25)"
+   INITIAL ""
+   MAX-WIDTH 50
+   ORDER 120
+ 
+ ADD FIELD "qtd" OF "contrSitem" AS integer 
+   FORMAT ">>>>9"
+   INITIAL "0"
+   MAX-WIDTH 4
+   ORDER 130
+ 
+ ADD FIELD "qtddevol" OF "contrSitem" AS integer 
+   FORMAT ">>>9"
+   INITIAL "0"
+   MAX-WIDTH 4
+   ORDER 140
+ 
+ ADD FIELD "valorUnitario" OF "contrSitem" AS decimal 
+   FORMAT "->>,>>9.99"
+   INITIAL "0"
+   MAX-WIDTH 17
+   DECIMALS 2
+   ORDER 150
+ 
+ ADD FIELD "valorTotal" OF "contrSitem" AS decimal 
+   FORMAT "->>>,>>9.99"
+   INITIAL "0"
+   MAX-WIDTH 17
+   DECIMALS 2
+   ORDER 160
+ 
+ ADD INDEX "contrSitem" ON "contrSitem" 
+   AREA "Schema Area"
+   UNIQUE
+   PRIMARY
+   INDEX-FIELD "etbcod" ASCENDING 
+   INDEX-FIELD "codigoPedido" ASCENDING 
+   INDEX-FIELD "codigoProduto" ASCENDING 
+ 
+ ADD TABLE "contrsitmov"
+   AREA "Schema Area"
+   DUMP-NAME "contrsitmov"
+ 
+ ADD FIELD "codigoPedido" OF "contrsitmov" AS character 
+   FORMAT "x(20)"
+   INITIAL ""
+   MAX-WIDTH 40
+   ORDER 100
+ 
+ ADD FIELD "codigoProduto" OF "contrsitmov" AS int64 
+   FORMAT ">>>>>>>>9"
+   INITIAL "0"
+   MAX-WIDTH 8
+   ORDER 110
+ 
+ ADD FIELD "etbcod" OF "contrsitmov" AS integer 
+   FORMAT ">>9"
+   INITIAL "0"
+   MAX-WIDTH 4
+   ORDER 80
+ 
+ ADD FIELD "qtd" OF "contrsitmov" AS integer 
+   FORMAT ">>>>9"
+   INITIAL "0"
+   MAX-WIDTH 4
+   ORDER 130
+ 
+ ADD FIELD "qtddevol" OF "contrsitmov" AS integer 
+   FORMAT ">>>9"
+   INITIAL "0"
+   MAX-WIDTH 4
+   ORDER 140
+ 
+ ADD FIELD "placod" OF "contrsitmov" AS integer 
+   FORMAT "->>>>>>>>9"
+   INITIAL "0"
+   MAX-WIDTH 4
+   ORDER 150
+ 
+ ADD FIELD "movseq" OF "contrsitmov" AS integer 
+   FORMAT "zzz9"
+   INITIAL "0"
+   LABEL "Sequencia"
+   MAX-WIDTH 4
+   COLUMN-LABEL "Seq"
+   ORDER 160
+ 
+ ADD INDEX "contrsitmov" ON "contrsitmov" 
+   AREA "Schema Area"
+   UNIQUE
+   PRIMARY
+   INDEX-FIELD "etbcod" ASCENDING 
+   INDEX-FIELD "codigoPedido" ASCENDING 
+   INDEX-FIELD "codigoProduto" ASCENDING 
+   INDEX-FIELD "placod" ASCENDING 
+   INDEX-FIELD "movseq" ASCENDING 
+ 
+

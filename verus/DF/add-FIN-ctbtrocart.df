@@ -1,0 +1,137 @@
+ADD TABLE "ctbtrocart"
+  AREA "dados"
+  DUMP-NAME "ctbtrocart"
+
+ADD FIELD "dtref" OF "ctbtrocart" AS date 
+  FORMAT "99/99/9999"
+  INITIAL ?
+  MAX-WIDTH 4
+  ORDER 20
+
+ADD FIELD "Valor" OF "ctbtrocart" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 40
+
+ADD FIELD "dtinc" OF "ctbtrocart" AS date 
+  FORMAT "99/99/9999"
+  INITIAL ?
+  MAX-WIDTH 4
+  ORDER 50
+
+ADD FIELD "hrinc" OF "ctbtrocart" AS integer 
+  FORMAT "->>>>>>9"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 60
+
+ADD FIELD "cobcodSAIDA" OF "ctbtrocart" AS integer 
+  FORMAT ">9"
+  INITIAL "0"
+  LABEL "Prop"
+  MAX-WIDTH 4
+  COLUMN-LABEL "Pr"
+  ORDER 70
+
+ADD FIELD "contnum" OF "ctbtrocart" AS integer 
+  FORMAT ">>>>>>999"
+  INITIAL "0"
+  LABEL "Contrato"
+  MAX-WIDTH 4
+  HELP "Numero do Contrato."
+  ORDER 80
+
+ADD FIELD "titpar" OF "ctbtrocart" AS integer 
+  FORMAT ">>9"
+  INITIAL "0"
+  LABEL "Parcela"
+  MAX-WIDTH 4
+  COLUMN-LABEL "PC"
+  VALEXP "titpar > 0"
+  VALMSG "Numero da Parcela do Titulo nao pode ser zero."
+  HELP "Informe o Numero da Parcela do Titulo."
+  ORDER 90
+
+ADD FIELD "dtrefSAIDA" OF "ctbtrocart" AS date 
+  FORMAT "99/99/9999"
+  INITIAL ?
+  MAX-WIDTH 4
+  ORDER 130
+
+ADD FIELD "qtdtitulos" OF "ctbtrocart" AS integer 
+  FORMAT ">>9"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 140
+
+ADD FIELD "ValorSAIDA" OF "ctbtrocart" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 150
+
+ADD FIELD "trecid" OF "ctbtrocart" AS recid 
+  FORMAT ">>>>>>>>>>>>>9"
+  INITIAL ?
+  MAX-WIDTH 8
+  ORDER 160
+
+ADD FIELD "operacaoENTRADA" OF "ctbtrocart" AS character 
+  FORMAT "x(15)"
+  INITIAL ""
+  MAX-WIDTH 30
+  ORDER 170
+
+ADD FIELD "operacaoSAIDA" OF "ctbtrocart" AS character 
+  FORMAT "x(15)"
+  INITIAL ""
+  MAX-WIDTH 30
+  ORDER 180
+
+ADD FIELD "DtEnvSap" OF "ctbtrocart" AS date 
+  FORMAT "99/99/9999"
+  INITIAL ?
+  MAX-WIDTH 4
+  ORDER 190
+
+ADD FIELD "cobcodENTRADA" OF "ctbtrocart" AS integer 
+  FORMAT ">9"
+  INITIAL "1"
+  LABEL "Cobranca"
+  MAX-WIDTH 4
+  COLUMN-LABEL "Cob"
+  VALEXP "can-find(cobra of titulo)"
+  VALMSG "Tipo de Cobranca nao Cadastrada."
+  HELP "Informe o Tipo de Cobranca, conforme Tabela."
+  ORDER 200
+
+ADD INDEX "ctbtrocart" ON "ctbtrocart" 
+  AREA "indices"
+  UNIQUE
+  PRIMARY
+  INDEX-FIELD "contnum" ASCENDING 
+  INDEX-FIELD "titpar" ASCENDING 
+  INDEX-FIELD "dtrefSAIDA" ASCENDING 
+
+ADD INDEX "dtenvsap" ON "ctbtrocart" 
+  AREA "indices"
+  INDEX-FIELD "DtEnvSap" ASCENDING 
+
+ADD INDEX "dtinc" ON "ctbtrocart" 
+  AREA "indices"
+  INDEX-FIELD "dtinc" ASCENDING 
+
+ADD INDEX "SALposcart" ON "ctbtrocart" 
+  AREA "indices"
+  INDEX-FIELD "dtrefSAIDA" ASCENDING 
+  INDEX-FIELD "dtref" ASCENDING 
+  INDEX-FIELD "cobcodSAIDA" ASCENDING 
+
+.
+PSC
+cpstream=ISO8859-1
+.
+0000002671

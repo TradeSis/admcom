@@ -1,0 +1,41 @@
+
+
+PROGRESS stack trace as of Sun Aug 23 23:30:07 2009
+Command line arguments are
+/usr/oe10/bin/_progres -b -pf /admcom/bases/bases-pgdesfil.pf -p /admcom/progr/pgdesfil.p -Wa -wpp 
+
+Startup parameters:
+-pf /usr/oe10/startup.pf,-cpinternal ISO8859-1,-cpstream ISO8859-1,-cpcoll Basic,-cpcase Basic,-d dmy,(end .pf),-b,-pf /admcom/bases/bases-pgdesfil.pf,-T /tmp,-d dmy,-h 8,-db /dados/bases/ger,-db /dados/bases/com,-db /dados/bases/fin,-db /dados/bases/suporte,(end .pf),-p /admcom/progr/pgdesfil.p
+
+#1   [0x9801d3] uttraceback+0x144  from /usr/oe10/bin/_progres
+#2   [0x9828b3] uttrace+0x13c  from /usr/oe10/bin/_progres
+#3   [0x982757] utcore+0x103  from /usr/oe10/bin/_progres
+#4   [0x44d68b] drexit+0x40f  from /usr/oe10/bin/_progres
+#5   [0x448d0a] msgout+0x229  from /usr/oe10/bin/_progres
+#6   [0x4486ca] msgn+0x15e  from /usr/oe10/bin/_progres
+#7   [0x71e8f3] fmFTL009err+0xf3  from /usr/oe10/bin/_progres
+#8   [0x71e959] fmgeti+0x3e  from /usr/oe10/bin/_progres
+#9   [0x71e9d1] fmgetl+0x9  from /usr/oe10/bin/_progres
+#10  [0x790a09] scdbx+0x146  from /usr/oe10/bin/_progres
+#11  [0x78c066] scLoadCacheDb+0x25  from /usr/oe10/bin/_progres
+#12  [0x78bf3c] scbuild+0xa6  from /usr/oe10/bin/_progres
+#13  [0x6bb3d0] prolksch+0x168  from /usr/oe10/bin/_progres
+#14  [0x6b2d86] proscbld+0x16  from /usr/oe10/bin/_progres
+#15  [0x6b287d] procon+0x860  from /usr/oe10/bin/_progres
+#16  [0x44f035] fdcon+0x3e9  from /usr/oe10/bin/_progres
+#17  [0x78ce21] scconx+0x584  from /usr/oe10/bin/_progres
+#18  [0x78c86e] sccon+0x49d  from /usr/oe10/bin/_progres
+#19  [0x4474f3] drcon+0x93  from /usr/oe10/bin/_progres
+#20  [0x6bcf1b] rnconnect+0xdb  from /usr/oe10/bin/_progres
+#21  [0x7562a0] rnexec_entry+0x412  from /usr/oe10/bin/_progres
+#22  [0x757ffe] rninterpret+0x41  from /usr/oe10/bin/_progres
+#23  [0x48b362] rnrq+0xf2  from /usr/oe10/bin/_progres
+#24  [0x447404] main+0x3e0  from /usr/oe10/bin/_progres
+#25  [0x1761d974] _dl_tls_get_addr_soft@@GLIBC_PRIVATE+0x1761d974  from /lib64/libc.so.6
+
+** ABL Stack Trace **
+
+--> /admcom/progr/pgdesfil.p (/admcom/progr/pgdesfil.p) at line 288
+
+** Persistent procedures/Classes **
+

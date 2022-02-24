@@ -1,0 +1,6 @@
+set smtp_url = "smtp://matheus.dorneles@lebes.com.br@smtp.gmail.com:587/"
+set smtp_pass = "MAtheus21"
+set from = "matheus.dorneles@lebes.com.br"
+set realname = "Test"
+
+

@@ -1,0 +1,31 @@
+
+ADD FIELD "vlf_hubseg" OF "contrato" AS decimal
+  FORMAT ">>>,>>>,>>9.99"
+  INITIAL "0"
+  LABEL "Vlr HubSeg"
+  MAX-WIDTH 17
+  COLUMN-LABEL "HubSeg"
+  DECIMALS 2
+  ORDER 250
+
+ADD FIELD "idAdesaoHubSeg" OF "contrato" AS character
+  FORMAT "x(20)"
+  INITIAL ""
+  MAX-WIDTH 40
+  ORDER 450
+
+ADD FIELD "idAdesaoHubSeg" OF "pdvdoc" AS character
+  FORMAT "x(20)"
+  INITIAL ""
+  MAX-WIDTH 40
+  ORDER 450
+  
+ADD FIELD "vlf_hubseg" OF "titulo" AS decimal
+  FORMAT "->>,>>9.9999"
+  INITIAL "0"
+  LABEL "Vlf HubSeg"
+  MAX-WIDTH 19
+  COLUMN-LABEL "HubSeg"
+  DECIMALS 4
+  ORDER 540
+  

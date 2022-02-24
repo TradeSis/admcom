@@ -1,0 +1,28 @@
+
+ADD FIELD "vlf_hubseg" OF "contrato" AS decimal
+  FORMAT ">>>,>>>,>>9.99"
+  INITIAL "0"
+  LABEL "Vlr HubSeg"
+  COLUMN-LABEL "HubSeg"
+  DECIMALS 2
+
+ADD FIELD "idAdesaoHubSeg" OF "contrato" AS character
+  FORMAT "x(20)"
+  INITIAL ""
+
+ADD FIELD "idAdesaoHubSeg" OF "pdvdoc" AS character
+  FORMAT "x(20)"
+  INITIAL ""
+
+ADD FIELD "vlf_hubseg" OF "titulo" AS decimal
+  FORMAT "->>,>>9.9999"
+  INITIAL "0"
+  LABEL "Vlf HubSeg"
+  COLUMN-LABEL "HubSeg"
+  DECIMALS 4
+
+.
+PSC
+cpstream=ISO8859-1
+.
+0000010140

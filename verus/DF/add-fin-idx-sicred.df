@@ -1,0 +1,13 @@
+ 
+ ADD INDEX "StatusOper" ON "sicred_contrato" 
+   AREA "indices"
+   INDEX-FIELD "sstatus" ASCENDING 
+   INDEX-FIELD "DataMov" ASCENDING 
+   INDEX-FIELD "operacao" ASCENDING 
+ 
+ ADD INDEX "statusoper" ON "sicred_pagamen" 
+   AREA "indices"
+   INDEX-FIELD "sstatus" ASCENDING 
+   INDEX-FIELD "DataMov" ASCENDING 
+   INDEX-FIELD "operacao" ASCENDING 
+ 

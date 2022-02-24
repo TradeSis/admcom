@@ -1,0 +1,97 @@
+ ADD TABLE "CSLPromessa"
+   AREA "dados"
+   DUMP-NAME "CSLPromessa"
+ 
+ ADD FIELD "IDAcordo" OF "CSLPromessa" AS int64 
+   FORMAT "9999999999999"
+   INITIAL "0"
+   LABEL "ID Acordo"
+   MAX-WIDTH 8
+   ORDER 10
+ 
+ ADD FIELD "contnum" OF "CSLPromessa" AS integer 
+   FORMAT ">>>>>>>>>9"
+   INITIAL "0"
+   LABEL "Contrato"
+   MAX-WIDTH 4
+   ORDER 11
+ 
+ ADD FIELD "Parcela" OF "CSLPromessa" AS integer 
+   FORMAT ">>9"
+   INITIAL "0"
+   LABEL "Parcela"
+   MAX-WIDTH 4
+   COLUMN-LABEL "Par"
+   HELP "Parcela Sequencial"
+   ORDER 20
+ 
+ ADD FIELD "DtVencimento" OF "CSLPromessa" AS date 
+   FORMAT "99/99/99"
+   INITIAL ?
+   LABEL "Vencimento"
+   MAX-WIDTH 4
+   COLUMN-LABEL "Venc"
+   ORDER 40
+ 
+ ADD FIELD "VlCobrado" OF "CSLPromessa" AS decimal 
+   FORMAT "->>>>,>>9.99"
+   INITIAL "0"
+   LABEL "Vl Acordo"
+   MAX-WIDTH 17
+   COLUMN-LABEL "Vl Acordo"
+   DECIMALS 2
+   ORDER 50
+ 
+ ADD FIELD "VlJuros" OF "CSLPromessa" AS decimal 
+   FORMAT ">>,>>9.99"
+   INITIAL "0"
+   LABEL "Juros"
+   MAX-WIDTH 17
+   DECIMALS 2
+   ORDER 370
+ 
+ ADD FIELD "dtBaixa" OF "CSLPromessa" AS date 
+   FORMAT "99/99/99"
+   INITIAL ?
+   LABEL "Dt Baixa"
+   MAX-WIDTH 4
+   ORDER 120
+ 
+ ADD FIELD "Situacao" OF "CSLPromessa" AS character 
+   FORMAT "x(10)"
+   INITIAL ""
+   LABEL "Situacao"
+   MAX-WIDTH 24
+   COLUMN-LABEL "S"
+   HELP "Aberto Vinculado Efetivado Cancelado"
+   ORDER 130
+ 
+ ADD FIELD "DtEnvio" OF "CSLPromessa" AS date 
+   FORMAT "99/99/99"
+   INITIAL ?
+   LABEL "Envio"
+   MAX-WIDTH 4
+   ORDER 140
+ 
+ ADD FIELD "Enviar" OF "CSLPromessa" AS logical 
+   FORMAT "yes/no"
+   INITIAL "no"
+   MAX-WIDTH 1
+   ORDER 150
+ 
+ ADD INDEX "CSLPromessa" ON "CSLPromessa" 
+   AREA "indices"
+   UNIQUE
+   PRIMARY
+   INDEX-FIELD "IDAcordo" ASCENDING 
+   INDEX-FIELD "contnum" ASCENDING 
+   INDEX-FIELD "Parcela" ASCENDING 
+ 
+ ADD INDEX "PorContrato" ON "CSLPromessa" 
+   AREA "indices"
+   INDEX-FIELD "contnum" ASCENDING 
+   INDEX-FIELD "Parcela" ASCENDING 
+ 
+   HELP "Informe a Data de Emissao do Titulo."
+   ORDER 420
+ 

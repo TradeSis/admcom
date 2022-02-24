@@ -1,0 +1,12 @@
+
+ADD FIELD "fatjuros" OF "estboleto" AS decimal 
+  FORMAT "->>>9.999999"
+  INITIAL "0"
+  DECIMALS 6
+
+
+.
+PSC
+cpstream=ISO8859-1
+.
+0000000720

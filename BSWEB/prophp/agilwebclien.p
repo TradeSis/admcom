@@ -1,0 +1,97 @@
+def var varquivo as char.
+def var v-clicod like clien.clicod.
+def var v-param as char.
+
+def var v-etbcod like estab.etbcod.
+def var vq as int. 
+def var v-ciccgc as char.                               
+v-param = os-getenv("clien").
+v-etbcod = int(substr(string(v-param),1,3)).
+v-clicod = int(substr(string(v-param),4,10)).
+v-ciccgc = substr(string(v-param),14,11).
+def temp-table tt-clien like clien.
+def new shared temp-table tt-dados
+    field parametro as char
+    field valor     as dec
+    field valoralt  as dec
+    field percent   as dec
+    field vcalclim  as dec
+    field operacao  as char format "x(1)" column-label ""
+    field numseq    as int
+    index dado1 numseq.
+
+def var vcalclim as dec.
+def var vpardias as dec.
+def var vdisponivel as dec.
+
+def var vobs as char.
+def var q as int.                    
+    
+    q = 0.
+
+    put "@INICIO;" string(time) skip.
+    
+    put "#CLIEN;" string(time) skip.
+    q = 0.
+    for each tt-clien. delete tt-clien. end.
+    if v-clicod > 0
+    then do:
+        find first clien where
+               clien.clicod = v-clicod no-lock no-error.
+        if avail clien
+        then do:       
+            create tt-clien.
+            buffer-copy clien to tt-clien.
+        end.
+    end.
+    else if v-ciccgc <> ""
+    then do:
+        find first clien where 
+                   clien.ciccgc = v-ciccgc no-lock no-error.
+        if avail clien
+        then do:
+            create tt-clien.
+            buffer-copy clien to tt-clien.
+            v-clicod = clien.clicod.
+        end.           
+    end.
+    if v-clicod > 0
+    then do:
+    for each tt-clien where
+               tt-clien.clicod = v-clicod :
+            find clien where clien.clicod = tt-clien.clicod no-lock.
+
+                vcalclim = 0.
+                vpardias = 0.
+                vdisponivel = 0.
+                run /admcom/progr/calccredscore.p (input "",
+                        input recid(clien),
+                        output vcalclim,
+                        output vpardias,
+                        output vdisponivel).
+                tt-clien.limcrd = vcalclim.
+                tt-clien.medatr = vpardias.
+            
+            export tt-clien except etbcad tipocod.
+            q = q + 1.
+            
+    end.  
+    put skip "@FIMCLIEN;" string(q,"99999") skip.
+    put "#CPCLIEN;" string(time) skip. 
+    q = 0.
+    for each cpclien where cpclien.clicod = v-clicod no-lock. 
+        export cpclien.
+        q = q + 1.    
+    end.
+    put skip "@FIMCPCLIEN;" string(q,"99999") skip.
+    put "#CARRO;" string(time) skip.
+    q = 0.
+    for each carro where
+             carro.clicod = v-clicod no-lock:
+         export carro.
+         q = q + 1.
+    end.   
+    put skip "@FIMCARRO;" string(q,"99999") skip.
+    put "#FIMFIM;" string(time) skip.
+    q = 0.
+    end.

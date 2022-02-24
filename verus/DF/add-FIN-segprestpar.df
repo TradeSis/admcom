@@ -1,0 +1,88 @@
+ADD TABLE "segprestpar"
+  AREA "dados"
+  DUMP-NAME "segprestpar"
+
+ADD FIELD "valMinParc" OF "segprestpar" AS decimal 
+  FORMAT "->>>9.99"
+  INITIAL "0"
+  LABEL "Vlr Parc"
+  MAX-WIDTH 17
+  COLUMN-LABEL "Vl Parc"
+  DECIMALS 2
+  ORDER 20
+
+ADD FIELD "qtdMinParc" OF "segprestpar" AS integer 
+  FORMAT ">>9"
+  INITIAL "0"
+  LABEL "Qtd Parc"
+  MAX-WIDTH 4
+  COLUMN-LABEL "Qt Parc"
+  ORDER 30
+
+ADD FIELD "percentualSeguro" OF "segprestpar" AS decimal 
+  FORMAT ">>9.99"
+  INITIAL "0"
+  LABEL "Perc Seguro"
+  MAX-WIDTH 17
+  COLUMN-LABEL "Perc"
+  DECIMALS 2
+  ORDER 40
+
+ADD FIELD "valorPorParcela" OF "segprestpar" AS decimal 
+  FORMAT ">>9.99"
+  INITIAL "0"
+  LABEL "Valor Por Parcela"
+  MAX-WIDTH 17
+  COLUMN-LABEL "Vlr Parcela"
+  DECIMALS 2
+  ORDER 50
+
+ADD FIELD "codigoSeguro" OF "segprestpar" AS integer 
+  FORMAT ">>>>>>>>9"
+  INITIAL "0"
+  LABEL "Codigo Seg"
+  MAX-WIDTH 4
+  COLUMN-LABEL "Codigo"
+  ORDER 60
+
+ADD FIELD "considerarEntrada" OF "segprestpar" AS logical 
+  FORMAT "Sim/Nao"
+  INITIAL "no"
+  LABEL "Entrada?"
+  MAX-WIDTH 1
+  COLUMN-LABEL "Entr"
+  ORDER 70
+
+ADD FIELD "etbcod" OF "segprestpar" AS integer 
+  FORMAT ">>9"
+  INITIAL "0"
+  LABEL "Filial"
+  MAX-WIDTH 4
+  COLUMN-LABEL "Fil"
+  ORDER 80
+
+ADD FIELD "TpSeguro" OF "segprestpar" AS integer 
+  FORMAT ">>9"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 90
+
+ADD FIELD "categoria" OF "segprestpar" AS character 
+  FORMAT "x(10)"
+  INITIAL ?
+  MAX-WIDTH 20
+  ORDER 100
+
+ADD INDEX "segprestparPRI" ON "segprestpar" 
+  AREA "indices"
+  UNIQUE
+  PRIMARY
+  INDEX-FIELD "TpSeguro" ASCENDING 
+  INDEX-FIELD "categoria" ASCENDING 
+  INDEX-FIELD "etbcod" ASCENDING 
+
+.
+PSC
+cpstream=ISO8859-1
+.
+0000001614

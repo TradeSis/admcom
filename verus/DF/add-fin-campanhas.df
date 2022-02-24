@@ -1,0 +1,120 @@
+
+ADD TABLE "novplanparcel"
+  AREA "dados"
+  DUMP-NAME "novplanparcel"
+
+ADD FIELD "camcod" OF "novplanparcel" AS integer 
+  FORMAT ">>>>9"
+  INITIAL ?
+  POSITION 2
+  MAX-WIDTH 4
+  ORDER 1
+
+ADD FIELD "planom" OF "novplanparcel" AS character 
+  FORMAT "x(12)"
+  INITIAL ""
+  LABEL "Plano"
+  POSITION 3
+  MAX-WIDTH 24
+  ORDER 20
+
+ADD FIELD "titpar" OF "novplanparcel" AS integer 
+  FORMAT ">>9"
+  INITIAL "0"
+  LABEL "Parcela"
+  POSITION 4
+  MAX-WIDTH 4
+  COLUMN-LABEL "PC"
+  ORDER 30
+
+ADD FIELD "perc_parcela" OF "novplanparcel" AS decimal 
+  FORMAT ">>9.999999%"
+  INITIAL "0"
+  LABEL "Perc"
+  POSITION 5
+  MAX-WIDTH 21
+  DECIMALS 6
+  ORDER 40
+
+ADD INDEX "novplanparcel" ON "novplanparcel" 
+  AREA "dados"
+  UNIQUE
+  PRIMARY
+  INDEX-FIELD "camcod" ASCENDING 
+  INDEX-FIELD "planom" ASCENDING 
+  INDEX-FIELD "titpar" ASCENDING 
+
+
+RENAME FIELD "dtemissao" OF "novcampanha" TO "dtemissao_de"
+
+ADD FIELD "Arrasta" OF "novcampanha" AS logical
+  FORMAT "Sim/Nao"
+  POSITION 16
+  INITIAL "no"
+  LABEL "Arrasta Tudo?"
+  COLUMN-LABEL "Arrasta"
+  ORDER 200
+  MAX-WIDTH 1
+
+ADD FIELD "dtemissao_ate" OF "novcampanha" AS date
+  FORMAT "99/99/9999"
+  POSITION 21
+  INITIAL ?
+  LABEL "emissao ate"
+  ORDER 81
+  MAX-WIDTH 4
+
+ADD FIELD "ParcVencidaSo" OF "novcampanha" AS logical
+  FORMAT "Sim/Nao"
+  POSITION 23
+  INITIAL "no"
+  LABEL "So Parc Vencida"
+  ORDER 210
+  MAX-WIDTH 1
+
+ADD FIELD "ParcVencidaQtd" OF "novcampanha" AS integer
+  FORMAT ">>9"
+  POSITION 24
+  INITIAL "0"
+  LABEL "Qtd Parc Vencida"
+  ORDER 220
+  MAX-WIDTH 4
+
+ADD FIELD "ParcVencerQtd" OF "novcampanha" AS integer
+  FORMAT ">>9"
+  POSITION 25
+  INITIAL "0"
+  LABEL "Qtd Parc Vencer"
+  ORDER 230
+  MAX-WIDTH 4
+
+ADD FIELD "permite_alt_vezes" OF "novplanos" AS logical
+  FORMAT "Sim/Nao"
+  POSITION 12
+  INITIAL "no"
+  ORDER 100
+  MAX-WIDTH 1
+
+ADD FIELD "valor_acres" OF "novplanos" AS decimal
+  FORMAT ">>>>>>>9.99"
+  POSITION 13
+  INITIAL "0"
+  LABEL "Valor Acrescimo"
+  DECIMALS 2
+  ORDER 110
+  MAX-WIDTH 17
+
+ADD FIELD "valor_desc" OF "novplanos" AS decimal
+  FORMAT "->>,>>9.99"
+  POSITION 14
+  INITIAL "0"
+  LABEL "valor desc"
+  ORDER 120
+  MAX-WIDTH 15
+
+
+.
+PSC
+cpstream=ISO8859-1
+.
+0000010712

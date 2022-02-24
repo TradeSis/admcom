@@ -1,0 +1,1595 @@
+<?xml version='1.0' encoding='UTF-8'?><wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://neurotech.com.br/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://neurotech.com.br/">
+  <wsdl:types>
+<s:schema xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://neurotech.com.br/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" elementFormDefault="qualified" targetNamespace="http://neurotech.com.br/">
+      
+  <s:element name="getVersao">
+        
+    <s:complexType/>
+      
+  </s:element>
+      
+  <s:element name="getVersaoResponse">
+        
+    <s:complexType>
+          
+      <s:sequence>
+            
+        <s:element maxOccurs="1" minOccurs="0" name="getVersaoResult" type="s:string"/>
+          
+      </s:sequence>
+        
+    </s:complexType>
+      
+  </s:element>
+      
+  <s:element name="executarFluxo">
+        
+    <s:complexType>
+          
+      <s:sequence>
+            
+        <s:element maxOccurs="1" minOccurs="1" name="pCdAssociado" type="s:int"/>
+            
+        <s:element maxOccurs="1" minOccurs="1" name="pCdFilial" type="s:int"/>
+            
+        <s:element maxOccurs="1" minOccurs="0" name="pSenha" type="s:string"/>
+            
+        <s:element maxOccurs="1" minOccurs="0" name="pFluxo" type="tns:Fluxo"/>
+          
+      </s:sequence>
+        
+    </s:complexType>
+      
+  </s:element>
+      
+  <s:complexType name="Fluxo">
+        
+    <s:sequence>
+          
+      <s:element maxOccurs="1" minOccurs="0" name="NmPolitica" type="s:string"/>
+          
+      <s:element maxOccurs="1" minOccurs="0" name="TagVersaoPolitica" type="s:string"/>
+          
+      <s:element maxOccurs="1" minOccurs="0" name="NmFluxoResultado" type="s:string"/>
+          
+      <s:element maxOccurs="1" minOccurs="1" name="IdProposta" type="s:long"/>
+          
+      <s:element maxOccurs="1" minOccurs="0" name="LsParametros" type="tns:ArrayOfParametroFluxo"/>
+        
+    </s:sequence>
+      
+  </s:complexType>
+      
+  <s:complexType name="ArrayOfParametroFluxo">
+        
+    <s:sequence>
+          
+      <s:element maxOccurs="unbounded" minOccurs="0" name="ParametroFluxo" nillable="true" type="tns:ParametroFluxo"/>
+        
+    </s:sequence>
+      
+  </s:complexType>
+      
+  <s:complexType name="ParametroFluxo">
+        
+    <s:sequence>
+          
+      <s:element maxOccurs="1" minOccurs="0" name="NmParametro" type="s:string"/>
+          
+      <s:element maxOccurs="1" minOccurs="0" name="VlParametro" type="s:string"/>
+        
+    </s:sequence>
+      
+  </s:complexType>
+      
+  <s:element name="executarFluxoResponse">
+        
+    <s:complexType>
+          
+      <s:sequence>
+            
+        <s:element maxOccurs="1" minOccurs="0" name="executarFluxoResult" type="tns:RetornoFluxo"/>
+          
+      </s:sequence>
+        
+    </s:complexType>
+      
+  </s:element>
+      
+  <s:complexType name="RetornoFluxo">
+        
+    <s:sequence>
+          
+      <s:element maxOccurs="1" minOccurs="1" name="CdOperacao" type="s:long"/>
+          
+      <s:element maxOccurs="1" minOccurs="0" name="CdMensagem" type="s:string"/>
+          
+      <s:element maxOccurs="1" minOccurs="0" name="DsMensagem" type="s:string"/>
+          
+      <s:element maxOccurs="1" minOccurs="1" name="Sucesso" type="s:boolean"/>
+          
+      <s:element maxOccurs="1" minOccurs="0" name="Resultado" type="s:string"/>
+          
+      <s:element maxOccurs="1" minOccurs="0" name="LsRetorno" type="tns:ArrayOfParametroFluxo"/>
+          
+      <s:element maxOccurs="1" minOccurs="0" name="XmlRegras" type="s:string"/>
+          
+      <s:element maxOccurs="1" minOccurs="0" name="XmlConsultas" type="s:string"/>
+        
+    </s:sequence>
+      
+  </s:complexType>
+      
+  <s:element name="executarFluxoComParametros">
+        
+    <s:complexType>
+          
+      <s:sequence>
+            
+        <s:element maxOccurs="1" minOccurs="0" name="Credenciais" type="tns:Credenciais"/>
+            
+        <s:element maxOccurs="1" minOccurs="0" name="Fluxo" type="tns:Fluxo"/>
+            
+        <s:element maxOccurs="1" minOccurs="0" name="Parametros" type="tns:ArrayOfPropriedade"/>
+          
+      </s:sequence>
+        
+    </s:complexType>
+      
+  </s:element>
+      
+  <s:complexType name="Credenciais">
+        
+    <s:sequence>
+          
+      <s:element maxOccurs="1" minOccurs="1" name="CodigoAssociado" type="s:int"/>
+          
+      <s:element maxOccurs="1" minOccurs="1" name="CodigoFilial" type="s:int"/>
+          
+      <s:element maxOccurs="1" minOccurs="0" name="Senha" type="s:string"/>
+        
+    </s:sequence>
+      
+  </s:complexType>
+      
+  <s:complexType name="ArrayOfPropriedade">
+        
+    <s:sequence>
+          
+      <s:element maxOccurs="unbounded" minOccurs="0" name="Propriedade" nillable="true" type="tns:Propriedade"/>
+        
+    </s:sequence>
+      
+  </s:complexType>
+      
+  <s:complexType name="Propriedade">
+        
+    <s:sequence>
+          
+      <s:element maxOccurs="1" minOccurs="0" name="Nome" type="s:string"/>
+          
+      <s:element maxOccurs="1" minOccurs="0" name="Valor" type="s:string"/>
+        
+    </s:sequence>
+      
+  </s:complexType>
+      
+  <s:element name="executarFluxoComParametrosResponse">
+        
+    <s:complexType>
+          
+      <s:sequence>
+            
+        <s:element maxOccurs="1" minOccurs="0" name="executarFluxoComParametrosResult" type="tns:RetornoFluxoComParametros"/>
+          
+      </s:sequence>
+        
+    </s:complexType>
+      
+  </s:element>
+      
+  <s:complexType name="RetornoFluxoComParametros">
+        
+    <s:sequence>
+          
+      <s:element maxOccurs="1" minOccurs="1" name="CdOperacao" type="s:long"/>
+          
+      <s:element maxOccurs="1" minOccurs="0" name="CdMensagem" type="s:string"/>
+          
+      <s:element maxOccurs="1" minOccurs="0" name="DsMensagem" type="s:string"/>
+          
+      <s:element maxOccurs="1" minOccurs="1" name="Sucesso" type="s:boolean"/>
+          
+      <s:element maxOccurs="1" minOccurs="0" name="Resultado" type="s:string"/>
+          
+      <s:element maxOccurs="1" minOccurs="0" name="LsRetorno" type="tns:ArrayOfParametroFluxo"/>
+          
+      <s:element maxOccurs="1" minOccurs="0" name="LsRegra" type="tns:ArrayOfRetornoRegra"/>
+          
+      <s:element maxOccurs="1" minOccurs="0" name="LsConsulta" type="tns:ArrayOfRetornoConsulta"/>
+        
+    </s:sequence>
+      
+  </s:complexType>
+      
+  <s:complexType name="ArrayOfRetornoRegra">
+        
+    <s:sequence>
+          
+      <s:element maxOccurs="unbounded" minOccurs="0" name="RetornoRegra" nillable="true" type="tns:RetornoRegra"/>
+        
+    </s:sequence>
+      
+  </s:complexType>
+      
+  <s:complexType name="RetornoRegra">
+        
+    <s:sequence>
+          
+      <s:element maxOccurs="1" minOccurs="0" name="Nome" type="s:string"/>
+          
+      <s:element maxOccurs="1" minOccurs="0" name="FlagStatus" type="s:string"/>
+          
+      <s:element maxOccurs="1" minOccurs="0" name="Descricao" type="s:string"/>
+          
+      <s:element maxOccurs="1" minOccurs="0" name="DescricaoAnalitica" type="s:string"/>
+          
+      <s:element maxOccurs="1" minOccurs="0" name="DescricaoSintetica" type="s:string"/>
+          
+      <s:element maxOccurs="1" minOccurs="1" name="Carencia" nillable="true" type="s:int"/>
+          
+      <s:element maxOccurs="1" minOccurs="1" name="CarenciaAtiva" type="s:boolean"/>
+          
+      <s:element maxOccurs="1" minOccurs="0" name="LsOutrasInformacoes" type="tns:ArrayOfParametroFluxo"/>
+          
+      <s:element maxOccurs="1" minOccurs="0" name="LsEntradas" type="tns:ArrayOfParametroFluxo"/>
+          
+      <s:element maxOccurs="1" minOccurs="0" name="RegraPai" type="s:string"/>
+          
+      <s:element maxOccurs="1" minOccurs="1" name="Duracao" nillable="true" type="s:long"/>
+          
+      <s:element maxOccurs="1" minOccurs="1" name="StartTime" nillable="true" type="s:dateTime"/>
+          
+      <s:element maxOccurs="1" minOccurs="1" name="EndTime" nillable="true" type="s:dateTime"/>
+        
+    </s:sequence>
+      
+  </s:complexType>
+      
+  <s:complexType name="ArrayOfRetornoConsulta">
+        
+    <s:sequence>
+          
+      <s:element maxOccurs="unbounded" minOccurs="0" name="RetornoConsulta" nillable="true" type="tns:RetornoConsulta"/>
+        
+    </s:sequence>
+      
+  </s:complexType>
+      
+  <s:complexType name="RetornoConsulta">
+        
+    <s:sequence>
+          
+      <s:element maxOccurs="1" minOccurs="0" name="IdLog" type="s:string"/>
+          
+      <s:element maxOccurs="1" minOccurs="0" name="Nome" type="s:string"/>
+          
+      <s:element maxOccurs="1" minOccurs="0" name="Descricao" type="s:string"/>
+          
+      <s:element maxOccurs="1" minOccurs="0" name="Status" type="s:string"/>
+          
+      <s:element maxOccurs="1" minOccurs="0" name="DescricaoStatus" type="s:string"/>
+          
+      <s:element maxOccurs="1" minOccurs="0" name="DataHoraRealizacao" type="s:string"/>
+          
+      <s:element maxOccurs="1" minOccurs="0" name="Origem" type="s:string"/>
+          
+      <s:element maxOccurs="1" minOccurs="0" name="Validade" type="s:string"/>
+          
+      <s:element maxOccurs="1" minOccurs="0" name="UrlGateway" type="s:string"/>
+          
+      <s:element maxOccurs="1" minOccurs="1" name="DhInicio" nillable="true" type="s:dateTime"/>
+          
+      <s:element maxOccurs="1" minOccurs="1" name="DhFim" nillable="true" type="s:dateTime"/>
+          
+      <s:element maxOccurs="1" minOccurs="0" name="LsResultado" type="tns:ArrayOfParametroFluxo"/>
+        
+    </s:sequence>
+      
+  </s:complexType>
+      
+  <s:element name="executarFluxoAssincrono">
+        
+    <s:complexType>
+          
+      <s:sequence>
+            
+        <s:element maxOccurs="1" minOccurs="0" name="Credenciais" type="tns:Credenciais"/>
+            
+        <s:element maxOccurs="1" minOccurs="0" name="Fluxo" type="tns:Fluxo"/>
+            
+        <s:element maxOccurs="1" minOccurs="0" name="Parametros" type="tns:ArrayOfPropriedade"/>
+          
+      </s:sequence>
+        
+    </s:complexType>
+      
+  </s:element>
+      
+  <s:element name="executarFluxoAssincronoResponse">
+        
+    <s:complexType>
+          
+      <s:sequence>
+            
+        <s:element maxOccurs="1" minOccurs="0" name="executarFluxoAssincronoResult" type="tns:RetornoFluxoAssincrono"/>
+          
+      </s:sequence>
+        
+    </s:complexType>
+      
+  </s:element>
+      
+  <s:complexType name="RetornoFluxoAssincrono">
+        
+    <s:sequence>
+          
+      <s:element maxOccurs="1" minOccurs="1" name="CdOperacao" type="s:long"/>
+          
+      <s:element maxOccurs="1" minOccurs="0" name="CdMensagem" type="s:string"/>
+          
+      <s:element maxOccurs="1" minOccurs="0" name="DsMensagem" type="s:string"/>
+          
+      <s:element maxOccurs="1" minOccurs="1" name="Sucesso" type="s:boolean"/>
+        
+    </s:sequence>
+      
+  </s:complexType>
+      
+  <s:element name="recuperarDetalhes">
+        
+    <s:complexType>
+          
+      <s:sequence>
+            
+        <s:element maxOccurs="1" minOccurs="1" name="pCdAssociado" type="s:int"/>
+            
+        <s:element maxOccurs="1" minOccurs="1" name="pCdFilial" type="s:int"/>
+            
+        <s:element maxOccurs="1" minOccurs="0" name="pSenha" type="s:string"/>
+            
+        <s:element maxOccurs="1" minOccurs="1" name="pLogId" type="s:int"/>
+          
+      </s:sequence>
+        
+    </s:complexType>
+      
+  </s:element>
+      
+  <s:element name="recuperarDetalhesResponse">
+        
+    <s:complexType>
+          
+      <s:sequence>
+            
+        <s:element maxOccurs="1" minOccurs="0" name="recuperarDetalhesResult" type="tns:ArrayOfParametroFluxo"/>
+          
+      </s:sequence>
+        
+    </s:complexType>
+      
+  </s:element>
+      
+  <s:element name="alterarStatus">
+        
+    <s:complexType>
+          
+      <s:sequence>
+            
+        <s:element maxOccurs="1" minOccurs="1" name="pCdAssociado" type="s:int"/>
+            
+        <s:element maxOccurs="1" minOccurs="1" name="pCdFilial" nillable="true" type="s:int"/>
+            
+        <s:element maxOccurs="1" minOccurs="0" name="pSenha" type="s:string"/>
+            
+        <s:element maxOccurs="1" minOccurs="1" name="pLogId" type="s:long"/>
+            
+        <s:element maxOccurs="1" minOccurs="0" name="pNovoStatus" type="s:string"/>
+          
+      </s:sequence>
+        
+    </s:complexType>
+      
+  </s:element>
+      
+  <s:element name="alterarStatusResponse">
+        
+    <s:complexType>
+          
+      <s:sequence>
+            
+        <s:element maxOccurs="1" minOccurs="0" name="alterarStatusResult" type="tns:RetornoAtualizacaoStatus"/>
+          
+      </s:sequence>
+        
+    </s:complexType>
+      
+  </s:element>
+      
+  <s:complexType name="RetornoAtualizacaoStatus">
+        
+    <s:sequence>
+          
+      <s:element maxOccurs="1" minOccurs="1" name="Sucesso" type="s:boolean"/>
+          
+      <s:element maxOccurs="1" minOccurs="0" name="Mensagem" type="s:string"/>
+        
+    </s:sequence>
+      
+  </s:complexType>
+      
+  <s:element name="obterDecisaoFinal">
+        
+    <s:complexType>
+          
+      <s:sequence>
+            
+        <s:element maxOccurs="1" minOccurs="1" name="pCdAssociado" type="s:int"/>
+            
+        <s:element maxOccurs="1" minOccurs="1" name="pCdFilial" nillable="true" type="s:int"/>
+            
+        <s:element maxOccurs="1" minOccurs="0" name="pSenha" type="s:string"/>
+            
+        <s:element maxOccurs="1" minOccurs="1" name="pLogId" type="s:long"/>
+          
+      </s:sequence>
+        
+    </s:complexType>
+      
+  </s:element>
+      
+  <s:element name="obterDecisaoFinalResponse">
+        
+    <s:complexType>
+          
+      <s:sequence>
+            
+        <s:element maxOccurs="1" minOccurs="0" name="obterDecisaoFinalResult" type="tns:RetornoDecisaoFinal"/>
+          
+      </s:sequence>
+        
+    </s:complexType>
+      
+  </s:element>
+      
+  <s:complexType name="RetornoDecisaoFinal">
+        
+    <s:sequence>
+          
+      <s:element maxOccurs="1" minOccurs="1" name="Sucesso" type="s:boolean"/>
+          
+      <s:element maxOccurs="1" minOccurs="0" name="Mensagem" type="s:string"/>
+          
+      <s:element maxOccurs="1" minOccurs="0" name="ResultadoParcial" type="s:string"/>
+          
+      <s:element maxOccurs="1" minOccurs="0" name="ResultadoFinal" type="s:string"/>
+        
+    </s:sequence>
+      
+  </s:complexType>
+      
+  <s:element name="monitorar">
+        
+    <s:complexType>
+          
+      <s:sequence>
+            
+        <s:element maxOccurs="1" minOccurs="1" name="pCdAssociado" type="s:int"/>
+            
+        <s:element maxOccurs="1" minOccurs="1" name="pCdFilial" type="s:int"/>
+            
+        <s:element maxOccurs="1" minOccurs="0" name="pSenha" type="s:string"/>
+            
+        <s:element maxOccurs="1" minOccurs="0" name="pNmPolitica" type="s:string"/>
+          
+      </s:sequence>
+        
+    </s:complexType>
+      
+  </s:element>
+      
+  <s:element name="monitorarResponse">
+        
+    <s:complexType>
+          
+      <s:sequence>
+            
+        <s:element maxOccurs="1" minOccurs="0" name="monitorarResult" type="tns:RetornoMonitoramento"/>
+          
+      </s:sequence>
+        
+    </s:complexType>
+      
+  </s:element>
+      
+  <s:complexType name="RetornoMonitoramento">
+        
+    <s:sequence>
+          
+      <s:element maxOccurs="1" minOccurs="1" name="Sucesso" type="s:boolean"/>
+          
+      <s:element maxOccurs="1" minOccurs="0" name="Mensagem" type="s:string"/>
+          
+      <s:element maxOccurs="1" minOccurs="1" name="PingOK" type="s:boolean"/>
+          
+      <s:element maxOccurs="1" minOccurs="1" name="TempoProcessamento" type="s:long"/>
+        
+    </s:sequence>
+      
+  </s:complexType>
+      
+  <s:element name="monitorarVersaoPolitica">
+        
+    <s:complexType>
+          
+      <s:sequence>
+            
+        <s:element maxOccurs="1" minOccurs="1" name="pCdAssociado" type="s:int"/>
+            
+        <s:element maxOccurs="1" minOccurs="1" name="pCdFilial" type="s:int"/>
+            
+        <s:element maxOccurs="1" minOccurs="0" name="pSenha" type="s:string"/>
+            
+        <s:element maxOccurs="1" minOccurs="0" name="pNmPolitica" type="s:string"/>
+            
+        <s:element maxOccurs="1" minOccurs="0" name="pVersaoPolitica" type="s:string"/>
+          
+      </s:sequence>
+        
+    </s:complexType>
+      
+  </s:element>
+      
+  <s:element name="monitorarVersaoPoliticaResponse">
+        
+    <s:complexType>
+          
+      <s:sequence>
+            
+        <s:element maxOccurs="1" minOccurs="0" name="monitorarVersaoPoliticaResult" type="tns:RetornoMonitoramento"/>
+          
+      </s:sequence>
+        
+    </s:complexType>
+      
+  </s:element>
+      
+  <s:element name="monitorarComCredenciais">
+        
+    <s:complexType>
+          
+      <s:sequence>
+            
+        <s:element maxOccurs="1" minOccurs="0" name="Credenciais" type="tns:Credenciais"/>
+            
+        <s:element maxOccurs="1" minOccurs="0" name="pNmPolitica" type="s:string"/>
+            
+        <s:element maxOccurs="1" minOccurs="0" name="pVersaoPolitica" type="s:string"/>
+          
+      </s:sequence>
+        
+    </s:complexType>
+      
+  </s:element>
+      
+  <s:element name="monitorarComCredenciaisResponse">
+        
+    <s:complexType>
+          
+      <s:sequence>
+            
+        <s:element maxOccurs="1" minOccurs="0" name="monitorarComCredenciaisResult" type="tns:RetornoMonitoramento"/>
+          
+      </s:sequence>
+        
+    </s:complexType>
+      
+  </s:element>
+      
+  <s:element name="recuperarStatusCliente">
+        
+    <s:complexType>
+          
+      <s:sequence>
+            
+        <s:element maxOccurs="1" minOccurs="1" name="pCdAssociado" type="s:int"/>
+            
+        <s:element maxOccurs="1" minOccurs="1" name="pCdFilial" type="s:int"/>
+            
+        <s:element maxOccurs="1" minOccurs="0" name="pSenha" type="s:string"/>
+            
+        <s:element maxOccurs="1" minOccurs="1" name="pLogIdProposta" type="s:long"/>
+          
+      </s:sequence>
+        
+    </s:complexType>
+      
+  </s:element>
+      
+  <s:element name="recuperarStatusClienteResponse">
+        
+    <s:complexType>
+          
+      <s:sequence>
+            
+        <s:element maxOccurs="1" minOccurs="0" name="recuperarStatusClienteResult" type="tns:ArrayOfRetornoStatusCliente"/>
+          
+      </s:sequence>
+        
+    </s:complexType>
+      
+  </s:element>
+      
+  <s:complexType name="ArrayOfRetornoStatusCliente">
+        
+    <s:sequence>
+          
+      <s:element maxOccurs="unbounded" minOccurs="0" name="RetornoStatusCliente" nillable="true" type="tns:RetornoStatusCliente"/>
+        
+    </s:sequence>
+      
+  </s:complexType>
+      
+  <s:complexType name="RetornoStatusCliente">
+        
+    <s:sequence>
+          
+      <s:element maxOccurs="1" minOccurs="1" name="CodigoOperacao" type="s:long"/>
+          
+      <s:element maxOccurs="1" minOccurs="1" name="DataHora" type="s:dateTime"/>
+          
+      <s:element maxOccurs="1" minOccurs="0" name="NomePolitica" type="s:string"/>
+          
+      <s:element maxOccurs="1" minOccurs="0" name="ResultadoParcial" type="s:string"/>
+          
+      <s:element maxOccurs="1" minOccurs="0" name="ResultadoFinal" type="s:string"/>
+        
+    </s:sequence>
+      
+  </s:complexType>
+      
+  <s:element name="recuperarLayout">
+        
+    <s:complexType>
+          
+      <s:sequence>
+            
+        <s:element maxOccurs="1" minOccurs="1" name="pCdAssociado" type="s:int"/>
+            
+        <s:element maxOccurs="1" minOccurs="1" name="pCdFilial" type="s:int"/>
+            
+        <s:element maxOccurs="1" minOccurs="0" name="pSenha" type="s:string"/>
+            
+        <s:element maxOccurs="1" minOccurs="0" name="pNmPolitica" type="s:string"/>
+            
+        <s:element maxOccurs="1" minOccurs="0" name="pVersaoPolitica" type="s:string"/>
+          
+      </s:sequence>
+        
+    </s:complexType>
+      
+  </s:element>
+      
+  <s:element name="recuperarLayoutResponse">
+        
+    <s:complexType>
+          
+      <s:sequence>
+            
+        <s:element maxOccurs="1" minOccurs="0" name="recuperarLayoutResult" type="tns:RetornoLayout"/>
+          
+      </s:sequence>
+        
+    </s:complexType>
+      
+  </s:element>
+      
+  <s:complexType name="RetornoLayout">
+        
+    <s:complexContent mixed="false">
+          
+      <s:extension base="tns:Retorno">
+            
+        <s:sequence>
+              
+          <s:element maxOccurs="1" minOccurs="0" name="VariaveisEntrada" type="tns:ArrayOfVariavelFluxoOfDominio"/>
+              
+          <s:element maxOccurs="1" minOccurs="0" name="VariaveisSaida" type="tns:ArrayOfVariavelFluxoOfDominio"/>
+              
+          <s:element maxOccurs="1" minOccurs="0" name="VariaveisConfiguracao" type="tns:ArrayOfVariavelFluxoOfDominio"/>
+              
+          <s:element maxOccurs="1" minOccurs="0" name="VariaveisCalculadas" type="tns:ArrayOfVariavelFluxoOfDominio"/>
+              
+          <s:element maxOccurs="1" minOccurs="0" name="Regras" type="tns:ArrayOfRegraFluxo"/>
+              
+          <s:element maxOccurs="1" minOccurs="0" name="VariaveisGerais" type="tns:ArrayOfVariavelFluxoOfDominio"/>
+              
+          <s:element maxOccurs="1" minOccurs="0" name="DecisionTrees" type="tns:ArrayOfDecisionTree"/>
+              
+          <s:element maxOccurs="1" minOccurs="0" name="Telas" type="tns:ArrayOfTela"/>
+            
+        </s:sequence>
+          
+      </s:extension>
+        
+    </s:complexContent>
+      
+  </s:complexType>
+      
+  <s:complexType name="Retorno">
+        
+    <s:sequence>
+          
+      <s:element maxOccurs="1" minOccurs="1" name="Sucesso" type="s:boolean"/>
+          
+      <s:element maxOccurs="1" minOccurs="0" name="Mensagem" type="s:string"/>
+        
+    </s:sequence>
+      
+  </s:complexType>
+      
+  <s:complexType name="ArrayOfVariavelFluxoOfDominio">
+        
+    <s:sequence>
+          
+      <s:element maxOccurs="unbounded" minOccurs="0" name="VariavelFluxoOfDominio" nillable="true" type="tns:VariavelFluxoOfDominio"/>
+        
+    </s:sequence>
+      
+  </s:complexType>
+      
+  <s:complexType name="VariavelFluxoOfDominio">
+        
+    <s:sequence>
+          
+      <s:element maxOccurs="1" minOccurs="0" name="Nome" type="s:string"/>
+          
+      <s:element maxOccurs="1" minOccurs="0" name="Descricao" type="s:string"/>
+          
+      <s:element maxOccurs="1" minOccurs="0" name="DominioVariavel" type="tns:Dominio"/>
+        
+    </s:sequence>
+      
+  </s:complexType>
+      
+  <s:complexType name="Dominio">
+        
+    <s:sequence>
+          
+      <s:element maxOccurs="1" minOccurs="1" name="TipoDominio" type="tns:TipoDominio"/>
+          
+      <s:element maxOccurs="1" minOccurs="0" name="ValorDefault" type="s:string"/>
+        
+    </s:sequence>
+      
+  </s:complexType>
+      
+  <s:simpleType name="TipoDominio">
+        
+    <s:restriction base="s:string">
+          
+      <s:enumeration value="NUMERICO"/>
+          
+      <s:enumeration value="STRING"/>
+          
+      <s:enumeration value="ARRAY"/>
+          
+      <s:enumeration value="MATRIX"/>
+          
+      <s:enumeration value="LISTA"/>
+        
+    </s:restriction>
+      
+  </s:simpleType>
+      
+  <s:complexType name="DominioListaOfValorLista">
+        
+    <s:complexContent mixed="false">
+          
+      <s:extension base="tns:Dominio">
+            
+        <s:sequence>
+              
+          <s:element maxOccurs="1" minOccurs="0" name="ValoresPossiveis" type="tns:ArrayOfValorLista"/>
+              
+          <s:element maxOccurs="1" minOccurs="1" name="MultiSelect" type="s:boolean"/>
+            
+        </s:sequence>
+          
+      </s:extension>
+        
+    </s:complexContent>
+      
+  </s:complexType>
+      
+  <s:complexType name="ArrayOfValorLista">
+        
+    <s:sequence>
+          
+      <s:element maxOccurs="unbounded" minOccurs="0" name="ValorLista" nillable="true" type="tns:ValorLista"/>
+        
+    </s:sequence>
+      
+  </s:complexType>
+      
+  <s:complexType name="ValorLista">
+        
+    <s:sequence>
+          
+      <s:element maxOccurs="1" minOccurs="0" name="Valor" type="s:string"/>
+          
+      <s:element maxOccurs="1" minOccurs="0" name="Descricao" type="s:string"/>
+        
+    </s:sequence>
+      
+  </s:complexType>
+      
+  <s:complexType name="ValorRegra">
+        
+    <s:complexContent mixed="false">
+          
+      <s:extension base="tns:ValorLista">
+            
+        <s:sequence>
+              
+          <s:element maxOccurs="1" minOccurs="0" name="DescricaoAnalitica" type="s:string"/>
+              
+          <s:element maxOccurs="1" minOccurs="0" name="DescricaoSintetica" type="s:string"/>
+              
+          <s:element maxOccurs="1" minOccurs="1" name="CarenciaAtiva" type="s:boolean"/>
+              
+          <s:element maxOccurs="1" minOccurs="1" name="CarenciaDias" type="s:int"/>
+              
+          <s:element maxOccurs="1" minOccurs="0" name="Status" type="s:string"/>
+              
+          <s:element maxOccurs="1" minOccurs="0" name="VariaveisRelevantes" type="tns:ArrayOfString"/>
+              
+          <s:element maxOccurs="1" minOccurs="0" name="OutrasPropriedades" type="tns:ArrayOfPropriedade"/>
+            
+        </s:sequence>
+          
+      </s:extension>
+        
+    </s:complexContent>
+      
+  </s:complexType>
+      
+  <s:complexType name="ArrayOfString">
+        
+    <s:sequence>
+          
+      <s:element maxOccurs="unbounded" minOccurs="0" name="string" nillable="true" type="s:string"/>
+        
+    </s:sequence>
+      
+  </s:complexType>
+      
+  <s:complexType name="DominioListaOfValorRegra">
+        
+    <s:complexContent mixed="false">
+          
+      <s:extension base="tns:Dominio">
+            
+        <s:sequence>
+              
+          <s:element maxOccurs="1" minOccurs="0" name="ValoresPossiveis" type="tns:ArrayOfValorRegra"/>
+            
+        </s:sequence>
+          
+      </s:extension>
+        
+    </s:complexContent>
+      
+  </s:complexType>
+      
+  <s:complexType name="ArrayOfValorRegra">
+        
+    <s:sequence>
+          
+      <s:element maxOccurs="unbounded" minOccurs="0" name="ValorRegra" nillable="true" type="tns:ValorRegra"/>
+        
+    </s:sequence>
+      
+  </s:complexType>
+      
+  <s:complexType name="ArrayOfRegraFluxo">
+        
+    <s:sequence>
+          
+      <s:element maxOccurs="unbounded" minOccurs="0" name="RegraFluxo" nillable="true" type="tns:RegraFluxo"/>
+        
+    </s:sequence>
+      
+  </s:complexType>
+      
+  <s:complexType name="RegraFluxo">
+        
+    <s:complexContent mixed="false">
+          
+      <s:extension base="tns:VariavelFluxoOfDominioListaOfValorRegra">
+            
+        <s:sequence>
+              
+          <s:element maxOccurs="1" minOccurs="0" name="NomeRegraPai" type="s:string"/>
+              
+          <s:element maxOccurs="1" minOccurs="1" name="RegraPrincipal" type="s:boolean"/>
+              
+          <s:element maxOccurs="1" minOccurs="0" name="Consultas" type="tns:ArrayOfString"/>
+              
+          <s:element maxOccurs="1" minOccurs="0" name="OutrasPropriedades" type="tns:ArrayOfPropriedade"/>
+            
+        </s:sequence>
+          
+      </s:extension>
+        
+    </s:complexContent>
+      
+  </s:complexType>
+      
+  <s:complexType name="VariavelFluxoOfDominioListaOfValorRegra">
+        
+    <s:sequence>
+          
+      <s:element maxOccurs="1" minOccurs="0" name="Nome" type="s:string"/>
+          
+      <s:element maxOccurs="1" minOccurs="0" name="Descricao" type="s:string"/>
+          
+      <s:element maxOccurs="1" minOccurs="0" name="DominioVariavel" type="tns:DominioListaOfValorRegra"/>
+        
+    </s:sequence>
+      
+  </s:complexType>
+      
+  <s:complexType name="ArrayOfDecisionTree">
+        
+    <s:sequence>
+          
+      <s:element maxOccurs="unbounded" minOccurs="0" name="DecisionTree" nillable="true" type="tns:DecisionTree"/>
+        
+    </s:sequence>
+      
+  </s:complexType>
+      
+  <s:complexType name="DecisionTree">
+        
+    <s:complexContent mixed="false">
+          
+      <s:extension base="tns:DecisionElement">
+            
+        <s:sequence>
+              
+          <s:element maxOccurs="1" minOccurs="0" name="DesicaoWorkflow" type="tns:ArrayOfDecisionOption"/>
+            
+        </s:sequence>
+          
+      </s:extension>
+        
+    </s:complexContent>
+      
+  </s:complexType>
+      
+  <s:complexType name="DecisionElement">
+        
+    <s:sequence>
+          
+      <s:element maxOccurs="1" minOccurs="1" name="NodeType" type="tns:ENodeType"/>
+          
+      <s:element maxOccurs="1" minOccurs="0" name="Nome" type="s:string"/>
+        
+    </s:sequence>
+      
+  </s:complexType>
+      
+  <s:simpleType name="ENodeType">
+        
+    <s:restriction base="s:string">
+          
+      <s:enumeration value="ATTRIBUTE"/>
+          
+      <s:enumeration value="PROCEDURE"/>
+          
+      <s:enumeration value="DIALOG"/>
+          
+      <s:enumeration value="DECISION_TREE"/>
+          
+      <s:enumeration value="REPORT"/>
+          
+      <s:enumeration value="CASE"/>
+          
+      <s:enumeration value="RESULT"/>
+          
+      <s:enumeration value="OTHER"/>
+        
+    </s:restriction>
+      
+  </s:simpleType>
+      
+  <s:complexType name="ArrayOfDecisionOption">
+        
+    <s:sequence>
+          
+      <s:element maxOccurs="unbounded" minOccurs="0" name="DecisionOption" nillable="true" type="tns:DecisionOption"/>
+        
+    </s:sequence>
+      
+  </s:complexType>
+      
+  <s:complexType name="DecisionOption">
+        
+    <s:sequence>
+          
+      <s:element maxOccurs="1" minOccurs="1" name="Decisao" type="tns:EDecision"/>
+          
+      <s:element maxOccurs="1" minOccurs="0" name="Valor" type="s:string"/>
+          
+      <s:element maxOccurs="1" minOccurs="0" name="NoWorkflow" type="tns:DecisionElement"/>
+        
+    </s:sequence>
+      
+  </s:complexType>
+      
+  <s:simpleType name="EDecision">
+        
+    <s:restriction base="s:string">
+          
+      <s:enumeration value="EQUALS"/>
+          
+      <s:enumeration value="GREATER_THAN"/>
+          
+      <s:enumeration value="LESS_THAN"/>
+          
+      <s:enumeration value="GREATER_OR_EQUALS_THAN"/>
+          
+      <s:enumeration value="LESS_OR_EQUALS_THAN"/>
+          
+      <s:enumeration value="NOT_EQUALS"/>
+          
+      <s:enumeration value="OTHER"/>
+        
+    </s:restriction>
+      
+  </s:simpleType>
+      
+  <s:complexType name="ArrayOfTela">
+        
+    <s:sequence>
+          
+      <s:element maxOccurs="unbounded" minOccurs="0" name="Tela" nillable="true" type="tns:Tela"/>
+        
+    </s:sequence>
+      
+  </s:complexType>
+      
+  <s:complexType name="Tela">
+        
+    <s:sequence>
+          
+      <s:element maxOccurs="1" minOccurs="0" name="Nome" type="s:string"/>
+          
+      <s:element maxOccurs="1" minOccurs="0" name="Titulo" type="s:string"/>
+          
+      <s:element maxOccurs="1" minOccurs="0" name="Pergunta" type="s:string"/>
+          
+      <s:element maxOccurs="1" minOccurs="0" name="Variaveis" type="tns:ArrayOfVariavelTela"/>
+        
+    </s:sequence>
+      
+  </s:complexType>
+      
+  <s:complexType name="ArrayOfVariavelTela">
+        
+    <s:sequence>
+          
+      <s:element maxOccurs="unbounded" minOccurs="0" name="VariavelTela" nillable="true" type="tns:VariavelTela"/>
+        
+    </s:sequence>
+      
+  </s:complexType>
+      
+  <s:complexType name="VariavelTela">
+        
+    <s:sequence>
+          
+      <s:element maxOccurs="1" minOccurs="0" name="Nome" type="s:string"/>
+          
+      <s:element maxOccurs="1" minOccurs="1" name="SomenteLeitura" type="s:boolean"/>
+        
+    </s:sequence>
+      
+  </s:complexType>
+      
+  <s:element name="executarPoliticaEspecialista">
+        
+    <s:complexType>
+          
+      <s:sequence>
+            
+        <s:element maxOccurs="1" minOccurs="0" name="Credenciais" type="tns:Credenciais"/>
+            
+        <s:element maxOccurs="1" minOccurs="0" name="Fluxo" type="tns:Fluxo"/>
+            
+        <s:element maxOccurs="1" minOccurs="0" name="Parametros" type="tns:ArrayOfPropriedade"/>
+          
+      </s:sequence>
+        
+    </s:complexType>
+      
+  </s:element>
+      
+  <s:element name="executarPoliticaEspecialistaResponse">
+        
+    <s:complexType>
+          
+      <s:sequence>
+            
+        <s:element maxOccurs="1" minOccurs="0" name="executarPoliticaEspecialistaResult" type="tns:RetornoEspecialista"/>
+          
+      </s:sequence>
+        
+    </s:complexType>
+      
+  </s:element>
+      
+  <s:complexType name="RetornoEspecialista">
+        
+    <s:complexContent mixed="false">
+          
+      <s:extension base="tns:RetornoFluxoComParametros">
+            
+        <s:sequence>
+              
+          <s:element maxOccurs="1" minOccurs="0" name="TelaAtual" type="s:string"/>
+            
+        </s:sequence>
+          
+      </s:extension>
+        
+    </s:complexContent>
+      
+  </s:complexType>
+    
+</s:schema>
+  </wsdl:types>
+  <wsdl:message name="recuperarStatusClienteSoapOut">
+    <wsdl:part element="tns:recuperarStatusClienteResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="monitorarSoapIn">
+    <wsdl:part element="tns:monitorar" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="monitorarSoapOut">
+    <wsdl:part element="tns:monitorarResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="alterarStatusSoapIn">
+    <wsdl:part element="tns:alterarStatus" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="obterDecisaoFinalSoapIn">
+    <wsdl:part element="tns:obterDecisaoFinal" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="executarFluxoSoapIn">
+    <wsdl:part element="tns:executarFluxo" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="executarFluxoComParametrosSoapOut">
+    <wsdl:part element="tns:executarFluxoComParametrosResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="executarFluxoAssincronoSoapIn">
+    <wsdl:part element="tns:executarFluxoAssincrono" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="monitorarVersaoPoliticaSoapOut">
+    <wsdl:part element="tns:monitorarVersaoPoliticaResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="recuperarDetalhesSoapIn">
+    <wsdl:part element="tns:recuperarDetalhes" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getVersaoSoapIn">
+    <wsdl:part element="tns:getVersao" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="monitorarComCredenciaisSoapIn">
+    <wsdl:part element="tns:monitorarComCredenciais" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getVersaoSoapOut">
+    <wsdl:part element="tns:getVersaoResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="monitorarComCredenciaisSoapOut">
+    <wsdl:part element="tns:monitorarComCredenciaisResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="executarFluxoComParametrosSoapIn">
+    <wsdl:part element="tns:executarFluxoComParametros" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="recuperarLayoutSoapIn">
+    <wsdl:part element="tns:recuperarLayout" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="monitorarVersaoPoliticaSoapIn">
+    <wsdl:part element="tns:monitorarVersaoPolitica" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="recuperarLayoutSoapOut">
+    <wsdl:part element="tns:recuperarLayoutResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="executarFluxoSoapOut">
+    <wsdl:part element="tns:executarFluxoResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="recuperarStatusClienteSoapIn">
+    <wsdl:part element="tns:recuperarStatusCliente" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="executarPoliticaEspecialistaSoapIn">
+    <wsdl:part element="tns:executarPoliticaEspecialista" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="executarFluxoAssincronoSoapOut">
+    <wsdl:part element="tns:executarFluxoAssincronoResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="recuperarDetalhesSoapOut">
+    <wsdl:part element="tns:recuperarDetalhesResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="obterDecisaoFinalSoapOut">
+    <wsdl:part element="tns:obterDecisaoFinalResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="executarPoliticaEspecialistaSoapOut">
+    <wsdl:part element="tns:executarPoliticaEspecialistaResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="alterarStatusSoapOut">
+    <wsdl:part element="tns:alterarStatusResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="WorkflowWebServiceSoap">
+    <wsdl:operation name="getVersao">
+      <wsdl:input message="tns:getVersaoSoapIn">
+    </wsdl:input>
+      <wsdl:output message="tns:getVersaoSoapOut">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="executarFluxo">
+      <wsdl:input message="tns:executarFluxoSoapIn">
+    </wsdl:input>
+      <wsdl:output message="tns:executarFluxoSoapOut">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="executarFluxoComParametros">
+      <wsdl:input message="tns:executarFluxoComParametrosSoapIn">
+    </wsdl:input>
+      <wsdl:output message="tns:executarFluxoComParametrosSoapOut">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="executarFluxoAssincrono">
+      <wsdl:input message="tns:executarFluxoAssincronoSoapIn">
+    </wsdl:input>
+      <wsdl:output message="tns:executarFluxoAssincronoSoapOut">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="recuperarDetalhes">
+      <wsdl:input message="tns:recuperarDetalhesSoapIn">
+    </wsdl:input>
+      <wsdl:output message="tns:recuperarDetalhesSoapOut">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="alterarStatus">
+      <wsdl:input message="tns:alterarStatusSoapIn">
+    </wsdl:input>
+      <wsdl:output message="tns:alterarStatusSoapOut">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="obterDecisaoFinal">
+      <wsdl:input message="tns:obterDecisaoFinalSoapIn">
+    </wsdl:input>
+      <wsdl:output message="tns:obterDecisaoFinalSoapOut">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="monitorar">
+      <wsdl:input message="tns:monitorarSoapIn">
+    </wsdl:input>
+      <wsdl:output message="tns:monitorarSoapOut">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="monitorarVersaoPolitica">
+      <wsdl:input message="tns:monitorarVersaoPoliticaSoapIn">
+    </wsdl:input>
+      <wsdl:output message="tns:monitorarVersaoPoliticaSoapOut">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="monitorarComCredenciais">
+      <wsdl:input message="tns:monitorarComCredenciaisSoapIn">
+    </wsdl:input>
+      <wsdl:output message="tns:monitorarComCredenciaisSoapOut">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="recuperarStatusCliente">
+      <wsdl:input message="tns:recuperarStatusClienteSoapIn">
+    </wsdl:input>
+      <wsdl:output message="tns:recuperarStatusClienteSoapOut">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="recuperarLayout">
+      <wsdl:input message="tns:recuperarLayoutSoapIn">
+    </wsdl:input>
+      <wsdl:output message="tns:recuperarLayoutSoapOut">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="executarPoliticaEspecialista">
+      <wsdl:input message="tns:executarPoliticaEspecialistaSoapIn">
+    </wsdl:input>
+      <wsdl:output message="tns:executarPoliticaEspecialistaSoapOut">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="WorkflowWebServiceSoap" type="tns:WorkflowWebServiceSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="getVersao">
+      <soap:operation soapAction="http://neurotech.com.br/getVersao" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="executarFluxo">
+      <soap:operation soapAction="http://neurotech.com.br/executarFluxo" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="executarFluxoComParametros">
+      <soap:operation soapAction="http://neurotech.com.br/executarFluxoComParametros" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="executarFluxoAssincrono">
+      <soap:operation soapAction="http://neurotech.com.br/executarFluxoAssincrono" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="recuperarDetalhes">
+      <soap:operation soapAction="http://neurotech.com.br/recuperarDetalhes" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="alterarStatus">
+      <soap:operation soapAction="http://neurotech.com.br/alterarStatus" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="obterDecisaoFinal">
+      <soap:operation soapAction="http://neurotech.com.br/obterDecisaoFinal" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="monitorar">
+      <soap:operation soapAction="http://neurotech.com.br/monitorar" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="monitorarVersaoPolitica">
+      <soap:operation soapAction="http://neurotech.com.br/monitorarVersaoPolitica" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="monitorarComCredenciais">
+      <soap:operation soapAction="http://neurotech.com.br/monitorarComCredenciais" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="recuperarStatusCliente">
+      <soap:operation soapAction="http://neurotech.com.br/recuperarStatusCliente" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="recuperarLayout">
+      <soap:operation soapAction="http://neurotech.com.br/recuperarLayout" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="executarPoliticaEspecialista">
+      <soap:operation soapAction="http://neurotech.com.br/executarPoliticaEspecialista" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="WorkflowWebServiceSoap12" type="tns:WorkflowWebServiceSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="getVersao">
+      <soap12:operation soapAction="http://neurotech.com.br/getVersao" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="executarFluxo">
+      <soap12:operation soapAction="http://neurotech.com.br/executarFluxo" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="executarFluxoComParametros">
+      <soap12:operation soapAction="http://neurotech.com.br/executarFluxoComParametros" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="executarFluxoAssincrono">
+      <soap12:operation soapAction="http://neurotech.com.br/executarFluxoAssincrono" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="recuperarDetalhes">
+      <soap12:operation soapAction="http://neurotech.com.br/recuperarDetalhes" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="alterarStatus">
+      <soap12:operation soapAction="http://neurotech.com.br/alterarStatus" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="obterDecisaoFinal">
+      <soap12:operation soapAction="http://neurotech.com.br/obterDecisaoFinal" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="monitorar">
+      <soap12:operation soapAction="http://neurotech.com.br/monitorar" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="monitorarVersaoPolitica">
+      <soap12:operation soapAction="http://neurotech.com.br/monitorarVersaoPolitica" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="monitorarComCredenciais">
+      <soap12:operation soapAction="http://neurotech.com.br/monitorarComCredenciais" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="recuperarStatusCliente">
+      <soap12:operation soapAction="http://neurotech.com.br/recuperarStatusCliente" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="recuperarLayout">
+      <soap12:operation soapAction="http://neurotech.com.br/recuperarLayout" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="executarPoliticaEspecialista">
+      <soap12:operation soapAction="http://neurotech.com.br/executarPoliticaEspecialista" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="WorkflowWebService">
+    <wsdl:port binding="tns:WorkflowWebServiceSoap12" name="WorkflowWebServiceSoap12">
+      <soap:address location="https://dr-prd.neurotech.com.br/services/soap/porting"/>
+    </wsdl:port>
+    <wsdl:port binding="tns:WorkflowWebServiceSoap" name="WorkflowWebServiceSoap">
+      <soap:address location=""/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

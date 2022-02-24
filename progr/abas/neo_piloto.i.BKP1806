@@ -1,0 +1,62 @@
+/** {abas/neo_piloto.i} **/
+/*
+PILOTO
+18/06: Lojas piloto 1 (25, 28, 41, 42, 46, 55, 61, 98, 115 e 134)
+24/06: Lojas maiores (8, 13, 20, 38, 52, 57, 60, 101, 108, 113 e 164)
+01/07: Demais lojas
+*/
+def var wfilvirada  as date .
+wfilvirada  = 07/01/2019.
+
+def temp-table ttpiloto no-undo
+    field etbcod as int
+    field dtini  as date
+    index idx is unique primary etbcod asc.
+    
+    for each ttpiloto. delete ttpiloto. end.
+    
+    create ttpiloto. ttpiloto.etbcod = 189. ttpiloto.dtini = 06/14/2019.
+
+    create ttpiloto. ttpiloto.etbcod =  25. ttpiloto.dtini = 06/18/2019.
+    create ttpiloto. ttpiloto.etbcod =  28. ttpiloto.dtini = 06/18/2019.
+    create ttpiloto. ttpiloto.etbcod =  41. ttpiloto.dtini = 06/18/2019.
+    create ttpiloto. ttpiloto.etbcod =  42. ttpiloto.dtini = 06/18/2019.
+    create ttpiloto. ttpiloto.etbcod =  46. ttpiloto.dtini = 06/18/2019.
+    create ttpiloto. ttpiloto.etbcod =  55. ttpiloto.dtini = 06/18/2019.
+    create ttpiloto. ttpiloto.etbcod =  61. ttpiloto.dtini = 06/18/2019.
+    create ttpiloto. ttpiloto.etbcod =  98. ttpiloto.dtini = 06/18/2019.
+    create ttpiloto. ttpiloto.etbcod = 115. ttpiloto.dtini = 06/18/2019.
+    create ttpiloto. ttpiloto.etbcod = 134. ttpiloto.dtini = 06/18/2019.
+    
+    create ttpiloto. ttpiloto.etbcod =   8. ttpiloto.dtini = 06/24/2019.
+    create ttpiloto. ttpiloto.etbcod =  13. ttpiloto.dtini = 06/24/2019.
+    create ttpiloto. ttpiloto.etbcod =  20. ttpiloto.dtini = 06/24/2019.
+    create ttpiloto. ttpiloto.etbcod =  38. ttpiloto.dtini = 06/24/2019.
+    create ttpiloto. ttpiloto.etbcod =  52. ttpiloto.dtini = 06/24/2019.
+    create ttpiloto. ttpiloto.etbcod =  57. ttpiloto.dtini = 06/24/2019.
+    create ttpiloto. ttpiloto.etbcod =  60. ttpiloto.dtini = 06/24/2019.
+    create ttpiloto. ttpiloto.etbcod = 101. ttpiloto.dtini = 06/24/2019.
+    create ttpiloto. ttpiloto.etbcod = 108. ttpiloto.dtini = 06/24/2019.
+    create ttpiloto. ttpiloto.etbcod = 113. ttpiloto.dtini = 06/24/2019.
+    create ttpiloto. ttpiloto.etbcod = 164. ttpiloto.dtini = 06/24/2019.
+
+/** teste *
+def var vj as date.
+
+for each estab where estab.etbcod = 8 no-lock.
+    do vj = today to 07/30/2019.
+        find first ttpiloto where ttpiloto.etbcod = estab.etbcod and
+                                  ttpiloto.dtini  <= vj
+            no-error.
+        hide message no-pause.
+        message "Lj" estab.etbcod "Hoje" vj string(avail ttpiloto,"Piloto/Nao eh Piloto").
+        pause.
+        
+    end.
+end.                                                          
+    
+* */
+
+    
+    
+    

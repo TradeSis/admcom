@@ -1,0 +1,10 @@
+/* Higienizacao de Cadastros   - telas
+   Tela de Hiienizacao de Cadastro
+*/
+
+{cabec.i}
+
+
+run cli/cdhigieniza_v1801.p.
+
+return.

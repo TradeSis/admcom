@@ -1,0 +1,5 @@
+Table        Input File       # of Records Read # of Errors Error File
+------------ -------------- ------------------- ----------- ----------------
+profin       ./profin.d                       3           0 -
+profinparam  ./profinparam.                   3           0 -
+profintaxa   ./profintaxa.d                   4           0 -

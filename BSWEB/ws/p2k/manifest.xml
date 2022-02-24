@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<template>
+	<codigo_filial>1</codigo_filial>
+	<codigo_operador>1</codigo_operador>
+	<data_futura_pagamento>2015-04-30T00:00:00</data_futura_pagamento>
+	<contratos>
+		<seq_parcela>33</seq_parcela>
+		<vlr_parcela>9.90</vlr_parcela>
+		<venc_parcela>2015-04-27T00:00:00</venc_parcela>
+		<seq_parcela>34</seq_parcela><vlr_parcela>9.90</vlr_parcela><venc_parcela>2015-04-27T00:00:00</venc_parcela></contratos></template>

@@ -1,0 +1,32 @@
+
+
+PROGRESS stack trace as of Thu Sep 26 09:02:31 2019
+Command line arguments are
+/usr/dlc/bin/_progres -h 12 -T /ws/works/ -pf /admcom/bases/wsp2k.pf -b -p /u/bsweb/progr/wsprogress.p 
+
+Startup parameters:
+-pf /usr/dlc/startup.pf,-cpinternal ISO8859-1,-cpstream ISO8859-1,-cpcoll Basic,-cpcase Basic,-d dmy,(end .pf),-h 12,-T /ws/works/,-pf /admcom/bases/wsp2k.pf,-T /tmp,-d dmy,-h 50,-inp 32000,-s 300,-TB 31,-TM 32,-mmax 16384,-db ger,-N tcp,-S ger_p2k,-H sv-ca-dbe,-db com,-N tcp,-S com_p2k,-H sv-ca-dbe,-db fin,-N tcp,-S fin_p2k,-H sv-ca-dbe,-db suporte,-N tcp,-S sup_p2k,-H sv-ca-dbe,-db adm,-N tcp,-S adm_p2k,-H sv-ca-dbe,-db nfe,-N tcp,-S nfe_p2k,-H sv-ca-dbe,(end .pf),-b,-p /u/bsweb/progr/wsprogress.p
+
+#1   [0x9e7d7d] uttraceback+0x144  from /usr/dlc/bin/_progres
+#2   [0x9ea5a3] uttrace+0x13c  from /usr/dlc/bin/_progres
+#3   [0x9ea447] utcore+0x103  from /usr/dlc/bin/_progres
+#4   [0x458c26] drexit+0x39a  from /usr/dlc/bin/_progres
+#5   [0x4be8c9] drSigFatal+0x85  from /usr/dlc/bin/_progres
+#6   [0x6220f490] tfind@@GLIBC_2.2.5+0x6220f490  from /lib64/libpthread.so.0
+#7   [0x61a88815] __tls_get_addr@@GLIBC_2.3+0x61a88815  from /lib64/libc.so.6
+#8   [0x61a82159] __tls_get_addr@@GLIBC_2.3+0x61a82159  from /lib64/libc.so.6
+#9   [0x73a1aa] bfu+0x856  from /usr/dlc/bin/_progres
+#10  [0x6ec172] profldu+0x6c6  from /usr/dlc/bin/_progres
+#11  [0x765891] rnasgsupersimple+0x361  from /usr/dlc/bin/_progres
+#12  [0x79933b] rnexec_entry+0x33b  from /usr/dlc/bin/_progres
+#13  [0x79a5ca] rninterpret+0x3b  from /usr/dlc/bin/_progres
+#14  [0x4a1991] rnrq+0x101  from /usr/dlc/bin/_progres
+#15  [0x4518ff] main+0x428  from /usr/dlc/bin/_progres
+#16  [0x61a1ecdd] __tls_get_addr@@GLIBC_2.3+0x61a1ecdd  from /lib64/libc.so.6
+
+** ABL Stack Trace **
+
+--> /u/bsweb/progr/wsprogress.p (/u/bsweb/progr/wsprogress.p) at line 326
+
+** Persistent procedures/Classes **
+

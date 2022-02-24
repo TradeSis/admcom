@@ -1,0 +1,138 @@
+UPDATE TABLE "bonusviv"
+  TABLE-TRIGGER "Replication-Write" NO-OVERRIDE PROCEDURE "/admcom/progr/trw-bonusviv.p" CRC "?"
+
+ADD FIELD "datexp" OF "bonusviv" AS date
+  FORMAT "99/99/9999"
+  POSITION 11
+  INITIAL ?
+  ORDER 100
+  MAX-WIDTH 4
+
+ADD INDEX "datexp" ON "bonusviv"
+  AREA "Schema Area"
+  INDEX-FIELD "datexp" ASCENDING
+
+UPDATE TABLE "fincla"
+  TABLE-TRIGGER "Replication-Write" NO-OVERRIDE PROCEDURE "/admcom/progr/trw-fincla.p" CRC "?"
+
+ADD FIELD "datexp" OF "fincla" AS date
+  FORMAT "99/99/9999"
+  POSITION 11
+  INITIAL ?
+  ORDER 100
+  MAX-WIDTH 4
+
+ADD INDEX "datexp" ON "fincla"
+  AREA "Schema Area"
+  INDEX-FIELD "datexp" ASCENDING
+
+UPDATE TABLE "finesp"
+  TABLE-TRIGGER "Replication-Write" NO-OVERRIDE PROCEDURE "/admcom/progr/trw-finesp.p" CRC "?"
+
+ADD INDEX "datexp" ON "finesp"
+  AREA "Schema Area"
+  INDEX-FIELD "datexp" ASCENDING
+
+UPDATE TABLE "finfab"
+  TABLE-TRIGGER "Replication-Write" NO-OVERRIDE PROCEDURE "/admcom/progr/trw-finfab.p" CRC "?"
+
+ADD FIELD "datexp" OF "finfab" AS date
+  FORMAT "99/99/9999"
+  POSITION 11
+  INITIAL ?
+  ORDER 100
+  MAX-WIDTH 4
+
+ADD INDEX "datexp" ON "finfab"
+  AREA "Schema Area"
+  INDEX-FIELD "datexp" ASCENDING
+
+UPDATE TABLE "finpro"
+  TABLE-TRIGGER "Replication-Write" NO-OVERRIDE PROCEDURE "/admcom/progr/trw-finpro.p" CRC "?"
+
+ADD FIELD "datexp" OF "finpro" AS date
+  FORMAT "99/99/9999"
+  POSITION 11
+  INITIAL ?
+  ORDER 100
+  MAX-WIDTH 4
+
+ADD INDEX "datexp" ON "finpro"
+  AREA "Schema Area"
+  INDEX-FIELD "datexp" ASCENDING
+
+UPDATE TABLE "planoviv"
+  TABLE-TRIGGER "Replication-Write" NO-OVERRIDE PROCEDURE "/admcom/progr/trw-planoviv.p" CRC "?"
+
+ADD FIELD "datexp" OF "planoviv" AS date
+  FORMAT "99/99/9999"
+  POSITION 11
+  INITIAL ?
+  ORDER 100
+  MAX-WIDTH 4
+
+ADD INDEX "datexp" ON "planoviv"
+  AREA "Schema Area"
+  INDEX-FIELD "datexp" ASCENDING
+
+UPDATE TABLE "plaviv"
+  TABLE-TRIGGER "Replication-Write" NO-OVERRIDE PROCEDURE "/admcom/progr/trw-plaviv.p" CRC "?"
+
+ADD FIELD "datexp" OF "plaviv" AS date
+  FORMAT "99/99/9999"
+  POSITION 11
+  INITIAL ?
+  ORDER 100
+  MAX-WIDTH 4
+
+ADD INDEX "datexp" ON "plaviv"
+  AREA "Schema Area"
+  INDEX-FIELD "datexp" ASCENDING
+
+UPDATE TABLE "plaviv_filial"
+  TABLE-TRIGGER "Replication-Write" NO-OVERRIDE PROCEDURE "/admcom/progr/trw-plaviv_filial.p" CRC "?"
+
+ADD FIELD "datexp" OF "plaviv_filial" AS date
+  FORMAT "99/99/9999"
+  POSITION 11
+  INITIAL ?
+  ORDER 100
+  MAX-WIDTH 4
+
+ADD INDEX "datexp" ON "plaviv_filial"
+  AREA "Schema Area"
+  INDEX-FIELD "datexp" ASCENDING
+
+UPDATE TABLE "promoviv"
+  TABLE-TRIGGER "Replication-Write" NO-OVERRIDE PROCEDURE "/admcom/progr/trw-promoviv.p" CRC "?"
+
+ADD FIELD "datexp" OF "promoviv" AS date
+  FORMAT "99/99/9999"
+  POSITION 11
+  INITIAL ?
+  ORDER 100
+  MAX-WIDTH 4
+
+ADD INDEX "datexp" ON "promoviv"
+  AREA "Schema Area"
+  INDEX-FIELD "datexp" ASCENDING
+
+UPDATE TABLE "proplaviv"
+  TABLE-TRIGGER "Replication-Write" NO-OVERRIDE PROCEDURE "/admcom/progr/trw-proplaviv.p" CRC "?"
+
+ADD FIELD "datexp" OF "proplaviv" AS date
+  FORMAT "99/99/9999"
+  POSITION 11
+  INITIAL ?
+  ORDER 100
+  MAX-WIDTH 4
+
+ADD INDEX "datexp" ON "proplaviv"
+  AREA "Schema Area"
+  INDEX-FIELD "datexp" ASCENDING
+
+.
+PSC
+cpstream=ISO8859-1
+.
+0000003163

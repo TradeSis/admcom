@@ -1,0 +1,7 @@
+ADD FIELD "VlJuros" OF "CybAcParcela" AS decimal
+   FORMAT ">>,>>9.99"
+   INITIAL "0"
+   LABEL "Juros"
+   MAX-WIDTH 17
+   DECIMALS 2
+   ORDER 370

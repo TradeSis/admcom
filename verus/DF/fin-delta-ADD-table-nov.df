@@ -1,0 +1,236 @@
+ADD TABLE "novcampanha"
+  AREA "dados"
+  DUMP-NAME "novcampanha"
+
+ADD FIELD "camnom" OF "novcampanha" AS character 
+  FORMAT "x(12)"
+  INITIAL ""
+  LABEL "campanha"
+  MAX-WIDTH 30
+  ORDER 20
+
+ADD FIELD "dtini" OF "novcampanha" AS date 
+  FORMAT "99/99/9999"
+  INITIAL ?
+  LABEL "inicio"
+  MAX-WIDTH 4
+  ORDER 30
+
+ADD FIELD "dtfim" OF "novcampanha" AS date 
+  FORMAT "99/99/9999"
+  INITIAL ?
+  LABEL "final"
+  MAX-WIDTH 4
+  ORDER 40
+
+ADD FIELD "dias_atraso" OF "novcampanha" AS integer 
+  FORMAT "->>9"
+  INITIAL "0"
+  LABEL "dias"
+  MAX-WIDTH 4
+  ORDER 110
+
+ADD FIELD "dtemissao" OF "novcampanha" AS date 
+  FORMAT "99/99/9999"
+  INITIAL ?
+  LABEL "emissao"
+  MAX-WIDTH 4
+  ORDER 80
+
+ADD FIELD "modcod" OF "novcampanha" AS character 
+  FORMAT "x(03)"
+  INITIAL ""
+  LABEL "modalidade"
+  MAX-WIDTH 6
+  COLUMN-LABEL "mod"
+  ORDER 140
+
+ADD FIELD "perc_pagas" OF "novcampanha" AS decimal 
+  FORMAT ">>9.99"
+  INITIAL "0"
+  LABEL "ppg"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 60
+
+ADD FIELD "qtd_pagas" OF "novcampanha" AS integer 
+  FORMAT ">>9"
+  INITIAL "0"
+  LABEL "qpg"
+  MAX-WIDTH 4
+  ORDER 70
+
+ADD FIELD "tpcontrato" OF "novcampanha" AS character 
+  FORMAT "x(1)"
+  INITIAL ""
+  LABEL "Tipo Contrato"
+  MAX-WIDTH 2
+  COLUMN-LABEL "t"
+  ORDER 170
+
+ADD FIELD "vlr_aberto" OF "novcampanha" AS decimal 
+  FORMAT ">>>>>9.99"
+  INITIAL "0"
+  LABEL "aberto"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 180
+
+ADD FIELD "vlr_parcela" OF "novcampanha" AS decimal 
+  FORMAT ">>>9.99"
+  INITIAL "0"
+  LABEL "parcel"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 100
+
+ADD FIELD "vlr_total" OF "novcampanha" AS decimal 
+  FORMAT ">>>>>9.99"
+  INITIAL "0"
+  LABEL "total"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 50
+
+ADD FIELD "dias_venc" OF "novcampanha" AS integer 
+  FORMAT "->>>>9"
+  INITIAL "0"
+  LABEL "venc"
+  MAX-WIDTH 4
+  ORDER 190
+
+ADD FIELD "camcod" OF "novcampanha" AS integer 
+  FORMAT ">>>>9"
+  INITIAL ?
+  MAX-WIDTH 4
+  ORDER 1
+
+ADD INDEX "campanha" ON "novcampanha" 
+  AREA "indices"
+  UNIQUE
+  PRIMARY
+  INDEX-FIELD "camcod" ASCENDING 
+
+ADD INDEX "novcamvig" ON "novcampanha" 
+  AREA "indices"
+  INDEX-FIELD "dtfim" ASCENDING 
+  INDEX-FIELD "dtini" ASCENDING 
+
+ADD TABLE "novestab"
+  AREA "dados"
+  DUMP-NAME "novestab"
+
+ADD FIELD "camcod" OF "novestab" AS integer 
+  FORMAT ">>>>9"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 10
+
+ADD FIELD "etbcod" OF "novestab" AS integer 
+  FORMAT ">>9"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 20
+
+ADD INDEX "novestab" ON "novestab" 
+  AREA "indices"
+  UNIQUE
+  PRIMARY
+  INDEX-FIELD "camcod" ASCENDING 
+  INDEX-FIELD "etbcod" ASCENDING 
+
+ADD TABLE "novplanos"
+  AREA "dados"
+  DUMP-NAME "novplanos"
+
+ADD FIELD "planom" OF "novplanos" AS character 
+  FORMAT "x(12)"
+  INITIAL ""
+  LABEL "Plano"
+  MAX-WIDTH 24
+  ORDER 20
+
+ADD FIELD "calc_juro_titulo" OF "novplanos" AS logical 
+  FORMAT "S/N"
+  INITIAL "yes"
+  LABEL "Calc Juro titulo"
+  MAX-WIDTH 1
+  COLUMN-LABEL "J"
+  ORDER 30
+
+ADD FIELD "perc_min_entrada" OF "novplanos" AS decimal 
+  FORMAT ">>9.99"
+  INITIAL "0"
+  LABEL "Perc Min Entrada"
+  MAX-WIDTH 17
+  COLUMN-LABEL "Min"
+  DECIMALS 2
+  ORDER 40
+
+ADD FIELD "dias_max_primeira" OF "novplanos" AS integer 
+  FORMAT ">>9"
+  INITIAL "0"
+  LABEL "Dias Max Primeira"
+  MAX-WIDTH 4
+  COLUMN-LABEL "Max"
+  ORDER 50
+
+ADD FIELD "qtd_vezes" OF "novplanos" AS integer 
+  FORMAT ">>9"
+  INITIAL "0"
+  LABEL "Vezes"
+  MAX-WIDTH 4
+  ORDER 60
+
+ADD FIELD "perc_desconto" OF "novplanos" AS decimal 
+  FORMAT ">>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 70
+
+ADD FIELD "perc_acres" OF "novplanos" AS decimal 
+  FORMAT ">>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 80
+
+ADD FIELD "camcod" OF "novplanos" AS integer 
+  FORMAT ">>>>9"
+  INITIAL ?
+  MAX-WIDTH 4
+  ORDER 1
+
+ADD FIELD "plaord" OF "novplanos" AS integer 
+  FORMAT ">9"
+  INITIAL "0"
+  LABEL "Ordem"
+  MAX-WIDTH 4
+  ORDER 90
+
+ADD FIELD "com_entrada" OF "novplanos" AS logical 
+  FORMAT "Sim/Nao"
+  INITIAL "no"
+  LABEL "Com Entrada"
+  MAX-WIDTH 1
+  COLUMN-LABEL "Ent"
+  ORDER 39
+
+ADD INDEX "planos" ON "novplanos" 
+  AREA "indices"
+  UNIQUE
+  PRIMARY
+  INDEX-FIELD "camcod" ASCENDING 
+  INDEX-FIELD "planom" ASCENDING 
+
+ADD INDEX "ordem" ON "novplanos" 
+  AREA "indices"
+  INDEX-FIELD "camcod" ASCENDING 
+  INDEX-FIELD "plaord" ASCENDING 
+
+.
+PSC
+cpstream=ISO8859-1
+.
+0000004217

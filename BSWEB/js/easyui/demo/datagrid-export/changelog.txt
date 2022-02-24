@@ -1,0 +1,5 @@
+Version 1.0.x
+-------------
+
+* Improvement
+ * The 'toCsv' method is available to export rows to csv file.

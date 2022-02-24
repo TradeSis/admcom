@@ -1,0 +1,1596 @@
+/******************************************** 
+ Antonio Maranghello - Monta Dados da NFE
+ Versao BS
+ Data : 20/08/2010
+
+ versao 2.0 - março / 2011
+*********************************************/ 
+
+{admcab.i}   
+
+def input  parameter par-rec   as recid.
+def input  parameter par-oper  as char.
+def output parameter par-volta as log initial no.
+
+def var aux as char.
+def var vi as int.
+def var v-ok as logical initial yes.
+
+def temp-table tt-plani like plani.
+def temp-table tt-movim like movim.
+
+def temp-table tt-ref-nota 
+    field numero  like plani.numero
+    field cUF     as char
+    field AAMM    as char
+    field CNPJ    as char
+    field mod     as char
+    field serie   as char
+    field serieref as char
+    field nNF     as char
+    field refnfe  as char.
+
+def temp-table tt-ref-cupom
+    field cupom    as char
+    field numecf   as char.
+    
+def buffer bclien for clien.
+def buffer bplani  for plani.
+def buffer dplani  for plani.
+def buffer bmovim  for movim.
+def buffer btipmov for tipmov.
+
+def var vplacod like plani.placod.
+def var vetbcod like plani.etbcod.
+def var vmovtvenda as log.
+def var vclie      as   char format "x(39)".
+def var vdestie       as char.
+def var vdestendereco as char.
+def var vdestnumero   as char.
+def var vdestcidcod   as int.
+def var vdestcidade   as char.
+def var vdestfone     as char.
+def var vdestcompl    as char.
+def var vdestbairro   like clien.bairro.
+def var vdestcep      like clien.cep.
+def var vdestufecod   as char.
+def var vcgccpf    as dec.
+def var v-falta-produ as logical init no.
+def var vnota-vinc  as logical. 
+def var vcupom-vinc as logical.
+def var vaux-cupom   like plani.numero.
+def var vvnumero     like plani.numero.
+def var v-auxtroca        as char. 
+def var vcgc-transp       as char.
+
+/********************************************
+def var v-codpro-trib like produ.ctpreco-cod. [[]]
+********************************************/
+def var v-codpro-trib as integer initial 51.
+
+
+
+def var vcst               as char.
+def var vpronome           as char.
+def var vpronome0          as char.
+def var pcst               as dec. 
+def var vlctbout           as dec.
+def var vdvnfe             as int.
+def var vcidade            as char.
+def var vufecod            as char.
+def var vpaissig           as char.
+def var par-CidadeIbge     as char. 
+def var par-CDUf           as char.       
+def var par-CDPais         as char.   
+def var par-op1_localidade as char.
+def var par-cdsede         as int.
+def var vtipo-frete        as int.
+def var par2-CidadeIbge    as char. 
+def var par2-CDUf          as char.       
+def var par2-CDPais        as char.   
+def var par2-op_localidade as char.
+def var vcampo-retorna     as char.
+def var vcnf               as dec.
+def var natureza-operacao as char.
+def var modelo-documento as char.
+def var tipo-documento as char.
+def var vcod as char format "x(18)".
+def var id-nfe as char.
+def var chave-nfe as char.
+def var vemitecgc as char.
+def var vdesticgc as char.
+def var vemiteie as char.
+def var ibge-uf-emite as char.
+def var vopfcod as int.
+def var vdiraux as char.
+def var vdirnfe as char.
+def var vcusto-adic as dec decimals 3.
+def var varqxml   as char.
+def var varqdanfe as char.
+
+                    /************************
+                            PRINCIPAL       
+                    ************************/
+
+find plani where recid(plani) = par-rec no-lock no-error.
+if not avail plani
+then do:
+    message "Problema na Gravacao da NF no ERP!!!" view-as alert-box.
+    return.
+end.
+
+run le_tabini.p (0, 0,
+          "NFE - DIRETORIO ENVIO ARQUIVO", OUTPUT vdirnfe) .
+
+if par-oper = "Espelho"
+then do.
+    find last a01_infnfe where a01_infnfe.etbcod =  plani.etbcod
+                           and a01_infnfe.placod = plani.placod  no-lock.
+    vdiraux = "estab" + string(a01_infnfe.etbcod,"999").
+    varqxml   = vdirnfe + "nfe/" + vdiraux + "/autorizado/" +
+                "nf_" + a01_infnfe.chave + "-procnfe.xml".
+    varqdanfe = vdirnfe + "danfe/" + vdiraux + "/" +
+                "nf_" + a01_infnfe.chave + "-procnfe.xml".  
+    
+    if search(varqxml) = ?
+    then varqxml = vdirnfe + "nfe/" + vdiraux + "/autorizado/" +
+                   "NF_" + a01_infnfe.chave + "-procNFe.xml".
+
+    if search(varqxml) <> ?
+    then do.
+        par-volta = yes.
+        unix silent value("cp " + search(varqxml) + " " + varqdanfe).
+        unix silent value("chmod 777 " + varqdanfe).
+        hide message no-pause.
+        message "Espelho emitido".
+        pause 1 no-message.
+    end.
+    else message "NAO ENCONTRADO" skip
+                substring(varqxml,1,70) skip
+                substring(varqxml,71)
+                view-as alert-box.
+    return.    
+end.
+
+find tipmov where tipmov.movtdc = plani.movtdc no-lock no-error.
+if not avail tipmov
+then do:
+    message "Tipo de documento " plani.movtdc " nao cadastrado."
+            view-as alert-box.
+    return.
+end.  
+
+find opcom where opcom.opccod = string(plani.opccod) no-lock no-error.
+if not avail opcom
+then do:
+    message "Operacao comercial nao consta no cadastro" plani.opccod
+            view-as alert-box.
+    undo.
+end.
+
+/* Inicial */
+assign
+    v-ok = yes
+    vnota-vinc  = no
+    vcupom-vinc = no
+    vplacod     = plani.placod
+    vetbcod     = plani.etbcod.
+    
+if tipmov.movtdc = 5
+then assign vmovtvenda  = yes.
+
+assign 
+    modelo-documento = "55"
+    tipo-documento   = "NFE".
+
+/* Nota Acobertada */
+for each tt-ref-cupom:
+    delete tt-ref-cupom.
+end.
+
+/* Nota referenciada */
+for each tt-ref-nota:
+    delete tt-ref-nota.
+end.
+/*
+/* Devolucao Emitidas C/Origem */ /** Confirmar movtdc de devolução [[]] ***/
+if tipmov.movtdc = 9  and
+ /*   tipmov.xx-pncod <> 0 and   */  /** Confirmar o campo xx-pncod [[]] **/
+   tipmov.movtnota
+then do:
+*/
+if false
+then do:
+    /*
+    for each movim where movim.etbcod = plani.etbcod
+                     and movim.placod = plani.placod  no-lock:
+        if movim.etbOri-Devol <= 0 or movim.PlaOri-Devol <= 0
+        then next.
+        find first dplani where dplani.etbcod = movim.etbOri-Devol and
+                                dplani.placod = movim.PlaOri-Devol
+                                no-lock no-error.
+        if not avail dplani 
+        then leave.
+        else do:
+            run Pi-Vincula-Nf(input movim.EtbOri-Devol,
+                              input movim.PlaOri-Devol).
+            vnota-vinc = yes.
+        end.
+        leave.
+    end. 
+    */
+end.
+else
+    /* Venda Cupom Fiscal Acobertado */    
+    if tipmov.movtdc = 903
+    then do:
+    
+        /*** Verificar [[]] ****
+        find cupom-plani where cupom-plani.placod-naofiscal = plani.placod and
+                               cupom-plani.etbcod-naofiscal = plani.etbcod
+                         no-lock no-error.
+        if not avail cupom-plani
+        then do:
+            message "Problema com Cupom Fiscal!" view-as alert-box.
+            v-ok = no.
+            undo.
+        end.
+        else do:
+            /* Troca plani pelo plani do cupom vinculado */
+            vcupom-vinc  = yes.
+            vopfcod = plani.opfcod.
+            find bplani where bplani.etbcod = cupom-plani.etbcod
+                          and bplani.placod = cupom-plani.placod
+                        no-lock no-error.
+            if not avail bplani
+            then do:
+                message "Problema em cupom-plani"  view-as alert-box.
+                v-ok = no.
+                undo.
+            end.
+
+            assign
+                vetbcod = cupom-plani.etbcod
+                vplacod = cupom-plani.placod.
+            
+            find btipmov of bplani no-lock.
+            assign vmovtvenda = btipmov.movtvenda.
+
+            create tt-ref-cupom.
+            assign tt-ref-cupom.cupom  = string(cupom-plani.nsq)
+                   tt-ref-cupom.numecf = string(cupom-plani.cxacod).
+        end.
+        */
+        
+    end.
+
+if v-ok = no
+then return.
+/*
+/* Devolucao de Entradas c/origem */    
+if tipmov.movtdev = yes and    /***  Movtdev  colocar a devolução ***/
+   tipmov.movtvenda = no
+then
+    for each movim of plani no-lock:
+        if movim.PlaOri-Devol = 0 and movim.EtbOri-Devol = 0
+        then next.
+        run Pi-Vincula-Nf(input movim.EtbOri-Devol,
+                            input movim.PlaOri-Devol).
+        vnota-vinc = yes.
+        leave.
+    end.
+
+run pi-troca-letra(input opcom.opcimpr, output natureza-operacao).
+*/
+if vopfcod = 6405
+then vopfcod = 6404.
+
+for each tt-movim. delete tt-movim. end.
+for each tt-plani. delete tt-plani. end.
+
+for each movim where movim.etbcod = vetbcod and 
+                     movim.placod = vplacod
+               no-lock
+               break by movim.movseq.
+    create tt-movim.
+    buffer-copy movim to tt-movim.
+end.
+
+create tt-plani.
+buffer-copy plani to tt-plani.
+
+if tt-plani.opccod = 0
+then tt-plani.opccod = integer(opcom.opccod).
+
+Repeat:
+    if length(string(tt-plani.opccod)) < 4 or
+    tt-plani.opccod = 0
+    then Message "Informe CFOP formato valido (9999) p/Operacao : " 
+                    update tt-plani.opccod format ">>>9".
+    else leave.
+end.
+
+if tt-plani.numero <> ? and tt-plani.numero > 0
+then run pi-Grava-Tabelas.
+else do.
+    message "Problema Na Criacao da Nota Fiscal (monta_nfe)" view-as alert-box.
+    par-volta = no.
+end.    
+
+return.
+
+
+Procedure Pi-Busca-Dados-Cad.
+
+def input parameter p-emite like plani.emite.
+def input parameter p-desti like plani.desti.
+
+find estab where estab.etbcod = p-emite no-lock no-error.
+if not avail estab 
+then do:
+    message "Impossivel prosseguir Estabelecimento na cadastrado"
+    view-as alert-box.
+    undo.
+end.
+
+find clien where clien.clicod = p-emite no-lock no-error.
+if not avail clien
+then do:
+    message "Problema no cadastro do Emitente" view-as alert-box.
+    undo.
+end.
+
+find bclien where bclien.clicod = p-desti no-lock no-error.
+if not avail bclien
+then do:
+    message "Problema no cadastro do destinatario" view-as alert-box.
+    undo.
+end.
+
+/***
+    Emitente
+***/
+    run pi-trata-numero (clien.ciccgc, output vemitecgc).        
+    run formata-ie (clien.ciinsc, output vemiteie).
+
+
+    /**** Confirmar se tem cod de cidade no clien [[]] *****/
+    if clien.cidade[1] <> ""
+    then find cidade where cidade.cidnom matches "*" + clien.cidade[1] + "*"
+                     no-lock no-error. 
+    if not avail cidade
+    then do:
+        message "Faltou cidade no cadasto de cidades " view-as alert-box.
+        undo.
+    end.
+
+    /** Cidade Emitente **/        
+    vcidade  = clien.cidade[1].                                          
+    vufecod  = clien.ufecod[1].                                          
+  /*vpaissig = clien.paissig.  */
+    if avail cidade                                                   
+    then assign vcidade  = cidade.cidnom                               
+                vufecod  = cidade.ufecod                               
+    /*            vpaissig = cidade.pais-sigla */.                         
+               
+    run ibge.p (input "UF",  
+                              input vcidade,              
+                              input vufecod,              
+                              input vpaissig,             
+                              output par-CidadeIbge,   
+                              output par-CDUf ,           
+                              output par-CDPais   ,       
+                              output par-op1_localidade,
+                              output par-cdsede).
+    ibge-uf-emite = string(par-cdsede).
+      
+    run ibge.p (input "CIDADE",
+                              input vcidade,              
+                              input vufecod,              
+                              input vpaissig,             
+                              output par-CidadeIbge,   
+                              output par-CDUf ,           
+                              output par-CDPais,       
+                              output par-op1_localidade,
+                              output par-cdsede ).
+
+    /** 
+        Destinatario
+    **/  
+    
+    /*
+    find planidad of tt-plani
+                  where planidad.campo = "CONSUMIDOR" no-lock no-error.
+    if avail planidad
+    then  /* dados do consumidor */
+        assign
+            vclie         = acha("NOME",    planidad.descricao)
+            vdesticgc     = acha("CPF",     planidad.descricao)
+            vdestfone     = acha("FONE",    planidad.descricao)
+            vdestendereco = acha("ENDERECO",planidad.descricao)
+            vdestnumero   = acha("NUMERO",  planidad.descricao)
+            vdestcompl    = acha("COMPL",   planidad.descricao)
+            vdestbairro   = acha("BAIRRO",  planidad.descricao)
+            vdestcidade   = bclifor.cidade
+            vdestcep      = acha("CEP",     planidad.descricao)
+            vdestufecod   = acha("UF",      planidad.descricao)
+            vdestie       = "ISENTO"
+            vdestcidcod   = 0.
+    else
+    */
+        assign
+            vclie         = trim(bclien.clinom)    .
+            vdesticgc     = bclien.ciccgc          .   
+            vdestfone     = bclien.protel          .
+            vdestendereco = trim(bclien.endereco)  .      
+            vdestnumero   = trim(bclien.numero)    .      
+            vdestcompl    = trim(bclien.compl)     .      
+            vdestbairro   = bclien.bairro          .      
+            vdestcidade   = bclien.cidade[1]          .      
+            vdestcep      = bclien.cep             .      
+            vdestufecod   = bclien.ufecod[1]       .        
+            vdestie       = bclien.ciinsc          .      
+            vdestcidcod   = cidade.cidcod.         .             
+
+    run pi-trata-numero (vdesticgc, output vdesticgc).
+    run formata-ie (vdestie, output vdestie).
+    
+    /*  Precisa concatenar o codigo?
+    if bclifor.tipPes then vdestie = "ISENTO".
+    vclie = vclie + " - " + string(bclifor.clfcod).
+    */
+    
+    /*
+    find cliforend of bclifor where cliforend.agendseq = plani.agendseq
+                              no-lock no-error.
+    if avail cliforend
+    then assign
+            vdestendereco = trim(cliforend.endereco)
+            vdestnumero   = trim(cliforend.numero)
+            vdestcompl    = trim(cliforend.compl)
+            vdestbairro   = cliforend.bairro
+            vdestcep      = cliforend.cep
+            vdestcidade   = cliforend.munic
+            vdestufecod   = cliforend.ufcod
+            vdestcidcod   = 0.
+    */
+    
+    if vdestcidcod > 0
+    then find cidade where cidade.cidcod = vdestcidcod no-lock no-error.     
+    if vdestcidcod = 0 or
+       not avail cidade
+    then find cidade where cidade.cidnom matches "*" + vdestcidade + "*"
+            no-lock no-error.
+        
+ /* vpaissig = bclifor.paissig.                      */                  
+    if avail cidade                                                   
+    then assign vdestcidade  = cidade.cidnom                               
+                vdestufecod  = cidade.ufecod                               
+        /*      vpaissig = cidade.pais-sigla */.                         
+
+    run ibge.p (input "CIDADE",
+                input vdestcidade,              
+                input vdestufecod,              
+                              input vpaissig,             
+                              output par2-CidadeIbge,   
+                              output par2-CDUf ,           
+                              output par2-CDPais,       
+                              output par2-op_localidade,
+                              output par-cdsede).
+        
+    if par-cdsede = 0                                 
+    then do:                                          
+        if vcidade matches "*'*"
+        then do:                                      
+            vdestcidade = replace(vdestcidade,"'"," ").       
+            run ibge.p (input "CIDADE",               
+                      input vdestcidade,              
+                      input vdestufecod,              
+                      input vpaissig,             
+                      output par2-CidadeIbge,     
+                      output par2-CDUf ,          
+                      output par2-CDPais,         
+                      output par2-op_localidade,  
+                      output par-cdsede).         
+        end.                                          
+    end.                                              
+                                                                     
+end procedure.
+
+
+procedure pi-trata-numero.                                  
+
+def input  parameter par-num   as char.
+def output parameter par-valor as char init "".
+
+def var j as int.
+def var t as int.
+
+if par-num = "" then par-num = "0".
+
+        assign t = length(par-num).
+        do j = 1 to t:
+            if substr(par-num,j,1) = "0" or
+               substr(par-num,j,1) = "1" or
+               substr(par-num,j,1) = "2" or
+               substr(par-num,j,1) = "3" or
+               substr(par-num,j,1) = "4" or
+               substr(par-num,j,1) = "5" or
+               substr(par-num,j,1) = "6" or
+               substr(par-num,j,1) = "7" or
+               substr(par-num,j,1) = "8" or
+               substr(par-num,j,1) = "9" 
+            then assign par-valor = par-valor + substr(par-num,j,1).
+        end.
+
+end procedure.
+
+
+Procedure Pi-Grava-Tabelas.
+
+    message "Gravando tabelas ...".
+    run Pi-Busca-Dados-Cad (input tt-plani.emite, input tt-plani.desti).
+       
+    find estab where estab.etbcod = tt-plani.emite no-lock no-error.
+
+    vvnumero = tt-plani.numero.
+    vcnf     = dec((int(modelo-documento) * 1000000) + vvnumero). /*(v2.0)*/
+
+    chave-nfe = string(ibge-uf-emite + 
+                substring(string(year(tt-plani.pladat)),3,2) +
+                string(month(tt-plani.pladat),"99") +
+                string(vemitecgc,"99999999999999") +
+                string(int(modelo-documento),"99") + 
+                string(int(tt-plani.serie),"999")  + 
+                string(vvnumero,"999999999")) +
+                "1" + /* (v2.0) tpEmis = forma de emissão da NF-e */
+                string(vcnf).
+              
+    /* Digito Verificador */
+    run nfe/caldvnfe11.p(input dec(chave-nfe), output vdvnfe).
+       
+    assign chave-nfe = chave-nfe + string(vdvnfe). 
+        
+    find A01_infnfe where A01_infnfe.chave = chave-nfe
+                    exclusive no-wait no-error.        
+    if avail A01_inf
+    then do:
+        run Pi-DeletaExis.
+        find A01_infnfe where A01_infnfe.chave = chave-nfe
+                        exclusive no-wait no-error.
+    end.
+        
+    v-ok = no.
+    if not avail A01_infnfe
+    then do:
+        if locked A01_infnfe
+        then message "-> NFE esta sendo usada por outro processo." skip
+                        chave-nfe view-as alert-box.
+        else do:                
+            create A01_infnfe.
+            assign
+                A01_infnfe.chave  = chave-nfe
+                A01_infnfe.numero = vvnumero 
+                A01_infnfe.emite  = tt-plani.emite 
+                A01_infnfe.serie  = tt-plani.serie
+                A01_infnfe.etbcod = tt-plani.etbcod
+                A01_infnfe.placod = tt-plani.placod
+                A01_infnfe.versao = 2.0 /*(v2.0)*/
+                A01_infnfe.id     = "NFe"
+                v-ok = yes.
+        end.
+    end.
+    else v-ok = yes.
+
+    if v-ok = no
+    then return.
+        
+    v-ok = no.
+    find B01_IdeNFe of A01_infnfe exclusive no-wait no-error.
+    if not avail B01_IdeNFe
+    then do:
+        if locked B01_IdeNFe
+        then message "--> NFE esta sendo usada por outro processo." skip
+                    chave-nfe view-as alert-box.
+        else do:
+            create B01_IdeNFe.
+            assign
+                B01_IdeNFe.chave  = chave-nfe 
+                B01_IdeNFe.cuf    = dec(ibge-uf-emite) 
+                B01_IdeNFe.cnf    = vcnf /*(v2.0)*/
+                B01_IdeNFe.natop  = natureza-operacao
+                B01_IdeNFe.indpag = 0
+                B01_IdeNFe.mod    = modelo-documento
+                B01_IdeNFe.serie  = int(tt-plani.serie)
+                B01_IdeNFe.nNF    = vvnumero
+                B01_IdeNFe.demi   = tt-plani.pladat
+                B01_IdeNFe.dsaient = tt-plani.pladat
+                B01_IdeNFe.tpnf   = 1
+                B01_IdeNFe.cMunFG = int(par-op1_localidade)
+                B01_IdeNFe.tpimp  = "1"
+                B01_IdeNFe.tpemis = 1
+                B01_IdeNFe.cdv    = vdvnfe
+                B01_IdeNFe.idamb  = 2
+                B01_IdeNFe.finnfe = 1
+                B01_IdeNFe.procemi = 0
+                B01_IdeNFe.verproc = "3.0"
+                /**
+                B01_IdeNFe.dthoracont = 
+                **/
+                v-ok = yes.
+        end.
+    end.
+    else v-ok = yes.
+
+    if v-ok = no
+    then return.
+
+    /*** Nota Fiscal Referenciada ***/       
+    if vnota-vinc  = yes   
+    then do:
+        for each tt-ref-nota no-lock:
+            find B12_NFref of A01_infnfe no-error.
+            if not avail B12_NFref
+            then do:
+                create B12_NFref.
+                assign B12_NFref.chave  = chave-nfe.
+            end.       
+            assign  
+                B12_NFref.refnfe = tt-ref-nota.refnfe      
+                B12_NFref.cuf    = int(tt-ref-nota.cuf)    
+                B12_NFref.aamm   = int(tt-ref-nota.aamm)   
+                B12_NFref.cnpj   = tt-ref-nota.cnpj        
+                B12_NFref.mod    = tt-ref-nota.mod     
+                B12_NFref.serie  = int(tt-ref-nota.serie)
+            /*  B12_NFref.serieref = tt-ref-nota.serieref  */
+                B12_NFref.Nnf    = int(tt-ref-nota.Nnf). 
+        end.
+        v-ok = yes.
+    end.
+    else do:
+        for each tt-ref-nota :
+            delete tt-ref-nota.
+        end.
+        v-ok = yes.
+    end. 
+
+    if v-ok = no
+    then return.
+
+    /*** Cupom Referenciado versao 1.10 **/
+    if vcupom-vinc = yes
+    then do:
+        find first tt-ref-cupom no-lock no-error.
+        if avail tt-ref-cupom
+        then do:
+            find current tt-plani no-lock.
+            assign tt-plani.notobs[2] = tt-plani.notobs[2] + 
+                    " - Cupom Ref : " + tt-ref-cupom.cupom +
+                    " Equip.: " + tt-ref-cupom.numecf.
+        end.
+
+        find B12_NFref of A01_infnfe no-error.
+        if not avail B12_NFref
+        then do:
+            create B12_NFref.
+            assign B12_NFref.chave  = chave-nfe.
+        end.       
+        assign
+            B12_NFref.refnfe = string(tt-plani.numero)
+            B12_NFref.cuf    = dec(ibge-uf-emite)
+            B12_NFref.aamm   =
+                    int(string(substring(string(year(tt-plani.pladat)),3,2) + 
+                        string(month(tt-plani.pladat),"99")))                 
+            B12_NFref.cnpj   = vemitecgc
+            B12_NFref.mod    = "01"
+            B12_NFref.serie  = 0
+        /*  B12_NFref.serieref = "CF" */
+            B12_NFref.Nnf    = (if avail tt-ref-cupom 
+                                then int(tt-ref-cupom.cupom) else 0). 
+    end.
+
+    find C01_Emit of A01_infnfe no-lock no-error.
+    if not avail C01_Emit
+    then do:
+        run pi-troca-letra(input clien.clinom, output vpronome).
+        create C01_Emit.
+        assign
+            C01_Emit.chave = A01_infnfe.chave
+            C01_Emit.xnome = vpronome.
+            
+         if clifor.nomfan <> ""
+         then run pi-troca-letra(input clifor.nomfan, output vpronome).
+         else run pi-troca-letra(input clifor.clfnom, output vpronome).
+         
+         assign
+            C01_Emit.xfant = vpronome
+            C01_Emit.ie    = vemiteie
+                /*C01_Emit.iest  = ""
+            C01_Emit.im    = ""
+                C01_Emit.cnae  = 0 */
+                C01_Emit.cnpj  = vemitecgc
+                /*C01_Emit.cpf = ""*/.
+ 
+                run pi-troca-letra(input clifor.endereco, output vpronome).
+                assign 
+                C01_Emit.xlgr    = vpronome
+                C01_Emit.nro     = (if clifor.numero <> ""
+                                   then clifor.numero else "S/N").
+
+                run pi-troca-letra(input clifor.compl, output vpronome).
+                C01_Emit.xcpl  = vpronome.
+
+                run pi-troca-letra(input clifor.bairro, output vpronome).
+                assign
+                    C01_Emit.xbairro = vpronome
+                    C01_Emit.cmun = int(par-CidadeIbge)
+                    C01_Emit.xmun = clifor.cidade
+                    C01_Emit.uf   = clifor.ufecod.
+
+                run pi-trata-numero (clifor.cep, output vcampo-retorna).
+                assign C01_Emit.cep = dec(vcampo-retorna).
+
+                 /*C01_Emit.cpais 
+                C01_Emit.xpais   */ .
+
+                run pi-trata-numero (substr(clifor.fone,1,14),
+                                     output vcampo-retorna).
+                assign C01_Emit.fone = dec(vcampo-retorna)
+                       C01.dddfone   = string(clifor.cxpos).
+        end.          
+
+        find E01_Dest of A01_infnfe no-lock no-error.
+        if not avail E01_Dest
+        then do:
+            run pi-troca-letra(input vclie, output vpronome).
+ 
+            create E01_Dest.
+            assign
+                E01_Dest.chave = A01_infnfe.chave
+                E01_Dest.xnome = vpronome
+                E01_Dest.ie    = vdestie
+                /*
+                E01_Dest.isuf 
+                */
+                E01_Dest.email = trim(lc(bclifor.e-mail)).
+
+            if bclifor.paissig = "BRA" or bclifor.paissig = ""
+            then do:
+                if bclifor.tippes
+                then do.
+                    vcgccpf   = 100000000000.00 + dec(vdesticgc).
+                    vdesticgc = substr(string(vcgccpf),2).
+                    E01_Dest.cpf  = vdesticgc.
+                end.
+                else do.
+                    vcgccpf   = 100000000000000.00 + dec(vdesticgc).
+                    vdesticgc = substr(string(vcgccpf),2).
+                    E01_Dest.cnpj = vdesticgc.
+                end.
+            end.
+
+            run pi-troca-letra(input vdestendereco, output vpronome).
+            assign E01_Dest.xlgr    = vpronome.
+
+            run pi-troca-letra(input vdestbairro, output vpronome).
+            E01_Dest.xbairro = vpronome.
+
+            assign     
+                E01_Dest.nro  = if vdestnumero <> "" then vdestnumero else "S/N".
+
+            run pi-troca-letra(input vdestcompl, output vpronome).
+                                  
+            assign                                 
+                E01_Dest.xcpl = vpronome
+                E01_Dest.cmun = int(par2-CidadeIbge)
+                E01_Dest.xmun = vdestcidade
+                E01_Dest.uf   = vdestufecod.
+                
+            run pi-trata-numero (vdestcep, output vcampo-retorna).
+            assign E01_Dest.cep = dec(vcampo-retorna).
+
+                /*
+                  E01_Dest.cpais 
+                  E01_Dest.xpais 
+                */
+
+            run pi-trata-numero (substr(vdestfone,1, 14),output vcampo-retorna).
+            assign E01_Dest.fone = dec(vcampo-retorna).
+
+                if bclifor.paissig <> "BRA" and
+                   bclifor.paissig <> "" 
+                then do:
+                    find pais where pais.Pais-Sigla = bclifor.paissig no-lock.
+                    E01_Dest.cnpj = "".
+                    E01_Dest.ie   = "".
+                    E01_Dest.cmun = 9999999.
+                    E01_Dest.xmun = "EXTERIOR".
+                    E01_Dest.uf   = "EX".
+                    E01_Dest.cpais = pais.codbacen.
+                    E01_Dest.xpais = pais.paisnom. 
+                end.
+        end.   
+        
+        /***
+        find F01_Retirada of A01_infnfe no-lock NO-ERROR.
+        if not-avail F01_Retirada
+        then do:
+            create F01_Retirada.
+            assign
+                F01_Retirada.chave = A01_infnfe.chave
+        
+                F01_Retirada.cnpj =
+                F01_Retirada.xlgr =
+                F01_Retirada.nro  =
+                F01_Retirada.xcpl =
+                F01_Retirada.xbairro =
+                F01_Retirada.cmun =
+                F01_Retirada.xmun =
+                F01_Retirada.uf =
+                .
+                
+        find G01_Entrega of A01_infnfe no-lock no-error.
+        if not avail G01_Entrega
+        then do:
+            create G01_Entrega.
+            assign
+                G01_Entrega.chave = A01_infnfe.chave
+                G01_Entrega.cnpj  =
+                G01_Entrega.xlgr  =
+                G01_Entrega.nro   =
+                G01_Entrega.xcpl  =
+                G01_Entrega.xbairro =
+                G01_Entrega.cmun =
+                G01_Entrega.xmun =
+                G01_Entrega.uf   =
+                .
+        end.
+        ***/
+
+    find first tt-movim no-lock no-error.
+    if not avail tt-movim
+    then do.
+            /* NF sem movim */
+                create I01_Prod.
+                assign
+                    I01_Prod.chave  = A01_infnfe.chave
+                    I01_Prod.nitem  = 1
+                    I01_Prod.cprod  = "1" /*"CFOP" + string(plani.opfcod)*/
+                    I01_Prod.xprod  = opcom.opcimpr
+                    I01_Prod.cfop   = plani.opfcod
+                    I01_Prod.ucom   = "-"
+                    I01_Prod.qcom   = 0
+                    I01_Prod.vuncom = 0
+                    I01_Prod.utrib  = "-"
+                    I01_Prod.qtrib  = 0
+                    I01_Prod.vuntrib = 0
+                    I01_Prod.vprod  = plani.platot.
+
+                    create N01_icms.
+                    assign
+                        N01_icms.chave = A01_infnfe.chave
+                        N01_icms.nitem = 1
+                        N01_icms.orig  = 0
+                        N01_icms.cst   = 0
+                        N01_icms.modbc = 3
+                        N01_icms.vbc   = plani.bicms + plani.bicmsinf
+                        N01_icms.picms = 100
+                        N01_icms.vicms = plani.icms + plani.icmsinf
+                        N01_icms.modbcst = 0
+                        N01_icms.pmvast  = 0
+                        N01_icms.predbcst = 0.
+
+                    if plani.bsubst > 0
+                    then assign
+                            N01_icms.vbcst = plani.bsubst
+                            N01_icms.vICMSST = plani.icmssubst
+                            N01_icms.pICMSST = 90.
+
+                create Q01_pis.
+                assign
+                    Q01_pis.chave = I01_Prod.chave
+                    Q01_pis.nitem = I01_Prod.nitem
+                    Q01_pis.cst   = 99. /* Outros */
+
+                create S01_cofins.
+                assign
+                    S01_cofins.chave = I01_Prod.chave
+                    S01_cofins.nitem = I01_Prod.nitem
+                    S01_cofins.cst = 99. /* Outros */
+    end.
+        
+    v-falta-produ = no.
+    for each tt-movim.
+        find produ where produ.procod = tt-movim.procod no-lock no-error.
+        if not avail produ
+        then do:
+                message "Falta o Cadastro de Produto :" tt-movim.procod  skip
+                        "Na sequencia :" tt-movim.movseq
+                view-as alert-box.
+                v-falta-produ = yes.
+                v-ok = no.
+                return.
+        end.
+        if produ.pronom = ""
+        then do:
+             message "Falta a Descricao do Produto :" tt-movim.procod  skip
+                        "Na sequencia :" tt-movim.movseq
+                view-as alert-box.
+                v-falta-produ = yes.
+                v-ok = no.
+                return.
+        end.
+        vpronome0 = produ.pronom.
+        if tt-movim.desdesc <> "" 
+        then vpronome0 = tt-movim.desdesc. 
+            
+        run pi-troca-letra(input vpronome0, output vpronome).
+             
+        find I01_Prod of A01_infnfe where I01_Prod.nitem = tt-movim.movseq
+                no-error.
+        if not avail I01_Prod
+        then do:
+                create I01_Prod.
+                assign
+                    I01_Prod.chave = A01_infnfe.chave
+                    I01_Prod.nitem = tt-movim.movseq
+                    I01_Prod.cprod = string(tt-movim.procod)
+                    I01_Prod.cean  = if produ.proean <> "0" then produ.proean
+                                     else if  produ.proean2 <> "0"
+                                          then produ.proean2
+                                          else if produ.proean3 <> "0"
+                                               then produ.proean3
+                                               else ""
+                    I01_Prod.xprod = vpronome
+                    I01_Prod.cfop = if vcupom-vinc
+                                    then vopfcod
+                                    else if tt-movim.opfcod > 0
+                                         then tt-movim.opfcod
+                                         else tt-plani.opfcod.
+
+                    I01_Prod.ncm   = if produ.tprocod = 
+                                        int(paramsis("TIPOPRODUSERVICO"))
+                                     then "00" else produ.proclafis.
+
+                    if i01_prod.cfop = 6405
+                    then i01_prod.cfop = 6404.
+
+                if scliente = "milsons"
+                then I01_Prod.cprod = produ.refer.
+
+                run pi-troca-letra(produ.prounven, output vpronome).
+                assign                                         
+                    I01_Prod.ucom = vpronome
+                    I01_Prod.qcom = tt-movim.movqtm
+                    I01_Prod.vuncom = tt-movim.movpc
+                    I01_Prod.vprod  = tt-movim.movpc * tt-movim.movqtm
+                    I01_Prod.ceantrib = (if produ.proean <> "0" 
+                                        then produ.proean
+                                        else if  produ.proean2 <> "0"
+                                             then produ.proean2
+                                             else if produ.proean3 <> "0"
+                                                  then produ.proean3
+                                                  else "")
+                    I01_Prod.utrib = I01_Prod.ucom
+                    I01_Prod.qtrib = tt-movim.movqtm
+                    I01_Prod.vuntrib = tt-movim.movpc
+                    I01_Prod.vseg  = 0
+                    I01_Prod.vdesc = tt-movim.movdes.
+
+           for each movimdad where movimdad.etbcod = tt-movim.etbcod and
+                                   movimdad.placod = tt-movim.placod and
+                                   movimdad.movseq = tt-movim.movseq and
+                                   movimdad.imprime
+                             no-lock.
+               if movimdad.descricao <> ""
+               then I01_Prod.infadprod = I01_Prod.infadprod + 
+                       movimdad.campo + ":" + movimdad.descricao + " ".
+           end.
+       end. 
+              
+         /** Implementar ****
+            for each I18_DI of I01_Prod no-lock no-error.
+                if not avail I18_DI
+                then do:
+                    create I18_DI.
+                    assign
+                        I18_DI.chave = I01_Prod.chave
+                        I18_DI.nitem = I01_Prod.nitem
+                        I18_DI.ndi =
+                        I18_DI.ddi =
+                        I18_DI.xlocdesemb =
+                        I18_DI.ufdesemb =
+                        I18_DI.ddesemb =
+                        I18_DI.cexportador =
+                        .
+                /**** 
+                for each I25_ADI of I18_DI no-lock:
+                    put "I25|" I25_ADI.nadicao "|" I25_ADI.nseqadic "|"
+                       I25_ADI.cfabricante "|" I25_ADI.vdescdi "|"
+                       skip.
+                end.
+                ****/
+            end.                
+            
+            Implementar    *****/
+
+        /** ICMS **/
+                  
+        find N01_icms of I01_Prod exclusive no-error.
+        if not avail N01_icms
+        then do:
+            v-codpro-trib = int(tt-movim.tbtptrib-cod) no-error.
+            if v-codpro-trib = 0
+            then v-codpro-trib = (if opcom.opcecf         
+                        then produ.ctpreco-cod  
+                        else produ.tbpreco-cod).  
+    
+            run pi-acha-cst (input v-codpro-trib, 
+                                     output vcst,
+                                     output pcst).
+                    create N01_icms.
+                    assign
+                        N01_icms.chave = I01_Prod.chave
+                        N01_icms.nitem = I01_Prod.nitem
+                        N01_icms.orig  = 0
+                        N01_icms.cst   = int(vcst)
+                        N01_icms.modbc = 3.
+
+                    if vcst = "00" or
+                       vcst = "20"     /* Reducao Tributaria */
+                    then do.
+                        assign
+                            N01_icms.vbc   = tt-movim.xx-precoori
+                                             + tt-movim.movbicmsinf 
+                            N01_icms.picms = tt-movim.movalicms
+                            N01_icms.vicms = tt-movim.movicms
+                                             + tt-movim.movicmsinf.
+                        if vcst = "20"
+                        then assign
+                                N01_icms.pRedBC = pcst.
+                    end.
+
+                    if vcst = "30" or
+                       vcst = "10" or
+                       vcst = "60"
+                    then do:
+                        N01_icms.predbcst = pcst.
+                        N01_icms.vbcst = (tt-movim.movqtm * tt-movim.movpc)
+                                         - tt-movim.movdes.
+                        N01_icms.pICMSST = pcst.
+                    end.
+
+                    if vcst = "40" or vcst = "41" or vcst = "50"
+                    then N01_icms.vICMS = 0. /* Apenas p/ op.C/Veiculos */
+                        
+                    if vcst = "90"
+                    then assign
+                            N01_icms.pRedBCST = pcst
+                            N01_icms.vBCST    = int(vcst)
+                            N01_icms.pICMSST  = 0
+                            N01_icms.vICMSST  = 0.
+        end.
+
+        vlctbout  = (tt-movim.movqtm * tt-movim.movpc) - tt-movim.movdes.
+
+        /** IPI **/
+        if tt-movim.movipi <> 0
+        then do:
+            find O01_ipi of I01_Prod no-lock no-error.
+            if not avail O01_ipi
+            then do:
+                create O01_ipi.
+                assign 
+                    O01_ipi.chave = I01_Prod.chave
+                    O01_ipi.nitem = I01_Prod.nitem
+                    O01_ipi.clenq = ""
+                    O01_ipi.cnpjprod = ""
+                    O01_ipi.cselo = ""
+                    O01_ipi.qselo = 0
+                    O01_ipi.cenq  = "999"
+                    O01_ipi.cst = if tipmov.tipemite
+                                  then 99
+                                  else 49
+                    O01_ipi.vipi = tt-movim.movipi
+                    O01_ipi.vbc  = vlctbout
+                    O01_ipi.pipi = tt-movim.movalipi
+                    O01_ipi.vunid = vlctbout / tt-movim.movqtm
+                    O01_ipi.qunid = 0.
+            end.                    
+        end.                             
+
+        /**  PIS **/
+        find Q01_pis of I01_Prod no-lock no-error.
+        if not avail Q01_pis
+        then do:
+            create Q01_pis.
+            assign
+                Q01_pis.chave = I01_Prod.chave
+                Q01_pis.nitem = I01_Prod.nitem.
+
+            if (tipmov.movtcompra or
+                vmovtvenda) and
+               produ.aliqpis > 0
+            then
+                assign
+                    Q01_pis.cst  = 01
+                    Q01_pis.vbc  = vlctbout
+                    Q01_pis.ppis = produ.aliqpis
+                    Q01_pis.vpis = round(vlctbout * produ.aliqpis / 100,2).
+            else Q01_pis.cst   = 07.
+        end.
+ 
+        /** COFINS **/
+        find S01_cofins of I01_Prod no-lock no-error.
+            if not avail S01_cofins
+            then do:
+                 create S01_cofins.
+                 assign
+                    S01_cofins.chave = I01_Prod.chave
+                    S01_cofins.nitem = I01_Prod.nitem.
+           if (tipmov.movtcompra or
+               vmovtvenda) and
+               produ.aliqcofins > 0
+           then
+                assign
+                    S01_cofins.cst     = 01
+                    S01_cofins.vbc     = vlctbout
+                    S01_cofins.pcofins = produ.aliqcofins
+                    S01_cofins.vcofins = round(vlctbout * produ.aliqcofins
+                                         / 100, 2).
+           else S01_cofins.cst = 07.
+       end.
+
+            /***** Implementar
+            find T01_cofinsst of I01_Prod no-lock no-error.
+            if avail T01_cofinsst
+            then do:
+                put "T02|" T01_cofinsst.vbc "|" skip
+            "T04|" T01_cofinsst.qbcprod "|" T01_cofinsst.valiqprod "|" skip.
+            end.
+            find U01_issqn of I01_Prod no-lock no-error.
+            if avail U01_issqn
+            then do:
+            put "U|" U01_issqn.vbc "|" U01_issqn.valiq "|" U01_issqn.vissqn "|"
+                 U01_issqn.cmunfg "|" U01_issqn.clistserv "|" skip.
+            end.
+            ***/
+        end.            
+
+    /*(v2.0)*/
+    if tt-plani.frete > 0
+    then do.
+        find last tt-movim no-lock.
+        create I01_Prod.
+        assign
+            I01_Prod.chave = A01_infnfe.chave
+            I01_Prod.nitem = tt-movim.movseq + 1
+            I01_Prod.cprod = if tt-plani.ufemi = tt-plani.ufdes
+                             then "CFOP5949"
+                             else "CFOP6949"
+            I01_Prod.xprod = "Frete"
+            I01_Prod.cfop  = if tt-plani.ufemi = tt-plani.ufdes
+                             then 5949 else 6949
+            I01_Prod.ncm   = "00"
+            I01_Prod.ucom  = "UN"
+            I01_Prod.qcom  = 1
+            I01_Prod.vuncom = tt-plani.frete
+            I01_Prod.vprod  = tt-plani.frete
+            I01_Prod.ceantrib = ""
+            I01_Prod.utrib = I01_Prod.ucom
+            I01_Prod.qtrib = 1
+            I01_Prod.vuntrib = tt-plani.frete
+            I01_Prod.vfrete = tt-plani.frete.
+
+        create N01_icms.
+        assign
+            N01_icms.chave = I01_Prod.chave
+            N01_icms.nitem = I01_Prod.nitem
+            N01_icms.orig  = 0
+            N01_icms.cst   = 00
+            N01_icms.modbc = 3
+            N01_icms.vbc   = tt-plani.frete
+            N01_icms.picms = if I01_Prod.cfop = 5949 or vmovtvenda
+                             then 17 else 12
+            N01_icms.vicms = round(tt-plani.frete * N01_icms.picms / 100, 2).
+    
+        /**  PIS **/
+        create Q01_pis.
+        assign
+            Q01_pis.chave = I01_Prod.chave
+            Q01_pis.nitem = I01_Prod.nitem.
+        
+        if (tipmov.movtcompra or
+            vmovtvenda)
+        then
+            assign
+                Q01_pis.cst  = 01
+                Q01_pis.vbc  = tt-plani.frete
+                Q01_pis.ppis = 1.65
+                Q01_pis.vpis = round(tt-plani.frete * Q01_pis.ppis / 100,2).
+        else Q01_pis.cst   = 07.
+
+        /** COFINS **/
+        create S01_cofins.
+        assign
+            S01_cofins.chave = I01_Prod.chave
+            S01_cofins.nitem = I01_Prod.nitem.
+        if (tipmov.movtcompra or
+            vmovtvenda)
+        then
+            assign
+                S01_cofins.cst     = 01
+                S01_cofins.vbc     = tt-plani.frete
+                S01_cofins.pcofins = 7.6
+                S01_cofins.vcofins = round(tt-plani.frete * S01_cofins.pcofins 
+                                           / 100, 2).
+        else S01_cofins.cst = 07.    
+    end.
+
+    /**** Totais da nfe ****/
+    find W01_total of A01_infnfe no-lock no-error.
+    if not avail W01_total
+    then do:
+        create W01_total.
+        assign
+            W01_total.chave  = A01_infnfe.chave  
+            W01_total.vbc    = tt-plani.bicms + tt-plani.bicmsinf
+            W01_total.vicms  = tt-plani.icms  + tt-plani.icmsinf 
+            W01_total.vbcst  = tt-plani.bsubst
+            W01_total.vst    = tt-plani.icmssubst
+            W01_total.vprod  = tt-plani.protot + tt-plani.frete
+            W01_total.vfrete = tt-plani.frete
+            /*W01_total.vseg  =*/
+            W01_total.vdesc  = tt-plani.descprod
+            /*W01_total.vii = */
+            W01_total.vipi   = tt-plani.ipi
+            /*W01_total.vpis =
+            W01_total.vcofins =*/
+            W01_total.voutro = tt-plani.desacess
+            W01_total.vnf    = tt-plani.platot.
+    end.
+
+    find X01_Transp of A01_infnfe no-lock no-error.
+    if not avail X01_Transp
+    then do on error undo:
+        if tt-plani.respfre
+        then vtipo-frete = 1. /* Destinario */
+        else vtipo-frete = 0. /* Emitente */
+        
+        create X01_Transp.
+        assign X01_Transp.chave    = A01_infnfe.chave
+               X01_Transp.modFrete = vtipo-frete
+               X01_Transp.rntc     = tt-plani.char1 /* Volumes */
+               X01_Transp.CNPJ     = "00000000000000".
+        find transp where transp.trancod = tt-plani.nottran no-lock no-error.
+        if avail transp
+        then do:
+            run pi-trata-numero (transp.cgccpf, output vcgc-transp).
+            if length(vcgc-transp) < 14
+            then assign vcgc-transp = 
+                                string(dec(vcgc-transp),"99999999999999").
+            if transp.cidade = ""   or
+               transp.endereco = "" or 
+               transp.ufecod = ""   or 
+               dec( vcgc-transp) = 0 or
+               length(string(transp.cgccpf))<> 14
+            then do:
+                disp "-> Atualize Dados Transportadora : " 
+                         transp.trannom format "x(30)" skip
+                        "Endereco  25 posicoes" skip
+                        "Estado 2 posicoes " skip
+                        "CGC    14 posicoes" skip
+                        with frame f-corrige-t with 2 col overlay 
+                                no-labels width 75.
+                pause.
+                leave.
+            end.
+            run pi-troca-letra(input transp.Trannom, output vpronome).
+            assign X01_Transp.CNPJ   = vcgc-transp
+                   X01_Transp.placa  = transp.placa
+                   X01_Transp.xNome  = vpronome.
+
+            run pi-troca-letra(input transp.ender, output vpronome).
+            assign X01_Transp.xmun   = transp.cidade
+                   X01_Transp.uf     = transp.UFeCOD
+                   X01_Transp.xender = vpronome + " " + string(transp.numero).
+        end.                
+    end.
+
+    /* Observacoes */
+    assign vpronome = "".
+    if tt-plani.notobs[1] <> "" or
+       tt-plani.notobs[2] <> ""
+    then do:
+        v-auxtroca =  tt-plani.notobs[1] + tt-plani.notobs[2].
+        run pi-troca-letra(input v-auxtroca, output vpronome).
+    end.
+
+    /** Nome do Vendedor **/
+    if vmovtvenda
+    then do:
+        find first func where func.funcod = plani.vencod no-lock no-error.
+        if avail func
+        then vpronome = vpronome + "   Nome Vendedor: " + func.funnom.
+    end.
+
+    find Z01_InfAdic of A01_infnfe no-error.
+    if not avail Z01_InfAdic 
+    then do:
+        create Z01_InfAdic.
+        assign Z01_InfAdic.chave = A01_infnfe.chave.
+    end.
+    if vpronome <> "" then assign Z01_InfAdic.infCpl = vpronome.
+ 
+    assign Z01_InfAdic.xCampo = "horasaida".
+           Z01_InfAdic.xCampo = string(time,"HH:MM:SS").
+           Z01_InfAdic.xCampo = "datasaida".
+           Z01_InfAdic.xCampo = string(plani.pladat).
+
+        /*** implementar
+        find W17_issqntot of A01_nfe no-lock no-error.                
+        if not avail W17_issqntot
+        then do:
+            put "W17|" W17_issqntot.vserv "|" W17_issqntot.vbc "|" 
+                W17_issqntot.viss "|" W17_issqntot.vpis "|"
+                W17_issqntot.vcofins "|" skip.
+        end.
+        find W23_rettribtot of A01_nfe no-lock no-error.
+        if avail W23_rettribtot
+        then 
+            put "W23|" W23_rettribtot.vretpis "|" W23_rettribtot.vretcofins "|"
+                W23_rettribtot.vretcsll "|" W23_rettribtot.vbcirrf "|"
+                W23_rettribtot.virrf "|" W23_rettribtot.vbcretprev "|"
+                W23_rettribtot.vretprev "|" skip.
+
+        for each X22_reboque of X01_transp no-lock:
+            put "X22|" X22_reboque.placa "|" X22_reboque.uf "|"
+                   X22_reboque.rntc "|" skip.
+        end.
+        for each X26_vol of X01_transp no-lock:
+            put "X26|" X26_vol.qvol "|" X26_vol.esp "|" X26_vol.marca "|"
+                       X26_vol.nvol "|" X26_vol.pesol "|" X26_vol.pesob skip
+        end.
+        for each X33_lacres of X01_transp no-lock:
+            put "X33|" X33_vol.nlacre "|" skip.
+        end.
+        end.                
+        for each Y01_cobr of A01_nfe brek by nfat no-lock:
+        if first-off(nfat)
+        then put "Y02|" Y01_cobr.nfat "|" Y01_cobr.vorig "|" Y01_cobr.vdesc "|"
+                    Y01_cobr.vliq "|" skip.
+        put "Y07|" Y01_cobr.ndup "|" Y01_cobr.dvenc "|" Y01_cobr.vdup "|" skip.
+        end.
+        
+        for each Z01_infadic of A01_nfe no-lock:
+        if Z01_infadic.obscont <> ""
+        then put "Z||" Z01_infadic.obscont "|" skip
+        put "Z04|" Z01_infadic.xcampo "|" Z01_infadic.xtexto "|" skip.
+        end.
+         Implementar ******/
+
+    if v-falta-produ = no 
+    then do:
+        par-volta = no.
+        run nfe/arq_xml_nfe.p (input recid(A01_infnfe), input par-oper,
+                               output par-volta).
+        find current a01_infnfe no-lock.
+    end.
+
+end procedure.
+
+procedure pi-acha-cst.
+
+def input  parameter p-codpro-trib  like produ.ctpreco-cod.
+def output parameter p-cst          as char.
+def output parameter p-percst       as dec. 
+
+def var vcodtrib like cer-itr.codtrib.
+
+find cer-itr where cer-itr.codtrib = p-codpro-trib no-lock no-error.
+if avail cer-itr
+then do:
+    if scliente = "cer" and tipmov.movttra
+    then cer-itr.cst = "51".
+
+    if cer-itr.cst <> ""
+    then
+        assign
+            p-cst = substr(cer-itr.cst, 2, 2)
+            p-percst = cer-itr.pertrib.
+    else
+        assign
+            p-cst = "40"
+            p-percst = 0 . /* Isento */
+end.
+else assign p-cst = "40"
+            p-percst = 0. /* Isento */
+
+end procedure.
+
+Procedure Pi-Troca-Letra.
+
+    def input  parameter par-nome as char.
+    def output parameter par-valor as char.
+
+    def var mletrade   as int  extent 3 init [128, 132, 138].
+    def var mletrapara as char extent 3 init ["c", "a", "C"].
+    def var vletra as char.
+    def var vct    as int.
+    def var aux    as char.
+    def var vi     as int.
+
+    par-nome = replace(par-nome,"\"", " ").
+    par-nome = replace(par-nome,"/",  " ").
+    par-nome = replace(par-nome,"&","E").
+    par-nome = trim(replace(par-nome, "~\"," " )).
+    aux = "".
+    do vi = 1 to length(par-nome).
+        vletra = substr(par-nome, vi, 1).
+
+        do vct = 1 to 3.
+            if asc(vletra) = mletrade[vct]
+            then vletra = mletrapara[vct].
+        end.
+
+        if asc(vletra) < 125
+        then aux = aux + substring(par-nome,vi,1).
+    end.
+    par-valor = CAPS(aux).
+
+end procedure.
+
+
+
+Procedure Pi-Vincula-NF.
+
+def input parameter p-etbcod like plani.etbcod.
+def input parameter p-placod like plani.placod.
+
+def var vcgcagen as char. 
+
+find bplani where bplani.etbcod = p-etbcod and
+                  bplani.placod = p-placod no-lock no-error.
+
+find bclifor where int(bclifor.clfcod) = bplani.emite no-lock no-error. 
+if not avail bclifor
+then do:
+    message "Problema Na Nota Referenciada !!!" view-as alert-box.
+    v-ok = no.
+    undo.
+end.
+else do:
+    vcgcagen = bclifor.cgccpf.
+    vcgcagen = replace(vcgcagen,".","").
+    vcgcagen = replace(vcgcagen,"/","").
+    vcgcagen = replace(vcgcagen,"-","").
+
+    find cidade where cidade.cidcod = bclifor.cidcod no-lock no-error. 
+
+        vcidade = bclifor.cidade.                                          
+        vufecod = bclifor.ufecod.                                          
+        vpaissig = bclifor.paissig.                                        
+        if avail cidade                                                   
+        then assign vcidade = cidade.cidnom                               
+                    vufecod = cidade.ufecod                               
+                    vpaissig = cidade.pais-sigla.                         
+               
+        run ibge.p (input "UF",  
+                              input vcidade,              
+                              input vufecod,              
+                              input vpaissig,             
+                              output par-CidadeIbge,   
+                              output par-CDUf ,           
+                              output par-CDPais   ,       
+                              output par-op1_localidade,
+                              output par-cdsede).
+
+    find first tt-ref-nota where tt-ref-nota.nNF = string(bplani.numero)
+                           no-error.
+    if not avail tt-ref-nota
+    then do:
+        create tt-ref-nota.
+        assign  tt-ref-nota.nNF = string(bplani.numero)
+                tt-ref-nota.refNFE = string(vvnumero).
+    end.    
+
+    assign  tt-ref-nota.cUF   =  string(par-cdsede)
+            tt-ref-nota.cnpj  =  vcgcagen
+            tt-ref-nota.AAMM  =  
+                            string(substring(string(year(bplani.pladat)),3,2) +
+                            string(month(bplani.pladat),"99")).     
+
+    assign  tt-ref-nota.mod   = "01"
+            tt-ref-nota.serie = string(int(bplani.etbcod) + 900).
+    v-ok = yes.         
+end.
+
+end procedure.
+
+
+Procedure Pi-DeletaExis.
+
+    /* Delecao de tabelas existentes caso haja necessidade */
+
+    def var vchave as char.
+
+    vchave =  chave-nfe.
+
+    for first A01_infnfe where A01_infnfe.chave begins vchave:
+
+    find B01_IdeNFe of A01_infnfe exclusive no-wait no-error.
+    
+    if avail B01_IdeNFe then delete B01_IdeNFe.
+
+    for each B12_NFref of A01_infnfe :
+        delete  B12_NFref.
+    end.
+   
+    find C01_Emit of A01_infnfe no-error.
+    if avail C01_Emit then delete C01_Emit.
+    
+    find E01_Dest of A01_infnfe no-error.
+    if avail E01_Dest
+    then delete E01_Dest.
+    
+    for each I01_Prod of A01_infnfe :
+        if avail I01_Prod then delete I01_Prod.
+        find S01_cofins of I01_Prod no-error.
+        if avail S01_cofins then delete S01_cofins. 
+    end.
+    
+    find X01_transp of A01_infnfe  NO-ERROR.
+    if avail X01_transp then DELETE X01_transp.
+    
+    find Z01_InfAdic of A01_infnfe  NO-ERROR.
+    if avail Z01_InfAdic then DELETE Z01_InfAdic.
+ 
+    find F01_Retirada of A01_infnfe  NO-ERROR.
+    if avail F01_Retirada  then delete F01_Retirada.
+    
+    for each O01_ipi of a01_infnfe:
+        delete O01_ipi.
+    end.
+
+    for each Q01_PIS of A01_Infnfe:
+        delete Q01_PIS.
+    end.
+    
+    for each S01_COFINS of A01_Infnfe:
+        delete S01_COFINS.
+    end.
+     
+    for each N01_icms of a01_infnfe:
+        delete N01_icms.
+    end.
+
+    for each w01_Total of a01_infnfe:
+        delete w01_total.
+    end.
+end. 
+
+end procedure.
+
+
+procedure formata-ie.
+
+    def input  parameter par-nome as char.
+    def output parameter par-valor as char.
+
+    def var vletra as char.
+    def var aux    as char.
+    def var vi     as int.
+
+    par-nome = replace(par-nome,"\"","").
+    par-nome = replace(par-nome,"&","E").
+    par-nome = trim(replace(par-nome, "~\"," " )).
+    do vi = 1 to length(par-nome).
+        vletra = substr(par-nome, vi, 1).
+
+        if asc(vletra) >=  48 and
+           asc(vletra) <= 122
+        then aux = aux + substring(par-nome,vi,1).
+    end.
+    par-valor = CAPS(aux).
+
+end procedure.

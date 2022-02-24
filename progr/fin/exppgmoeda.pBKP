@@ -1,0 +1,298 @@
+/* helio 30/08/2021 boletos caixa */
+{admcab.i}
+
+def var recatu2        as recid.
+def buffer bbanboleto for banboleto.
+def var prec as recid.
+def var par-rec as recid.
+def var vdtini  as date label "data inicial" format "99/99/9999" initial today.
+def var vdtfin  as date label "data final"   format "99/99/9999" initial today.
+def var vmoecod like titulo.moecod init "BOL". 
+update vdtini colon 20
+       vdtfin
+       with frame fcab centered
+       row 4 side-labels.
+update vmoecod colon 20 label "moeda" with frame fcab.
+find moeda where moeda.moecod = vmoecod no-lock no-error.
+if not avail moeda
+then do:
+    message "moeda invalida".
+    pause.
+    undo.
+end.    
+disp moeda.moenom no-label with frame fcab.
+def var voutrosboletosvinculados as char.
+
+   def var varq as char format "x(60)".
+   def var vcp  as char init ";".
+   varq = "/admcom/relat/" + "lan" + lc(trim(vmoecod)) +  "_" +
+                             "dat" + string(vdtini,"999999") + string(vdtfin,"999999") + 
+                             "_"   + string(today,"999999")  + string(time) +
+                             ".csv" .
+                               
+    pause 0.
+    update skip(2) varq skip(2)
+        with
+        centered 
+        overlay
+        color messages
+        no-labels
+        row 8
+        title "arquivo de saida".
+        
+    output to value(varq).    
+            
+        put unformatted
+        "Filial Pg"   vcp
+        "DataMov"  vcp
+        "TipoMov" vcp
+        "NomeMov"  vcp 
+        "CodigoCliente" vcp
+        "Contrato" vcp
+        "Parcela" vcp
+        "codProp" vcp
+        "propriedade" vcp
+        "Vlr Nominal" vcp
+        "Vlr Juros" vcp
+        "Vlr Desconto" vcp
+        "Vlr Movimento" vcp                       
+        "parcial?" vcp
+        "NossoNumero" vcp
+        "DtBaixa" vcp
+        "Outros Boletos Vinculados" vcp
+        
+            skip.        
+    
+    for each titulo where titnat = no and titulo.titdtpag >= vdtini and titulo.titdtpag <= vdtfin 
+            no-lock.
+        if titulo.titsit = "PAG" /*and titulo.moecod = vmoecod - helio 30/06/2021 - tem baixas por boleto quue ficam com moeda NOV */ 
+        then.
+        else next.
+
+        /*if moecod = "NCY" or
+           moecod = "BOL" 
+        then.
+        else next.
+        if etbcobra <> 999 then next.
+        */
+            
+        find cobra of titulo no-lock.
+        par-rec = ?.
+        prec = ?.
+        
+        release banboleto.
+        
+        
+        prec = ?.
+        for each cybacparcela where cybacparcela.contnum = int(titulo.titnum) and cybacparcela.parcela = titulo.titpar no-lock.
+                find last banbolOrigem 
+                    where banbolorigem.tabelaOrigem = "cybacparcela" and
+                          banbolorigem.chaveOrigem  = "idacordo,parcela" and
+                          banbolorigem.dadosOrigem  = string(cybacparcela.idacordo) + "," + string(titulo.titpar)
+                    no-lock no-error.
+                if avail banbolOrigem
+                then do:
+                    find banboleto of banbolorigem no-lock.
+                    if banboleto.dtpagamento = titulo.titdtpag
+                    then do:
+                        prec = recid(banbolOrigem).
+                    end.
+                end.                        
+        end.            
+        if prec = ?
+        then do:
+            for each cslpromessa where cslpromessa.contnum = int(titulo.titnum) and cslpromessa.parcela = titulo.titpar no-lock.
+                    find last banbolOrigem 
+                        where banbolorigem.tabelaOrigem = "promessa" and
+                              banbolorigem.chaveOrigem  = "idacordo,contnum,parcela" and
+                              banbolorigem.dadosOrigem  = string(cslpromessa.idacordo) + "," + titulo.titnum + "," + string(titulo.titpar)
+                        no-lock no-error.
+                if avail banbolOrigem
+                then do:
+                    find banboleto of banbolorigem no-lock.
+                    if banboleto.dtpagamento = titulo.titdtpag
+                    then do:
+                        prec = recid(banbolOrigem).
+                    end.
+                end.                        
+            end.
+        end.
+        if prec = ?
+        then do:
+            for each banbolorigem where 
+                        banbolorigem.tabelaorigem = ? and
+                        banbolorigem.chaveorigem  = "contnum,titpar" and  
+                        banbolorigem.dadosOrigem  = titulo.titnum + "," + string(titulo.titpar)  no-lock.
+
+                    find banboleto of banbolorigem no-lock.
+                    if banboleto.dtpagamento = titulo.titdtpag
+                    then do:
+                        prec = recid(banbolOrigem).
+                        leave.
+                    end.
+            end. 
+            if prec = ?
+            then for each banbolorigem where 
+                        banbolorigem.tabelaorigem = ? and
+                        banbolorigem.chaveorigem  = "contnum,titpar" and  
+                        banbolorigem.dadosOrigem  = "0" + titulo.titnum + "," + string(titulo.titpar) no-lock.
+                    find banboleto of banbolorigem no-lock.
+                    if banboleto.dtpagamento = titulo.titdtpag
+                    then do:
+                        prec = recid(banbolOrigem).
+                        leave.
+                    end.
+            end.
+            if prec = ?
+            then for each banbolorigem where 
+                        banbolorigem.tabelaorigem = ? and
+                        banbolorigem.chaveorigem  = "contnum,titpar" and  
+                        banbolorigem.dadosOrigem  = "00" + titulo.titnum + "," + string(titulo.titpar) no-lock.
+                    find banboleto of banbolorigem no-lock.
+                    if banboleto.dtpagamento = titulo.titdtpag
+                    then do:
+                        prec = recid(banbolOrigem).
+                        leave.
+                    end.
+            end.
+
+            if prec = ?
+            then for each banbolorigem where 
+                        banbolorigem.tabelaorigem = ? and
+                        banbolorigem.chaveorigem  = "contnum,titpar" and  
+                        banbolorigem.dadosOrigem  = "0" + titulo.titnum + ",0" + string(titulo.titpar) no-lock.
+                    find banboleto of banbolorigem no-lock.
+                    if banboleto.dtpagamento = titulo.titdtpag
+                    then do:
+                        prec = recid(banbolOrigem).
+                        leave.
+                    end.
+            end.
+            if prec = ?
+            then for each banbolorigem where 
+                        banbolorigem.tabelaorigem = ? and
+                        banbolorigem.chaveorigem  = "contnum,titpar" and  
+                        banbolorigem.dadosOrigem  = "00" + titulo.titnum + ",0" + string(titulo.titpar) no-lock.
+                    find banboleto of banbolorigem no-lock.
+                    if banboleto.dtpagamento = titulo.titdtpag
+                    then do:
+                        prec = recid(banbolOrigem).
+                        leave.
+                    end.
+            end.
+            
+        end.
+        if prec = ?
+        then do:
+            for each banbolorigem where 
+                        banbolorigem.tabelaorigem = "titulo" and
+                        banbolorigem.chaveorigem  = "contnum,titpar" and  
+                        banbolorigem.dadosOrigem  = titulo.titnum + "," + string(titulo.titpar) no-lock.
+                    find banboleto of banbolorigem no-lock.
+                    if banboleto.dtpagamento = titulo.titdtpag
+                    then do:
+                        prec = recid(banbolOrigem).
+                        leave.
+                    end.
+            end.
+            if prec = ?
+            then for each banbolorigem where 
+                        banbolorigem.tabelaorigem = "titulo" and
+                        banbolorigem.chaveorigem  = "contnum,titpar" and  
+                        banbolorigem.dadosOrigem  = "0" + titulo.titnum + "," + string(titulo.titpar) no-lock.
+                    find banboleto of banbolorigem no-lock.
+                    if banboleto.dtpagamento = titulo.titdtpag
+                    then do:
+                        prec = recid(banbolOrigem).
+                        leave.
+                    end.
+            end.
+            if prec = ?
+            then for each banbolorigem where 
+                        banbolorigem.tabelaorigem = "titulo" and
+                        banbolorigem.chaveorigem  = "contnum,titpar" and  
+                        banbolorigem.dadosOrigem  = "00" + titulo.titnum + "," + string(titulo.titpar) no-lock.
+                    find banboleto of banbolorigem no-lock.
+                    if banboleto.dtpagamento = titulo.titdtpag
+                    then do:
+                        prec = recid(banbolOrigem).
+                        leave.
+                    end.
+            end.
+            
+            
+            if prec = ?
+            then for each banbolorigem where 
+                        banbolorigem.tabelaorigem = "titulo" and
+                        banbolorigem.chaveorigem  = "contnum,titpar" and  
+                        banbolorigem.dadosOrigem  = "0" + titulo.titnum + ",0" + string(titulo.titpar) no-lock.
+                    find banboleto of banbolorigem no-lock.
+                    if banboleto.dtpagamento = titulo.titdtpag
+                    then do:
+                        prec = recid(banbolOrigem).
+                        leave.
+                    end.
+            end.
+            if prec = ?
+            then for each banbolorigem where 
+                        banbolorigem.tabelaorigem = "titulo" and
+                        banbolorigem.chaveorigem  = "contnum,titpar" and  
+                        banbolorigem.dadosOrigem  = "00" + titulo.titnum + ",0" + string(titulo.titpar) no-lock.
+                    find banboleto of banbolorigem no-lock.
+                    if banboleto.dtpagamento = titulo.titdtpag
+                    then do:
+                        prec = recid(banbolOrigem).
+                        leave.
+                    end.
+            end.
+            
+        end.
+        
+            
+
+        if prec <> ?
+        then do:
+            find banbolOrigem where recid(banbolOrigem) = prec no-lock.
+            find banboleto of banbolorigem no-lock.
+            if banboleto.dtpagamento = titulo.titdtpag
+            then do:
+                par-rec = recid(banboleto).
+            end.
+        end.
+
+        find banboleto where recid(banboleto) = par-rec no-lock no-error.
+        
+        if not avail banboleto then next.
+        if banboleto.dtbaixa = ?
+        then next.
+        
+         
+        put unformatted
+        titulo.etbcobra vcp
+        titulo.titdtpag format "99/99/9999" vcp
+        titulo.moecod  vcp
+        moeda.moenom   vcp 
+        titulo.clifor  vcp
+        titulo.titnum vcp
+        titulo.titpar vcp
+        if avail titulo then titulo.cobcod else ""  vcp
+        if avail cobra then cobra.cobnom else "" vcp
+                
+        titulo.titvlcob vcp
+        titulo.titjuro vcp
+        0        vcp
+        if avail banbolorigem then banbolorigem.valororigem else 0   vcp
+        "N"    vcp
+        if avail banboleto then banboleto.nossonumero else "-" vcp
+        if avail banboleto then 
+                string(banboleto.dtbaixa,"99/99/9999") else "-" vcp
+        voutrosboletosvinculados    vcp    
+            skip.        
+    end.
+
+    
+    output close.
+
+    message varq "gerado com sucesso.".
+    pause 2 no-message.
+

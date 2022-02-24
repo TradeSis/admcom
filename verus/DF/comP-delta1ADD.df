@@ -1,0 +1,68 @@
+ADD TABLE "ProdAgrup"
+  AREA "dados"
+  DUMP-NAME "prodagrup"
+
+ADD FIELD "procod" OF "ProdAgrup" AS integer 
+  FORMAT ">>>>99"
+  INITIAL "0"
+  LABEL "Produto"
+  POSITION 2
+  MAX-WIDTH 4
+  VALEXP "{dv.v ""procod""}"
+  VALMSG "Digito verificador nao confere, tente novamente."
+  HELP "Informe o Codigo do Produto."
+  ORDER 5
+
+ADD FIELD "proagrup" OF "ProdAgrup" AS integer 
+  FORMAT ">>>>99"
+  INITIAL "0"
+  LABEL "Agrupador"
+  POSITION 3
+  MAX-WIDTH 4
+  ORDER 10
+
+ADD FIELD "QtdVenda" OF "ProdAgrup" AS integer 
+  FORMAT ">>>>9"
+  INITIAL "0"
+  POSITION 4
+  MAX-WIDTH 4
+  ORDER 20
+
+ADD FIELD "PermiteVendaAvulsa" OF "ProdAgrup" AS logical 
+  FORMAT "Sim/Nao"
+  INITIAL "no"
+  POSITION 5
+  MAX-WIDTH 1
+  ORDER 30
+
+ADD INDEX "prodagrup" ON "ProdAgrup" 
+  AREA "indices"
+  UNIQUE
+  PRIMARY
+  INDEX-FIELD "procod" ASCENDING 
+
+ADD INDEX "Agrupador" ON "ProdAgrup" 
+  AREA "dados"
+  UNIQUE
+  INDEX-FIELD "proagrup" ASCENDING 
+  INDEX-FIELD "procod" ASCENDING 
+
+ADD FIELD "tipoSAP" OF "produ" AS character
+  FORMAT "x(8)"
+  POSITION 43
+  INITIAL ""
+  ORDER 461
+  MAX-WIDTH 16
+
+ADD FIELD "IndiceGenerico" OF "produ" AS character
+  FORMAT "x(100)"
+  POSITION 44
+  INITIAL ""
+  ORDER 450
+  MAX-WIDTH 200
+
+.
+PSC
+cpstream=ISO8859-1
+.
+0000001405

@@ -1,0 +1,76 @@
+ADD TABLE "contCP"
+  AREA "dados"
+  DUMP-NAME "contcp"
+
+ADD FIELD "contnum" OF "contCP" AS integer 
+  FORMAT ">>>>>>>999"
+  INITIAL "0"
+  LABEL "Contrato"
+  MAX-WIDTH 4
+  VALEXP "can-find(contrato of parcela)"
+  VALMSG "Deve ser um Contrato cadastrado."
+  HELP "Numero do Contrato."
+  ORDER 10
+
+ADD FIELD "EtbCod" OF "contCP" AS integer 
+  FORMAT ">>9"
+  INITIAL "0"
+  LABEL "Estabelecimento"
+  MAX-WIDTH 4
+  COLUMN-LABEL "Etb"
+  HELP "Estabelecimento"
+  ORDER 700
+
+ADD FIELD "PlaCod" OF "contCP" AS integer 
+  FORMAT ">>>>>9"
+  INITIAL ?
+  LABEL "Código"
+  MAX-WIDTH 4
+  COLUMN-LABEL "Cod"
+  VALEXP "Placod > 0"
+  VALMSG "Código da Nota Fiscal Inválido"
+  HELP "Codigo Interno da Movimentacao"
+  ORDER 12
+
+ADD FIELD "banco" OF "contCP" AS character 
+  FORMAT "x(8)"
+  INITIAL ""
+  MAX-WIDTH 16
+  ORDER 710
+
+ADD FIELD "agencia" OF "contCP" AS character 
+  FORMAT "x(8)"
+  INITIAL ""
+  MAX-WIDTH 16
+  ORDER 720
+
+ADD FIELD "tipoconta" OF "contCP" AS character 
+  FORMAT "x(8)"
+  INITIAL ""
+  MAX-WIDTH 16
+  ORDER 730
+
+ADD FIELD "numeroConta" OF "contCP" AS character 
+  FORMAT "x(20)"
+  INITIAL ""
+  MAX-WIDTH 16
+  ORDER 740
+
+ADD INDEX "contplani" ON "contCP" 
+  AREA "indices"
+  UNIQUE
+  PRIMARY
+  INDEX-FIELD "EtbCod" ASCENDING 
+  INDEX-FIELD "PlaCod" ASCENDING 
+  INDEX-FIELD "contnum" ASCENDING 
+
+ADD INDEX "contcp" ON "contCP" 
+  AREA "indices"
+  UNIQUE
+  INDEX-FIELD "contnum" ASCENDING 
+
+.
+PSC
+cpstream=ISO8859-1
+.
+0000001395

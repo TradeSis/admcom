@@ -1,0 +1,1 @@
+device for zebra-sap: lpd://10.130.0.60/zebra-sap

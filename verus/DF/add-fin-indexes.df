@@ -1,0 +1,7 @@
+ ADD INDEX "data" ON "contrSite" 
+   AREA "indices"
+   INDEX-FIELD "etbcod" ASCENDING 
+   INDEX-FIELD "dataTransacao" ASCENDING 
+   INDEX-FIELD "codigoPedido" ASCENDING 
+ 
+ 

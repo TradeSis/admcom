@@ -1,0 +1,7 @@
+ADD FIELD "optinWhatsApp" OF "clien" AS logical
+  FORMAT "Sim/Nao"
+  INITIAL "no"
+
+ADD FIELD "optinSMS" OF "clien" AS logical
+  FORMAT "Sim/Nao"
+  INITIAL "no"

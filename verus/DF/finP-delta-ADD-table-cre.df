@@ -1,0 +1,109 @@
+ADD TABLE "contCP"
+  AREA "dados"
+  DUMP-NAME "contcp"
+
+ADD FIELD "contnum" OF "contCP" AS integer 
+  FORMAT ">>>>>>>999"
+  INITIAL "0"
+  LABEL "Contrato"
+  MAX-WIDTH 4
+  VALEXP "can-find(contrato of parcela)"
+  VALMSG "Deve ser um Contrato cadastrado."
+  HELP "Numero do Contrato."
+  ORDER 10
+
+ADD FIELD "EtbCod" OF "contCP" AS integer 
+  FORMAT ">>9"
+  INITIAL "0"
+  LABEL "Estabelecimento"
+  MAX-WIDTH 4
+  COLUMN-LABEL "Etb"
+  HELP "Estabelecimento"
+  ORDER 700
+
+ADD FIELD "PlaCod" OF "contCP" AS integer 
+  FORMAT ">>>>>9"
+  INITIAL ?
+  LABEL "Código"
+  MAX-WIDTH 4
+  COLUMN-LABEL "Cod"
+  VALEXP "Placod > 0"
+  VALMSG "Código da Nota Fiscal Inválido"
+  HELP "Codigo Interno da Movimentacao"
+  ORDER 12
+
+ADD FIELD "banco" OF "contCP" AS character 
+  FORMAT "x(8)"
+  INITIAL ""
+  MAX-WIDTH 16
+  ORDER 710
+
+ADD FIELD "agencia" OF "contCP" AS character 
+  FORMAT "x(8)"
+  INITIAL ""
+  MAX-WIDTH 16
+  ORDER 720
+
+ADD FIELD "tipoconta" OF "contCP" AS character 
+  FORMAT "x(8)"
+  INITIAL ""
+  MAX-WIDTH 16
+  ORDER 730
+
+ADD FIELD "numeroConta" OF "contCP" AS character 
+  FORMAT "x(20)"
+  INITIAL ""
+  MAX-WIDTH 16
+  ORDER 740
+
+ADD INDEX "contplani" ON "contCP" 
+  AREA "indices"
+  UNIQUE
+  PRIMARY
+  INDEX-FIELD "EtbCod" ASCENDING 
+  INDEX-FIELD "PlaCod" ASCENDING 
+  INDEX-FIELD "contnum" ASCENDING 
+
+ADD INDEX "contcp" ON "contCP" 
+  AREA "indices"
+  UNIQUE
+  INDEX-FIELD "contnum" ASCENDING 
+
+ADD TABLE "estboleto"
+  AREA "dados"
+  DUMP-NAME "estboleto"
+
+ADD FIELD "etbcod" OF "estboleto" AS integer 
+  FORMAT ">>9"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 10
+
+ADD FIELD "vlrtaxa" OF "estboleto" AS decimal 
+  FORMAT ">>>>9.99"
+  INITIAL "0"
+  LABEL "Taxa Boleto"
+  MAX-WIDTH 17
+  COLUMN-LABEL "Taxa"
+  DECIMALS 2
+  ORDER 20
+
+ADD FIELD "LojaAberta" OF "estboleto" AS logical 
+  FORMAT "Sim/Nao"
+  INITIAL "no"
+  LABEL "Loja Aberta"
+  MAX-WIDTH 1
+  COLUMN-LABEL "LJ Ab"
+  ORDER 30
+
+ADD INDEX "estboleto" ON "estboleto" 
+  AREA "indices"
+  UNIQUE
+  PRIMARY
+  INDEX-FIELD "etbcod" ASCENDING 
+
+.
+PSC
+cpstream=ISO8859-1
+.
+0000001987

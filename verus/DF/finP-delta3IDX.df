@@ -1,0 +1,63 @@
+ADD INDEX "enveis4" ON "cretrigger"
+  AREA "indices"
+  INDEX-FIELD "titnat" ASCENDING
+  INDEX-FIELD "dtenveis4" ASCENDING
+  INDEX-FIELD "Tabela" ASCENDING
+  INDEX-FIELD "dtinc" ASCENDING
+
+ADD INDEX "enveus4bonus" ON "cretrigger"
+  AREA "indices"
+  INDEX-FIELD "titnat" ASCENDING
+  INDEX-FIELD "dtenveis4bonus" ASCENDING
+  INDEX-FIELD "Tabela" ASCENDING
+  INDEX-FIELD "dtinc" ASCENDING
+
+ADD INDEX "expsap" ON "pdvdoc"
+  AREA "indices"
+  INDEX-FIELD "etbcod" ASCENDING
+  INDEX-FIELD "ctmcod" ASCENDING
+  INDEX-FIELD "DataMov" ASCENDING
+  INDEX-FIELD "DtEnvSap" ASCENDING
+
+ADD INDEX "pagamentos" ON "pdvdoc"
+  AREA "indices"
+  INDEX-FIELD "ctmcod" ASCENDING
+  INDEX-FIELD "pstatus" ASCENDING
+  INDEX-FIELD "etbcod" ASCENDING
+  INDEX-FIELD "DataMov" ASCENDING
+  INDEX-FIELD "pago_parcial" ASCENDING
+  INDEX-FIELD "Sequencia" ASCENDING
+
+ADD INDEX "Parcial" ON "pdvdoc"
+  AREA "indices"
+  INDEX-FIELD "pstatus" ASCENDING
+  INDEX-FIELD "pago_parcial" ASCENDING
+  INDEX-FIELD "etbcod" ASCENDING
+  INDEX-FIELD "DataMov" ASCENDING
+  INDEX-FIELD "COO" ASCENDING
+
+ADD INDEX "titulo" ON "pdvdoc"
+  AREA "Schema Area"
+  INDEX-FIELD "ContNum" ASCENDING
+  INDEX-FIELD "titpar" ASCENDING
+  INDEX-FIELD "DataMov" ASCENDING
+  INDEX-FIELD "etbcod" ASCENDING
+
+ADD INDEX "titulo" ON "pdvmoeda"
+  AREA "Schema Area"
+  INDEX-FIELD "modcod" ASCENDING
+  INDEX-FIELD "titnum" ASCENDING
+  INDEX-FIELD "titpar" ASCENDING
+
+ADD INDEX "Contrato" ON "titulo"
+  AREA "idx-titulo"
+  UNIQUE
+  INDEX-FIELD "contnum" ASCENDING
+  INDEX-FIELD "titpar" ASCENDING
+  INDEX-FIELD "titdtemi" ASCENDING
+
+.
+PSC
+cpstream=ISO8859-1
+.
+0000018295

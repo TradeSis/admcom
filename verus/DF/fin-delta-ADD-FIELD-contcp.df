@@ -1,0 +1,27 @@
+
+ADD FIELD "cpfDesti" OF "contCP" AS decimal 
+  FORMAT ">>>>>>>>>>>>>9"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 750
+
+ADD FIELD "NomeDesti" OF "contCP" AS character 
+  FORMAT "x(30)"
+  INITIAL ""
+  MAX-WIDTH 60
+  ORDER 760
+
+ADD FIELD "clicod" OF "contCP" AS integer 
+  FORMAT ">>>>>>>>>9"
+  INITIAL "0"
+  LABEL "Codigo Cliente"
+  MAX-WIDTH 4
+  COLUMN-LABEL "Cliente"
+  ORDER 770
+
+.
+PSC
+cpstream=ISO8859-1
+.
+0000001783

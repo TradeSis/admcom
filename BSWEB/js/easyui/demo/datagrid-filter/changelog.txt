@@ -1,0 +1,8 @@
+Version 1.0.x
+-------------
+
+* Bug
+ * Setting the 'prompt' property of a filter component may cause error result. fixed.
+
+* Improvement
+ * The result of 'getData' method contains the 'filterRows' property value, which represents all the filtered rows.

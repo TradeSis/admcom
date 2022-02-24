@@ -1,0 +1,94 @@
+
+ADD FIELD "LidDtEnvio" OF "cretrigger" AS date
+    FORMAT "99/99/9999" 
+    INITIAL ? 
+    MAX-WIDTH 4 
+    ORDER 130
+             
+ADD FIELD "LidhrEnvio" OF "cretrigger" AS integer 
+    FORMAT ">>>>>9" 
+    INITIAL "0" 
+    MAX-WIDTH 4 
+    ORDER 140 
+    
+ADD INDEX "envLid" ON "cretrigger" 
+    AREA "indices" 
+    INDEX-FIELD "titnat" ASCENDING 
+    INDEX-FIELD "LidDtEnvio" ASCENDING 
+    INDEX-FIELD "Tabela" ASCENDING 
+    INDEX-FIELD "dtinc" ASCENDING
+                                          
+
+ADD TABLE "verusJsonLidia"
+  AREA "Schema Area"
+  DUMP-NAME "verusJsonLidia"
+
+ADD FIELD "interface" OF "verusJsonLidia" AS character 
+  FORMAT "x(20)"
+  INITIAL ""
+  MAX-WIDTH 40
+  ORDER 10
+
+ADD FIELD "jsonDados" OF "verusJsonLidia" AS blob 
+  FORMAT "x(8)"
+  INITIAL ?
+  LOB-AREA "Schema Area"
+  LOB-BYTES 104857600
+  LOB-SIZE 100M
+  ORDER 20
+
+ADD FIELD "jsonStatus" OF "verusJsonLidia" AS character 
+  FORMAT "x(02)"
+  INITIAL "NP"
+  MAX-WIDTH 4
+  ORDER 30
+
+ADD FIELD "dataIn" OF "verusJsonLidia" AS date 
+  FORMAT "99/99/99"
+  INITIAL "today"
+  MAX-WIDTH 4
+  ORDER 40
+
+ADD FIELD "horaIn" OF "verusJsonLidia" AS integer 
+  FORMAT ">>>>>9"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 50
+
+ADD FIELD "dataUp" OF "verusJsonLidia" AS date 
+  FORMAT "99/99/99"
+  INITIAL ?
+  MAX-WIDTH 4
+  ORDER 60
+
+ADD FIELD "horaUp" OF "verusJsonLidia" AS integer 
+  FORMAT ">>>>>9"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 70
+
+ADD FIELD "jsonStatusDes" OF "verusJsonLidia" AS character 
+  FORMAT "x(60)"
+  INITIAL ""
+  MAX-WIDTH 120
+  ORDER 80
+
+ADD INDEX "verusJsonLidia" ON "verusJsonLidia" 
+  AREA "Schema Area"
+  PRIMARY
+  INDEX-FIELD "jsonStatus" ASCENDING 
+  INDEX-FIELD "interface" ASCENDING 
+  INDEX-FIELD "dataIn" ASCENDING 
+  INDEX-FIELD "horaIn" ASCENDING 
+
+ADD INDEX "verusJsonLidia2" ON "verusJsonLidia" 
+  AREA "Schema Area"
+  INDEX-FIELD "interface" ASCENDING 
+  INDEX-FIELD "dataIn" ASCENDING 
+  INDEX-FIELD "horaIn" ASCENDING 
+
+.
+PSC
+cpstream=ISO8859-1
+.
+0000001415

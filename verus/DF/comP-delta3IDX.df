@@ -1,0 +1,11 @@
+
+ADD INDEX "Indicegenerico" ON "produ"
+  AREA "Schema Area"
+  WORD
+  INDEX-FIELD "IndiceGenerico" ASCENDING
+
+.
+PSC
+cpstream=ISO8859-1
+.
+0000001405

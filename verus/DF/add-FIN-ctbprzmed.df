@@ -1,0 +1,244 @@
+ADD FIELD "Produto" OF "ctbposhiscart" AS character 
+  FORMAT "x(15)"
+  INITIAL ""
+  MAX-WIDTH 30
+  ORDER 190
+ 
+ADD TABLE "ctbprzmed"
+  AREA "Schema Area"
+  DUMP-NAME "ctbprzmed"
+
+ADD FIELD "dtrefSAIDA" OF "ctbprzmed" AS date 
+  FORMAT "99/99/9999"
+  INITIAL ?
+  MAX-WIDTH 4
+  ORDER 50
+
+ADD FIELD "vlrPago" OF "ctbprzmed" AS decimal 
+  FORMAT "->>>>>>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 15
+  DECIMALS 2
+  ORDER 60
+
+ADD FIELD "campo" OF "ctbprzmed" AS character 
+  FORMAT "x(10)"
+  INITIAL ""
+  MAX-WIDTH 30
+  ORDER 30
+
+ADD FIELD "valorcampo" OF "ctbprzmed" AS character 
+  FORMAT "x(15)"
+  INITIAL ""
+  MAX-WIDTH 30
+  ORDER 40
+
+ADD FIELD "qtdPC" OF "ctbprzmed" AS integer 
+  FORMAT ">>>>>>9"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 70
+
+ADD FIELD "PrzMedio" OF "ctbprzmed" AS decimal 
+  FORMAT "->>>>>>9"
+  INITIAL "0"
+  MAX-WIDTH 25
+  DECIMALS 10
+  ORDER 80
+ 
+ADD FIELD "dtiniper" OF "ctbprzmed" AS date 
+  FORMAT "99/99/9999"
+  INITIAL ?
+  MAX-WIDTH 4
+  ORDER 10
+ 
+ADD FIELD "pstatus" OF "ctbprzmed" AS character 
+  FORMAT "x(12)"
+  INITIAL ""
+  MAX-WIDTH 24
+  ORDER 90
+
+ADD FIELD "dtinc" OF "ctbprzmed" AS date 
+  FORMAT "99/99/9999"
+  INITIAL ?
+  MAX-WIDTH 4
+  ORDER 100
+
+ADD FIELD "hrinc" OF "ctbprzmed" AS integer 
+  FORMAT ">>>>>>>9"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 110
+
+ADD FIELD "dtiniproc" OF "ctbprzmed" AS date 
+  FORMAT "99/99/9999"
+  INITIAL ?
+  MAX-WIDTH 4
+  ORDER 120
+
+ADD FIELD "hriniproc" OF "ctbprzmed" AS integer 
+  FORMAT ">>>>>>>9"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 130
+
+ADD FIELD "dtfimproc" OF "ctbprzmed" AS date 
+  FORMAT "99/99/9999"
+  INITIAL ?
+  MAX-WIDTH 4
+  ORDER 140
+
+ADD FIELD "hrfimproc" OF "ctbprzmed" AS integer 
+  FORMAT ">>>>>>>9"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 150
+
+ADD FIELD "dtfimper" OF "ctbprzmed" AS date 
+  FORMAT "99/99/9999"
+  INITIAL ?
+  MAX-WIDTH 4
+  ORDER 20
+
+ADD FIELD "pparametros" OF "ctbprzmed" AS character 
+  FORMAT "x(30)"
+  INITIAL ""
+  MAX-WIDTH 60
+   ORDER 160
+ 
+ADD INDEX "ctbprzmed" ON "ctbprzmed" 
+  AREA "Schema Area"
+  UNIQUE
+  PRIMARY
+  INDEX-FIELD "pparametros" ASCENDING 
+  INDEX-FIELD "dtfimper" ASCENDING 
+  INDEX-FIELD "dtiniper" ASCENDING 
+  INDEX-FIELD "campo" ASCENDING 
+  INDEX-FIELD "valorcampo" ASCENDING 
+
+ADD INDEX "query1" ON "ctbprzmed" 
+  AREA "Schema Area"
+  INDEX-FIELD "campo" ASCENDING 
+  INDEX-FIELD "dtrefSAIDA" DESCENDING 
+  INDEX-FIELD "dtfimper" DESCENDING 
+  INDEX-FIELD "dtiniper" DESCENDING 
+
+ADD TABLE "ctbprzmprod"
+  AREA "Schema Area"
+  DUMP-NAME "ctbprzmprod"
+
+ADD FIELD "dtrefSAIDA" OF "ctbprzmprod" AS date 
+  FORMAT "99/99/9999"
+  INITIAL ?
+  MAX-WIDTH 4
+  ORDER 50
+
+ADD FIELD "vlrPago" OF "ctbprzmprod" AS decimal 
+  FORMAT "->>>>>>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 15
+  DECIMALS 2
+  ORDER 60
+
+ADD FIELD "campo" OF "ctbprzmprod" AS character 
+  FORMAT "x(10)"
+  INITIAL ""
+  MAX-WIDTH 30
+  ORDER 30
+
+ADD FIELD "valorcampo" OF "ctbprzmprod" AS character 
+  FORMAT "x(15)"
+  INITIAL ""
+  MAX-WIDTH 30
+  ORDER 40
+
+ADD FIELD "qtdPC" OF "ctbprzmprod" AS integer 
+  FORMAT ">>>>>>9"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 70
+ 
+ADD FIELD "PrzMedio" OF "ctbprzmprod" AS decimal 
+  FORMAT "->>>>>>9"
+  INITIAL "0"
+  MAX-WIDTH 25
+  DECIMALS 10
+  ORDER 80
+ 
+ADD FIELD "dtiniper" OF "ctbprzmprod" AS date 
+  FORMAT "99/99/9999"
+  INITIAL ?
+  MAX-WIDTH 4
+  ORDER 10
+
+ADD FIELD "pstatus" OF "ctbprzmprod" AS character 
+  FORMAT "x(12)"
+  INITIAL ""
+  MAX-WIDTH 24
+  ORDER 90
+ 
+ADD FIELD "dtinc" OF "ctbprzmprod" AS date 
+  FORMAT "99/99/9999"
+  INITIAL ?
+  MAX-WIDTH 4
+  ORDER 100
+
+ADD FIELD "hrinc" OF "ctbprzmprod" AS integer 
+  FORMAT ">>>>>>>9"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 110
+
+ADD FIELD "dtiniproc" OF "ctbprzmprod" AS date 
+  FORMAT "99/99/9999"
+  INITIAL ?
+  MAX-WIDTH 4
+  ORDER 120
+
+ADD FIELD "hriniproc" OF "ctbprzmprod" AS integer 
+  FORMAT ">>>>>>>9"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 130
+ 
+ADD FIELD "dtfimproc" OF "ctbprzmprod" AS date 
+  FORMAT "99/99/9999"
+  INITIAL ?
+  MAX-WIDTH 4
+  ORDER 140
+
+ADD FIELD "hrfimproc" OF "ctbprzmprod" AS integer 
+  FORMAT ">>>>>>>9"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 150
+
+ADD FIELD "dtfimper" OF "ctbprzmprod" AS date 
+  FORMAT "99/99/9999"
+  INITIAL ?
+  MAX-WIDTH 4
+  ORDER 20
+
+ADD FIELD "pparametros" OF "ctbprzmprod" AS character 
+  FORMAT "x(30)"
+  INITIAL ""
+  MAX-WIDTH 60
+  ORDER 160
+
+ADD INDEX "ctbprzmprod" ON "ctbprzmprod" 
+  AREA "Schema Area"
+  UNIQUE
+  PRIMARY
+  INDEX-FIELD "pparametros" ASCENDING 
+  INDEX-FIELD "dtfimper" ASCENDING 
+  INDEX-FIELD "dtiniper" ASCENDING 
+  INDEX-FIELD "campo" ASCENDING 
+  INDEX-FIELD "valorcampo" ASCENDING 
+
+ADD INDEX "query1" ON "ctbprzmprod" 
+  AREA "Schema Area"
+  INDEX-FIELD "dtinc" DESCENDING 
+  INDEX-FIELD "campo" ASCENDING 
+  INDEX-FIELD "dtfimper" DESCENDING 
+  INDEX-FIELD "dtiniper" DESCENDING 
+ 

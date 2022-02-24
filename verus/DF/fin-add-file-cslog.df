@@ -1,0 +1,337 @@
+ADD TABLE "cslog_controle"
+  AREA "cyber"
+  DUMP-NAME "cslog_controle"
+
+ADD FIELD "Cliente" OF "cslog_controle" AS integer 
+  FORMAT ">>>>>>>999"
+  INITIAL "0"
+  LABEL "Cod.Cliente"
+  MAX-WIDTH 4
+  COLUMN-LABEL "Cod.Cliente"
+  VALEXP "clicod > 0"
+  VALMSG "Codigo do Cliente Invalido"
+  HELP "Informe o codigo do Cliente."
+  ORDER 10
+  MANDATORY
+
+ADD FIELD "contnum" OF "cslog_controle" AS integer 
+  FORMAT ">>>>>>>>>9"
+  INITIAL "0"
+  LABEL "Contrato"
+  MAX-WIDTH 4
+  VALEXP "contnum > 0"
+  VALMSG "Numero do Contrato nao pode ser zero"
+  HELP "Numero do Contrato."
+  ORDER 20
+
+ADD FIELD "vlentra" OF "cslog_controle" AS decimal 
+  FORMAT ">>>,>>9.99"
+  INITIAL "0"
+  LABEL "Entrada"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 40
+
+ADD FIELD "Loja" OF "cslog_controle" AS integer 
+  FORMAT ">>9"
+  INITIAL "0"
+  LABEL "Estabelecimento"
+  MAX-WIDTH 4
+  COLUMN-LABEL "Etb"
+  VALMSG "Estabelecimento nao cadastrado."
+  HELP "Informe o Codigo do Estabelecimento do Titulo."
+  ORDER 50
+
+ADD FIELD "DtEmissao" OF "cslog_controle" AS date 
+  FORMAT "99/99/9999"
+  INITIAL ?
+  MAX-WIDTH 4
+  ORDER 60
+
+ADD FIELD "Banco" OF "cslog_controle" AS character 
+  DESCRIPTION "Banco de Dados"
+  FORMAT "x(8)"
+  INITIAL "F"
+  MAX-WIDTH 16
+  ORDER 70
+
+ADD FIELD "VlrAberto" OF "cslog_controle" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 80
+
+ADD FIELD "CybAberto" OF "cslog_controle" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 90
+
+ADD FIELD "VlrAtrasado" OF "cslog_controle" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 100
+
+ADD FIELD "CybAtrasado" OF "cslog_controle" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 110
+
+ADD FIELD "UltDtPag" OF "cslog_controle" AS date 
+  FORMAT "99/99/9999"
+  INITIAL ?
+  MAX-WIDTH 4
+  ORDER 120
+
+ADD FIELD "CybUltDtPag" OF "cslog_controle" AS date 
+  FORMAT "99/99/9999"
+  INITIAL ?
+  MAX-WIDTH 4
+  ORDER 130
+
+ADD FIELD "ParPg" OF "cslog_controle" AS character 
+  FORMAT "x(50)"
+  INITIAL ""
+  MAX-WIDTH 492
+  ORDER 140
+
+ADD FIELD "ParAb" OF "cslog_controle" AS character 
+  FORMAT "x(50)"
+  INITIAL ""
+  MAX-WIDTH 256
+  ORDER 150
+
+ADD FIELD "Novacao" OF "cslog_controle" AS logical 
+  FORMAT "Sim/Nao"
+  INITIAL "no"
+  MAX-WIDTH 1
+  ORDER 160
+
+ADD FIELD "LP" OF "cslog_controle" AS logical 
+  FORMAT "Sim/Nao"
+  INITIAL "no"
+  MAX-WIDTH 1
+  ORDER 170
+
+ADD FIELD "UltVenAb" OF "cslog_controle" AS date 
+  FORMAT "99/99/9999"
+  INITIAL ?
+  MAX-WIDTH 4
+  ORDER 180
+
+ADD FIELD "Situacao" OF "cslog_controle" AS character 
+  FORMAT "x(16)"
+  INITIAL ""
+  MAX-WIDTH 24
+  ORDER 190
+
+ADD FIELD "DtEnvio" OF "cslog_controle" AS date 
+  FORMAT "99/99/9999"
+  INITIAL ?
+  MAX-WIDTH 4
+  ORDER 200
+
+ADD FIELD "UltVlrPag" OF "cslog_controle" AS decimal 
+  FORMAT "->>>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 210
+
+ADD FIELD "CybUltVlrPag" OF "cslog_controle" AS decimal 
+  FORMAT "->>>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 230
+
+ADD FIELD "CybSituacao" OF "cslog_controle" AS character 
+  FORMAT "x(20)"
+  INITIAL ""
+  MAX-WIDTH 40
+  ORDER 220
+
+ADD FIELD "CybParPg" OF "cslog_controle" AS character 
+  FORMAT "x(50)"
+  INITIAL ""
+  MAX-WIDTH 492
+  ORDER 250
+
+ADD FIELD "CybUltVenAb" OF "cslog_controle" AS date 
+  FORMAT "99/99/9999"
+  INITIAL ?
+  MAX-WIDTH 4
+  ORDER 260
+
+ADD FIELD "CybParAb" OF "cslog_controle" AS character 
+  FORMAT "x(50)"
+  INITIAL ""
+  MAX-WIDTH 256
+  ORDER 240
+
+ADD FIELD "qtdatrasado" OF "cslog_controle" AS integer 
+  FORMAT "->>>>,>>9"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 270
+
+ADD FIELD "qtdavencer" OF "cslog_controle" AS integer 
+  FORMAT "->,>>>,>>9"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 290
+
+ADD FIELD "vlravencer" OF "cslog_controle" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 280
+
+ADD FIELD "vlrjuros" OF "cslog_controle" AS decimal 
+  FORMAT "->>,>>9.99"
+  INITIAL "0"
+  MAX-WIDTH 17
+  DECIMALS 2
+  ORDER 300
+
+ADD FIELD "PriVenAb" OF "cslog_controle" AS date 
+  FORMAT "99/99/9999"
+  INITIAL ?
+  MAX-WIDTH 4
+  ORDER 320
+
+ADD FIELD "CybPriVenAb" OF "cslog_controle" AS date 
+  FORMAT "99/99/9999"
+  INITIAL ?
+  MAX-WIDTH 4
+  ORDER 310
+
+ADD FIELD "qtdpagas" OF "cslog_controle" AS integer 
+  FORMAT "->,>>>,>>9"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 330
+
+ADD FIELD "ptoday" OF "cslog_controle" AS date 
+  FORMAT "99/99/99"
+  INITIAL ?
+  MAX-WIDTH 4
+  ORDER 340
+
+ADD FIELD "ndias" OF "cslog_controle" AS integer 
+  FORMAT "->,>>>,>>9"
+  INITIAL "0"
+  MAX-WIDTH 4
+  ORDER 350
+
+ADD FIELD "DtLimite" OF "cslog_controle" AS date 
+  FORMAT "99/99/99"
+  INITIAL ?
+  MAX-WIDTH 4
+  ORDER 360
+
+ADD INDEX "cyber_contrato" ON "cslog_controle" 
+  AREA "idx-cyber"
+  UNIQUE
+  PRIMARY
+  INDEX-FIELD "contnum" ASCENDING 
+
+ADD INDEX "cliente" ON "cslog_controle" 
+  AREA "idx-cyber"
+  INDEX-FIELD "Cliente" ASCENDING 
+
+ADD INDEX "Etb_DtIni" ON "cslog_controle" 
+  AREA "idx-cyber"
+  INDEX-FIELD "Loja" ASCENDING 
+  INDEX-FIELD "DtEmissao" DESCENDING 
+
+ADD INDEX "etb_situacao" ON "cslog_controle" 
+  AREA "idx-cyber"
+  INDEX-FIELD "Loja" ASCENDING 
+  INDEX-FIELD "Situacao" ASCENDING 
+
+ADD INDEX "SitDtEnvio" ON "cslog_controle" 
+  AREA "idx-cyber"
+  INDEX-FIELD "Situacao" ASCENDING 
+  INDEX-FIELD "DtEnvio" ASCENDING 
+
+ADD INDEX "ultVencAberto" ON "cslog_controle" 
+  AREA "idx-cyber"
+  INDEX-FIELD "UltVenAb" ASCENDING 
+
+ADD TABLE "CSLog_sequencias"
+  AREA "cyber"
+  DUMP-NAME "CSLog_sequencias"
+
+ADD FIELD "Cyber_interface" OF "CSLog_sequencias" AS character 
+  FORMAT "x(30)"
+  INITIAL ""
+  LABEL "Nome Interface"
+  MAX-WIDTH 60
+  ORDER 10
+
+ADD FIELD "Cyber_sequencia" OF "CSLog_sequencias" AS integer 
+  FORMAT ">>>>>>9"
+  INITIAL "0"
+  LABEL "Sequencia"
+  MAX-WIDTH 4
+  ORDER 20
+
+ADD FIELD "Cyber_DtProces" OF "CSLog_sequencias" AS date 
+  FORMAT "99/99/9999"
+  INITIAL ?
+  LABEL "Data Ult Processamento"
+  MAX-WIDTH 4
+  COLUMN-LABEL "DtUltProces"
+  ORDER 30
+
+ADD FIELD "Cyber_programa_exportacao" OF "CSLog_sequencias" AS character 
+  FORMAT "x(30)"
+  INITIAL ""
+  LABEL "Programa Exportador"
+  MAX-WIDTH 60
+  COLUMN-LABEL "Progr.Exportador"
+  ORDER 40
+
+ADD FIELD "Cyber_sigla" OF "CSLog_sequencias" AS character 
+  FORMAT "x(5)"
+  INITIAL ""
+  LABEL "Sigla"
+  MAX-WIDTH 10
+  ORDER 5
+
+ADD FIELD "Cyber_ord" OF "CSLog_sequencias" AS integer 
+  FORMAT ">>>>"
+  INITIAL ?
+  LABEL "Ord"
+  MAX-WIDTH 4
+  ORDER 50
+
+ADD INDEX "CSLog_sequencias" ON "CSLog_sequencias" 
+  AREA "idx-cyber"
+  UNIQUE
+  PRIMARY
+  INDEX-FIELD "Cyber_ord" ASCENDING 
+
+ADD INDEX "CSLog_sequencias1" ON "CSLog_sequencias" 
+  AREA "idx-cyber"
+  UNIQUE
+  INDEX-FIELD "Cyber_interface" ASCENDING 
+
+ADD INDEX "CSLog_sequencias2" ON "CSLog_sequencias" 
+  AREA "idx-cyber"
+  UNIQUE
+  INDEX-FIELD "Cyber_sigla" ASCENDING 
+
+.
+PSC
+cpstream=ISO8859-1
+.
+0000006740
