@@ -1,3 +1,0 @@
-TERM=vt100 export term
-cd /admcom/progr
-/usr/dlc/bin/bpro -pf /admcom/bases/bases-guardian.pf -p /admcom/progr/guardirel.p -Wa -wpp

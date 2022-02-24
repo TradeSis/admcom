@@ -1,7 +1,0 @@
- DREBES & CIA.LTDA./DREBES & CIA LTDA DEP-99                       24/01/2003
-                             ADMCOM VERSAO 2.0
-Status Information:
- sending job 'teste@linux+855' to missingprinter@localhost
- connecting to 'localhost', attempt 1
- cannot open connection to localhost - Connection refused
-Make sure LPD server is running on the server
