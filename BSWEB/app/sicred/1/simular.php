@@ -1,4 +1,6 @@
 <?php
+/* ajuste */
+
     $username = "ADMCOM";
     $password = "LL908521";
   
