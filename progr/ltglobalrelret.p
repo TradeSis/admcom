@@ -1,1 +1,0 @@
-/* Programa de validacao Relatorio Retorno */
