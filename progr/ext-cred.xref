@@ -1,0 +1,230 @@
+/admcom/progr/ext-cred.p /admcom/progr/ext-cred.p 1 COMPILE /admcom/progr/ext-cred.p
+/admcom/progr/ext-cred.p /admcom/progr/ext-cred.p 1 CPINTERNAL ISO8859-1
+/admcom/progr/ext-cred.p /admcom/progr/ext-cred.p 1 CPSTREAM ISO8859-1
+/admcom/progr/ext-cred.p /admcom/progr/ext-cred.p 1 INCLUDE admcab.i
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 8 STRING "wdata" 5 NONE UNTRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 10 STRING "wtittela" 8 NONE UNTRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 11 STRING "wempre" 6 NONE UNTRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 11 STRING "empre" 5 NONE UNTRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 11 REFERENCE ger.empre 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 12 STRING "wmodulo" 7 NONE UNTRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 13 STRING "wareasis" 8 NONE UNTRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 14 STRING "wtitulo" 7 NONE UNTRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 15 STRING "sfuncod" 7 NONE UNTRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 15 REFERENCE ger.Func FunCod 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 16 STRING "lclifor" 7 NONE UNTRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 19 STRING "b1" 2 NONE UNTRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 20 STRING "b2" 2 NONE UNTRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 21 STRING "b3" 2 NONE UNTRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 22 STRING "b4" 2 NONE UNTRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 23 STRING "smens" 5 NONE UNTRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 24 STRING "|" 1 NONE TRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 25 STRING "|" 1 NONE TRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 26 STRING "|" 1 NONE TRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 27 STRING "|" 1 NONE TRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 28 STRING "ytit" 4 NONE UNTRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 28 REFERENCE SHARED wtittela 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 29 STRING "sparam" 6 NONE UNTRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 29 GLOBAL-VARIABLE sparam
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 30 STRING "sresp" 5 NONE UNTRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 30 GLOBAL-VARIABLE sresp
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 31 STRING "setbcod" 7 NONE UNTRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 31 REFERENCE ger.estab etbcod 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 31 GLOBAL-VARIABLE setbcod
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 32 STRING "scxacod" 7 NONE UNTRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 32 REFERENCE ger.estab etbcod 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 32 GLOBAL-VARIABLE scxacod
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 33 STRING "scliente" 8 NONE UNTRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 33 REFERENCE ger.admcom cliente 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 33 GLOBAL-VARIABLE scliente
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 34 STRING "sautoriza" 9 NONE UNTRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 34 GLOBAL-VARIABLE sautoriza
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 35 STRING "svalor1" 7 NONE UNTRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 35 GLOBAL-VARIABLE svalor1
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 36 STRING "svalor2" 7 NONE UNTRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 36 GLOBAL-VARIABLE svalor2
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 37 STRING "svalor3" 7 NONE UNTRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 37 GLOBAL-VARIABLE svalor3
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 38 STRING "scliaut" 7 NONE UNTRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 38 REFERENCE ger.clien clicod 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 38 GLOBAL-VARIABLE scliaut
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 39 STRING "stprcod" 7 NONE UNTRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 39 GLOBAL-VARIABLE stprcod
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 41 STRING "slancod" 7 NONE UNTRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 41 REFERENCE ger.tablan lancod 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 41 GLOBAL-VARIABLE slancod
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 43 STRING "scabrel" 7 NONE UNTRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 43 GLOBAL-VARIABLE scabrel
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 44 STRING "sretorno" 8 NONE UNTRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 44 GLOBAL-VARIABLE sretorno
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 45 STRING "scopias" 7 NONE UNTRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 45 GLOBAL-VARIABLE scopias
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 46 STRING "schave" 6 NONE UNTRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 46 GLOBAL-VARIABLE schave
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 50 STRING "vmesabr" 7 NONE UNTRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 50 STRING "Jan" 3 NONE TRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 50 STRING "Fev" 3 NONE TRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 50 STRING "Mar" 3 NONE TRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 50 STRING "Abr" 3 NONE TRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 50 STRING "Maio" 4 NONE TRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 50 STRING "Jun" 3 NONE TRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 50 STRING "Jul" 3 NONE TRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 50 STRING "Ago" 3 NONE TRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 50 STRING "Set" 3 NONE TRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 50 STRING "Out" 3 NONE TRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 50 STRING "Nov" 3 NONE TRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 50 STRING "Dez" 3 NONE TRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 52 STRING "vmescomp" 8 NONE UNTRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 52 STRING "Janeiro" 7 NONE TRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 52 STRING "Fevereiro" 9 NONE TRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 52 STRING "Mar‡o" 5 NONE TRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 52 STRING "Abril" 5 NONE TRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 52 STRING "Maio" 4 NONE TRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 52 STRING "Junho" 5 NONE TRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 52 STRING "Julho" 5 NONE TRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 52 STRING "Agosto" 6 NONE TRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 52 STRING "Setembro" 8 NONE TRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 52 STRING "Outubro" 7 NONE TRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 52 STRING "Novembro" 8 NONE TRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 52 STRING "Dezembro" 8 NONE TRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 55 STRING "vsemabr" 7 NONE UNTRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 55 STRING "Dom" 3 NONE TRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 55 STRING "Seg" 3 NONE TRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 55 STRING "Ter" 3 NONE TRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 55 STRING "Qua" 3 NONE TRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 55 STRING "Qui" 3 NONE TRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 55 STRING "Sex" 3 NONE TRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 55 STRING "Sab" 3 NONE TRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 57 STRING "vsemcomp" 8 NONE UNTRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 57 STRING "Domingo" 7 NONE TRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 57 STRING "Segunda" 7 NONE TRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 57 STRING "Ter‡a" 5 NONE TRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 57 STRING "Quarta" 6 NONE TRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 57 STRING "Quinta" 6 NONE TRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 57 STRING "Sexta" 5 NONE TRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 57 STRING "S bado" 6 NONE TRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 61 STRING "fc1" 3 NONE UNTRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 61 SHR-FRAME fc1
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 62 STRING "fc2" 3 NONE UNTRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 62 SHR-FRAME fc2
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 63 STRING "new" 3 NONE TRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 65 SEARCH ger.empre iempcod WHOLE-INDEX
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 66 ACCESS SHARED wdata 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 66 UPDATE SHARED wdata 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 67 ACCESS SHARED wareasis 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 67 STRING " TESTE " 7 NONE TRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 67 UPDATE SHARED wareasis 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 68 ACCESS SHARED wtittela 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 68 STRING "teste" 5 NONE TRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 68 UPDATE SHARED wtittela 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 69 ACCESS SHARED wtitulo 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 69 STRING "                             ADMCOM VERSAO 2.0" 46 NONE TRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 69 UPDATE SHARED wtitulo 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 70 ACCESS SHARED setbcod 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 70 UPDATE SHARED setbcod 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 71 ACCESS SHARED scxacod 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 71 UPDATE SHARED scxacod 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 72 ACCESS SHARED stprcod 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 72 UPDATE SHARED stprcod 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 80 ACCESS SHARED sparam 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 80 UPDATE SHARED sparam 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 82 ACCESS SHARED wtittela 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 82 ACCESS SHARED wtittela 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 82 STRING " " 1 NONE TRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 84 STRING "estab" 5 NONE UNTRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 84 ACCESS ger.estab etbcod 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 84 ACCESS SHARED setbcod 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 84 SEARCH ger.estab estab
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 86 ACCESS ger.empre emprazsoc 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 86 ACCESS SHARED wdata 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 86 STRING "x(65)" 5 NONE TRANSLATABLE  FORMAT 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 86 STRING "99/99/9999" 10 NONE TRANSLATABLE  FORMAT 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 92 ACCESS SHARED wtitulo 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 92 STRING "x(80)" 5 NONE TRANSLATABLE  FORMAT 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 98 STRING "Func" 4 NONE UNTRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 98 ACCESS ger.Func FunCod 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 98 ACCESS SHARED sfuncod 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 98 ACCESS ger.Func EtbCod 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 98 SEARCH ger.Func Func
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 100 REFERENCE ger.Func 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 100 ACCESS ger.empre emprazsoc 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 100 ACCESS ger.estab etbnom 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 100 ACCESS ger.Func FunNom 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 100 ACCESS ger.empre emprazsoc 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 100 ACCESS SHARED wdata 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 100 STRING "/" 1 NONE TRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 100 STRING "-" 1 NONE TRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 105 ACCESS ger.empre emprazsoc 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 105 ACCESS ger.estab etbnom 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 105 ACCESS ger.empre emprazsoc 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 105 ACCESS SHARED wdata 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 105 STRING "/" 1 NONE TRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 109 ACCESS SHARED wtitulo 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 111 STRING "Digite os dados ou pressione [F4] para encerrar." 48 NONE TRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 112 ACCESS SHARED sparam 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 112 STRING ";" 1 NONE TRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 112 ACCESS SHARED sparam 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 112 STRING "CUSTOM Business Solutions         Servidor: " 44 NONE TRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 112 STRING ";" 1 NONE TRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 115 STRING "CUSTOM Business Solutions              - F5 -> Solicitacoes" 59 NONE TRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 121 STRING "senha-segur" 11 NONE UNTRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 122 STRING "men-tit" 7 NONE UNTRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 122 REFERENCE ger.menu mentit 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 123 STRING "menu" 4 NONE UNTRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 123 REFERENCE ger.menu 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 123 ACCESS ger.menu mentit 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 127 STRING "bsegur" 6 NONE UNTRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 127 STRING "Seguranca" 9 NONE UNTRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 127 REFERENCE ger.Seguranca 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 128 STRING "Seguranca" 9 NONE UNTRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 128 ACCESS ger.Seguranca EmpCod 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 128 ACCESS ger.Seguranca Programa 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 128 SEARCH ger.Seguranca seguranca
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 134 REFERENCE ger.Seguranca 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 137 ACCESS ger.Seguranca EmpCod 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 137 ACCESS ger.Seguranca FunCod 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 137 ACCESS SHARED sfuncod 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 137 ACCESS ger.Seguranca Programa 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 137 SEARCH ger.Seguranca seguranca
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 143 REFERENCE ger.Seguranca 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 145 STRING "Usuario sem permissao de acesso " 32 NONE TRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 154 STRING "f-senhaseg" 10 NONE UNTRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 154 STRING "x(8)" 4 NONE TRANSLATABLE  FORMAT 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 158 ACCESS ger.Seguranca senha 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 158 ACCESS ger.Func Senha 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 161 STRING "Senha Invalida." 15 NONE TRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 171 STRING "END-ERROR" 9 NONE TRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 174 STRING "par-oque" 8 NONE UNTRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 174 STRING "par-onde" 8 NONE UNTRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 178 STRING "vx" 2 NONE UNTRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 179 STRING "vret" 4 NONE UNTRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 183 STRING "|" 1 NONE TRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 183 STRING "|" 1 NONE TRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 184 STRING "|" 1 NONE TRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 184 STRING "=" 1 NONE TRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 186 STRING "|" 1 NONE TRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 186 STRING "=" 1 NONE TRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 191 FUNCTION acha,character,INPUT par-oque CHARACTER,INPUT par-onde CHARACTER
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 191 STRING "ACHA" 4 NONE UNTRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 195 STRING "procname" 8 NONE UNTRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 196 STRING "OKpressed" 9 NONE UNTRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 198 STRING "varquivo" 8 NONE UNTRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 201 STRING " " 1 NONE TRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 201 STRING "*.*" 3 NONE TRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 201 STRING "txt" 3 NONE TRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 201 STRING "*.txt" 5 NONE TRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 201 STRING "csv" 3 NONE TRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 201 STRING "*.csv" 5 NONE TRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 201 STRING "Selecione o arquivo ..." 23 NONE TRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 215 FUNCTION sel-arq01,character,
+/admcom/progr/ext-cred.p /admcom/progr/admcab.i 215 STRING "SEL-ARQ01" 9 NONE UNTRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/ext-cred.p 3 STRING "vsenha" 6 NONE UNTRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/ext-cred.p 5 STRING "f-senha" 7 NONE UNTRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/ext-cred.p 5 STRING "x(10)" 5 NONE TRANSLATABLE  FORMAT 
+/admcom/progr/ext-cred.p /admcom/progr/ext-cred.p 10 STRING "score-drb" 9 NONE TRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/ext-cred.p 14 STRING "d" 1 NONE TRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/ext-cred.p 18 STRING "Senha" 5 NONE TRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/ext-cred.p 18 STRING "empre" 5 NONE UNTRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/ext-cred.p 18 STRING "emprazsoc" 9 NONE UNTRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/ext-cred.p 18 STRING "Senha" 5 NONE TRANSLATABLE 
+/admcom/progr/ext-cred.p /admcom/progr/ext-cred.p 13 RUN cred3.p

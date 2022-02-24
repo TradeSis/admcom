@@ -1,0 +1,4 @@
+connect dragao -H database -S sdragao -N tcp -ld d.
+connect com -H linux -S sdrebcom -N tcp -ld com.
+connect fin -H linux -S sdrebfin -N tcp -ld fin.
+

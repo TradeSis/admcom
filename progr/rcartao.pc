@@ -1,0 +1,16 @@
+vnumres = "".
+                    vnumlote = 0.
+                    update  vnumlote
+                            vnumres with frame f-proc.
+                    find first reccar where reccar.rede   = vindex 
+                                        and reccar.lote   = vnumlote
+                                        and reccar.numres = vnumres 
+                                            no-lock no-error.
+                    if not avail reccar
+                    then do:
+                        bell.
+                        message "Nenhum Registro Encontrado".
+                        next keys-loop.
+                    end.
+                    hide frame f-proc.
+                    a-recid = recid(reccar).

@@ -1,0 +1,519 @@
+/admcom/progr/cred3.p /admcom/progr/cred3.p 1 COMPILE /admcom/progr/cred3.p
+/admcom/progr/cred3.p /admcom/progr/cred3.p 1 CPINTERNAL ISO8859-1
+/admcom/progr/cred3.p /admcom/progr/cred3.p 1 CPSTREAM ISO8859-1
+/admcom/progr/cred3.p /admcom/progr/cred3.p 3 INCLUDE admcab.i
+/admcom/progr/cred3.p /admcom/progr/admcab.i 8 STRING "wdata" 5 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 10 STRING "wtittela" 8 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 11 STRING "wempre" 6 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 11 STRING "empre" 5 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 11 REFERENCE ger.empre 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 12 STRING "wmodulo" 7 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 13 STRING "wareasis" 8 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 14 STRING "wtitulo" 7 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 15 STRING "sfuncod" 7 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 15 REFERENCE ger.Func FunCod 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 16 STRING "lclifor" 7 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 19 STRING "b1" 2 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 20 STRING "b2" 2 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 21 STRING "b3" 2 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 22 STRING "b4" 2 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 23 STRING "smens" 5 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 24 STRING "|" 1 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 25 STRING "|" 1 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 26 STRING "|" 1 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 27 STRING "|" 1 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 28 STRING "ytit" 4 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 28 REFERENCE SHARED wtittela 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 29 STRING "sparam" 6 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 29 GLOBAL-VARIABLE sparam
+/admcom/progr/cred3.p /admcom/progr/admcab.i 30 STRING "sresp" 5 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 30 GLOBAL-VARIABLE sresp
+/admcom/progr/cred3.p /admcom/progr/admcab.i 31 STRING "setbcod" 7 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 31 REFERENCE ger.estab etbcod 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 31 GLOBAL-VARIABLE setbcod
+/admcom/progr/cred3.p /admcom/progr/admcab.i 32 STRING "scxacod" 7 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 32 REFERENCE ger.estab etbcod 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 32 GLOBAL-VARIABLE scxacod
+/admcom/progr/cred3.p /admcom/progr/admcab.i 33 STRING "scliente" 8 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 33 REFERENCE ger.admcom cliente 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 33 GLOBAL-VARIABLE scliente
+/admcom/progr/cred3.p /admcom/progr/admcab.i 34 STRING "sautoriza" 9 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 34 GLOBAL-VARIABLE sautoriza
+/admcom/progr/cred3.p /admcom/progr/admcab.i 35 STRING "svalor1" 7 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 35 GLOBAL-VARIABLE svalor1
+/admcom/progr/cred3.p /admcom/progr/admcab.i 36 STRING "svalor2" 7 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 36 GLOBAL-VARIABLE svalor2
+/admcom/progr/cred3.p /admcom/progr/admcab.i 37 STRING "svalor3" 7 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 37 GLOBAL-VARIABLE svalor3
+/admcom/progr/cred3.p /admcom/progr/admcab.i 38 STRING "scliaut" 7 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 38 REFERENCE ger.clien clicod 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 38 GLOBAL-VARIABLE scliaut
+/admcom/progr/cred3.p /admcom/progr/admcab.i 39 STRING "stprcod" 7 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 39 GLOBAL-VARIABLE stprcod
+/admcom/progr/cred3.p /admcom/progr/admcab.i 41 STRING "slancod" 7 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 41 REFERENCE ger.tablan lancod 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 41 GLOBAL-VARIABLE slancod
+/admcom/progr/cred3.p /admcom/progr/admcab.i 43 STRING "scabrel" 7 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 43 GLOBAL-VARIABLE scabrel
+/admcom/progr/cred3.p /admcom/progr/admcab.i 44 STRING "sretorno" 8 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 44 GLOBAL-VARIABLE sretorno
+/admcom/progr/cred3.p /admcom/progr/admcab.i 45 STRING "scopias" 7 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 45 GLOBAL-VARIABLE scopias
+/admcom/progr/cred3.p /admcom/progr/admcab.i 46 STRING "schave" 6 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 46 GLOBAL-VARIABLE schave
+/admcom/progr/cred3.p /admcom/progr/admcab.i 50 STRING "vmesabr" 7 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 50 STRING "Jan" 3 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 50 STRING "Fev" 3 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 50 STRING "Mar" 3 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 50 STRING "Abr" 3 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 50 STRING "Maio" 4 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 50 STRING "Jun" 3 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 50 STRING "Jul" 3 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 50 STRING "Ago" 3 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 50 STRING "Set" 3 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 50 STRING "Out" 3 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 50 STRING "Nov" 3 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 50 STRING "Dez" 3 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 52 STRING "vmescomp" 8 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 52 STRING "Janeiro" 7 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 52 STRING "Fevereiro" 9 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 52 STRING "Mar‡o" 5 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 52 STRING "Abril" 5 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 52 STRING "Maio" 4 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 52 STRING "Junho" 5 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 52 STRING "Julho" 5 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 52 STRING "Agosto" 6 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 52 STRING "Setembro" 8 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 52 STRING "Outubro" 7 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 52 STRING "Novembro" 8 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 52 STRING "Dezembro" 8 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 55 STRING "vsemabr" 7 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 55 STRING "Dom" 3 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 55 STRING "Seg" 3 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 55 STRING "Ter" 3 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 55 STRING "Qua" 3 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 55 STRING "Qui" 3 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 55 STRING "Sex" 3 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 55 STRING "Sab" 3 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 57 STRING "vsemcomp" 8 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 57 STRING "Domingo" 7 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 57 STRING "Segunda" 7 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 57 STRING "Ter‡a" 5 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 57 STRING "Quarta" 6 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 57 STRING "Quinta" 6 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 57 STRING "Sexta" 5 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 57 STRING "S bado" 6 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 61 STRING "fc1" 3 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 61 SHR-FRAME fc1
+/admcom/progr/cred3.p /admcom/progr/admcab.i 62 STRING "fc2" 3 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 62 SHR-FRAME fc2
+/admcom/progr/cred3.p /admcom/progr/admcab.i 63 STRING "new" 3 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 65 SEARCH ger.empre iempcod WHOLE-INDEX
+/admcom/progr/cred3.p /admcom/progr/admcab.i 66 ACCESS SHARED wdata 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 66 UPDATE SHARED wdata 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 67 ACCESS SHARED wareasis 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 67 STRING " TESTE " 7 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 67 UPDATE SHARED wareasis 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 68 ACCESS SHARED wtittela 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 68 STRING "teste" 5 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 68 UPDATE SHARED wtittela 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 69 ACCESS SHARED wtitulo 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 69 STRING "                             ADMCOM VERSAO 2.0" 46 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 69 UPDATE SHARED wtitulo 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 70 ACCESS SHARED setbcod 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 70 UPDATE SHARED setbcod 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 71 ACCESS SHARED scxacod 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 71 UPDATE SHARED scxacod 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 72 ACCESS SHARED stprcod 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 72 UPDATE SHARED stprcod 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 80 ACCESS SHARED sparam 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 80 UPDATE SHARED sparam 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 82 ACCESS SHARED wtittela 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 82 ACCESS SHARED wtittela 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 82 STRING " " 1 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 84 STRING "estab" 5 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 84 ACCESS ger.estab etbcod 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 84 ACCESS SHARED setbcod 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 84 SEARCH ger.estab estab
+/admcom/progr/cred3.p /admcom/progr/admcab.i 86 ACCESS ger.empre emprazsoc 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 86 ACCESS SHARED wdata 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 86 STRING "x(65)" 5 NONE TRANSLATABLE  FORMAT 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 86 STRING "99/99/9999" 10 NONE TRANSLATABLE  FORMAT 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 92 ACCESS SHARED wtitulo 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 92 STRING "x(80)" 5 NONE TRANSLATABLE  FORMAT 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 98 STRING "Func" 4 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 98 ACCESS ger.Func FunCod 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 98 ACCESS SHARED sfuncod 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 98 ACCESS ger.Func EtbCod 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 98 SEARCH ger.Func Func
+/admcom/progr/cred3.p /admcom/progr/admcab.i 100 REFERENCE ger.Func 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 100 ACCESS ger.empre emprazsoc 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 100 ACCESS ger.estab etbnom 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 100 ACCESS ger.Func FunNom 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 100 ACCESS ger.empre emprazsoc 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 100 ACCESS SHARED wdata 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 100 STRING "/" 1 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 100 STRING "-" 1 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 105 ACCESS ger.empre emprazsoc 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 105 ACCESS ger.estab etbnom 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 105 ACCESS ger.empre emprazsoc 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 105 ACCESS SHARED wdata 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 105 STRING "/" 1 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 109 ACCESS SHARED wtitulo 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 111 STRING "Digite os dados ou pressione [F4] para encerrar." 48 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 112 ACCESS SHARED sparam 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 112 STRING ";" 1 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 112 ACCESS SHARED sparam 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 112 STRING "CUSTOM Business Solutions         Servidor: " 44 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 112 STRING ";" 1 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 115 STRING "CUSTOM Business Solutions              - F5 -> Solicitacoes" 59 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 121 STRING "senha-segur" 11 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 122 STRING "men-tit" 7 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 122 REFERENCE ger.menu mentit 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 123 STRING "menu" 4 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 123 REFERENCE ger.menu 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 123 ACCESS ger.menu mentit 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 127 STRING "bsegur" 6 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 127 STRING "Seguranca" 9 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 127 REFERENCE ger.Seguranca 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 128 STRING "Seguranca" 9 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 128 ACCESS ger.Seguranca EmpCod 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 128 ACCESS ger.Seguranca Programa 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 128 SEARCH ger.Seguranca seguranca
+/admcom/progr/cred3.p /admcom/progr/admcab.i 134 REFERENCE ger.Seguranca 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 137 ACCESS ger.Seguranca EmpCod 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 137 ACCESS ger.Seguranca FunCod 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 137 ACCESS SHARED sfuncod 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 137 ACCESS ger.Seguranca Programa 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 137 SEARCH ger.Seguranca seguranca
+/admcom/progr/cred3.p /admcom/progr/admcab.i 143 REFERENCE ger.Seguranca 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 145 STRING "Usuario sem permissao de acesso " 32 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 154 STRING "f-senhaseg" 10 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 154 STRING "x(8)" 4 NONE TRANSLATABLE  FORMAT 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 158 ACCESS ger.Seguranca senha 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 158 ACCESS ger.Func Senha 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 161 STRING "Senha Invalida." 15 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 171 STRING "END-ERROR" 9 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 174 STRING "par-oque" 8 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 174 STRING "par-onde" 8 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 178 STRING "vx" 2 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 179 STRING "vret" 4 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 183 STRING "|" 1 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 183 STRING "|" 1 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 184 STRING "|" 1 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 184 STRING "=" 1 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 186 STRING "|" 1 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 186 STRING "=" 1 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 191 FUNCTION acha,character,INPUT par-oque CHARACTER,INPUT par-onde CHARACTER
+/admcom/progr/cred3.p /admcom/progr/admcab.i 191 STRING "ACHA" 4 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 195 STRING "procname" 8 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 196 STRING "OKpressed" 9 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 198 STRING "varquivo" 8 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 201 STRING " " 1 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 201 STRING "*.*" 3 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 201 STRING "txt" 3 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 201 STRING "*.txt" 5 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 201 STRING "csv" 3 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 201 STRING "*.csv" 5 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 201 STRING "Selecione o arquivo ..." 23 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/admcab.i 215 FUNCTION sel-arq01,character,
+/admcom/progr/cred3.p /admcom/progr/admcab.i 215 STRING "SEL-ARQ01" 9 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 5 STRING "vclfcod" 7 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 5 REFERENCE ger.clien clicod 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 6 STRING "vtipo" 5 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 7 STRING "vesc" 4 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 8 STRING "vcontapar" 9 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 9 STRING "vnumparcpg" 10 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 10 STRING "vcalclimite" 11 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 11 STRING "vmediaatraso" 12 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 12 STRING "vpercrenda" 10 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 13 STRING "vpardias" 8 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 14 STRING "vcalclim" 8 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 15 STRING "limite-disponivel" 17 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 17 STRING "vguardaval" 10 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 18 STRING "vguardacampo" 12 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 20 STRING "v-rcomtotpg" 11 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 21 STRING "v-rcomdeved" 11 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 23 STRING "qtdpos" 6 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 25 STRING "tt-dados" 8 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 25 STRING "parametro" 9 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 25 STRING "valor" 5 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 25 STRING "valoralt" 8 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 25 STRING "percent" 7 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 25 STRING "vcalclim" 8 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 25 STRING "operacao" 8 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 25 STRING "numseq" 6 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 25 NEW-SHR-TEMPTABLE tt-dados
+/admcom/progr/cred3.p /admcom/progr/cred3.p 34 STRING "btt-dados" 9 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 38 SEARCH tt-dados dado1 TEMPTABLE WHOLE-INDEX
+/admcom/progr/cred3.p /admcom/progr/cred3.p 39 DELETE tt-dados TEMPTABLE
+/admcom/progr/cred3.p /admcom/progr/cred3.p 45 STRING "end-error" 9 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 48 STRING "f-cli" 5 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 48 STRING ">>>>>>>999" 10 NONE TRANSLATABLE  FORMAT 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 48 STRING "Atual/Novo" 10 NONE TRANSLATABLE  FORMAT 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 53 STRING "clien" 5 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 53 ACCESS ger.clien clicod 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 53 SEARCH ger.clien clien
+/admcom/progr/cred3.p /admcom/progr/cred3.p 54 REFERENCE ger.clien 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 55 STRING "Codigo Invalido para Cliente" 28 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 55 STRING " Atencao!! " 11 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 60 ACCESS ger.clien clinom 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 60 STRING "X(40)" 5 NONE TRANSLATABLE  FORMAT 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 64 STRING "dragao" 6 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 66 STRING "Tela" 4 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 66 REFERENCE ger.clien 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 72 STRING "Tela" 4 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 72 REFERENCE ger.clien 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 80 STRING ">>,>>9.99" 9 NONE TRANSLATABLE  FORMAT 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 82 ACCESS SHARED sresp 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 82 STRING " Deseja Imprimir extratificacao do Cred Score? " 47 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 82 UPDATE SHARED sresp 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 82 STRING "Sim/Nao" 7 NONE TRANSLATABLE  FORMAT 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 83 ACCESS SHARED sresp 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 90 STRING "varquivo" 8 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 96 STRING "./credscore." 12 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 98 INCLUDE "mdad_l.i             &Saida     = ""value(varquivo)""             &Page-Size = ""0""             &Cond-Var  = ""150""             &Page-Line = ""66""             &Nom-Rel   = """"GERAL""""             &Nom-Sis   = """"""EXTRATO DE CREDSCORE""""""             &Tit-Rel   = """"""POSICAO EM """" + string(today) ""             &Width     = ""150""             &Form      = ""frame f-cabcab"""
+/admcom/progr/cred3.p /admcom/progr/mdad_l.i 21 ACCESS SHARED scabrel 
+/admcom/progr/cred3.p /admcom/progr/mdad_l.i 21 STRING "POSICAO EM " 11 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/mdad_l.i 21 UPDATE SHARED scabrel 
+/admcom/progr/cred3.p /admcom/progr/mdad_l.i 23 STRING "UNIX" 4 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/mdad_l.i 25 STRING "f-cabcab" 8 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/mdad_l.i 25 ACCESS ger.empre emprazsoc 
+/admcom/progr/cred3.p /admcom/progr/mdad_l.i 25 ACCESS ger.empre emprazsoc 
+/admcom/progr/cred3.p /admcom/progr/mdad_l.i 25 STRING " " 1 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/mdad_l.i 25 STRING "GERAL" 5 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/mdad_l.i 25 STRING " " 1 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/mdad_l.i 25 STRING "GERAL" 5 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/mdad_l.i 25 STRING "PAG.: " 6 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/mdad_l.i 25 STRING ">>>9" 4 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/mdad_l.i 25 STRING "x(248)" 6 NONE TRANSLATABLE  FORMAT 
+/admcom/progr/cred3.p /admcom/progr/mdad_l.i 25 STRING "EXTRATO DE CREDSCORE" 20 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/mdad_l.i 25 STRING " " 1 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/mdad_l.i 25 STRING "EXTRATO DE CREDSCORE" 20 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/mdad_l.i 25 STRING "99" 2 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/mdad_l.i 25 STRING " " 1 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/mdad_l.i 25 STRING " " 1 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/mdad_l.i 25 STRING "9999" 4 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/mdad_l.i 25 STRING " " 1 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/mdad_l.i 25 STRING "  " 2 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/mdad_l.i 25 STRING " " 1 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/mdad_l.i 25 STRING "hh:mm" 5 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/mdad_l.i 25 STRING "x(248)" 6 NONE TRANSLATABLE  FORMAT 
+/admcom/progr/cred3.p /admcom/progr/mdad_l.i 25 STRING " " 1 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/mdad_l.i 25 STRING "POSICAO EM " 11 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/mdad_l.i 25 STRING "999" 3 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/mdad_l.i 25 STRING "POSICAO EM " 11 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/mdad_l.i 25 STRING "x(248)" 6 NONE TRANSLATABLE  FORMAT 
+/admcom/progr/cred3.p /admcom/progr/mdad_l.i 25 STRING "-" 1 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/mdad_l.i 25 STRING "x(248)" 6 NONE TRANSLATABLE  FORMAT 
+/admcom/progr/cred3.p /admcom/progr/mdad_l.i 68 STRING "C" 1 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/mdad_l.i 72 STRING "M" 1 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/mdad_l.i 76 STRING "P" 1 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/mdad_l.i 80 STRING "M" 1 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/mdad_l.i 84 STRING "P" 1 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 110 STRING "vrendacalclim" 13 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 111 STRING "vpercrenda" 10 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 112 STRING "vnumparcpg" 10 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 113 STRING "vcontapar" 9 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 115 STRING "vtotdev" 7 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 116 STRING "vtotpar" 7 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 118 ACCESS ger.clien prorenda 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 119 STRING "CredScore" 9 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 119 ACCESS fin.CredScore campo 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 119 STRING "PERCRENDA" 9 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 119 SEARCH fin.CredScore credcampo
+/admcom/progr/cred3.p /admcom/progr/cred3.p 121 REFERENCE fin.CredScore 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 121 ACCESS fin.CredScore vl-ini 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 125 ACCESS fin.CredScore campo 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 125 STRING "NUMPARCPG" 9 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 125 SEARCH fin.CredScore credcampo
+/admcom/progr/cred3.p /admcom/progr/cred3.p 125 REFERENCE fin.CredScore 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 125 ACCESS fin.CredScore vl-ini 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 129 STRING "titulo" 6 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 129 ACCESS fin.titulo titnat 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 129 ACCESS fin.titulo CliFor 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 129 ACCESS ger.clien clicod 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 129 ACCESS fin.titulo titsit 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 129 STRING "PAG" 3 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 129 SEARCH fin.titulo iclicod
+/admcom/progr/cred3.p /admcom/progr/cred3.p 133 ACCESS fin.titulo modcod 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 133 ACCESS fin.titulo modcod 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 133 ACCESS fin.titulo modcod 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 133 STRING "DEV" 3 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 133 STRING "BON" 3 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 133 STRING "CHP" 3 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 140 STRING "vsomapar" 8 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 141 STRING "vcontrpar" 9 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 142 STRING "vmaioratraso" 12 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 143 STRING "vmediaatraso" 12 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 145 STRING "vatraso" 7 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 147 ACCESS fin.titulo titnat 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 147 ACCESS fin.titulo titdtpag 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 147 ACCESS fin.titulo CliFor 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 147 ACCESS ger.clien clicod 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 147 ACCESS fin.titulo titsit 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 147 STRING "PAG" 3 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 147 ACCESS fin.titulo titdtpag 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 147 SEARCH fin.titulo iclicod
+/admcom/progr/cred3.p /admcom/progr/cred3.p 147 SORT-ACCESS fin.titulo titdtpag
+/admcom/progr/cred3.p /admcom/progr/cred3.p 155 ACCESS fin.titulo modcod 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 155 ACCESS fin.titulo modcod 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 155 ACCESS fin.titulo modcod 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 155 STRING "DEV" 3 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 155 STRING "BON" 3 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 155 STRING "CHP" 3 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 160 ACCESS fin.titulo titdtven 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 160 ACCESS fin.titulo titdtven 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 160 ACCESS fin.titulo titdtven 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 165 ACCESS fin.titulo titdtpag 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 165 ACCESS fin.titulo titdtven 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 175 STRING "f-mostra" 8 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 175 ACCESS ger.clien clinom 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 175 ACCESS ger.clien vlalug 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 175 ACCESS ger.clien fone 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 175 ACCESS ger.clien sexo 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 175 ACCESS ger.clien estciv 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 175 STRING ">>>>>>>999" 10 NONE TRANSLATABLE  FORMAT 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 175 STRING "X(40)" 5 NONE TRANSLATABLE  FORMAT 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 175 STRING "->>,>>9.99" 10 NONE TRANSLATABLE  FORMAT 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 175 STRING "->>,>>9.99" 10 NONE TRANSLATABLE  FORMAT 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 175 STRING ">>9.99%" 7 NONE TRANSLATABLE  FORMAT 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 175 STRING ">,>>>,>>9.99" 12 NONE TRANSLATABLE  FORMAT 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 175 STRING "->,>>>,>>9" 10 NONE TRANSLATABLE  FORMAT 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 175 STRING "->,>>>,>>9" 10 NONE TRANSLATABLE  FORMAT 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 175 STRING "x(15)" 5 NONE TRANSLATABLE  FORMAT 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 175 STRING "Masculino/Feminino" 18 NONE TRANSLATABLE  FORMAT 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 175 STRING "9" 1 NONE TRANSLATABLE  FORMAT 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 175 STRING "->>,>>9.99" 10 NONE TRANSLATABLE  FORMAT 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 191 ACCESS tt-dados valor TEMPTABLE
+/admcom/progr/cred3.p /admcom/progr/cred3.p 191 ACCESS tt-dados percent TEMPTABLE
+/admcom/progr/cred3.p /admcom/progr/cred3.p 191 ACCESS tt-dados numseq TEMPTABLE
+/admcom/progr/cred3.p /admcom/progr/cred3.p 191 SEARCH tt-dados dado1 TEMPTABLE WHOLE-INDEX
+/admcom/progr/cred3.p /admcom/progr/cred3.p 192 STRING "fmostra" 7 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 192 ACCESS tt-dados parametro TEMPTABLE
+/admcom/progr/cred3.p /admcom/progr/cred3.p 192 ACCESS tt-dados valoralt TEMPTABLE
+/admcom/progr/cred3.p /admcom/progr/cred3.p 192 ACCESS tt-dados valoralt TEMPTABLE
+/admcom/progr/cred3.p /admcom/progr/cred3.p 192 ACCESS tt-dados operacao TEMPTABLE
+/admcom/progr/cred3.p /admcom/progr/cred3.p 192 ACCESS tt-dados valoralt TEMPTABLE
+/admcom/progr/cred3.p /admcom/progr/cred3.p 192 ACCESS tt-dados valor TEMPTABLE
+/admcom/progr/cred3.p /admcom/progr/cred3.p 192 ACCESS tt-dados valoralt TEMPTABLE
+/admcom/progr/cred3.p /admcom/progr/cred3.p 192 ACCESS tt-dados percent TEMPTABLE
+/admcom/progr/cred3.p /admcom/progr/cred3.p 192 ACCESS tt-dados valoralt TEMPTABLE
+/admcom/progr/cred3.p /admcom/progr/cred3.p 192 ACCESS tt-dados percent TEMPTABLE
+/admcom/progr/cred3.p /admcom/progr/cred3.p 192 ACCESS tt-dados vcalclim TEMPTABLE
+/admcom/progr/cred3.p /admcom/progr/cred3.p 192 STRING "x(40)" 5 NONE TRANSLATABLE  FORMAT 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 192 STRING "->>,>>9.99" 10 NONE TRANSLATABLE  FORMAT 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 192 STRING "x(1)" 4 NONE TRANSLATABLE  FORMAT 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 192 STRING "->>,>>9.99" 10 NONE TRANSLATABLE  FORMAT 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 192 STRING "->>,>>9.99" 10 NONE TRANSLATABLE  FORMAT 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 192 STRING "->>,>>9.99" 10 NONE TRANSLATABLE  FORMAT 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 202 ACCESS fin.titulo titnat 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 202 ACCESS fin.titulo CliFor 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 202 ACCESS ger.clien clicod 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 202 ACCESS fin.titulo titdtpag 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 202 ACCESS fin.titulo titsit 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 202 STRING "LIB" 3 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 202 ACCESS fin.titulo titdtemi 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 202 SEARCH fin.titulo Por-Dtpag-Estab-Modal
+/admcom/progr/cred3.p /admcom/progr/cred3.p 202 SORT-ACCESS fin.titulo titdtemi
+/admcom/progr/cred3.p /admcom/progr/cred3.p 209 ACCESS fin.titulo modcod 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 209 ACCESS fin.titulo modcod 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 209 ACCESS fin.titulo modcod 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 209 STRING "DEV" 3 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 209 STRING "BON" 3 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 209 STRING "CHP" 3 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 214 ACCESS fin.titulo titvlcob 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 216 ACCESS fin.titulo etbcod 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 216 ACCESS fin.titulo titdtemi 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 216 ACCESS fin.titulo titnum 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 216 ACCESS fin.titulo titpar 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 216 ACCESS fin.titulo titvlcob 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 216 ACCESS fin.titulo titdtven 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 216 STRING ">>>9" 4 NONE TRANSLATABLE  FORMAT 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 216 STRING "99/99/9999" 10 NONE TRANSLATABLE  FORMAT 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 216 STRING "x(12)" 5 NONE TRANSLATABLE  FORMAT 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 216 STRING ">>9" 3 NONE TRANSLATABLE  FORMAT 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 216 STRING ">,>>>,>>>,>>9.99" 16 NONE TRANSLATABLE  FORMAT 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 216 STRING "99/99/9999" 10 NONE TRANSLATABLE  FORMAT 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 220 STRING "ffim" 4 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 220 STRING "->>,>>9.99" 10 NONE TRANSLATABLE  FORMAT 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 220 STRING "->>,>>9.99" 10 NONE TRANSLATABLE  FORMAT 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 220 STRING "->,>>>,>>9" 10 NONE TRANSLATABLE  FORMAT 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 220 STRING "->>,>>9.99" 10 NONE TRANSLATABLE  FORMAT 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 232 STRING "UNIX" 4 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 237 INCLUDE mrod.i
+/admcom/progr/cred3.p /admcom/progr/mrod.i 3 STRING "P" 1 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/mrod.i 4 STRING "2" 1 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/mrod.i 10 ACCESS SHARED sresp 
+/admcom/progr/cred3.p /admcom/progr/mrod.i 10 UPDATE SHARED sresp 
+/admcom/progr/cred3.p /admcom/progr/mrod.i 12 ACCESS SHARED sresp 
+/admcom/progr/cred3.p /admcom/progr/mrod.i 12 STRING "c:customimp.exe" 15 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/mrod.i 17 STRING ".cab" 4 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/mrod.i 18 ACCESS SHARED scabrel 
+/admcom/progr/cred3.p /admcom/progr/mrod.i 18 ACCESS ger.empre emprazsoc 
+/admcom/progr/cred3.p /admcom/progr/mrod.i 18 ACCESS SHARED scabrel 
+/admcom/progr/cred3.p /admcom/progr/mrod.i 18 STRING "@" 1 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/mrod.i 18 STRING "@" 1 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/mrod.i 18 STRING "@" 1 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/mrod.i 18 UPDATE SHARED scabrel 
+/admcom/progr/cred3.p /admcom/progr/mrod.i 21 ACCESS SHARED scabrel 
+/admcom/progr/cred3.p /admcom/progr/mrod.i 21 STRING "x(400)" 6 NONE TRANSLATABLE  FORMAT 
+/admcom/progr/cred3.p /admcom/progr/mrod.i 23 STRING ".cab" 4 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/mrod.i 26 STRING "type " 5 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/mrod.i 26 STRING " > prn" 6 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 239 STRING "Limite de Compras......" 23 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 239 STRING "Parcelas em Aberto....." 23 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 239 STRING "Qtd Parcelas em Aberto." 23 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 239 STRING "Limite Total Disponível" 23 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 239 STRING "Cod.Cliente" 11 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 239 STRING "Nome" 4 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 239 STRING "clinom" 6 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 239 STRING "Limite" 6 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 239 STRING "Renda p/ Calculo de Limite" 26 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 239 STRING "Perc. p/ Calculo de Limite" 26 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 239 STRING "Valor do Aluguel" 16 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 239 STRING "vlalug" 6 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 239 STRING "Numero de Parcelas Pagas a Considerar" 37 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 239 STRING "Numero de Parcelas Pagas do Cliente" 35 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 239 STRING "Telefone" 8 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 239 STRING "fone" 4 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 239 STRING "Sexo" 4 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 239 STRING "sexo" 4 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 239 STRING "Estado Civil" 12 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 239 STRING "estciv" 6 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 239 STRING "Media Dias Atraso" 17 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 239 STRING "Parametro" 9 LEFT TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 239 STRING "Valor Ant." 10 LEFT TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 239 STRING "Valor" 5 LEFT TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 239 STRING "Percentual" 10 LEFT TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 239 STRING "Limite Atualizado" 17 LEFT TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 239 STRING "---------------------------------------- ---------- - ---------- ---------- -----------------" 93 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 239 STRING "TOTAL" 5 RIGHT TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 239 STRING "Est." 4 LEFT TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 239 STRING "Emissao" 7 LEFT TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 239 STRING "Titulo" 6 LEFT TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 239 STRING "PC" 2 LEFT TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 239 STRING "Valor Cobrado" 13 LEFT TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 239 STRING "Vencimento" 10 LEFT TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 239 STRING "etbcod" 6 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 239 STRING "titdtemi" 8 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 239 STRING "titnum" 6 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 239 STRING "titpar" 6 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 239 STRING "titvlcob" 8 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 239 STRING "titdtven" 8 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 239 STRING "X(5)" 4 LEFT TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 239 STRING "---- ---------- ------------ --- ---------------- ----------" 60 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 239 PROCEDURE p-imprime,,
+/admcom/progr/cred3.p /admcom/progr/cred3.p 239 STRING "P-IMPRIME" 9 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 239 STRING "dado1" 5 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 239 STRING "empre" 5 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 239 STRING "emprazsoc" 9 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 239 STRING "Senha" 5 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 239 STRING "Cliente........." 16 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 239 STRING "Tipo de Extrato." 16 NONE TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 239 STRING "clinom" 6 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 239 STRING "Score de Credito" 16 LEFT TRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 239 STRING "----------------" 16 NONE UNTRANSLATABLE 
+/admcom/progr/cred3.p /admcom/progr/cred3.p 66 RUN calccredscore.p
+/admcom/progr/cred3.p /admcom/progr/cred3.p 72 RUN calccredsc.p
+/admcom/progr/cred3.p /admcom/progr/cred3.p 234 RUN visurel.p

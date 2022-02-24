@@ -1,0 +1,40 @@
+    vtoday = today.
+    vtime  = time.
+    output to value(regsai + "controle.d").
+        put contcli " "
+            contcon " "
+            conttit " "
+            contpro " "
+            contest " "
+            contpla " "
+            contmov " " 
+            v-dtini " " 
+            v-dtfin " "
+            vtoday  " " 
+            vtime .
+            
+    output close.
+
+    if not connected("suporte")
+    then connect -db suporte -N tcp -S sdrebsup -H linux.
+    
+    if connected("suporte")
+    then do:
+        for each estab where estab.regcod = vregcod no-lock: 
+            run controle.p (input "cri", 
+                            input contcli,  
+                            input contcon, 
+                            input conttit,  
+                            input contpro,  
+                            input contest,  
+                            input contpla,  
+                            input contmov,   
+                            input v-dtini,   
+                            input v-dtfin,  
+                            input vtoday,    
+                            input vtime,
+                            input estab.etbcod).
+        end.
+        disconnect suporte.
+    end.
+

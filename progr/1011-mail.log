@@ -1,0 +1,15 @@
+
+Zipando arquivo '/admcom/relat-auto/16-07-2017/ABCFG31-15072017.19581'...
+updating: admcom/relat-auto/16-07-2017/ABCFG31-15072017.19581 (deflated 71%)
+
+[1m Enviando Email... [m
+Jul 16 05:26:39 sv-ca-db1-old sendEmail[5567]: Email was sent successfully!
+[1m Enviando Email com Anexo... /admcom/relat-auto/16-07-2017/ABCFG31-15072017.19581.zip [m
+
+[1m Data: Sun Jul 16 05:26:39 BRT 2017 [m
+[1m Arquivo: /admcom/relat-auto/16-07-2017/ABCFG31-15072017.19581.zip [m
+[1m Arquivo ZIP: /admcom/relat-auto/16-07-2017/ABCFG31-15072017.19581.zip.zip [m
+[1m Tipo MIME: -m application/x-compress [m
+[1m Tipo Envio: ANEXO_ZIP [m
+
+[1m Email Enviado com Sucesso para rafael@lebes.com.br!!! [m

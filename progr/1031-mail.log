@@ -1,0 +1,15 @@
+
+Zipando arquivo '/admcom/relat-auto/rlbonli1.63486.txt'...
+updating: admcom/relat-auto/rlbonli1.63486.txt (deflated 77%)
+
+[1m Enviando Email... [m
+Oct 20 18:53:25 sv-ca-db1-old sendEmail[20620]: Email was sent successfully!
+[1m Enviando Email com Anexo... /admcom/relat-auto/rlbonli1.63486.txt.zip [m
+
+[1m Data: Fri Oct 20 18:53:25 BRST 2017 [m
+[1m Arquivo: /admcom/relat-auto/rlbonli1.63486.txt.zip [m
+[1m Arquivo ZIP: /admcom/relat-auto/rlbonli1.63486.txt.zip.zip [m
+[1m Tipo MIME: -m application/x-compress [m
+[1m Tipo Envio: ANEXO_ZIP [m
+
+[1m Email Enviado com Sucesso para jessica-crm@lebes.com.br!!! [m

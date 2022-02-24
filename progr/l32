@@ -1,0 +1,10 @@
+repeat.
+for each chqtit no-lock .
+disp chqtit.agencia (count) with title "chqtit". pause 0.
+end.
+pause 2.
+for each chq.
+disp chq.agencia (count) with title "chq". pause 0 .
+end.
+pause 2.
+end.
